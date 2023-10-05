@@ -17,6 +17,7 @@
     "url": "https://github.com/advanced-computer-lab-2023/Edgerunners-Clinic.git"
   },
   "dependencies": {
+    "axios": "^1.5.1",
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "express": "^4.17.1",

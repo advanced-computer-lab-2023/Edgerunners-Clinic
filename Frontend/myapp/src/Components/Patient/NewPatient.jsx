@@ -4,6 +4,28 @@ import SelectGender from "../../UI/UX/SelectGender";
 import { useRef } from "react";
 import Dropdown from "../../UI/UX/DropDown";
 function NewPatient(props){
+const name= useRef();
+const nationalId= useRef();
+const age = useRef();
+const relation = useRef();
+const gender= useRef();
+
+    function submitHandler(event){
+        event.preventDefault();
+        const nameV = name.current.value;
+        const nationalIdV = nationalId.current.value;
+        const ageV = age.current.value;
+        //const relationV = relation.current.value;
+        const genderV=gender.current.value;
+       const newMember={
+        name:nameV,
+        nationalID:nationalIdV,
+        age:ageV,
+        //relation:relationV,
+        gender: genderV,
+       };
+       console.log(newMember);
+    }
 
     return(
         <div className=" flex justify-center mt-10">
@@ -13,26 +35,26 @@ function NewPatient(props){
         <h1 className=" text-xl font-bold  text-center  text-sky-600   mr-8 mt-3 "> Add Family Member </h1>
         </div >
         <div className=" flex justify-center  mt-4 mb-0 ">
-        <form>
+        <form onSubmit={submitHandler}>
             <div className=" mt-3">
             <div >
-            <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500 ml-2"> Name : </label>
+            <label className=" text-lg font-bold   font-SourceSansPro  text-gray-500 ml-2"> Name : </label>
             <br />
-            <input type="text" id="name" name="name"   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"/>
+            <input type="text" id="name" name="name"  ref={name}  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"/>
             </div>
             <div >
-            <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500 ml-2"> NationalID : </label>
+            <label className=" text-lg font-bold   font-SourceSansPro  text-gray-500 ml-2"> NationalID : </label>
             <br />
-            <input type="text" id="nationalId" name="nationalId"   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"/>
+            <input type="number" id="nationalId" name="nationalId"  ref={nationalId}  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"/>
             </div>
             <div >
-            <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500 ml-2"> Age: </label>
+            <label className="  text-lg font-bold   font-SourceSansPro  text-gray-500 ml-2"> Age: </label>
             <br />
-            <input type="text" id="age" name="age"   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"/>
+            <input type="number" id="age" name="age" ref={age}   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"/>
             </div>
-            <Dropdown/>
-            <SelectGender/>
-            <button className="  text-sky-600  outline  w-40  h-9  rounded-md   mt-5 shadow  ml-7"> Confirm </button>
+            <Dropdown ref={relation}/>
+            <SelectGender SelectGenderRef={gender}/>
+            <button className="  text-sky-600  outline  w-40  h-9  rounded-md   mt-5 shadow  ml-9" > Confirm </button>
             </div>
         </form>
         </div>

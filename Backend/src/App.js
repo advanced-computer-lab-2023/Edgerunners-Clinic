@@ -12,7 +12,7 @@ const {
 } = require("./Routes/patientController");
 const MongoURI =
   process.env.MONGO_URI ||
-  "mongodb+srv://Abdo486A:Boody2002@aclapibackend.xla3vza.mongodb.net/";
+  "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
 
 //App variables
 const app = express();

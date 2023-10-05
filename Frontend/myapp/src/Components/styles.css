@@ -1,0 +1,23 @@
+.packages-container{
+    min-height: 100vh;
+    display: grid ;
+    place-items: center;
+    margin: 0%;
+}
+
+.health-care-packages{
+    display: flex;
+    gap: 2rem;
+}
+
+.packages{
+    outline: #000 solid 2px;
+    padding: 0.7rem;
+    line-height: 2rem;
+    font-size: 18px;
+}
+
+.packages h1{
+    text-align: center;
+    justify-content: center;
+}

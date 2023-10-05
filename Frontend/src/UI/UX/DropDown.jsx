@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Dropdown = () => {
-  const [selectedOption, setSelectedOption] = useState('option1'); // Default selected option
+  const [selectedOption, setSelectedOption] = useState('Wife/Husband'); // Default selected option
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -9,7 +9,7 @@ const Dropdown = () => {
 
   return (
     <div className="mt-4">
-      <label className="text-xl font-bold   font-SourceSansPro  text-gray-500 ml-2 block" htmlFor="dropdown">
+      <label className="text-lg font-bold   font-SourceSansPro  text-gray-500 ml-2 block" htmlFor="dropdown">
         Select an option:
       </label>
       <select

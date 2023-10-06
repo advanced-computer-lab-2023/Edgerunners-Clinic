@@ -7,16 +7,16 @@ const createPatient = async (req, res) => {
   //Name, Email and Age
 
   await Patient.create({
-    Username: req.body.username,
-    Password: req.body.password,
-    Gender: req.body.gender,
-    Name: req.body.name,
-    Email: req.body.email,
-    phoneNumber: req.body.phonenumber,
-    DOB: req.body.dob,
+    Username: req.body.Username,
+    Password: req.body.Password,
+    Gender: req.body.Gender,
+    Name: req.body.Name,
+    Email: req.body.Email,
+    phoneNumber: req.body.phoneNumber,
+    DOB: req.body.DOB,
     EmergencyContact: {
-      FullnameEC: req.body.fullnameec,
-      phoneNumberEC: req.body.phonenumberec,
+      FullnameEC: req.body.Fullnameec,
+      phoneNumberEC: req.body.phoneNumberec,
     },
   });
   res.status(200).send("Created successfully");

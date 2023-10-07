@@ -1,10 +1,14 @@
 import Logo from "./UI/UX/Logo";
 import SetAdmin from "./Components/Admin/SetAdmin";
-import NewPatient from "./Components/Patient/NewPatient";
+import NewFamilyMem from "./Components/Patient/NewFamilyMem";
 import axios from "axios";
+import MessageCard from "./UI/UX/MessageCard";
+import RemoveOne from "./Components/Admin/RemoveOne";
 function App() {
+ 
+   
   return (
-    <NewPatient/>
+ <RemoveOne/>
   );
 }
 

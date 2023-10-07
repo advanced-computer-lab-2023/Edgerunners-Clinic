@@ -1,25 +1,71 @@
 import Card from "../../UI/UX/Card";
 import Logo from "../../UI/UX/Logo";
-import { useRef } from "react"; 
-//import {faCheck,faTimes,faInfoCircle} from "@fortawesome/fontawesome-svg-core";
-//import {fontAwesomeIcon} from "@fortawesome/fontawesome-svg-core"; 
+import { useRef,useState } from "react"; 
+import axios from "axios";
+import WarningCard from "../../UI/WarningCard";
 
 function SetAdmin(props){
     const usernameRef=useRef();
     const passwordRef=useRef();
     const passwordConRef=useRef();
-    function submitHandeler(event){
-        event.preventDefault();
+    const [warning,setWarning] = useState("");
+    const [ok,setOk]= useState(false); 
+    
+    function okHandeler(){
+        setOk(false);
+    }
+
+    function confirmHandeler(event){
         const usernameValue= usernameRef.current.value;
         const passwordValue= passwordRef.current.value;
-        const passwordConValue= passwordConRef.current.value;
+        
         const newAdmin={
-            userName: usernameValue,
-            Password: passwordValue,
-            PasswordConfirm: passwordConValue,
+            Username: usernameValue,
+            Password:passwordValue,
         };
-        console.log(newAdmin);
+        
+        if (!usernameValue) {
+            setWarning("Please enter your name");
+            setOk(true);
+        } else if (!passwordValue) {
+            setWarning("Please enter your password");
+            setOk(true);
+        }  else if ((!passwordConRef.current.value) || passwordConRef.current.value!==passwordValue) {
+            setWarning("Confirmed Password does not match your new password");
+            setOk(true);
+        }
+        else{
+            axios
+        .post("http://localhost:3001/addAdmin", newAdmin, {
+
+        })
+        .then((res) => {
+         
+         alert("username created successfully");
+          usernameRef.current.value="";
+          passwordRef.current.value="";
+          passwordConRef.current.value="";
+         
+
+        })
+        .catch((error) => {
+         
+            
+            alert("Username already exists");
+          
+        });
+        }
+
     }
+
+    function submitHandeler(event){
+        event.preventDefault();
+       
+
+       
+    }
+   
+
 return(
     <div className=" justify-center flex mt-20">
 
@@ -53,14 +99,14 @@ return(
               <div className=" flex justify-center  mt-6">
                 <br />
                 <br />
-                <button className="  text-sky-600  outline  w-40  h-9  rounded-md   mt-5 shadow"> Confirm </button>
-
+                <button className="  text-sky-600  outline  w-40  h-9  rounded-md   mt-5 shadow block" type="submit" onClick={confirmHandeler}> Confirm </button>
              </div> 
                
             </div>
         </form>
         </div>
     </Card>
+    {ok && <WarningCard width='w-4/12' height=' h-[5rem]' onClick={okHandeler} >{warning}</WarningCard>}
     </div>
 )
 }

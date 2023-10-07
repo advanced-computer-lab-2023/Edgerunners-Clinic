@@ -7,14 +7,15 @@ const createDoctor = async (req, res) => {
   //Name, Email and Age
 
   await Doctor.create({
-    Username: req.body.username,
-    Password: req.body.password,
-    DOB: req.body.dob,
-    Name: req.body.name,
-    Email: req.body.email,
+    Username: req.body.Username,
+    Password: req.body.Password,
+    DOB: req.body.DOB,
+    Name: req.body.Name,
+    Email: req.body.Email,
     Hourlyrate: req.body.Hourlyrate,
     Affiliation: req.body.Affiliation,
     Education: req.body.Education,
+    
   });
   res.status(200).send("Created successfully");
 };

@@ -41,7 +41,7 @@ function SetAdmin(props){
         })
         .then((res) => {
          
-         alert("username created successfully");
+        
           usernameRef.current.value="";
           passwordRef.current.value="";
           passwordConRef.current.value="";
@@ -50,8 +50,8 @@ function SetAdmin(props){
         })
         .catch((error) => {
          
-            
-            alert("Username already exists");
+            setOk(true);
+            setWarning("username already exists")
           
         });
         }

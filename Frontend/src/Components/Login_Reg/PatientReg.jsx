@@ -3,7 +3,7 @@ import {useRef, useState} from 'react';
 import GenderInputSelect from './GenderInputSelect';
 import axios from 'axios';
 
-class Body extends Component{
+class PatientReg extends Component{
 	state ={
 		isContainerActive : false,
 		signUp_name : null,
@@ -138,4 +138,4 @@ render(){
 
 }
 }
-export default Body;
+export default PatientReg;

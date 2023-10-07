@@ -13,7 +13,6 @@ const createPatient = async (req, res) => {
     Name: req.body.Name,
     Email: req.body.Email,
     phoneNumber: req.body.phoneNumber,
-  
     DOB: req.body.DOB,
     EmergencyContact: {
       FullnameEC: req.body.Fullnameec,

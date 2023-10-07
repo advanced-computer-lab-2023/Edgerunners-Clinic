@@ -15,6 +15,7 @@ const createDoctor = async (req, res) => {
     Hourlyrate: req.body.Hourlyrate,
     Affiliation: req.body.Affiliation,
     Education: req.body.Education,
+    
   });
   res.status(200).send("Created successfully");
 };

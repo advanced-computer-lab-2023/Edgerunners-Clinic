@@ -13,6 +13,9 @@ const adminSchema = new Schema(
       type: String,
       required: true,
     },
+    Role:{
+      type: String,
+    }
   },
   { timestamps: true }
 );

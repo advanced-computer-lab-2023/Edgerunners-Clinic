@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const relationSchema = new Schema(
   {
-    PatientUsername: {
+
+    Patient:{
       type: String,
       required: true,
     },
@@ -19,7 +20,7 @@ const relationSchema = new Schema(
     },
 
     Age: {
-      type: Date,
+      type: Number,
       required: true,
     },
 

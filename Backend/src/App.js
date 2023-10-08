@@ -33,6 +33,14 @@ const {
 } = require("./Routes/doctorController");
 
 const {
+
+  createRelation,
+  getRelation,
+  updateRelation,
+  deleteRelation,
+} = require("./Routes/relationController");
+
+const{
   createPrescriptions,
   getPrescriptions,
   updatePrescriptions,
@@ -92,7 +100,7 @@ app.use(cors());
 
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);
-app.get("/getPatient", protectP, getPatients);
+app.get("/getPatient", getPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 
@@ -116,6 +124,12 @@ app.get("/getPackage", getPackage);
 app.put("/updatePackage", updatePackage);
 app.delete("/deletePackage", deletePackage);
 
+
+app.post("/createRelation", createRelation);
+app.get("/getRelation", getRelation);
+app.put("/updateRelation", updateRelation);
+app.delete("/deleteRelation", deleteRelation);
+
 app.post("/createPrescriptions", createPrescriptions);
 app.get("/getPrescriptions", getPrescriptions);
 app.put("/updatePrescriptions", updatePrescriptions);
@@ -125,5 +139,4 @@ app.post("/createAppointment", createAppointment);
 app.get("/getAppointment", getAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
-
 

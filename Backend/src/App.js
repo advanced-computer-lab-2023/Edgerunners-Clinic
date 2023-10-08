@@ -65,15 +65,20 @@ app.get("/getPatient", getPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 
-// app.post("/addDoctor", createDoctor);
-// app.get("/getDoctor", getDoctors);
-// app.put("/updateDoctor", updateDoctor);
-// app.delete("/deleteDoctor", deleteDoctor);
+app.post("/addDoctor", createDoctor);
+app.get("/getDoctor", getDoctors);
+app.put("/updateDoctor", updateDoctor);
+app.delete("/deleteDoctor", deleteDoctor);
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);
 app.put("/updateAdmin", updateAdmin);
 app.delete("/deleteAdmin", deleteAdmin);
+
+app.post("/addDoctor", createDoctor);
+app.get("/getDoctor", getDoctors);
+app.put("/updateDoctor", updateDoctor);
+app.delete("/deleteDoctor", deleteDoctor);
 
 /*
                                                     End of your code

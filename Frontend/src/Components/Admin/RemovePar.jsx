@@ -32,7 +32,6 @@ function RemovePar(props){
             .then((res) => {
              
             usernameRef.current.value = "";
-            roleValue="";
               
              
     
@@ -95,6 +94,7 @@ function RemovePar(props){
     }
 
     return(
+        <div className="tailwind">
         <div className=" justify-center flex mt-20">
 
    
@@ -129,6 +129,7 @@ function RemovePar(props){
             </div>
         </Card>
         {ok && <WarningCard width='w-4/12' height=' h-[5rem]' onClick={okHandeler} >{warning}</WarningCard>}
+        </div>
         </div>
     )
 }

@@ -15,6 +15,7 @@ function RemovePar(props){
     function confirmHandeler(event){
         const username= {Username:usernameRef.current.value};
         const roleValue = role.current.value;
+        console.log(roleValue);
         if(usernameRef.current.value === ""){
             setOk(true);
             setWarning("please enter a username");

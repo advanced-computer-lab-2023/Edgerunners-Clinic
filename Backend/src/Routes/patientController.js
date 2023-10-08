@@ -1,14 +1,17 @@
 // #Task route solution
 const Patient = require("../Models/Patient.js");
+var bcrypt = require('bcrypt')
 const { default: mongoose } = require("mongoose");
+const hashPassword = async (password) => {
+  return bcrypt.hash(password, 5);
+};
 
 const createPatient = async (req, res) => {
   //add a new Patient to the database with
   //Name, Email and Age
-  try {
     await Patient.create({
       Username: req.body.Username,
-      Password: req.body.Password,
+      Password:  await hashPassword(req.body.Password),
       Gender: req.body.Gender,
       Name: req.body.Name,
       Email: req.body.Email,
@@ -21,9 +24,6 @@ const createPatient = async (req, res) => {
       
     });
     res.status(200).send("Created successfully");
-  }catch(e){
-    res.status(400).send("Failed to Create User");
-  }
   
   
 };

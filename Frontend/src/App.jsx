@@ -27,7 +27,7 @@ function App() {
   }
   return (
     <div className="App">
-      <EditMyProf/>
+      <PatientReg/>
     </div>
   );
 }

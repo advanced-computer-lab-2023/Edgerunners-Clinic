@@ -3,8 +3,12 @@ const Schema = mongoose.Schema;
 
 const relationSchema = new Schema(
   {
-    NationalID: {
+    PatientUsername:{
       type: String,
+      required: true,
+    },
+    NationalID: {
+      type: Number,
       required: true,
       unique: true,
     },

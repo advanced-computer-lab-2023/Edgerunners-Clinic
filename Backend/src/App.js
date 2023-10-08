@@ -11,6 +11,14 @@ const {
   deletePatient,
 } = require("./Routes/patientController");
 
+
+const {
+  createPackage,
+  getPackage,
+  updatePackage,
+  deletePackage,
+} = require("./Routes/packageController");
+
 const {
   createAdmin,
   getAdmins,
@@ -87,6 +95,9 @@ app.get("/getDoctor", getDoctors);
 app.put("/updateDoctor", updateDoctor);
 app.delete("/deleteDoctor", deleteDoctor);
 
-/*
-                                                    End of your code
-*/
+
+app.post("/createPackage", createPackage);
+app.get("/getPackage", getPackage);
+app.put("/updatePackage", updatePackage);
+app.delete("/deletePackage", deletePackage);
+

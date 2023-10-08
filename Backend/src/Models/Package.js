@@ -10,22 +10,22 @@ const packageSchema = new Schema(
       },
 
       discountDoctor:{
-        type: Number,
+        type: String,
         required: true,
       },
 
       discountMedicin:{
-        type: Number,
+        type: String,
         required: true,
       },
 
       discountFamily:{
-        type: Number,
+        type: String,
         required: true,
       },
 
       Price: {
-        type: Number,
+        type: String,
         required: true,
       }
     },

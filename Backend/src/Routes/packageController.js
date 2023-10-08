@@ -34,7 +34,7 @@ const updatePackage = async (req, res) => {
             discountFamily: req.body.discountFamily,
             Price: req.body.Price,
         });
-        res.status(200).send({ data: packages});
+        res.status(200).send("Updated Successfu");
     }catch(e){
         res.status(400).send("Error could not update package !!");
     }

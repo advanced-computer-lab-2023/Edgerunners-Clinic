@@ -39,6 +39,14 @@ const {
   deletePrescriptions,
 } = require("./Routes/prescriptionController");
 
+const {
+  createAppointment,
+  getAppointments,
+  updateAppointment,
+  deleteAppointment,
+} = require("./Routes/appointmentController");
+
+
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -112,3 +120,10 @@ app.post("/createPrescriptions", createPrescriptions);
 app.get("/getPrescriptions", getPrescriptions);
 app.put("/updatePrescriptions", updatePrescriptions);
 app.delete("/deletePrescriptions", deletePrescriptions);
+
+app.post("/createAppointment", createAppointment);
+app.get("/getAppointment", getAppointments);
+app.put("/updateAppointment", updateAppointment);
+app.delete("/deleteAppointment", deleteAppointment);
+
+

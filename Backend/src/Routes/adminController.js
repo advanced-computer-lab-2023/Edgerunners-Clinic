@@ -9,6 +9,7 @@ const createAdmin = async (req, res) => {
     await Admin.create({
     Username: req.body.Username,
     Password: req.body.Password,
+    Role: "Admin",
   });
     res.status(200).send("Created successfully");
   }catch(e){

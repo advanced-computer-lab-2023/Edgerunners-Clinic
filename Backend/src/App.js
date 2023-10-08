@@ -18,6 +18,13 @@ const {
   deleteAdmin,
 } = require("./Routes/adminController");
 
+const {
+  createDoctor,
+  getDoctors,
+  updateDoctor,
+  deleteDoctor,
+} = require("./Routes/doctorController");
+
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";

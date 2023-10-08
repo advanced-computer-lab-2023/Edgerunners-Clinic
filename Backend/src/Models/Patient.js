@@ -51,10 +51,10 @@ const patientSchema = new Schema(
     },
     Relations: {
       type: Array,
-      required : false,
-    }
+      required: false,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Patient = mongoose.model("Patient", patientSchema);

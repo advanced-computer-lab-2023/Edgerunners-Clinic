@@ -13,11 +13,11 @@ const adminSchema = new Schema(
       type: String,
       required: true,
     },
-    Role:{
+    Role: {
       type: String,
-    }
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Admin = mongoose.model("admin", adminSchema);

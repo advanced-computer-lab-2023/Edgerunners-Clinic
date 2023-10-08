@@ -22,11 +22,9 @@ const createRelation = async (req, res) => {
       { $push: { Relations: rel } }
     );
     res.status(200).send("added successfully");
-  }catch(e){
+  } catch (e) {
     res.status(400).send("Failed to add Relation");
   }
-  
-  
 };
 
 const getRelation = async (req, res) => {
@@ -38,7 +36,6 @@ const getRelation = async (req, res) => {
   }catch(e){
     res.status(400).send("Error could not get Relations !!");
   }
-  
 };
 
 const updateRelation = async (req, res) => {
@@ -56,12 +53,17 @@ const deleteRelation = async (req, res) => {
         { Username: req.body.Patient },
         { $pull: { Relations: { NationalID : req.body.NationalID} } }
       );
+
       res.status(200).send("Deleted successfully");
     }
-  }catch(e){
+  } catch (e) {
     res.status(400).send("Error could not delete Relation !!");
   }
-  
 };
 
-module.exports = { createRelation, getRelation, updateRelation, deleteRelation };
+module.exports = {
+  createRelation,
+  getRelation,
+  updateRelation,
+  deleteRelation,
+};

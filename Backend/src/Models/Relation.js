@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const relationSchema = new Schema(
   {
+
     Patient:{
       type: String,
       required: true,
@@ -31,11 +32,11 @@ const relationSchema = new Schema(
 
     Relation: {
       type: String,
-      enum: ["Wife", "Husband","Child"],
+      enum: ["Wife", "Husband", "Child"],
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Relation = mongoose.model("Relation", relationSchema);

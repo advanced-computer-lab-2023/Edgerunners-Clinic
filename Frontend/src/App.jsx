@@ -1,8 +1,7 @@
 import Logo from "./UI/UX/Logo";
-import SetAdmin from "./Components/Admin/SetAdmin";
-
+import SetAdmin from "./Components/Admin/SetAdmin"; 
 import axios from "axios";
-
+import GetPatient from "./Components/Admin/GetPatient";
 import PatientReg from "./Components/Login_Reg/PatientReg";
 import PatientHome from './Components/PatientHome/PatientHome';
 

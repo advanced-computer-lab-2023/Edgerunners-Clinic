@@ -31,6 +31,7 @@ const {
   getDoctors,
   updateDoctor,
   deleteDoctor,
+  findDoctor,
 } = require("./Routes/doctorController");
 
 const MongoURI =
@@ -86,6 +87,7 @@ app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
 app.put("/updateDoctor", updateDoctor);
 app.delete("/deleteDoctor", deleteDoctor);
+app.get("/findDoctor", findDoctor);
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);

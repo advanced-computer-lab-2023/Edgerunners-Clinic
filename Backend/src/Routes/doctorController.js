@@ -36,7 +36,7 @@ const getDoctors = async (req, res) => {
 
 const updateDoctor = async (req, res) => {
   //update a Doctor in the database
-  const user = null;
+  const user = req.body.Username;
   if(req.body.Email){
     Doctor.updateOne({Username: user},{$set :{Email : req.body.Email}});
   }
@@ -47,7 +47,15 @@ const updateDoctor = async (req, res) => {
     Doctor.updateOne({Username: user},{$set :{Affiliation : req.body.Affiliation}});
   }
 };
-
+const findDoctor= async (req, res) => {
+  if(await Doctor.findOne({Username: req.body.Username}).length ===0){
+    res.status(300).send("User Not Found");
+  }
+  else{
+    const Doctors = await Doctor.findOne({Username:req.body.Username});
+    res.status(200).send({ data: Doctor });
+  }
+}
 const deleteDoctor = async (req, res) => {
   //delete a Doctor from the database
   try{

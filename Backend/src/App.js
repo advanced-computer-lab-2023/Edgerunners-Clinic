@@ -69,7 +69,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const cors = require("cors");
-const { protect, signin } = require("./Models/auth");
+const { protectA,protectD,protectP, signin } = require("./Models/auth");
 
 app.use(cors());
 // app.use(function(req, res, next){
@@ -78,7 +78,7 @@ app.use(cors());
 
 app.post("/signin" , signin)
 app.post("/addPatient", createPatient);
-app.get("/getPatient",protect, getPatients);
+app.get("/getPatient",protectP, getPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 

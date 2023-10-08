@@ -126,7 +126,7 @@ const protectA = (req, res, next) => {
   if(user){
     isValid = comparePassword(password , user.Password)
     if(isValid){
-      res.status(200).send({token:createJWTP(username),type: "Patient",username:username})
+      res.status(200).send({token:createJWTP(username),type: "Patient",Username:username})
     }else{
       res.status(401).send("invalid password")
     }
@@ -135,7 +135,7 @@ const protectA = (req, res, next) => {
       if(user){
         isValid = comparePassword(password , user.Password)
        if(isValid){
-          res.status(200).send({token:createJWTD(username),type: "Doctor",username:username})
+          res.status(200).send({token:createJWTD(username),type: "Doctor",Username:username})
          }else{
            res.status(401).send("invalid password")
         }
@@ -144,7 +144,7 @@ const protectA = (req, res, next) => {
       if(user){
         isValid = comparePassword(password , user.Password)
        if(isValid){
-          res.status(200).send({token:createJWTA(username),type: "Admin",username:username})
+          res.status(200).send({token:createJWTA(username),type: "Admin",Username:username})
          }else{
            res.status(401).send("invalid password")
         }

@@ -7,18 +7,12 @@ const createRelation = async (req, res) => {
   //Name, Email and Age
   try {
     await Relation.create({
-      Username: req.body.Username,
-      Password: req.body.Password,
+      PatientUsername: req.body.Username,
+      NationalID: req.body.NationalID,
       Gender: req.body.Gender,
       Name: req.body.Name,
-      Email: req.body.Email,
-      phoneNumber: req.body.phoneNumber,
-      DOB: req.body.DOB,
-      EmergencyContact: {
-        FullnameEC: req.body.Fullnameec,
-        phoneNumberEC: req.body.phoneNumberec,
-      },
-      
+      Age: req.body.Age,
+      Relation: req.body.Relation,
     });
     res.status(200).send("added successfully");
   }catch(e){

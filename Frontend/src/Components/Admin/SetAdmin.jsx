@@ -100,7 +100,7 @@ return(
               <div className=" flex justify-center  mt-6">
                 <br />
                 <br />
-                <button className="  text-sky-600  outline  w-40  h-9  rounded-md   mt-5 shadow block" type="submit" onClick={confirmHandeler}> Confirm </button>
+                <button className="  text-sky-600    w-40  h-9  rounded-md   mt-5 shadow block" type="submit" onClick={confirmHandeler}> Confirm </button>
              </div> 
                
             </div>

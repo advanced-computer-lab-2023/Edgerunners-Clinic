@@ -44,12 +44,10 @@ const doctorSchema = new Schema(
       type: String,
       required: true,
     },
-    
-    Role: {
-      type: String,
-    
-    },
-
+    Patients: {
+      type : Array,
+      required: false,
+    }
   },
   { timestamps: true }
 );

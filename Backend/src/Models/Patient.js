@@ -49,6 +49,10 @@ const patientSchema = new Schema(
         type: String,
       },
     },
+    Relations: {
+      type: Array,
+      required : false,
+    }
   },
   { timestamps: true }
 );

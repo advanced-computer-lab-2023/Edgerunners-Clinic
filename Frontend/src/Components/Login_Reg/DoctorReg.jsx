@@ -72,7 +72,7 @@ class DoctorReg extends Component{
 	}
 render(){
 	return(
-        <div>
+        <div className ='PatientReg'>
             <body>
 
 <div className={`container${this.state.isContainerActive ? " right-panel-active" : ""}`} id="container">

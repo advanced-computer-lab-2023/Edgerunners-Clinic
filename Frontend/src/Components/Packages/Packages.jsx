@@ -25,53 +25,53 @@ export default function Packages() {
   const packages = GetPackages();
   if (packages.data != null) {
     return (
-    
-      <Carousel className="tw-rounded-xl" autoplay="true" loop="true">
+      <div className="packages">
+      <Carousel className="rounded-xl" autoplay="true" loop="true">
         {packages.data.map((p, index) => {
           return (
-            <div key={index} className="tw-relative tw-h-full tw-w-full">
+            <div key={index} className="relative h-full w-full">
               <img
                 src="https://img.freepik.com/premium-photo/blue-white-futuristic-background-with-medicine-symbols_215274-1760.jpg?w=1060"
                 alt={p.Name}
-                className="tw-h-full tw-w-full tw-object-cover"
+                className="h-full w-full object-cover"
               />
-              <div className="tw-absolute tw-inset-0 tw-grid tw-h-full tw-w-full tw-place-items-center tw-bg-black/75">
-                <div className="tw-w-3/4 tw-text-center tw-md:w-2/4">
+              <div className="absolute inset-0 grid h-full w-full place-items-center bg-black/75">
+                <div className="w-3/4 text-center md:w-2/4">
                   <Typography
-                    variant="tw-h1"
+                    variant="h1"
                     color="white"
-                    className="tw-mb-12 tw-text-3xl tw-md:text-4xl tw-lg:text-5xl"
+                    className="mb-12 text-3xl md:text-4xl lg:text-5xl"
                   >
                     {p.Name}
                   </Typography>
                   <Typography
-                    variant="tw-lead"
+                    variant="lead"
                     color="white"
-                    className="tw-mb-12 tw-opacity-80"
+                    className="mb-12 opacity-80"
                   >
                     ✔️
                     {p.discountDoctor}% off any doctor session
                   </Typography>
                   <Typography
-                    variant="tw-lead"
+                    variant="lead"
                     color="white"
-                    className="tw-mb-12 tw-opacity-80"
+                    className="mb-12 opacity-80"
                   >
                     ✔️
                     {p.discountMedicin}% off any medicine ordered from the
                     pharmacy platform
                   </Typography>
                   <Typography
-                    variant="tw-lead"
+                    variant="lead"
                     color="white"
-                    className="tw-mb-12 tw-opacity-80"
+                    className="mb-12 opacity-80"
                   >
                     ✔️
                     {p.discountFamily}% discount on the subscription of any
                     family member
                   </Typography>
-                  <div className="tw-flex tw-justify-center tw-gap-2">
-                    <Button size="tw-lg" color="white">
+                  <div className="flex justify-center gap-2">
+                    <Button size="lg" color="white">
                       Get Access!
                     </Button>
                   </div>
@@ -81,6 +81,7 @@ export default function Packages() {
           );
         })}
       </Carousel>
+      </div>
     );
   }
 }

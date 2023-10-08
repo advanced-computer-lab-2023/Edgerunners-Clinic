@@ -8,7 +8,6 @@ module.exports = withMT({
     extend: {},
   },
   plugins: [],
-  prefix: "hazem-",
   corePlugins: {
     preflight: false,
   },

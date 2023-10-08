@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "./UI/UX/Logo";
+import Logo from "../../UI/UX/Logo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBedPulse,
@@ -14,7 +14,7 @@ import {
 
 export default function PatientHome() {
   return (
-    <div>
+    <div className="patientHome1 patientHome2">
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">

@@ -15,21 +15,18 @@ const createRelation = async (req, res) => {
       Relation: req.body.Relation,
     });
     res.status(200).send("added successfully");
-  }catch(e){
+  } catch (e) {
     res.status(400).send("Failed to add Relation");
   }
-  
-  
 };
 
 const getRelation = async (req, res) => {
-  try{
+  try {
     const Relation = await Relation.find();
     res.status(200).send({ data: Relation });
-  }catch(e){
+  } catch (e) {
     res.status(400).send("Error could not get Relations !!");
   }
-  
 };
 
 const updateRelation = async (req, res) => {
@@ -38,17 +35,21 @@ const updateRelation = async (req, res) => {
 
 const deleteRelation = async (req, res) => {
   //delete a Relation from the database
-  try{
-    if(await Relation.find({Username: req.body.Username}).length == 0){
+  try {
+    if ((await Relation.find({ Username: req.body.Username }).length) == 0) {
       res.status(300).send("User Not Found");
-    }else{
-      await Relation.deleteOne({Username: req.body.Username})
+    } else {
+      await Relation.deleteOne({ Username: req.body.Username });
       res.status(200).send("Deleted successfully");
     }
-  }catch(e){
+  } catch (e) {
     res.status(400).send("Error could not delete Relation !!");
   }
-  
 };
 
-module.exports = { createRelation, getRelation, updateRelation, deleteRelation };
+module.exports = {
+  createRelation,
+  getRelation,
+  updateRelation,
+  deleteRelation,
+};

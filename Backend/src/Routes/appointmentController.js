@@ -9,7 +9,7 @@ const createAppointment = async (req, res) => {
     await Appointment.create({
       PatientUsername: req.body.patientUsername,
       DoctorUsername: req.body.doctorUsername,
-      Date: req.body.Date
+      Date: req.body.Date,
     });
     res.status(200).send("Created successfully");
   } catch (e) {
@@ -17,7 +17,7 @@ const createAppointment = async (req, res) => {
   }
 };
 
-const getAppointments= async (req, res) => {
+const getAppointments = async (req, res) => {
   try {
     const Appointments = await Appointment.find();
     res.status(200).send({ data: Appointments });
@@ -26,7 +26,7 @@ const getAppointments= async (req, res) => {
   }
 };
 
-const updateAppointment= async (req, res) => {
+const updateAppointment = async (req, res) => {
   //update a Doctor in the database
 };
 
@@ -44,4 +44,9 @@ const deleteAppointment = async (req, res) => {
   }
 };
 
-module.exports = { createAppointment, getAppointments, updateAppointment, deleteAppointment };
+module.exports = {
+  createAppointment,
+  getAppointments,
+  updateAppointment,
+  deleteAppointment,
+};

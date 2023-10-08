@@ -45,11 +45,11 @@ const doctorSchema = new Schema(
       required: true,
     },
     Patients: {
-      type : Array,
+      type: Array,
       required: false,
-    }
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Doctor = mongoose.model("doctor", doctorSchema);

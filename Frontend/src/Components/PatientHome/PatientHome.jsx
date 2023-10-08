@@ -14,7 +14,7 @@ import {
 
 export default function PatientHome() {
   return (
-    <div className="patientHome1 patientHome2">
+    <div className="Bootstrap PatientHome">
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
@@ -59,7 +59,7 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#education">
+                  <a className="nav-link" aria-current="page" href="/Prescriptions">
                     Prescriptions
                   </a>
                 </li>

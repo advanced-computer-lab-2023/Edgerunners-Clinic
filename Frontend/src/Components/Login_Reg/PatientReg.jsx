@@ -39,39 +39,20 @@ class PatientReg extends Component{
 	}
 
 	signIn = async (event) =>{
+		const newUser = {
+			Username : this.state.signIn_username,
+			Password : this.state.signIn_password,
+		}
+		axios.post('http://localhost:3001/signin', {Username : newUser.Username , Password: newUser.Password})
+			.then(res => {
+				sessionStorage.setItem('Username', res.data.Username);
+				sessionStorage.setItem('token',  res.data.token);
+				sessionStorage.setItem('type',  res.data.type);
+			  	console.log(res)
+			}).catch(err =>{
+			  console.log(err)
+			})
 		
-		 axios.get('http://localhost:3001/getPatient')
-		.then( response => {
-		  const patientsObject = response.data.data;
-			let patient =false;
-		  // Assuming you have a specific username and password you want to search for
-		  const usernameToFind = this.state.signIn_username;
-		  const passwordToFind = this.state.signIn_password;
-			
-			console.log(this.state.signIn_password)
-			console.log(response.data.data);
-			for (let i = 0; i <  patientsObject.length ; i++) {
-				console.log(patientsObject[i])
-				if (
-					patientsObject[i].Username === usernameToFind &&
-					patientsObject[i].Password === passwordToFind
-				) {
-				  patient = true;
-				  break;
-				}
-			}
-	  
-		  if (patient) {
-			// Successfully found the patient, you can now proceed with the login
-			console.log('Login successful');
-		  } else {
-			// Patient not found or incorrect credentials
-			console.log('Login failed');
-		  }
-		})
-		.catch(error => {
-		  console.error(error);
-		})
 	}
 render(){
 	return(

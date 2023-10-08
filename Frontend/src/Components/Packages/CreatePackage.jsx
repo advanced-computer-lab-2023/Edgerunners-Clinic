@@ -79,7 +79,7 @@ export default function CreatePackage() {
               }}
             />
           </div>
-          <button className="rejected-btn submit-att-st" type="submit">
+          <button type="submit">
             submit
           </button>
         </div>

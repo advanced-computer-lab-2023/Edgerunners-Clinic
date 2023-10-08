@@ -59,7 +59,7 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#education">
+                  <a className="nav-link" aria-current="page" href="/Prescriptions">
                     Prescriptions
                   </a>
                 </li>

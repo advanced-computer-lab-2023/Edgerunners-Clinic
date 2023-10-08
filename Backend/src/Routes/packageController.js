@@ -42,10 +42,10 @@ const updatePackage = async (req, res) => {
 
 const deletePackage = async (req, res) => {
     try{
-    const packages = await Package.deleteOne({
-        Name: req.body.Name,
-    });
-    res.status(200).send("Deleted Successfully");
+        await Package.deleteOne({
+            Name: req.body.Name,
+        });
+        res.status(200).send("Deleted Successfully");
     }catch(e){
         res.status(400).send("Error could not delete package !!");
     }

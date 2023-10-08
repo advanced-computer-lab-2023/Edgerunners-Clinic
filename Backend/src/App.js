@@ -10,6 +10,24 @@ const {
   updatePatient,
   deletePatient,
 } = require("./Routes/patientController");
+<<<<<<< Updated upstream
+=======
+
+const {
+  createPackage,
+  getPackage,
+  updatePackage,
+  deletePackage,
+} = require("./Routes/packageController");
+
+const {
+  createAdmin,
+  getAdmins,
+  updateAdmin,
+  deleteAdmin,
+} = require("./Routes/adminController");
+
+>>>>>>> Stashed changes
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -56,6 +74,20 @@ app.delete("/deletePatient", deletePatient);
 // app.put("/updateDoctor", updateDoctor);
 // app.delete("/deleteDoctor", deleteDoctor);
 
+<<<<<<< Updated upstream
+=======
+app.post("/addAdmin", createAdmin);
+app.get("/getAdmin", getAdmins);
+app.put("/updateAdmin", updateAdmin);
+app.delete("/deleteAdmin", deleteAdmin);
+
+
+app.post("/createPackage", createPackage);
+app.get("/getPackage", getPackage);
+app.put("/updatePackage", updatePackage);
+app.delete("/deletePackage", deletePackage);
+
+>>>>>>> Stashed changes
 /*
                                                     End of your code
 */

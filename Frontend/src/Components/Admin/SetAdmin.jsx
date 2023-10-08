@@ -67,6 +67,7 @@ function SetAdmin(props){
    
 
 return(
+    <div className="tailwind">
     <div className=" justify-center flex mt-20">
 
    
@@ -107,6 +108,7 @@ return(
         </div>
     </Card>
     {ok && <WarningCard width='w-4/12' height=' h-[5rem]' onClick={okHandeler} >{warning}</WarningCard>}
+    </div>
     </div>
 )
 }

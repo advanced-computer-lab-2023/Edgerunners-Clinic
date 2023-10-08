@@ -25,7 +25,7 @@ export default function Packages() {
   const packages = GetPackages();
   if (packages.data != null) {
     return (
-      <div className="packages">
+      <div className="tailwind">
       <Carousel className="rounded-xl" autoplay="true" loop="true">
         {packages.data.map((p, index) => {
           return (

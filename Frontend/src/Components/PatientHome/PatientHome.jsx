@@ -14,7 +14,7 @@ import {
 
 export default function PatientHome() {
   return (
-    <div className="patientHome1 patientHome2">
+    <div className="Bootstrap PatientHome">
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">

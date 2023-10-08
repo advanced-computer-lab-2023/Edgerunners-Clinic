@@ -7,7 +7,8 @@ import PatientReg from "./Components/Login_Reg/PatientReg";
 import PatientHome from './Components/PatientHome/PatientHome';
 
 import Packages from "./Components/Packages/Packages";
-import RemovePar from "./Components/Admin/RemovePar";
+
+import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 
 // import './index.css';
 
@@ -25,7 +26,7 @@ function App() {
   }
   return (
     <div className="App">
-      <PatientReg/>
+      <ViewFamilyMem/>
     </div>
   );
 }

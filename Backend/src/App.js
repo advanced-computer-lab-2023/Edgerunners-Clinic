@@ -33,6 +33,14 @@ const {
   deleteDoctor,
 } = require("./Routes/doctorController");
 
+const {
+  createRelation,
+  getRelation,
+  updateRelation,
+  deleteRelation,
+} = require("./Routes/relationController");
+
+
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -78,7 +86,7 @@ app.use(cors());
 
 app.post("/signin" , signin)
 app.post("/addPatient", createPatient);
-app.get("/getPatient",protectP, getPatients);
+app.get("/getPatient", getPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 
@@ -103,3 +111,7 @@ app.get("/getPackage", getPackage);
 app.put("/updatePackage", updatePackage);
 app.delete("/deletePackage", deletePackage);
 
+app.post("/createRelation", createRelation);
+app.get("/getRelation", getRelation);
+app.put("/updateRelation", updateRelation);
+app.delete("/deleteRelation", deleteRelation);

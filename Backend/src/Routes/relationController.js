@@ -56,6 +56,5 @@ const deleteRelation = async (req, res) => {
   }
   
 };
-const addRelation = async 
 
 module.exports = { createRelation, getRelation, updateRelation, deleteRelation };

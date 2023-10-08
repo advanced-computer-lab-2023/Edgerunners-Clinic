@@ -23,7 +23,6 @@
     "url": "https://github.com/advanced-computer-lab-2023/Edgerunners-Clinic.git"
   },
   "dependencies": {
-
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -60,6 +59,7 @@
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.31",
+    "sass": "^1.69.0",
     "tailwindcss": "^3.3.3",
     "vite": "^3.2.7"
   }

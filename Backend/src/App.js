@@ -10,8 +10,7 @@ const {
   updatePatient,
   deletePatient,
 } = require("./Routes/patientController");
-<<<<<<< Updated upstream
-=======
+
 
 const {
   createPackage,
@@ -27,7 +26,13 @@ const {
   deleteAdmin,
 } = require("./Routes/adminController");
 
->>>>>>> Stashed changes
+const {
+  createDoctor,
+  getDoctors,
+  updateDoctor,
+  deleteDoctor,
+} = require("./Routes/doctorController");
+
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -63,23 +68,32 @@ app.get("/home", (req, res) => {
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+const cors = require("cors");
+
+app.use(cors());
+// app.use(function(req, res, next){
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+// });
 
 app.post("/addPatient", createPatient);
 app.get("/getPatient", getPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 
-// app.post("/addDoctor", createDoctor);
-// app.get("/getDoctor", getDoctors);
-// app.put("/updateDoctor", updateDoctor);
-// app.delete("/deleteDoctor", deleteDoctor);
+app.post("/addDoctor", createDoctor);
+app.get("/getDoctor", getDoctors);
+app.put("/updateDoctor", updateDoctor);
+app.delete("/deleteDoctor", deleteDoctor);
 
-<<<<<<< Updated upstream
-=======
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);
 app.put("/updateAdmin", updateAdmin);
 app.delete("/deleteAdmin", deleteAdmin);
+
+app.post("/addDoctor", createDoctor);
+app.get("/getDoctor", getDoctors);
+app.put("/updateDoctor", updateDoctor);
+app.delete("/deleteDoctor", deleteDoctor);
 
 
 app.post("/createPackage", createPackage);
@@ -87,7 +101,3 @@ app.get("/getPackage", getPackage);
 app.put("/updatePackage", updatePackage);
 app.delete("/deletePackage", deletePackage);
 
->>>>>>> Stashed changes
-/*
-                                                    End of your code
-*/

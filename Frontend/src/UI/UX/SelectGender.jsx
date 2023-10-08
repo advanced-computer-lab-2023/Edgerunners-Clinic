@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState ,useRef} from 'react';
 import RadioButton from './RadioButton';
 
-const SelectGender = () => {
+const SelectGender = (props) => {
   const [selectedOption, setSelectedOption] = useState(null);
-
+const SelectGenderRef=useRef();
   const handleOptionChange = (id) => {
     setSelectedOption(id);
+    props.SelectGenderRef.current =id;
   };
 
   const radioOptions = [

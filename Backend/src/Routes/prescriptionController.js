@@ -18,7 +18,7 @@ const getPrescriptions = async (req, res) => {
   try {
     const { Date, Doctor, Status } = req.query;
     const filter = {};
-    filter.username = req.body.username
+    filter.username = req.body.username;
     if (Date) {
       console.log("hi");
       filter.Date = Date + "T22:00:00.000Z";

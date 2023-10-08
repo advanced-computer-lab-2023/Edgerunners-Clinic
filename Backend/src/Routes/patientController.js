@@ -56,6 +56,5 @@ const deletePatient = async (req, res) => {
   }
   
 };
-const addRelation = async 
 
 module.exports = { createPatient, getPatients, updatePatient, deletePatient };

@@ -3,10 +3,13 @@ import SetAdmin from "./Components/Admin/SetAdmin";
 
 import axios from "axios";
 
-import DoctorReg from "./Components/Login_Reg/DoctorReg";
-import Header from "./Components/Login_Reg/Header"
 import PatientReg from "./Components/Login_Reg/PatientReg";
-import PatientHome from './PatientHome';
+import PatientHome from './Components/PatientHome/PatientHome';
+
+import Packages from "./Components/Packages/Packages";
+
+// import './index.css';
+
 
 
 
@@ -21,7 +24,7 @@ function App() {
   }
   return (
     <div className="App">
-      <PatientReg />
+      <Packages/>
     </div>
   );
 }

@@ -1,18 +1,10 @@
 import Logo from "./UI/UX/Logo";
 import SetAdmin from "./Components/Admin/SetAdmin"; 
 import axios from "axios";
-import GetPatient from "./Components/Admin/GetPatient";
-import PatientReg from "./Components/Login_Reg/PatientReg";
-import PatientHome from './Components/PatientHome/PatientHome';
-
-import Packages from "./Components/Packages/Packages";
-
-import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 
 
-import DoctorHome from "./Components/DoctorHome/DoctorHome";
-// import './index.css';
-import EditMyProf from "./Components/DoctorHome/EditMyProf";
+import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
+
 
 
 
@@ -29,7 +21,7 @@ function App() {
   return (
     <div className="App">
 
-      <ViewFamilyMem/>
+      <ViewMyPatients/>
     </div>
   );
 }

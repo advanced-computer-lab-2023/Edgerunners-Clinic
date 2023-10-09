@@ -16,6 +16,10 @@ const appointmentSchema = new Schema(
     Date:{
       type: Date,
       required: true,
+    },
+    EndDate:{
+      type: Date,
+      required: true,
     }
   },
   { timestamps: true }

@@ -7,6 +7,12 @@ import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 
 
 
+import DoctorHome from "./Components/DoctorHome/DoctorHome";
+// import './index.css';
+import EditMyProf from "./Components/DoctorHome/EditMyProf";
+import NewFamilyMem from "./Components/Patient/NewFamilyMem";
+import Doctors from "./Components/PatientHome/Doctors";
+import Prescriptions from './Components/PatientHome/Prescriptions';
 
 
 function App() {
@@ -22,6 +28,7 @@ function App() {
     <div className="App">
 
       <ViewMyPatients/>
+
     </div>
   );
 }

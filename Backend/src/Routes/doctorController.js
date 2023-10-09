@@ -24,18 +24,48 @@ const createDoctor = async (req, res) => {
 
 const getDoctors = async (req, res) => {
   try {
-    const Doctors = await Doctor.find();
-    res.status(200).send({ data: Doctors });
+    const {Name, Education} = req.query;
+    const filter = {};
+    if (Name){
+      filter.Name = Name;
+    }
+    if  (Education){
+      filter.Education = Education;
+    }
+    const Doctors = await Doctor.find(filter);
+    res.status(200).send(Doctors);
   } catch (e) {
     res.status(400).send("Error could not get Doctors !!");
   }
 };
 
+// const getPrescriptions = async (req, res) => {
+//   try {
+//     const { Date, Doctor, Status } = req.query;
+//     const filter = {};
+//     filter.username = req.body.username;
+//     if (Date) {
+//       console.log("hi");
+//       filter.Date = Date + "T22:00:00.000Z";
+//     }
+//     if (Doctor) {
+//       filter.Doctor = Doctor;
+//     }
+//     if (Status) {
+//       filter.Status = Status;
+//     }
+//     const Prescription = await prescriptions.find(filter);
+//     res.status(200).send(Prescription);
+//   } catch (e) {
+//     res.status(400).send("Error could not get Patients !!");
+//   }
+// };
+
 const updateDoctor = async (req, res) => {
   //update a Doctor in the database
   const user = req.body.Username;
-  if(req.body.Email){
-    Doctor.updateOne({Username: user},{$set :{Email : req.body.Email}});
+  if (req.body.Email) {
+    Doctor.updateOne({ Username: user }, { $set: { Email: req.body.Email } });
   }
   if (req.body.Hourlyrate) {
     Doctor.updateOne(
@@ -50,15 +80,14 @@ const updateDoctor = async (req, res) => {
     );
   }
 };
-const findDoctor= async (req, res) => {
-  if(await Doctor.findOne({Username: req.body.Username}).length ===0){
+const findDoctor = async (req, res) => {
+  if ((await Doctor.findOne({ Username: req.body.Username }).length) === 0) {
     res.status(300).send("User Not Found");
-  }
-  else{
-    const Doctors = await Doctor.findOne({Username:req.body.Username});
+  } else {
+    const Doctors = await Doctor.findOne({ Username: req.body.Username });
     res.status(200).send({ data: Doctor });
   }
-}
+};
 const deleteDoctor = async (req, res) => {
   //delete a Doctor from the database
   try {
@@ -73,4 +102,12 @@ const deleteDoctor = async (req, res) => {
   }
 };
 
-module.exports = { createDoctor, getDoctors, updateDoctor, deleteDoctor ,findDoctor};
+
+module.exports = {
+  createDoctor,
+  getDoctors,
+  updateDoctor,
+  deleteDoctor,
+  findDoctor,
+};
+

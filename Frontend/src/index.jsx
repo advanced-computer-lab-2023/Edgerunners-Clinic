@@ -6,6 +6,8 @@ import PatientHome from "./Components/PatientHome/PatientHome";
 import Prescriptions from "./Components/PatientHome/Prescriptions";
 
 import PatientReg from "./Components/Login_Reg/PatientReg";
+import Packages from "./Components/Packages/Packages";
+import UpdatePackage from "./Components/Packages/UpdatePackage";
 import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";

@@ -29,14 +29,15 @@ const updatePackage = async (req, res) => {
   try {
     await Package.updateOne(
       {
-        Name: req.body.name,
+        Name: req.body.Name,
       },
-      {
-        Price: req.body.price,
+      { $set:{
+        Name : req.body.NewName,
+        Price: req.body.Price,
         discountDoctor: req.body.discountDoctor,
         discountMedicin: req.body.discountMedicin,
         discountFamily: req.body.discountFamily,
-      },
+      }},
     );
     res.status(200).send("Updated Successfully");
   } catch (e) {

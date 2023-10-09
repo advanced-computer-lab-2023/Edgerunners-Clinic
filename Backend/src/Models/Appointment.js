@@ -6,7 +6,6 @@ const appointmentSchema = new Schema(
     PatientUsername: {
       type: String,
       required: true,
-      unique: true,
     },
 
     DoctorUsername: {
@@ -15,6 +14,15 @@ const appointmentSchema = new Schema(
     },
     Date:{
       type: Date,
+      required: true,
+      unique: true
+    },
+    EndDate:{
+      type: Date,
+    },
+    Availability:{
+      type: String,
+      enum: ["Available", "Reserved"],
       required: true,
     }
   },

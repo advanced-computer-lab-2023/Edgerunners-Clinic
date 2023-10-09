@@ -24,12 +24,42 @@ const createDoctor = async (req, res) => {
 
 const getDoctors = async (req, res) => {
   try {
-    const Doctors = await Doctor.find();
-    res.status(200).send({ data: Doctors });
+    const {Name, Education} = req.query;
+    const filter = {};
+    if (Name){
+      filter.Name = Name;
+    }
+    if  (Education){
+      filter.Education = Education;
+    }
+    const Doctors = await Doctor.find(filter);
+    res.status(200).send(Doctors);
   } catch (e) {
     res.status(400).send("Error could not get Doctors !!");
   }
 };
+
+// const getPrescriptions = async (req, res) => {
+//   try {
+//     const { Date, Doctor, Status } = req.query;
+//     const filter = {};
+//     filter.username = req.body.username;
+//     if (Date) {
+//       console.log("hi");
+//       filter.Date = Date + "T22:00:00.000Z";
+//     }
+//     if (Doctor) {
+//       filter.Doctor = Doctor;
+//     }
+//     if (Status) {
+//       filter.Status = Status;
+//     }
+//     const Prescription = await prescriptions.find(filter);
+//     res.status(200).send(Prescription);
+//   } catch (e) {
+//     res.status(400).send("Error could not get Patients !!");
+//   }
+// };
 
 const updateDoctor = async (req, res) => {
   //update a Doctor in the database
@@ -72,6 +102,7 @@ const deleteDoctor = async (req, res) => {
   }
 };
 
+
 module.exports = {
   createDoctor,
   getDoctors,
@@ -79,3 +110,4 @@ module.exports = {
   deleteDoctor,
   findDoctor,
 };
+

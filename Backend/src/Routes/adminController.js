@@ -44,4 +44,4 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
-module.exports = { createAdmin, getAdmins, updateAdmin, deleteAdmin };
+module.exports = { createAdmin, getAdmins, updateAdmin, deleteAdmin  };

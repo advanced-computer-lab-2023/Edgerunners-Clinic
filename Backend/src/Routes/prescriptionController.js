@@ -32,7 +32,7 @@ const getPrescriptions = async (req, res) => {
     const Prescription = await prescriptions.find(filter);
     res.status(200).send(Prescription);
   } catch (e) {
-    res.status(400).send("Error could not get Patients !!");
+    res.status(400).send("Error could not get Prescription !!");
   }
 };
 
@@ -47,13 +47,13 @@ const deletePrescriptions = async (req, res) => {
     if (
       (await prescriptions.find({ Username: req.body.Username }).length) === 0
     ) {
-      res.status(300).send("User Not Found");
+      res.status(300).send("Prescription Not Found");
     } else {
       await prescriptions.deleteOne({ Username: req.body.Username });
       res.status(200).send("Deleted successfully");
     }
   } catch (e) {
-    res.status(400).send("Error could not delete patient !!");
+    res.status(400).send("Error could not delete Prescription !!");
   }
 };
 

@@ -24,7 +24,7 @@ export default function Prescriptions() {
   if (Prescriptions) {
     console.log(Prescriptions);
     return (
-      <div className="patientHome1 patientHome2">
+      <div className="Bootstrap PatientHome">
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">

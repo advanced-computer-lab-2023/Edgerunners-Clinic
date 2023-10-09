@@ -27,14 +27,18 @@ const getPackage = async (req, res) => {
 
 const updatePackage = async (req, res) => {
   try {
-    await Package.updateOne({
-      Name: req.body.Name,
-      discountDoctor: req.body.discountDoctor,
-      discountMedicin: req.body.discountMedicin,
-      discountFamily: req.body.discountFamily,
-      Price: req.body.Price,
-    });
-    res.status(200).send("Updated Successfu");
+    await Package.updateOne(
+      {
+        Name: req.body.name,
+      },
+      {
+        Price: req.body.price,
+        discountDoctor: req.body.discountDoctor,
+        discountMedicin: req.body.discountMedicin,
+        discountFamily: req.body.discountFamily,
+      },
+    );
+    res.status(200).send("Updated Successfully");
   } catch (e) {
     res.status(400).send("Error could not update package !!");
   }

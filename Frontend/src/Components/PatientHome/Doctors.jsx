@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
 import GetDoctors from './getDoctors';
+import GetAppointments from "./getAppoinments";
+import { UpdateAppointments } from "./getAppoinments";
+import axios from "axios";
 
 export default function Doctors() {
   const [education, setEducation] = useState();
   const [name, setName] = useState();
+  const [date, setDate] = useState();
   let Doc = GetDoctors({
       Education : education,
       Name : name,  
+  });
+  let appointmentDate = GetAppointments({
+    Date : date,
   });
   const handleSubmit = async (e) => {
     e.preventDefaut();
@@ -15,10 +22,20 @@ export default function Doctors() {
       Education : education,
       Name : name,    
     });
+    appointmentDate = await GetAppointments({
+      Date : date,
+    })
+  };
+  const handleSubmit2 = async (e , patient , doctor) => {
+    e.preventDefault();
+    await axios.put(`http://localhost:3001/updateAppointment`, {
+      PatientUsername: patient, DoctorUsername:doctor,Availability: "Reserved"
+    });
   };
 
-  if (Doc) {
-    console.log(Doc.data)
+
+  if (Doc || appointmentDate) {
+    console.log(appointmentDate)
     return (
       <div className="Bootstrap PatientHome">
         <div className="header">
@@ -127,12 +144,21 @@ export default function Doctors() {
               setName(e.target.value);
             }}
           />
+          <label htmlFor="">Date</label>
+          <input
+            type="date"
+            name=""
+            id=""
+            onChange={(e) => {
+              setDate(e.target.value);
+            }}
+          />
           <button type="submit" onSubmit={handleSubmit}>
             submit
           </button>
         </div>
         <div>
-          {Doc.map((d, index) => {
+          {/* {Doc.map((d, index) => {
             return (
               <div key={index}>
                 <a>{d.Name}</a>
@@ -144,6 +170,16 @@ export default function Doctors() {
                 <a>{d.Education}</a>
                 <br />
                 <button>select</button>
+              </div>
+            );
+          })} */}
+          {appointmentDate.map((a, index) => {
+            if(a.Availability == "Available")
+            return (
+              <div key={index}>
+                <a>{a.Date}</a>
+                <br />
+                <button onClick={(e)=>handleSubmit2(e,a.PatientUsername,a.DoctorUsername)}>reserve</button>
               </div>
             );
           })}

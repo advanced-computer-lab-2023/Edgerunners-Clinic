@@ -120,7 +120,7 @@ export default function ViewFamilyMem() {
                   </div>
                 </div>
                 <div className="primary-btn text-center">
-                  <a href="#" className="btn btn-primary">
+                  <a href="/NewFamilyMem" className="btn btn-primary">
                     Add Family Member
                   </a>
                 </div>

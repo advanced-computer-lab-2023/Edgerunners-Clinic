@@ -13,6 +13,9 @@ import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import DoctorHome from "./Components/DoctorHome/DoctorHome";
 // import './index.css';
 import EditMyProf from "./Components/DoctorHome/EditMyProf";
+import NewFamilyMem from "./Components/Patient/NewFamilyMem";
+import Doctors from "./Components/PatientHome/Doctors";
+import Prescriptions from './Components/PatientHome/Prescriptions';
 
 
 
@@ -28,8 +31,7 @@ function App() {
   }
   return (
     <div className="App">
-
-      <ViewFamilyMem/>
+      <Doctors/>
     </div>
   );
 }

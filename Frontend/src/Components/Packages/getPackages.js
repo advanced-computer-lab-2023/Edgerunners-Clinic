@@ -27,7 +27,15 @@ export function UpdatePackages(p) {
   useEffect(() => {
     UpdatePackages();
     async function UpdatePackages() {
-      await axios.put("http://localhost:3001/UpdatePackage", p);
+      await axios.put("http://localhost:3001/updatePackage", p);
+    }
+  }, []);
+}
+export function DeletePackages(p) {
+  useEffect(() => {
+    DeletePackages();
+    async function DeletePackages() {
+      await axios.delete("http://localhost:3001/deletePackage", p);
     }
   }, []);
 }

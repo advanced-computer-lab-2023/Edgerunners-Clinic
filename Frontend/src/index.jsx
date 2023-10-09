@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import PatientHome from "./Components/PatientHome/PatientHome";
 import Prescriptions from "./Components/PatientHome/Prescriptions";
+
 import PatientReg from "./Components/Login_Reg/PatientReg";
 import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";

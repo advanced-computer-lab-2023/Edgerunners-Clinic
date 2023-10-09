@@ -102,6 +102,7 @@ const deleteDoctor = async (req, res) => {
   }
 };
 
+
 module.exports = {
   createDoctor,
   getDoctors,
@@ -109,3 +110,4 @@ module.exports = {
   deleteDoctor,
   findDoctor,
 };
+

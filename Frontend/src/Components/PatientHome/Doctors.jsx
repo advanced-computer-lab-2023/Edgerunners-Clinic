@@ -1,30 +1,26 @@
 import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
-import GetPrescriptions from "./getPrescriptions";
+import GetDoctors from './getDoctors';
 
-export default function Prescriptions() {
-  const [date, setDate] = useState();
-  const [doctor, setDoctor] = useState();
-  const [status, setStatus] = useState();
-  console.log("date is: " + date);
-  let Prescriptions = GetPrescriptions({
-    Date: date,
-    Doctor: doctor,
-    Status: status,
+export default function Doctors() {
+  const [education, setEducation] = useState();
+  const [name, setName] = useState();
+  let Doc = GetDoctors({
+      Education : education,
+      Name : name,  
   });
   const handleSubmit = async (e) => {
     e.preventDefaut();
-    Prescriptions = await GetPrescriptions({
-      Date: date,
-      Doctor: doctor,
-      Status: status,
+    Doc = await GetDoctors({
+      Education : education,
+      Name : name,    
     });
   };
 
-  if (Prescriptions) {
-    console.log(Prescriptions);
+  if (Doc) {
+    console.log(Doc.data)
     return (
-      <div className="patientHome1 patientHome2">
+      <div className="Bootstrap PatientHome">
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
@@ -78,7 +74,7 @@ export default function Prescriptions() {
                       aria-current="page"
                       href="#education"
                     >
-                      Prescriptions
+                      Doctors
                     </a>
                   </li>
                   <li className="nav-item">
@@ -115,33 +111,20 @@ export default function Prescriptions() {
           </nav>
         </div>
         <div className="form-prescription">
-          <label htmlFor="">Date</label>
+          <label htmlFor="">Speciality</label>
           <input
-            type="date"
+            type="text"
             name=""
             id=""
             onChange={(e) => {
-              setDate(e.target.value);
-            }}
-          />
-          <label htmlFor="">Status</label>
-          <input
-            type="checkbox"
-            name=""
-            id=""
-            onChange={(e) => {
-              if (e.target.checked) {
-                setStatus("Filled");
-              } else {
-                setStatus("Unfilled");
-              }
+              setEducation(e.target.value)
             }}
           />
           <label htmlFor="">doctor</label>
           <input
             type="text"
             onChange={(e) => {
-              setDoctor(e.target.value);
+              setName(e.target.value);
             }}
           />
           <button type="submit" onSubmit={handleSubmit}>
@@ -149,16 +132,16 @@ export default function Prescriptions() {
           </button>
         </div>
         <div>
-          {Prescriptions.map((p, index) => {
+          {Doc.map((d, index) => {
             return (
               <div key={index}>
-                <a>{p.Patient}</a>
+                <a>{d.Name}</a>
                 <br />
-                <a>{p.Status}</a>
+                <a>{d.Hourlyrate + " EGP"}</a>
                 <br />
-                <a>{p.Doctor}</a>
+                <a>{d.Affiliation}</a>
                 <br />
-                <a>{p.Date}</a>
+                <a>{d.Education}</a>
                 <br />
                 <button>select</button>
               </div>

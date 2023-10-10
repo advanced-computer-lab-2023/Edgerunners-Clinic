@@ -94,7 +94,9 @@ render(){
 			<input onChange = {(event)=>{this.setState({signIn_username : event.currentTarget.value}) }} type="text" placeholder="Username" />
 			<input onChange = {(event)=>{this.setState({signIn_password : event.currentTarget.value}) }} type="password" placeholder="Password" />
 			<a href="#">Forgot your password?</a>
-			<button onClick = {this.signIn}>Sign In</button>
+			<button onClick = 
+			{this.signIn}>
+			Sign In</button>
 		</form>
 	</div>
 	<div class="overlay-container">

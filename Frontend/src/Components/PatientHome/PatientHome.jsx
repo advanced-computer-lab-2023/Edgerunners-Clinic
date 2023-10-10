@@ -161,7 +161,9 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+             <a href = "http://localhost:5173/viewFamilyMem">
             <h3>Family</h3>
+            </a>
             <p>
               add family members using name, National ID, age, gender and
               relation to the patient link another patient account as a family
@@ -186,7 +188,9 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+            <a href = "http://localhost:5173/Doctors">
             <h3>Our Doctors</h3>
+            </a>
             <p>view a list of all doctors along with their speciality</p>
           </div>
           <div className="col-4">
@@ -195,7 +199,9 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+             <a href = "http://localhost:5173/Packages">
             <h3>Health Packages</h3>
+            </a>
             <p>view all details of selected doctor including specilaty</p>
           </div>
           <div className="col-4">

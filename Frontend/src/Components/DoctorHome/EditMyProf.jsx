@@ -2,27 +2,9 @@ import Card from "../../UI/UX/Card";
 import Logo from "../../UI/UX/Logo";
 import axios from "axios";
 import { useRef, useState } from "react";
+import getDoctor from "./findDoctorFunc";
 function EditMyProf(props) {
-  const username = sessionStorage.getItem("Username");
-  const user = { username: username };
-  var result = {
-    Username: "",
-    Password: "",
-    DOB: "",
-    Name: "",
-    Email: "",
-    Hourlyrate: 0,
-    Affiliation: "",
-    Education: "",
-    Patients: [],
-  };
-  axios
-    .get("http://localhost:3001/findDoctor", user, {})
-    .then((res) => {
-      result = res.data;
-    })
-    .catch((error) => {});
-
+  let result = getDoctor(); 
   const Username = result.Username;
   const pass = result.Password;
   const dob = result.DOB;
@@ -89,8 +71,8 @@ function EditMyProf(props) {
           <div className=" flex justify-center  mt-6 mb-0 ">
             <Logo height="4rem" />
             <h1 className=" text-2xl font-bold  text-center   text-blue-gray-600 ml-0   mt-6 ">
-              {" "}
-              My Profile{" "}
+             
+              My Profile
             </h1>
           </div>
           <div className="  mt-1">

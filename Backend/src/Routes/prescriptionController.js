@@ -16,7 +16,7 @@ const createPrescriptions = async (req, res) => {
 
 const getPrescriptions = async (req, res) => {
   try {
-    const { Date, Doctor, Status } = req.query;
+    const { Date, Doctor, Patient ,Status } = req.query;
     const filter = {};
     filter.username = req.body.username;
     if (Date) {
@@ -28,6 +28,9 @@ const getPrescriptions = async (req, res) => {
     }
     if (Status) {
       filter.Status = Status;
+    }
+    if(Patient){
+      filter.Patient = Patient;
     }
     const Prescription = await prescriptions.find(filter);
     res.status(200).send(Prescription);

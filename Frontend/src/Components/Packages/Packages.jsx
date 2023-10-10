@@ -422,6 +422,20 @@ const platinumFeatures = [
           )
         })}
         </Carousel>
+        <div >
+        <a
+           href="http://localhost:5173/CreatePackage"
+           className="mt-10 block w- rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+             >
+             Create Package
+              </a>
+        <a
+           href="http://localhost:5173/UpdatePackage"
+           className="mt-10 block w- rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+             >
+             Edit/Delete Packages
+              </a>
+        </div>
 
         <div className="bg-white py-44 sm:py-55" ></div>
     </div>

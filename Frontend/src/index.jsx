@@ -4,22 +4,29 @@ import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import PatientHome from "./Components/PatientHome/PatientHome";
 import Prescriptions from "./Components/PatientHome/Prescriptions";
+import Doctors from "./Components/PatientHome/Doctors";
+
+import DoctorReg from "./Components/Login_Reg/DoctorReg";
 import PatientReg from "./Components/Login_Reg/PatientReg";
+
+
 import Packages from "./Components/Packages/Packages";
 import UpdatePackage from "./Components/Packages/UpdatePackage";
 import PackagesForAdmin from "./Components/Packages/PackagesForAdmin";
+import CreatePackage from "./Components/Packages/CreatePackage";
+
+
 import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
-import CreatePackage from "./Components/Packages/CreatePackage";
 
-import DoctorHome from "./Components/DoctorHome/DoctorHome";
-import EditMyProf from "./Components/DoctorHome/EditMyProf";
-import Doctors from "./Components/PatientHome/Doctors";
+
 import AdminBody from "./Components/Admin/Body";
 import SetAdmin from "./Components/Admin/SetAdmin";
 import RemovePar from "./Components/Admin/RemovePar";
-import DoctorReg from "./Components/Login_Reg/DoctorReg";
+
+
+import DoctorHome from "./Components/DoctorHome/DoctorHome";
 import EditMyProf from "./Components/DoctorHome/EditMyProf";
 import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 
@@ -30,7 +37,7 @@ root.render(
     <BrowserRouter>
       <Routes>
 
-        <Route path="/" element={<PatientHome/>} />
+        <Route path="/" element={<DoctorHome/>} />
         <Route path ="/Doctors" element={<Doctors/>} />
         <Route path="/PatientHome" element={<PatientHome/>} />
         <Route path="/PatientReg" element={<PatientReg/>} />
@@ -46,6 +53,10 @@ root.render(
         <Route path="/AdminBody" element={<AdminBody/>} />
         <Route path="/setAdmin" element={<SetAdmin/>} />
         <Route path="/RemovePar" element={<RemovePar/>} />
+        <Route path="/DoctorHome" element={<DoctorHome/>}/>
+        <Route path="/EditMyProf" element={<EditMyProf/>}/>
+        <Route path="/ViewMyPatients" element={<ViewMyPatients/>}/>
+        <Route path="DoctorReg" element={<DoctorReg/>}/>
 
       </Routes>
     </BrowserRouter>

@@ -69,7 +69,7 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#about">
+                  <a className="nav-link" aria-current="page" href="/EditMyProf">
                     My Account
                   </a>
                 </li>
@@ -160,7 +160,9 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+            <a href="/Prescriptions">
             <h3>Add Prescription</h3>
+            </a>
             <p>upload/remove documents for my medical history</p>
           </div>
 
@@ -170,7 +172,9 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+            <a href="/ViewFamilyMem">
             <h3>Family</h3>
+            </a>
             <p>
               add family members using name, National ID, age, gender and
               relation to the patient link another patient account as a family
@@ -195,7 +199,9 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+            <a href="/ViewMyPatients">
             <h3>My Patients</h3>
+            </a>
             <p>view a list of all doctors along with their speciality</p>
           </div>
           <div className="col-4">

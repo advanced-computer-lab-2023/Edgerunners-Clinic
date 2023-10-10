@@ -12,13 +12,15 @@ import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
 import CreatePackage from "./Components/Packages/CreatePackage";
 import Doctors from "./Components/PatientHome/Doctors"
-
+import DoctorReg from "./Components/Login_Reg/DoctorReg";
+import EditMyProf from "./Components/DoctorHome/EditMyProf";
+import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PatientReg/>} />
+        <Route path="/" element={<ViewMyPatients/>} />
         <Route path ="/Doctors" element={<Doctors/>} />
         <Route path="/PatientHome" element={<PatientHome/>} />
         <Route path="/PatientReg" element={<PatientReg/>} />

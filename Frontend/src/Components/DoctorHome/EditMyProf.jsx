@@ -27,13 +27,12 @@ function EditMyProf(props) {
           };
     
           axios
-            .post("http://localhost:3001/updateAdmin", sentData, {})
+            .put("http://localhost:3001/updateDoctor", sentData, {})
             .then((res) => {
                 setHourTB(false);
             })
             .catch((error) => {});
         }
-    
   }
   function editAff(event) {
     setAffTB(true);
@@ -44,7 +43,7 @@ function EditMyProf(props) {
       };
 
       axios
-        .post("http://localhost:3001/updateAdmin", sentData, {})
+        .put("http://localhost:3001/updateDoctor", sentData, {})
         .then((res) => {
           setAffTB(false);
         })
@@ -54,9 +53,11 @@ function EditMyProf(props) {
   function editEmail(event) {
     setEmailTB(true);
     if (emailRef.current.value !== "" && emailTB) {
+      console.log(Username);
+      console.log(emailRef.current.value);
       const sentData = { Username: Username, Email: emailRef.current.value };
       axios
-        .post("http://localhost:3001/updateAdmin", sentData, {})
+        .put("http://localhost:3001/updateDoctor", sentData, {})
         .then((res) => {
           setEmailTB(false);
         })
@@ -65,7 +66,7 @@ function EditMyProf(props) {
   }
 
   return (
-    <div className=" tailwind">
+    <div className="tailwind">
       <div className=" flex justify-center mt-8 mb-7">
         <Card width="w-4/12" height=" h-[40rem]">
           <div className=" flex justify-center  mt-6 mb-0 ">

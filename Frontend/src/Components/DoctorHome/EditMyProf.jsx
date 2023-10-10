@@ -2,27 +2,9 @@ import Card from "../../UI/UX/Card";
 import Logo from "../../UI/UX/Logo";
 import axios from "axios";
 import { useRef, useState } from "react";
+import getDoctor from "./findDoctorFunc";
 function EditMyProf(props) {
-  const username = sessionStorage.getItem("Username");
-  const user = { username: username };
-  var result = {
-    Username: "",
-    Password: "",
-    DOB: "",
-    Name: "",
-    Email: "",
-    Hourlyrate: 0,
-    Affiliation: "",
-    Education: "",
-    Patients: [],
-  };
-  axios
-    .get("http://localhost:3001/findDoctor", user, {})
-    .then((res) => {
-      result = res.data;
-    })
-    .catch((error) => {});
-
+  let result = getDoctor(); 
   const Username = result.Username;
   const pass = result.Password;
   const dob = result.DOB;
@@ -45,13 +27,12 @@ function EditMyProf(props) {
           };
     
           axios
-            .post("http://localhost:3001/updateAdmin", sentData, {})
+            .put("http://localhost:3001/updateDoctor", sentData, {})
             .then((res) => {
                 setHourTB(false);
             })
             .catch((error) => {});
         }
-    
   }
   function editAff(event) {
     setAffTB(true);
@@ -62,7 +43,7 @@ function EditMyProf(props) {
       };
 
       axios
-        .post("http://localhost:3001/updateAdmin", sentData, {})
+        .put("http://localhost:3001/updateDoctor", sentData, {})
         .then((res) => {
           setAffTB(false);
         })
@@ -72,9 +53,11 @@ function EditMyProf(props) {
   function editEmail(event) {
     setEmailTB(true);
     if (emailRef.current.value !== "" && emailTB) {
+      console.log(Username);
+      console.log(emailRef.current.value);
       const sentData = { Username: Username, Email: emailRef.current.value };
       axios
-        .post("http://localhost:3001/updateAdmin", sentData, {})
+        .put("http://localhost:3001/updateDoctor", sentData, {})
         .then((res) => {
           setEmailTB(false);
         })
@@ -83,14 +66,14 @@ function EditMyProf(props) {
   }
 
   return (
-    <div className=" tailwind">
+    <div className="tailwind">
       <div className=" flex justify-center mt-8 mb-7">
         <Card width="w-4/12" height=" h-[40rem]">
           <div className=" flex justify-center  mt-6 mb-0 ">
             <Logo height="4rem" />
             <h1 className=" text-2xl font-bold  text-center   text-blue-gray-600 ml-0   mt-6 ">
-              {" "}
-              My Profile{" "}
+             
+              My Profile
             </h1>
           </div>
           <div className="  mt-1">

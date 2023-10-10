@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
-import GetDoctors from './getDoctors';
+import GetDoctors from "./getDoctors";
 import GetAppointments from "./getAppoinments";
 import { UpdateAppointments } from "./getAppoinments";
 import axios from "axios";
@@ -10,32 +10,32 @@ export default function Doctors() {
   const [name, setName] = useState();
   const [date, setDate] = useState();
   let Doc = GetDoctors({
-      Education : education,
-      Name : name,  
+    Education: education,
+    Name: name,
   });
   let appointmentDate = GetAppointments({
-    Date : date,
+    Date: date,
   });
   const handleSubmit = async (e) => {
     e.preventDefaut();
     Doc = await GetDoctors({
-      Education : education,
-      Name : name,    
+      Education: education,
+      Name: name,
     });
     appointmentDate = await GetAppointments({
-      Date : date,
-    })
+      Date: date,
+    });
   };
-  const handleSubmit2 = async (e , patient , doctor) => {
+  const handleSubmit2 = async (e, doctor) => {
     e.preventDefault();
     await axios.put(`http://localhost:3001/updateAppointment`, {
-      PatientUsername: patient, DoctorUsername:doctor,Availability: "Reserved"
+      DoctorUsername: doctor,
+      Availability: "Reserved",
     });
   };
 
-
   if (Doc || appointmentDate) {
-    console.log(appointmentDate)
+    console.log(appointmentDate);
     return (
       <div className="Bootstrap PatientHome">
         <div className="header">
@@ -134,7 +134,7 @@ export default function Doctors() {
             name=""
             id=""
             onChange={(e) => {
-              setEducation(e.target.value)
+              setEducation(e.target.value);
             }}
           />
           <label htmlFor="">doctor</label>
@@ -174,12 +174,18 @@ export default function Doctors() {
             );
           })} */}
           {appointmentDate.map((a, index) => {
-            if(a.Availability == "Available")
             return (
               <div key={index}>
-                <a>{a.Date}</a>
-                <br />
-                <button onClick={(e)=>handleSubmit2(e,a.PatientUsername,a.DoctorUsername)}>reserve</button>
+                <p>{a.Username}</p>
+                
+                <p>{a.Education}</p>
+                <button
+                  onClick={(e) =>
+                    handleSubmit2(e, a.Username)
+                  }
+                >
+                  reserve
+                </button>
               </div>
             );
           })}

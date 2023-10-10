@@ -11,23 +11,25 @@ import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
 import CreatePackage from "./Components/Packages/CreatePackage";
-import Doctors from "./Components/PatientHome/Doctors"
+import Doctors from "./Components/PatientHome/Doctors";
+import DoctorHome from "./Components/DoctorHome/DoctorHome";
+import EditMyProf from "./Components/DoctorHome/EditMyProf";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PatientReg/>} />
-        <Route path ="/Doctors" element={<Doctors/>} />
-        <Route path="/PatientHome" element={<PatientHome/>} />
-        <Route path="/PatientReg" element={<PatientReg/>} />
+        <Route path="/" element={<Doctors />} />
+        <Route path="/Doctors" element={<Doctors />} />
+        <Route path="/PatientHome" element={<PatientHome />} />
+        <Route path="/PatientReg" element={<PatientReg />} />
         <Route path="/Prescriptions" element={<Prescriptions />} />
         <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
         <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
         <Route path="/UpdatePackage" element={<UpdatePackage />} />
         <Route path="/Packages" element={<Packages />} />
-        <Route path="/CreatePackage" element ={<CreatePackage/>} />
+        <Route path="/CreatePackage" element={<CreatePackage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

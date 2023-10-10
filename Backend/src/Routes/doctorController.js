@@ -39,6 +39,11 @@ const getDoctors = async (req, res) => {
   }
 };
 
+const addPatient4doctor = async(req,res)=>{
+  await Doctor.updateOne({Username: "asd"},{$set:{Patients:["ahmed","mohamed"]}})
+  res.status(200).send("done");
+}
+
 // const getPrescriptions = async (req, res) => {
 //   try {
 //     const { Date, Doctor, Status } = req.query;
@@ -64,29 +69,28 @@ const getDoctors = async (req, res) => {
 const updateDoctor = async (req, res) => {
   //update a Doctor in the database
   const user = req.body.Username;
+  console.log(req.body.Username)
   if (req.body.Email) {
-    Doctor.updateOne({ Username: user }, { $set: { Email: req.body.Email } });
+    await Doctor.updateOne({ Username: user }, { $set: { Email: req.body.Email } });
   }
   if (req.body.Hourlyrate) {
-    Doctor.updateOne(
+    await Doctor.updateOne(
       { Username: user },
       { $set: { Hourlyrate: req.body.Hourlyrate } },
     );
   }
   if (req.body.Affiliation) {
-    Doctor.updateOne(
+    await Doctor.updateOne(
       { Username: user },
       { $set: { Affiliation: req.body.Affiliation } },
     );
   }
+  res.status(200).send("Done");
 };
 const findDoctor = async (req, res) => {
-  if ((await Doctor.findOne({ Username: req.body.Username }).length) === 0) {
-    res.status(300).send("User Not Found");
-  } else {
-    const Doctors = await Doctor.findOne({ Username: req.body.Username });
-    res.status(200).send({ data: Doctor });
-  }
+  console.log(req.query.Username)
+  const doc = await Doctor.findOne({Username: req.query.Username})
+  res.status(200).send(doc);
 };
 const deleteDoctor = async (req, res) => {
   //delete a Doctor from the database
@@ -109,5 +113,6 @@ module.exports = {
   updateDoctor,
   deleteDoctor,
   findDoctor,
+  addPatient4doctor,
 };
 

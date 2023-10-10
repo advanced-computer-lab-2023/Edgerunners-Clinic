@@ -15,7 +15,6 @@ export default function getPatient() {
       setDoctor(res.data);
     }
   }, []);
-  let patient = doctor.Patients;
-  return patient;
+  return doctor.Patients;
 }
 

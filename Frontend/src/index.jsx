@@ -12,12 +12,14 @@ import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
 import CreatePackage from "./Components/Packages/CreatePackage";
+
 import Doctors from "./Components/PatientHome/Doctors";
 import AdminBody from "./Components/Admin/Body";
 import SetAdmin from "./Components/Admin/SetAdmin";
 import RemovePar from "./Components/Admin/RemovePar";
-
-
+import DoctorReg from "./Components/Login_Reg/DoctorReg";
+import EditMyProf from "./Components/DoctorHome/EditMyProf";
+import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

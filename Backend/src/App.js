@@ -31,6 +31,7 @@ const {
   updateDoctor,
   deleteDoctor,
   findDoctor,
+  addPatient4doctor,
 } = require("./Routes/doctorController");
 
 const {
@@ -108,6 +109,7 @@ app.delete("/deletePatient", deletePatient);
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
 app.put("/updateDoctor", updateDoctor);
+app.put("/addPatient4Doctor",addPatient4doctor)
 app.delete("/deleteDoctor", deleteDoctor);
 app.get("/findDoctor", findDoctor);
 

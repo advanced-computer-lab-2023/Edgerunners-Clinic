@@ -21,6 +21,8 @@ root.render(
         <Route path="/Prescriptions" element={<Prescriptions />} />
         <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
         <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
+        <Route path="/UpdatePackage" element={<UpdatePackage />} />
+        <Route path="/Packages" element={<Packages />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

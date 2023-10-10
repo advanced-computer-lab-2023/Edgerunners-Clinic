@@ -1,7 +1,7 @@
 import { Card, Typography } from "@material-tailwind/react";
 import GetPackages,  {DeletePackages} from "./getPackages";
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useCallback  } from 'react';
 
 
 const handleSubmit = async (e) => 
@@ -41,20 +41,12 @@ const TABLE_ROWS = [
 ];
 
 
-
-
-
-
-
-
-
-
  
 export default function DefaultTable() {
  
   const [packages, setPackages] = useState(null);
   const [editMode, setEditMode] = useState({});
-
+  const [forceEffect, setForceEffect] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -63,10 +55,10 @@ export default function DefaultTable() {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    };
-
+  };
     fetchData();
-  }, []); // The empty dependency array ensures this effect runs only once when the component mounts
+    setForceEffect(false);
+  }, [forceEffect]); 
   const handleDelete = async (nameToDelete) => {
     try {
       await axios.delete("http://localhost:3001/deletePackage", {
@@ -87,14 +79,14 @@ export default function DefaultTable() {
   const handleToggleEdit = (name) => {
     setEditMode((prevEditMode) => ({
       ...prevEditMode,
-      [name]: !prevEditMode[name], // Toggle edit mode
+      [name]: !prevEditMode[name], 
     }));
   };
 
   const handleUpdate = async (p) => {
     try {
-      // Send the update request
 
+      console.log(p.NewdiscountDoctor);
       await axios.put("http://localhost:3001/updatePackage", {
         Name: p.Name,
         NewName: p.NewName,
@@ -103,27 +95,26 @@ export default function DefaultTable() {
         discountMedicin: p.discountMedicin,
         discountFamily: p.discountFamily,
       });
- 
-      // Toggle back to view mode
       setEditMode((prevEditMode) => ({
         ...prevEditMode,
         [p.Name]: false,
+        
       }));
-
-      // Optionally, you can also update your 'packages' state here to reflect the updated value.
       console.log("Update request sent successfully");
-      // window.reload()
+      
+      setForceEffect(true);
     } catch (error) {
       console.error("Error updating data:", error);
     }
   };
+  
   const handleCancel = async (name) => {
     try {
-      
       setEditMode((prevEditMode) => ({
         ...prevEditMode,
         [name]: false,
       }));
+      setForceEffect(true);
     } catch (error) {
       console.log(error)
     }
@@ -181,6 +172,7 @@ export default function DefaultTable() {
                       type="text"
                       defaultValue={p.discountDoctor}
                       onChange={(e) => {
+                        p.NewdiscountDoctor = p.discountDoctor
                         p.discountDoctor = e.target.value
                       }}
                     />
@@ -200,6 +192,7 @@ export default function DefaultTable() {
                       defaultValue={p.discountMedicin}
                       onChange={(e) => {
                         
+                        p.NewdiscountMedicin= p.discountMedicin
                         p.discountMedicin= e.target.value
                       }}
                     />
@@ -218,8 +211,8 @@ export default function DefaultTable() {
                       type="text"
                       defaultValue={p.discountFamily}
                       onChange={(e) => {
-                        
-                        p.discountFamily= e.target.value
+                        p.NewdiscountFamily= p.discountFamily;
+                        p.discountFamily= e.target.value;
                       }}
                     />
                   ) :(
@@ -237,7 +230,8 @@ export default function DefaultTable() {
                       type="text"
                       defaultValue={p.Price}
                       onChange={(e) => {
-                        p.price= e.target.value
+                        p.NewPrice= p.Price;
+                        p.Price= e.target.value;
                       }}
                     />
                   ) :(
@@ -253,7 +247,10 @@ export default function DefaultTable() {
                   <td className={classes}>
                   {isEditing ? (
                     <button
-                      onClick={() => handleUpdate(p)} // Pass the updated value
+                      onClick={() => {
+                        handleUpdate(p);
+                        
+                      }}
                     >
                       Update
                     </button>
@@ -273,7 +270,10 @@ export default function DefaultTable() {
                     
                     {isEditing ? (
                       <button
-                      onClick={() => handleCancel(p.Name)} // Pass the updated value
+                      onClick={() =>{
+                        handleCancel(p.Name)
+                        
+                      }} 
                       >
                         Cancel
                       </button>

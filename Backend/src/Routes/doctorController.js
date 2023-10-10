@@ -15,6 +15,7 @@ const createDoctor = async (req, res) => {
       Hourlyrate: req.body.Hourlyrate,
       Affiliation: req.body.Affiliation,
       Education: req.body.Education,
+      Status: "Pending",
     });
     res.status(200).send("Created successfully");
   } catch (e) {
@@ -24,12 +25,12 @@ const createDoctor = async (req, res) => {
 
 const getDoctors = async (req, res) => {
   try {
-    const {Name, Education} = req.query;
+    const { Name, Education } = req.query;
     const filter = {};
-    if (Name){
+    if (Name) {
       filter.Name = Name;
     }
-    if  (Education){
+    if (Education) {
       filter.Education = Education;
     }
     const Doctors = await Doctor.find(filter);
@@ -106,7 +107,6 @@ const deleteDoctor = async (req, res) => {
   }
 };
 
-
 module.exports = {
   createDoctor,
   getDoctors,
@@ -115,4 +115,3 @@ module.exports = {
   findDoctor,
   addPatient4doctor,
 };
-

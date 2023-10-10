@@ -12,9 +12,9 @@ import {
   faPrescriptionBottleMedical,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function PatientHome() {
+export default function DoctorHome() {
   return (
-    <div>
+    <div className="Bootstrap PatientHome">
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
@@ -64,6 +64,11 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#education">
+                    Follow Up Requests
+                  </a>
+                </li>
+                <li className="nav-item">
                   <a className="nav-link" aria-current="page" href="#about">
                     My Account
                   </a>
@@ -95,19 +100,23 @@ export default function PatientHome() {
             </div>
           </div>
         </nav>
-        <div className="information-div">
-          <div>
-            <Logo className="logo" width={800} height={800} />
-          </div>
+        <div className="information-div-doctor">
           <div className="welcome-div">
             <h1>Welcome To</h1>
             <h1>
               <span className="clinic-name">El-7a2ny </span>Medical Clinic
             </h1>
           </div>
+          <div className="doctor-img-div">
+            <img
+              className="doctor-img"
+              src="../resources/doctor.png"
+              alt="washing machine doctor image"
+            />
+          </div>
         </div>
       </div>
-      <div className="body">
+      <div className="body-doctor">
         <div className="description first">
           <FontAwesomeIcon
             className="icon"
@@ -151,7 +160,7 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Upload/Remove Documents</h3>
+            <h3>Add Prescription</h3>
             <p>upload/remove documents for my medical history</p>
           </div>
 
@@ -174,7 +183,7 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Make Appointment</h3>
+            <h3>Add Appointment</h3>
             <p>
               select an appointment date and time for myself or for a family
               member
@@ -186,7 +195,7 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Our Doctors</h3>
+            <h3>My Patients</h3>
             <p>view a list of all doctors along with their speciality</p>
           </div>
           <div className="col-4">
@@ -195,7 +204,7 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Health Packages</h3>
+            <h3>Add Health Records</h3>
             <p>view all details of selected doctor including specilaty</p>
           </div>
           <div className="col-4">

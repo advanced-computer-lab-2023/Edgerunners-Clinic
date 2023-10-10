@@ -1,4 +1,4 @@
-.PatientHome{
+.PatientHome {
   body {
     font-family: "Sen", sans-serif;
     margin: 0;
@@ -6,7 +6,7 @@
   }
 
   .nav-color-bg {
-    background-color: rgba(147, 175, 218, 0.3);
+    background-color: rgba(147, 175, 218, 0.8);
   }
 
   .nav-link {
@@ -37,6 +37,7 @@
   }
 
   .description {
+    z-index: 55;
     margin-top: -5rem;
     background-color: #fff;
     box-shadow: 2px 2px 2px 2px;
@@ -90,8 +91,32 @@
     font-size: 14px;
     text-align: left;
   }
-}
 
-.form-prescription {
-  margin-top: 20rem;
+  .form-prescription {
+    margin-top: 20rem;
+  }
+
+  .doctor-img {
+    width: auto;
+    height: 600px;
+  }
+
+  .doctor-img-div {
+    width: auto;
+    height: 600px;
+  }
+
+  .body-doctor {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .information-div-doctor {
+    display: flex;
+    padding: 4rem;
+    align-items: center;
+    font-weight: 700;
+    background-color: rgb(224, 233, 241);
+  }
 }

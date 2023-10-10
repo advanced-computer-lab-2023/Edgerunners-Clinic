@@ -44,10 +44,17 @@ const doctorSchema = new Schema(
       type: String,
       required: true,
     },
+
     Patients: {
       type: Array,
       required: false,
     },
+
+    Status: {
+      type: String,
+      enum: ["Pending", "Accepted"],
+      required: true,
+    }
   },
   { timestamps: true },
 );

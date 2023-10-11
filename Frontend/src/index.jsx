@@ -29,6 +29,7 @@ import RemovePar from "./Components/Admin/RemovePar";
 import DoctorHome from "./Components/DoctorHome/DoctorHome";
 import EditMyProf from "./Components/DoctorHome/EditMyProf";
 import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
+import ViewDocReq from "./Components/Admin/ViewDocReq";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -37,7 +38,7 @@ root.render(
     <BrowserRouter>
       <Routes>
 
-        <Route path="/" element={<DoctorHome/>} />
+        <Route path="/" element={<ViewDocReq/>} />
         <Route path ="/Doctors" element={<Doctors/>} />
         <Route path="/PatientHome" element={<PatientHome/>} />
         <Route path="/PatientReg" element={<PatientReg/>} />

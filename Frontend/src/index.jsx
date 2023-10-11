@@ -9,28 +9,23 @@ import Doctors from "./Components/PatientHome/Doctors";
 import DoctorReg from "./Components/Login_Reg/DoctorReg";
 import PatientReg from "./Components/Login_Reg/PatientReg";
 
-
 import Packages from "./Components/Packages/Packages";
 import UpdatePackage from "./Components/Packages/UpdatePackage";
 import PackagesForAdmin from "./Components/Packages/PackagesForAdmin";
 import CreatePackage from "./Components/Packages/CreatePackage";
 
-
 import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
-
 
 import AdminBody from "./Components/Admin/Body";
 import SetAdmin from "./Components/Admin/SetAdmin";
 import RemovePar from "./Components/Admin/RemovePar";
 
-
 import DoctorHome from "./Components/DoctorHome/DoctorHome";
 import EditMyProf from "./Components/DoctorHome/EditMyProf";
 import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 import ViewDocReq from "./Components/Admin/ViewDocReq";
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -49,16 +44,15 @@ root.render(
         <Route path="/UpdatePackage" element={<UpdatePackage />} />
         <Route path="/Packages" element={<Packages />} />
 
-        <Route path="/CreatePackage" element ={<CreatePackage/>} />
-        <Route path="/PackagesForAdmin" element={<PackagesForAdmin/>} />
-        <Route path="/AdminBody" element={<AdminBody/>} />
-        <Route path="/setAdmin" element={<SetAdmin/>} />
-        <Route path="/RemovePar" element={<RemovePar/>} />
-        <Route path="/DoctorHome" element={<DoctorHome/>}/>
-        <Route path="/EditMyProf" element={<EditMyProf/>}/>
-        <Route path="/ViewMyPatients" element={<ViewMyPatients/>}/>
-        <Route path="DoctorReg" element={<DoctorReg/>}/>
-
+        <Route path="/CreatePackage" element={<CreatePackage />} />
+        <Route path="/PackagesForAdmin" element={<PackagesForAdmin />} />
+        <Route path="/AdminBody" element={<AdminBody />} />
+        <Route path="/setAdmin" element={<SetAdmin />} />
+        <Route path="/RemovePar" element={<RemovePar />} />
+        <Route path="/DoctorHome" element={<DoctorHome />} />
+        <Route path="/EditMyProf" element={<EditMyProf />} />
+        <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
+        <Route path="/DoctorReg" element={<DoctorReg />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

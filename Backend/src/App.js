@@ -35,14 +35,13 @@ const {
 } = require("./Routes/doctorController");
 
 const {
-
   createRelation,
   getRelation,
   updateRelation,
   deleteRelation,
 } = require("./Routes/relationController");
 
-const{
+const {
   createPrescriptions,
   getPrescriptions,
   updatePrescriptions,
@@ -55,7 +54,6 @@ const {
   updateAppointment,
   deleteAppointment,
 } = require("./Routes/appointmentController");
-
 
 const MongoURI =
   process.env.MONGO_URI ||
@@ -109,7 +107,7 @@ app.delete("/deletePatient", deletePatient);
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
 app.put("/updateDoctor", updateDoctor);
-app.put("/addPatient4Doctor",addPatient4doctor)
+app.put("/addPatient4Doctor", addPatient4doctor);
 app.delete("/deleteDoctor", deleteDoctor);
 app.get("/findDoctor", findDoctor);
 
@@ -118,16 +116,10 @@ app.get("/getAdmin", getAdmins);
 app.put("/updateAdmin", updateAdmin);
 app.delete("/deleteAdmin", deleteAdmin);
 
-app.post("/addDoctor", createDoctor);
-app.get("/getDoctor", getDoctors);
-app.put("/updateDoctor", updateDoctor);
-app.delete("/deleteDoctor", deleteDoctor);
-
 app.post("/createPackage", createPackage);
 app.get("/getPackage", getPackage);
 app.put("/updatePackage", updatePackage);
 app.delete("/deletePackage", deletePackage);
-
 
 app.post("/createRelation", createRelation);
 app.get("/getRelation", getRelation);
@@ -143,4 +135,3 @@ app.post("/createAppointment", createAppointment);
 app.get("/getAppointment", getAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
-

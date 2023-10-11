@@ -8,6 +8,7 @@ export default function Prescriptions() {
   const [status, setStatus] = useState();
   console.log("date is: " + date);
   let Prescriptions = GetPrescriptions({
+    Patient: sessionStorage.getItem("Username"),
     Date: date,
     Doctor: doctor,
     Status: status,

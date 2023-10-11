@@ -1,5 +1,7 @@
 // #Task route solution
 const Doctor = require("../Models/Doctor.js");
+const Patient = require("../Models/Patient.js");
+const prescriptions = require("../Models/Prescriptions.js");
 const { default: mongoose } = require("mongoose");
 
 const createDoctor = async (req, res) => {
@@ -40,10 +42,21 @@ const getDoctors = async (req, res) => {
   }
 };
 
-const addPatient4doctor = async(req,res)=>{
-  await Doctor.updateOne({Username: "asd"},{$set:{Patients:["ahmed","mohamed"]}})
+const addPatient4doctor = async (req, res) => {
+  const doctorPatients = await Doctor.findOne({ Username: req.body.Username });
+  const patient = await Patient.findOne({ Username: req.body.UsernameP });
+  const Prescription = await prescriptions.findOne({
+    Patient: req.body.UsernameP,
+    Doctor: req.body.Username,
+  });
+  let result = doctorPatients.Patients;
+  result.push({ patient: patient, prescriptions: Prescription });
+  await Doctor.updateOne(
+    { Username: req.body.Username },
+    { $set: { Patients: result } },
+  );
   res.status(200).send("done");
-}
+};
 
 // const getPrescriptions = async (req, res) => {
 //   try {
@@ -70,9 +83,12 @@ const addPatient4doctor = async(req,res)=>{
 const updateDoctor = async (req, res) => {
   //update a Doctor in the database
   const user = req.body.Username;
-  console.log(req.body.Username)
+  console.log(req.body.Username);
   if (req.body.Email) {
-    await Doctor.updateOne({ Username: user }, { $set: { Email: req.body.Email } });
+    await Doctor.updateOne(
+      { Username: user },
+      { $set: { Email: req.body.Email } },
+    );
   }
   if (req.body.Hourlyrate) {
     await Doctor.updateOne(
@@ -89,8 +105,8 @@ const updateDoctor = async (req, res) => {
   res.status(200).send("Done");
 };
 const findDoctor = async (req, res) => {
-  console.log(req.query.Username)
-  const doc = await Doctor.findOne({Username: req.query.Username})
+  console.log(req.query.Username);
+  const doc = await Doctor.findOne({ Username: req.query.Username });
   res.status(200).send(doc);
 };
 const deleteDoctor = async (req, res) => {

@@ -25,13 +25,17 @@ const createDoctor = async (req, res) => {
 
 const getDoctors = async (req, res) => {
   try {
-    const { Name, Education } = req.query;
+    const { Name, Education, Status } = req.query;
     const filter = {};
     if (Name) {
       filter.Name = Name;
     }
     if (Education) {
       filter.Education = Education;
+    }
+    if(Status) {
+      filter.Status=Status;
+      console.log("cgvhxh");
     }
     const Doctors = await Doctor.find(filter);
     res.status(200).send(Doctors);

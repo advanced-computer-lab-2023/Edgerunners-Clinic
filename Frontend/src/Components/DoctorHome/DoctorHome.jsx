@@ -18,7 +18,7 @@ export default function DoctorHome() {
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-            <Logo />
+            <a href="/DoctorHome"><Logo /></a>
             <button
               className="navbar-toggler ps-0"
               type="button"

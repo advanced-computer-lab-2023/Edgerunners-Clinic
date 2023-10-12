@@ -72,7 +72,8 @@ function NewFamilyMem() {
       <div className="flex justify-center mt-10">
         <Card width="w-4/12" height=" h-[32rem]">
           <div className="flex justify-center mt-10 mb-0">
-            <Logo height="3rem" className="mr-9" />
+          <a href="/PatientHome"><Logo height="3rem" className="mr-9" /></a>
+            
             <h1 className="text-xl font-bold text-center text-sky-600 mr-8 mt-3">
               Add Family Member
             </h1>

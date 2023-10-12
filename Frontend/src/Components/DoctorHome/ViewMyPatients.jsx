@@ -15,7 +15,8 @@ function ViewMyPatients(props) {
             return (
               <div className=" flex justify-center" key={index}>
                 <Card width="w-full" height=" h-[12rem]">
-                  <Logo height="4rem" />
+                  
+                <a href="/DoctorHome"><Logo height="4rem" /></a>
                   <body>
                     Name:{user.patient.Name} , DOB:{user.patient.DOB} , Gender:
                     {user.patient.Gender} , phoneNumber :

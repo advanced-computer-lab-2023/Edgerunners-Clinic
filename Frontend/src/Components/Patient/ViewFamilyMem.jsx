@@ -10,6 +10,7 @@ export default function ViewFamilyMem() {
         <div className="event-schedule-area-two bg-color pad100">
           <div className="container">
             <div className="row col-lg-12 section-title text-center title-text">
+            <a href="/PatientHome"><Logo height="3rem" className="mr-9" /></a>
               <h2>Family Members</h2>
             </div>
             <div className="row">

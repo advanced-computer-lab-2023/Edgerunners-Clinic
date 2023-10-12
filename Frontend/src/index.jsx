@@ -26,17 +26,17 @@ import DoctorHome from "./Components/DoctorHome/DoctorHome";
 import EditMyProf from "./Components/DoctorHome/EditMyProf";
 import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 import ViewDocReq from "./Components/Admin/ViewDocReq";
+import AdminHome from "./Components/Admin/AdminHome";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-
-        <Route path="/" element={<ViewDocReq/>} />
-        <Route path ="/Doctors" element={<Doctors/>} />
-        <Route path="/PatientHome" element={<PatientHome/>} />
-        <Route path="/PatientReg" element={<PatientReg/>} />
+        <Route path="/AdminHome" element={<AdminHome />} />
+        <Route path="/Doctors" element={<Doctors />} />
+        <Route path="/PatientHome" element={<PatientHome />} />
+        <Route path="/PatientReg" element={<PatientReg />} />
 
         <Route path="/Prescriptions" element={<Prescriptions />} />
         <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
@@ -53,6 +53,7 @@ root.render(
         <Route path="/EditMyProf" element={<EditMyProf />} />
         <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
         <Route path="/DoctorReg" element={<DoctorReg />} />
+        <Route path="/ViewDocReq" element={<ViewDocReq />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

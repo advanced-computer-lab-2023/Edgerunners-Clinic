@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import Logo from "../../UI/UX/Logo";
 
 export default function CreatePackage() {
   const [name, setName] = useState("");
@@ -27,6 +28,9 @@ export default function CreatePackage() {
 
   return (
     <div>
+      <a href="/AdminHome">
+        <Logo />
+      </a>
       <form onSubmit={handleSubmit}>
         <div>
           <div>
@@ -79,9 +83,7 @@ export default function CreatePackage() {
               }}
             />
           </div>
-          <button type="submit">
-            submit
-          </button>
+          <button type="submit">submit</button>
         </div>
       </form>
     </div>

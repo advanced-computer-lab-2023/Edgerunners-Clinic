@@ -33,7 +33,7 @@ root.render(
     <BrowserRouter>
       <Routes>
 
-        <Route path="/" element={<ViewDocReq/>} />
+        <Route path="/" element={<PatientReg/>} />
         <Route path ="/Doctors" element={<Doctors/>} />
         <Route path="/PatientHome" element={<PatientHome/>} />
         <Route path="/PatientReg" element={<PatientReg/>} />

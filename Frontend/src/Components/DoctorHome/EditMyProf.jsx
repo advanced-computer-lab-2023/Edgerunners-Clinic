@@ -70,7 +70,8 @@ function EditMyProf(props) {
       <div className=" flex justify-center mt-8 mb-7">
         <Card width="w-4/12" height=" h-[40rem]">
           <div className=" flex justify-center  mt-6 mb-0 ">
-            <Logo height="4rem" />
+            
+            <a href="/DoctorHome"><Logo height="4rem" /></a>
             <h1 className=" text-2xl font-bold  text-center   text-blue-gray-600 ml-0   mt-6 ">
              
               My Profile

@@ -6,31 +6,32 @@ import getPatient from "./getPatients";
 import { GetSearchPatients } from "../PatientHome/getDoctors";
 
 function ViewMyPatients(props) {
-  const [searchPatient , setPatient] = useState();
+  const [searchPatient, setPatient] = useState();
   const [searchStatus, setStatus] = useState();
-  let myPatients = GetSearchPatients(
-    {Username: sessionStorage.getItem("Username"),
-  Name: searchPatient,
-  up: searchStatus})
+  let myPatients = GetSearchPatients({
+    Username: sessionStorage.getItem("Username"),
+    Name: searchPatient,
+    up: searchStatus,
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Fuck me!")
+    console.log("Fuck me!");
     myPatients = await GetSearchPatients({
       Username: sessionStorage.getItem("Username"),
       Name: searchPatient,
-      up: searchStatus
-    })
-    console.log("Updated",myPatients)
-  }
+      up: searchStatus,
+    });
+    console.log("Updated", myPatients);
+  };
   console.log(myPatients);
   if (myPatients) {
     return (
       <div className="tailwind">
         <a href="/DoctorHome">
-        <Logo />
-      </a>
+          <Logo />
+        </a>
         <div className=" justify-center flex mt-20">
-        <label htmlFor="">Patient Name:</label>
+          <label htmlFor="">Patient Name:</label>
           <input
             type="text"
             onChange={(e) => {
@@ -53,29 +54,31 @@ function ViewMyPatients(props) {
           <button type="submit" onClick={handleSubmit}>
             submit
           </button>
-          <div>
-          {console.log("res is ", myPatients)}
-          {myPatients.map((user, index) => {
-            
-            return (
-              <div className=" flex justify-center" key={index}>
-                <Card width="w-full" height=" h-[12rem]">
-                  
-                <a href="/DoctorHome"><Logo height="4rem" /></a>
-                  <body>
-                    Name:{user.Name}  
-                    DOB:{user.DOB} , Gender:
-                    {user.Gender} , phoneNumber :
-                    {user.phoneNumber}
-                    <br />
-                    Email:{user.Email}
-                  </body>
-                </Card>
-              </div>
-            );
-          })}
           </div>
-        </div>
+          <br/><br/>
+          <div className="flex justify-center">
+            {console.log("res is ", myPatients)}
+            {myPatients.map((user, index) => {
+              return (
+                <div className="flex justify-center" key={index}>
+                  <Card width="w-full" height=" h-[12rem]">
+                    <a href="/DoctorHome">
+                      <Logo height="4rem" />
+                    </a>
+                    <body>
+                      Name:{user.Name}
+                      DOB:{user.DOB} , Gender:
+                      {user.Gender} , phoneNumber :{user.phoneNumber}
+                      <br />
+                      Email:{user.Email}
+                    </body>
+                  </Card>
+                  <button>Select</button>
+                </div>
+              );
+            })}
+          </div>
+        
       </div>
     );
   }

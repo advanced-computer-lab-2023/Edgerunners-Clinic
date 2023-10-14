@@ -70,7 +70,7 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#contact">
+                  <a className="nav-link" aria-current="page" href="/patientReg">
                     Log Out
                   </a>
                 </li>

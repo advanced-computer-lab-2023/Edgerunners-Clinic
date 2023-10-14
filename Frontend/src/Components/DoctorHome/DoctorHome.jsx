@@ -74,7 +74,7 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#contact">
+                  <a className="nav-link" aria-current="page" href="/doctorReg">
                     Log Out
                   </a>
                 </li>

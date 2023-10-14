@@ -162,7 +162,7 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-             <a href = "http://localhost:5173/viewFamilyMem">
+             <a href = "/ViewFamilyMem">
             <h3>Family</h3>
             </a>
             <p>
@@ -189,7 +189,7 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href = "http://localhost:5173/Doctors">
+            <a href = "/Doctors">
             <h3>Our Doctors</h3>
             </a>
             <p>view a list of all doctors along with their speciality</p>
@@ -200,7 +200,7 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-             <a href = "http://localhost:5173/Packages">
+             <a href = "/Packages">
             <h3>Health Packages</h3>
             </a>
             <p>view all details of selected doctor including specilaty</p>
@@ -211,7 +211,9 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+            <a href="/Prescriptions">
             <h3>Pharmacy</h3>
+            </a>
             <p>view the available quantity, and sales of each medicine</p>
           </div>
         </div>

@@ -23,7 +23,8 @@ class DoctorReg extends Component{
 			DOB : this.state.signUp_DOB,
 			Hourlyrate: this.state.signUp_hourlyRate,
 			Affiliation : this.state.signUp_affiliation,
-            Education : this.state.signUp_education
+            Education : this.state.signUp_education,
+			Speciality : this.state.signUp_speciality
 		}
 			console.log(newUser);
 
@@ -74,6 +75,7 @@ render(){
 			<input onChange = {(event)=>{this.setState({signUp_DOB : event.currentTarget.value})}} type="date" placeholder="Date Of Birth" />
 			<input onChange = {(event)=>{this.setState({signUp_affiliation : event.currentTarget.value})}} type="text" placeholder="Affiliation" />
 			<input onChange = {(event)=>{this.setState({signUp_education : event.currentTarget.value})}} type="text" placeholder="Education" />
+			<input onChange = {(event)=>{this.setState({signUp_speciality: event.currentTarget.value})}} type="text" placeholder="Speciality" />
 			<button onClick = {this.signUp}> Sign Up</button>
 		</form>
 	</div>

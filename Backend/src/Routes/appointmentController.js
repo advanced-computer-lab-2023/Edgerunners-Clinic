@@ -32,24 +32,28 @@ const createAppointment = async (req, res) => {
 
 const getAppointments = async (req, res) => {
   try {
-    const { Date, DoctorUsername, Availability } = req.query;
+    const { Date, Speciality, Name } = req.query;
     const filter = {};
-    console.log(req.query.Date);
+    const filter2 = {};
     if (Date) {
       filter.Date = Date + "T22:00:00.000Z";
     }
-    if (DoctorUsername) {
-      filter.DoctorUsername = DoctorUsername;
+    if (Speciality) {
+      filter2.Speciality = Speciality;
+    }
+    if(Name){
+      filter2.Name = Name;
     }
     filter.Availability = "Available";
     const Appointments = await Appointment.find(filter);
     const r = [];
     for (let i = 0; i < Appointments.length; ++i) {
-      r.push(
-        await Doctor.findOne({ Username: Appointments[i].DoctorUsername }),
-      );
+      filter2.Username = Appointments[i].DoctorUsername;
+      const tmp = await Doctor.findOne(filter2);
+      if(tmp){
+        r.push(tmp);
+      }
     }
-    console.log(Appointments);
     res.status(200).send(r);
   } catch (e) {
     res.status(400).send("Error could not get Appointments !!");

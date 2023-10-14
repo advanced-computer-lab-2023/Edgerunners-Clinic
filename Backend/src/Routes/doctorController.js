@@ -17,6 +17,7 @@ const createDoctor = async (req, res) => {
       Hourlyrate: req.body.Hourlyrate,
       Affiliation: req.body.Affiliation,
       Education: req.body.Education,
+      Speciality: req.body.Speciality,
       Status: "Pending",
     });
     res.status(200).send("Created successfully");
@@ -27,13 +28,13 @@ const createDoctor = async (req, res) => {
 
 const getDoctors = async (req, res) => {
   try {
-    const { Name, Education, Status } = req.query;
+    const { Name, Speciality, Status } = req.query;
     const filter = {};
     if (Name) {
       filter.Name = Name;
     }
-    if (Education) {
-      filter.Education = Education;
+    if (Speciality) {
+      filter.Speciality = Speciality;
     }
     if(Status) {
       filter.Status=Status;

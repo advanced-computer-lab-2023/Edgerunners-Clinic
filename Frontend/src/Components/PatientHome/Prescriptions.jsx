@@ -14,8 +14,9 @@ export default function Prescriptions() {
     Status: status,
   });
   const handleSubmit = async (e) => {
-    e.preventDefaut();
+    e.preventDefault();
     Prescriptions = await GetPrescriptions({
+      Patient: sessionStorage.getItem("Username"),
       Date: date,
       Doctor: doctor,
       Status: status,

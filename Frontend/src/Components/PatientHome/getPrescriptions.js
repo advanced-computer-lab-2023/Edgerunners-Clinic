@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function GetPrescriptions({ Date, Doctor, Status }) {
+export default function GetPrescriptions({Patient, Date, Doctor, Status }) {
     const [Prescriptions, setPrescriptions] = useState([]);
   
     useEffect(() => {
@@ -9,6 +9,7 @@ export default function GetPrescriptions({ Date, Doctor, Status }) {
       async function getPrescriptions() {
         const res = await axios.get(`http://localhost:3001/getPrescriptions`, {
           params: {
+            Patient,
             Date,
             Doctor,
             Status,

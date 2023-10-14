@@ -49,6 +49,10 @@ const doctorSchema = new Schema(
       type: Array,
       required: false,
     },
+    Speciality: {
+      type: String, 
+      required: true
+    },
 
     Status: {
       type: String,

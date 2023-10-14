@@ -173,13 +173,9 @@ export default function DoctorHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/ViewFamilyMem">
-            <h3>Family</h3>
+            <h3>Schedule a Follow-Up</h3>
             </a>
-            <p>
-              add family members using name, National ID, age, gender and
-              relation to the patient link another patient account as a family
-              member
-            </p>
+            <p>schedule a follow-up for a patient</p>
           </div>
           <div className="col-4">
             <FontAwesomeIcon

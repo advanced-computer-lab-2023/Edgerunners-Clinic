@@ -9,7 +9,7 @@ export default function getRelation() {
       const x =  sessionStorage.getItem("Username");
       const res = await axios.get("http://localhost:3001/getRelation", {
         params: {
-          Username : "abdo"
+          Username : x
         }
       });
       setRelation(res.data);

@@ -1,5 +1,6 @@
 import React from "react";
 import getRelation from "./GetRelation";
+import Logo from "../../UI/UX/Logo";
 
 export default function ViewFamilyMem() {
     

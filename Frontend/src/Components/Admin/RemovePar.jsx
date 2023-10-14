@@ -14,7 +14,7 @@ function RemovePar(props) {
   }
   function confirmHandeler(event) {
     const username = { Username: usernameRef.current.value };
-    const roleValue = role.current.value;
+    let roleValue = role.current.value;
     console.log(roleValue);
     if (usernameRef.current.value === "") {
       setOk(true);
@@ -24,18 +24,19 @@ function RemovePar(props) {
       setWarning("please select a Role");
     } else {
       if (roleValue === "Admin") {
+        console.log(username);
         axios
-          .delete("http://localhost:3001/deleteAdmin", username, {})
+          .delete("http://localhost:3001/deleteAdmin",{data:username})
           .then((res) => {
             usernameRef.current.value = "";
           })
           .catch((error) => {
-            setWarning("this usernam is invalid");
+            setWarning("this username is invalid");
             setOk(true);
           });
       } else if (roleValue === "Doctor") {
         axios
-          .delete("http://localhost:3001/deleteDoctor", username, {})
+          .delete("http://localhost:3001/deleteDoctor", {data:username})
           .then((res) => {
             usernameRef.current.value = "";
             roleValue = "";
@@ -46,7 +47,7 @@ function RemovePar(props) {
           });
       } else {
         axios
-          .delete("http://localhost:3001/deletePatient", username, {})
+          .delete("http://localhost:3001/deletePatient", {data:username})
           .then((res) => {
             usernameRef.current.value = "";
             roleValue = "";

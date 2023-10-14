@@ -9,6 +9,7 @@ const {
   getPatients,
   updatePatient,
   deletePatient,
+  filterPatients,
 } = require("./Routes/patientController");
 
 const {
@@ -101,6 +102,7 @@ app.use(cors());
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);
 app.get("/getPatient", getPatients);
+app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 

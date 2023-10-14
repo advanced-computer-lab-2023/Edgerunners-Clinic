@@ -1,5 +1,6 @@
 import React from "react";
 import { ReactDOM } from "react-dom/client";
+import Logo from "../../UI/UX/Logo";
 
 import GetPackages from "./getPackages";
 import { Carousel, Typography, Button } from "@material-tailwind/react";
@@ -356,6 +357,9 @@ const platinumFeatures = [
       
     return (
     <div className="tailwind">
+      <a href="/PatientHome">
+        <Logo />
+      </a>
         <div className="bg-white py-30 sm:py-4" ></div>
         <div className="mx-auto max-w-2xl sm:text-center">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Health Care Packages</h2>

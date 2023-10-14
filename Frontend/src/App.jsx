@@ -13,6 +13,7 @@ import EditMyProf from "./Components/DoctorHome/EditMyProf";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
 import Doctors from "./Components/PatientHome/Doctors";
 import Prescriptions from './Components/PatientHome/Prescriptions';
+import PatientReg from "./Components/Login_Reg/PatientReg";
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
   return (
     <div className="App">
 
-      <Doctors/>
+      <PatientReg/>
 
     </div>
   );

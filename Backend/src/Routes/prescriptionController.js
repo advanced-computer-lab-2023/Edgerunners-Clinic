@@ -26,7 +26,7 @@ const getPrescriptions = async (req, res) => {
     const filter = {};
     if (Date) {
       console.log("hi");
-      filter.Date = Date + "T22:00:00.000Z";
+      filter.Date = Date + "T12:00:00.000Z";
     }
     if (Doctor) {
       filter.Doctor = Doctor;

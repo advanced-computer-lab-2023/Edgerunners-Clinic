@@ -3,36 +3,78 @@ import Card from "../../UI/UX/Card";
 import { useRef, useState } from "react";
 import axios from "axios";
 import getPatient from "./getPatients";
-import GetPrescriptions from "../PatientHome/getPrescriptions";
+import { GetSearchPatients } from "../PatientHome/getDoctors";
+
 function ViewMyPatients(props) {
-  let myPatients = getPatient();
+  const [searchPatient , setPatient] = useState();
+  const [searchStatus, setStatus] = useState();
+  let myPatients = GetSearchPatients(
+    {Username: sessionStorage.getItem("Username"),
+  Name: searchPatient,
+  up: searchStatus})
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Fuck me!")
+    myPatients = await GetSearchPatients({
+      Username: sessionStorage.getItem("Username"),
+      Name: searchPatient,
+      up: searchStatus
+    })
+    console.log("Updated",myPatients)
+  }
   console.log(myPatients);
   if (myPatients) {
     return (
       <div className="tailwind">
+        <a href="/DoctorHome">
+        <Logo />
+      </a>
         <div className=" justify-center flex mt-20">
+        <label htmlFor="">Patient Name:</label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setPatient(e.target.value);
+            }}
+          />
+          <label htmlFor="">See upcoming appointments: </label>
+          <input
+            type="checkbox"
+            name=""
+            id=""
+            onChange={(e) => {
+              if (e.target.checked) {
+                setStatus("abdo");
+              } else {
+                setStatus();
+              }
+            }}
+          />
+          <button type="submit" onClick={handleSubmit}>
+            submit
+          </button>
+          <div>
+          {console.log("res is ", myPatients)}
           {myPatients.map((user, index) => {
+            
             return (
               <div className=" flex justify-center" key={index}>
                 <Card width="w-full" height=" h-[12rem]">
                   
                 <a href="/DoctorHome"><Logo height="4rem" /></a>
                   <body>
-                    Name:{user.patient.Name} , DOB:{user.patient.DOB} , Gender:
-                    {user.patient.Gender} , phoneNumber :
-                    {user.patient.phoneNumber}
+                    Name:{user.Name}  
+                    DOB:{user.DOB} , Gender:
+                    {user.Gender} , phoneNumber :
+                    {user.phoneNumber}
                     <br />
-                    Email:{user.patient.Email}
-                    <br />
-                    Prescriptions:
-                    <br />
-                    Status:{user.prescriptions.Status},Date:
-                    {user.prescriptions.Date}
+                    Email:{user.Email}
                   </body>
                 </Card>
               </div>
             );
           })}
+          </div>
         </div>
       </div>
     );

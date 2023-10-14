@@ -1,5 +1,7 @@
 // #Task route solution
 const Patient = require("../Models/Patient.js");
+const Doctor = require("../Models/Doctor.js");
+const Appointment = require("../Models/Appointment.js");
 var bcrypt = require("bcrypt");
 const { default: mongoose } = require("mongoose");
 const hashPassword = async (password) => {
@@ -18,8 +20,8 @@ const createPatient = async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     DOB: req.body.DOB,
     EmergencyContact: {
-      FullnameEC: req.body.Fullnameec,
-      phoneNumberEC: req.body.phoneNumberec,
+      FullnameEC: req.body.EmergencyContact.FullnameEC,
+      phoneNumberEC: req.body.EmergencyContact.phoneNumberEC,
     },
   });
   res.status(200).send("Created successfully");
@@ -27,8 +29,60 @@ const createPatient = async (req, res) => {
 
 const getPatients = async (req, res) => {
   try {
-    const Patients = await Patient.find();
-    res.status(200).send({ data: Patients });
+    const {Name} = req.query;
+    const filter = {};
+    if (Name){
+      filter.Name = Name;
+    }
+    const Patients = await Patient.find(filter);
+    res.status(200).send(Patients);
+  } catch (e) {
+    res.status(400).send("Error could not get Patients !!");
+  }
+};
+
+const filterPatients = async (req, res) => {
+  try {
+    const { Name, Username, up } = req.query;
+    const filter = {};
+    const filter2 = {};
+    console.log({ Name, Username, up });
+    if (Name){
+      filter2.PatientUsername = Name;
+    }
+    if (Username){
+      filter.Username = Username;
+      filter2.DoctorUsername = Username;
+    }
+    
+    const doctor = await Doctor.findOne(filter);
+    const patients = doctor.Patients;
+    const r = [];
+    const puser = [];
+    for(let i = 0; i < patients.length; ++i){
+      if(!Name){
+        r.push(patients[i].patient);
+        puser.push(patients[i].patient.Username);
+      }else if(patients[i].patient.Name == Name){
+        r.push(patients[i].patient);
+        puser.push(patients[i].patient.Username);
+      }
+    }
+
+    const rr = [];
+    for(let i = 0; i < puser.length; ++i){
+      filter2.PatientUsername = puser[i];
+      const ap = await Appointment.findOne(filter2);
+      if(ap && ap.Date >= Date.now()){
+        rr.push(ap);
+      }
+    }
+
+    if(up == "abdo"){
+      res.status(200).send(rr);
+    }else{
+      res.status(200).send(r);
+    }
   } catch (e) {
     res.status(400).send("Error could not get Patients !!");
   }
@@ -52,4 +106,4 @@ const deletePatient = async (req, res) => {
   }
 };
 
-module.exports = { createPatient, getPatients, updatePatient, deletePatient };
+module.exports = { createPatient, getPatients, updatePatient, deletePatient, filterPatients };

@@ -2,6 +2,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import GetPackages,  {DeletePackages} from "./getPackages";
 import axios from "axios";
 import React, { useState, useEffect , useCallback  } from 'react';
+import Logo from "../../UI/UX/Logo";
 
 
 const handleSubmit = async (e) => 
@@ -127,6 +128,9 @@ export default function DefaultTable() {
   }else{
     return (
       <div className="tailwind">
+        <a href="/AdminHome">
+        <Logo />
+      </a>
       <Card className="h-full w-full overflow-scroll">
         <table className="w-full min-w-max table-auto text-left">
           <thead>

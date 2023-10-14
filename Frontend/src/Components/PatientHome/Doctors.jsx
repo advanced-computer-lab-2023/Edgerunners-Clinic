@@ -6,24 +6,28 @@ import { UpdateAppointments } from "./getAppoinments";
 import axios from "axios";
 
 export default function Doctors() {
-  const [education, setEducation] = useState();
+  const [speciality, setSpeciality] = useState();
   const [name, setName] = useState();
   const [date, setDate] = useState();
   let Doc = GetDoctors({
-    Education: education,
+    Speciality: speciality,
     Name: name,
   });
   let appointmentDate = GetAppointments({
     Date: date,
+    Speciality: speciality,
+    Name: name,
   });
   const handleSubmit = async (e) => {
     e.preventDefaut();
     Doc = await GetDoctors({
-      Education: education,
+      Speciality: speciality,
       Name: name,
     });
     appointmentDate = await GetAppointments({
       Date: date,
+      Speciality: speciality,
+      Name: name,
     });
   };
   const handleSubmit2 = async (e, doctor) => {
@@ -33,6 +37,7 @@ export default function Doctors() {
       Availability: "Reserved",
     });
   };
+  console.log(appointmentDate);
 
   if (Doc || appointmentDate) {
     console.log(appointmentDate);
@@ -134,7 +139,7 @@ export default function Doctors() {
             name=""
             id=""
             onChange={(e) => {
-              setEducation(e.target.value);
+              setSpeciality(e.target.value);
             }}
           />
           <label htmlFor="">doctor</label>
@@ -176,9 +181,12 @@ export default function Doctors() {
           {appointmentDate.map((a, index) => {
             return (
               <div key={index}>
-                <p>{a.Username}</p>
-                
-                <p>{a.Education}</p>
+                <p>Name: {a.Name}</p>
+                <p>Speciality: {a.Speciality}</p>
+                <p>Session Price/hour: {a.Hourlyrate}</p>
+                <p>Hospital: {a.Affiliation}</p>
+                <p>Education: {a.Education}</p>
+                <p>Available Date:{a.Date}</p>
                 <button
                   onClick={(e) =>
                     handleSubmit2(e, a.Username)

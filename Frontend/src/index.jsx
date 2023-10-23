@@ -28,6 +28,7 @@ import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 import ViewDocReq from "./Components/Admin/ViewDocReq";
 import AdminHome from "./Components/Admin/AdminHome";
 import ChangePass from "./Components/Patient/ChangePass";
+import ResetPass from "./Components/Login_Reg/ResetPass";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -40,6 +41,7 @@ root.render(
         <Route path="/PatientHome" element={<PatientHome />} />
         <Route path="/PatientReg" element={<PatientReg />} />
         <Route path="/ChangePass" element={<ChangePass />} />
+        <Route path="/ResetPass" element={<ResetPass />} />
 
         <Route path="/Prescriptions" element={<Prescriptions />} />
         <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />

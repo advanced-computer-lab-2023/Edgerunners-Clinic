@@ -13,7 +13,44 @@ class DoctorReg extends Component{
 		signIn_username : null,
 		signIn_password : null,
 		signUp_gender:null,
+		file:null,
 	};
+
+   handleFileChange = (e) => {
+    if (e.target.files) {
+	  this.setState({file : e.target.files[0]})
+    }
+  };
+
+   handleUpload = async () => {
+	
+    if (this.state.file) {
+      const formData = new FormData();
+      formData.append("Username", this.state.signUp_username);
+      formData.append("Name", this.state.signUp_name);
+      formData.append("Email", this.state.signUp_email);
+      formData.append("Password", this.state.signUp_password);
+	  formData.append("DOB", this.state.signUp_DOB);
+      formData.append("Hourlyrate", this.state.signUp_hourlyRate);
+      formData.append("Affiliation",this.state.signUp_affiliation);
+      formData.append("Education", this.state.signUp_education);
+      formData.append("Speciality", this.state.signUp_speciality);
+	  formData.append("file", this.state.file);
+    console.log(sessionStorage.getItem("Username"));
+      try {
+        const result = await fetch("http://localhost:3001/doctorUploadFile", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await result.json();
+
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 	signUp= (event) =>{ 
 		const newUser = {
 			Username : this.state.signUp_username,
@@ -28,7 +65,7 @@ class DoctorReg extends Component{
 		}
 			console.log(newUser);
 
-			axios.post('http://localhost:3001/addDoctor', newUser)
+			axios.post('http://localhost:3001/doctorUploadFile', newUser)
 			.then(res => {
 			  console.log(res)
 			}).catch(err =>{
@@ -76,7 +113,19 @@ render(){
 			<input onChange = {(event)=>{this.setState({signUp_affiliation : event.currentTarget.value})}} type="text" placeholder="Affiliation" />
 			<input onChange = {(event)=>{this.setState({signUp_education : event.currentTarget.value})}} type="text" placeholder="Education" />
 			<input onChange = {(event)=>{this.setState({signUp_speciality: event.currentTarget.value})}} type="text" placeholder="Speciality" />
-			<button onClick = {this.signUp}> Sign Up</button>
+			<div className="input-group">
+        <label htmlFor="file" className="sr-only">
+          Choose a file
+        </label>
+        <input id="file" type="file" onChange={this.handleFileChange} />
+      </div>
+
+      {this.state.file && (
+        <button onClick={this.handleUpload} className="submit">
+          Sign Up
+        </button>
+      )}
+			{/* <button onClick = {this.handleUpload}> Sign Up</button> */}
 		</form>
 	</div>
 	<div class="form-container sign-in-container">

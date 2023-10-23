@@ -29,9 +29,9 @@ const createPatient = async (req, res) => {
 
 const getPatients = async (req, res) => {
   try {
-    const {Name} = req.query;
+    const { Name } = req.query;
     const filter = {};
-    if (Name){
+    if (Name) {
       filter.Name = Name;
     }
     const Patients = await Patient.find(filter);
@@ -47,40 +47,40 @@ const filterPatients = async (req, res) => {
     const filter = {};
     const filter2 = {};
     console.log({ Name, Username, up });
-    if (Name){
+    if (Name) {
       filter2.PatientUsername = Name;
     }
-    if (Username){
+    if (Username) {
       filter.Username = Username;
       filter2.DoctorUsername = Username;
     }
-    
+
     const doctor = await Doctor.findOne(filter);
     const patients = doctor.Patients;
     const r = [];
     const puser = [];
-    for(let i = 0; i < patients.length; ++i){
-      if(!Name){
+    for (let i = 0; i < patients.length; ++i) {
+      if (!Name) {
         r.push(patients[i].patient);
         puser.push(patients[i].patient.Username);
-      }else if(patients[i].patient.Name == Name){
+      } else if (patients[i].patient.Name == Name) {
         r.push(patients[i].patient);
         puser.push(patients[i].patient.Username);
       }
     }
 
     const rr = [];
-    for(let i = 0; i < puser.length; ++i){
+    for (let i = 0; i < puser.length; ++i) {
       filter2.PatientUsername = puser[i];
       const ap = await Appointment.findOne(filter2);
-      if(ap && ap.Date >= Date.now()){
+      if (ap && ap.Date >= Date.now()) {
         rr.push(ap);
       }
     }
 
-    if(up == "abdo"){
+    if (up == "abdo") {
       res.status(200).send(rr);
-    }else{
+    } else {
       res.status(200).send(r);
     }
   } catch (e) {
@@ -89,7 +89,13 @@ const filterPatients = async (req, res) => {
 };
 
 const updatePatient = async (req, res) => {
-  //update a Patient in the database
+  const password = req.query.Password;
+  const username = req.params.Username;
+  Patient.updateOne(
+    { Username: username },
+    { $set: { Password: password } },
+  ).catch("an error happened");
+  res.status(200).send("all good");
 };
 
 const deletePatient = async (req, res) => {
@@ -106,4 +112,10 @@ const deletePatient = async (req, res) => {
   }
 };
 
-module.exports = { createPatient, getPatients, updatePatient, deletePatient, filterPatients };
+module.exports = {
+  createPatient,
+  getPatients,
+  updatePatient,
+  deletePatient,
+  filterPatients,
+};

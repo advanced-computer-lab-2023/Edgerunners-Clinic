@@ -58,6 +58,11 @@ const doctorSchema = new Schema(
       type: String,
       enum: ["Pending", "Accepted"],
       required: true,
+    },
+    
+    FileNames:{
+      type: Array,
+      required: false,
     }
   },
   { timestamps: true },

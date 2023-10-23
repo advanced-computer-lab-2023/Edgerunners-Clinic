@@ -53,6 +53,10 @@ const patientSchema = new Schema(
       type: Array,
       required: false,
     },
+    FileNames:{
+      type: Array,
+      required: false,
+    }
   },
   { timestamps: true },
 );

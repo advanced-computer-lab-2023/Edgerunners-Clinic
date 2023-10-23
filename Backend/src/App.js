@@ -2,6 +2,7 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+var fileUpload = require("express-fileupload");
 mongoose.set("strictQuery", false);
 require("dotenv").config();
 const {
@@ -10,6 +11,7 @@ const {
   updatePatient,
   deletePatient,
   filterPatients,
+  patientUploadFile,
 } = require("./Routes/patientController");
 
 const {
@@ -33,6 +35,7 @@ const {
   deleteDoctor,
   findDoctor,
   addPatient4doctor,
+  doctorUploadFile,
 } = require("./Routes/doctorController");
 
 const {
@@ -95,12 +98,20 @@ const cors = require("cors");
 const { protectA, protectD, protectP, signin } = require("./Models/auth");
 
 app.use(cors());
+app.use(
+  fileUpload({
+    createParentPath: true,
+    defCharset: 'utf8',
+    defParamCharset: 'utf8',
+  }),
+);
 // app.use(function(req, res, next){
 //   res.setHeader('Access-Control-Allow-Origin', '*');
 // });
 
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);
+app.post("/patientUploadFile", patientUploadFile);
 app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
@@ -112,6 +123,7 @@ app.put("/updateDoctor", updateDoctor);
 app.put("/addPatient4Doctor", addPatient4doctor);
 app.delete("/deleteDoctor", deleteDoctor);
 app.get("/findDoctor", findDoctor);
+app.post("/doctorUploadFile", doctorUploadFile);
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);

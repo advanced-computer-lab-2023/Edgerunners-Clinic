@@ -30,6 +30,8 @@ import AdminHome from "./Components/Admin/AdminHome";
 import ChangePass from "./Components/Patient/ChangePass";
 import ResetPass from "./Components/Login_Reg/ResetPass";
 
+import UploadDocuments from "./Components/PatientHome/uploadDocuments";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -59,6 +61,7 @@ root.render(
         <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
         <Route path="/DoctorReg" element={<DoctorReg />} />
         <Route path="/ViewDocReq" element={<ViewDocReq />} />
+        <Route path="/UploadDocuments" element={<UploadDocuments />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

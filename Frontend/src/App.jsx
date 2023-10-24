@@ -28,11 +28,11 @@ function App() {
   return (
     <div className="App">
 
-<<<<<<< Updated upstream
+
       <PatientReg/>
-=======
+
       <EditMyProf/>
->>>>>>> Stashed changes
+
 
     </div>
   );

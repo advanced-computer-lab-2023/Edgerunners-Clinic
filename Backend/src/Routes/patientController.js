@@ -11,7 +11,7 @@ const hashPassword = async (password) => {
 const createPatient = async (req, res) => {
   //add a new Patient to the database with
   //Name, Email and Age
-  try{
+  try {
     await Patient.create({
       Username: req.body.Username,
       Password: await hashPassword(req.body.Password),
@@ -27,7 +27,7 @@ const createPatient = async (req, res) => {
       },
     });
     res.status(200).send("Created successfully");
-  }catch(e){
+  } catch (e) {
     res.status(400).send("Failed To Create");
   }
 };
@@ -37,7 +37,7 @@ const patientUploadFile = async (req, res) => {
   console.log(username);
   const filter = {};
   filter.Username = username;
-  const patient = await Patient.findOne({Username: username});
+  const patient = await Patient.findOne({ Username: username });
   console.log(patient);
   const size = patient.FileNames.length + 1;
   const filename = username + "-" + size + ".pdf";
@@ -122,6 +122,16 @@ const updatePatient = async (req, res) => {
   res.status(200).send("all good");
 };
 
+const ResetPass = async (req, res) => {
+  const newPassword = req.query.Password;
+  const email = req.params.Email;
+  await Patient.updateOne(
+    { Email: email },
+    { $set: { Password: newPassword } },
+  ).catch("an error happened");
+  res.status(200).send("all good");
+};
+
 const deletePatient = async (req, res) => {
   //delete a Patient from the database
   try {
@@ -143,4 +153,5 @@ module.exports = {
   deletePatient,
   filterPatients,
   patientUploadFile,
+  ResetPass,
 };

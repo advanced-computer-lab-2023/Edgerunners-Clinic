@@ -12,6 +12,7 @@ const {
   deletePatient,
   filterPatients,
   patientUploadFile,
+  ResetPass,
 } = require("./Routes/patientController");
 
 const {
@@ -101,8 +102,8 @@ app.use(cors());
 app.use(
   fileUpload({
     createParentPath: true,
-    defCharset: 'utf8',
-    defParamCharset: 'utf8',
+    defCharset: "utf8",
+    defParamCharset: "utf8",
   }),
 );
 // app.use(function(req, res, next){
@@ -116,6 +117,7 @@ app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
+app.put("/ResetPass", ResetPass);
 
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);

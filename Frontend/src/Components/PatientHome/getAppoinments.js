@@ -36,3 +36,39 @@ export function UpdateAppointments({ PatientUsername, DoctorUsername }) {
 
   return "done";
 }
+
+export function FilterAppointmentsDate({ Date, PatientUsername }) {
+  const [Appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    getMyAppointments();
+    async function getMyAppointments() {
+      const res = await axios.get(`http://localhost:3001/filterDateAppointments`, {
+        params: {
+          Date, PatientUsername
+        },
+      });
+      setAppointments(res.data);
+    }
+  }, [Date, PatientUsername]);
+
+  return Appointments;
+}
+
+export function FilterAppointmentsStatus({ Status, PatientUsername }) {
+  const [Appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    getMyAppointmentsD();
+    async function getMyAppointmentsD() {
+      const res = await axios.get(`http://localhost:3001/filterStatusAppointments`, {
+        params: {
+          Status, PatientUsername
+        },
+      });
+      setAppointments(res.data);
+    }
+  }, [Status, PatientUsername]);
+
+  return Appointments;
+}

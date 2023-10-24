@@ -28,7 +28,11 @@ function App() {
   return (
     <div className="App">
 
+
       <PatientReg/>
+
+      <EditMyProf/>
+
 
     </div>
   );

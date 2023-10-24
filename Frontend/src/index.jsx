@@ -31,6 +31,7 @@ import ChangePass from "./Components/Patient/ChangePass";
 import ResetPass from "./Components/Login_Reg/ResetPass";
 
 import UploadDocuments from "./Components/PatientHome/uploadDocuments";
+import DoctorRequests from "./Components/Admin/DoctorRequests";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -62,6 +63,7 @@ root.render(
         <Route path="/DoctorReg" element={<DoctorReg />} />
         <Route path="/ViewDocReq" element={<ViewDocReq />} />
         <Route path="/UploadDocuments" element={<UploadDocuments />} />
+        <Route path="/DoctorRequests" element={<DoctorRequests/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

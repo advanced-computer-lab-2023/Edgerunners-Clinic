@@ -23,6 +23,7 @@ const createAppointment = async (req, res) => {
       DoctorUsername: req.body.DoctorUsername,
       Date: req.body.Date,
       Availability: "Available",
+      Status: "Upcoming",
     });
     res.status(200).send("Created successfully");
   } else {
@@ -41,7 +42,7 @@ const getAppointments = async (req, res) => {
     if (Speciality) {
       filter2.Speciality = Speciality;
     }
-    if(Name){
+    if (Name) {
       filter2.Name = Name;
     }
     filter.Availability = "Available";
@@ -50,7 +51,7 @@ const getAppointments = async (req, res) => {
     for (let i = 0; i < Appointments.length; ++i) {
       filter2.Username = Appointments[i].DoctorUsername;
       const tmp = await Doctor.findOne(filter2);
-      if(tmp){
+      if (tmp) {
         r.push(tmp);
       }
     }
@@ -73,6 +74,56 @@ const updateAppointment = async (req, res) => {
   res.status(200).send("Updated!!");
 };
 
+const updateAppointmentStatus = async (req, res) => {
+  try{
+    await Appointment.updateOne(
+      {
+        DoctorUsername: req.body.DoctorUsername,
+      },
+      {
+        $set: { Status: req.body.Status },
+      },
+    );
+    console.log("here");
+    res.status(200).send("Updated!!");
+  }catch(e){
+    res.status(400).send("Not Updated!!");
+  }
+};
+
+const filterDateAppointments = async (req, res) => {
+  const {PatientUsername, DoctorUsername, Date} = req.query;
+  const filter = {};
+  if(PatientUsername){
+    filter.PatientUsername = PatientUsername;
+  }
+  if(DoctorUsername){
+    filter.DoctorUsername = DoctorUsername;
+  }
+  if(Date){
+    filter.Date = Date+"T10:30:00.000Z";
+  }
+  const Appointments = await Appointment.find(filter);
+  res.status(200).send(Appointments);
+}
+
+const filterStatusAppointments = async (req, res) => {
+  const {PatientUsername, DoctorUsername, Status} = req.query;
+  const filter = {};
+  if(PatientUsername){
+    filter.PatientUsername = PatientUsername;
+  }
+  if(DoctorUsername){
+    filter.DoctorUsername = DoctorUsername;
+  }
+  if(Status){
+    filter.Status = Status;
+  }
+  const Appointments = await Appointment.find(filter);
+  res.status(200).send(Appointments);
+}
+
+
 const deleteAppointment = async (req, res) => {
   //delete a Doctor from the database
   try {
@@ -88,4 +139,7 @@ module.exports = {
   getAppointments,
   updateAppointment,
   deleteAppointment,
+  updateAppointmentStatus,
+  filterDateAppointments,
+  filterStatusAppointments,
 };

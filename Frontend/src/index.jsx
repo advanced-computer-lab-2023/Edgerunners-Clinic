@@ -20,6 +20,7 @@ import NewFamilyMem from "./Components/Patient/NewFamilyMem";
 
 import AdminBody from "./Components/Admin/Body";
 import SetAdmin from "./Components/Admin/SetAdmin";
+import PatientAppointments from "./Components/PatientHome/MyAppointments";
 import RemovePar from "./Components/Admin/RemovePar";
 
 import DoctorHome from "./Components/DoctorHome/DoctorHome";
@@ -29,11 +30,16 @@ import ViewDocReq from "./Components/Admin/ViewDocReq";
 import AdminHome from "./Components/Admin/AdminHome";
 import ChangePass from "./Components/Patient/ChangePass";
 
+import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        <Route path="/PatientAppointments" element={<PatientAppointments />} />
+        <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
+
         <Route path="/" element={<PatientReg />} />
         <Route path="/AdminHome" element={<AdminHome />} />
         <Route path="/Doctors" element={<Doctors />} />

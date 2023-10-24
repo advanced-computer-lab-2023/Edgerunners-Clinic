@@ -54,6 +54,9 @@ const {
   getAppointments,
   updateAppointment,
   deleteAppointment,
+  filterDateAppointments,
+  filterStatusAppointments,
+  updateAppointmentStatus,
 } = require("./Routes/appointmentController");
 
 const MongoURI =
@@ -135,5 +138,7 @@ app.delete("/deletePrescriptions", deletePrescriptions);
 
 app.post("/createAppointment", createAppointment);
 app.get("/getAppointment", getAppointments);
+app.get("/filterDateAppointments", filterDateAppointments);
+app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.delete("/deleteAppointment", deleteAppointment);

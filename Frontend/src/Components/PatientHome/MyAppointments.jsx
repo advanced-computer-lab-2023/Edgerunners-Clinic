@@ -1,45 +1,42 @@
 import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
-import GetDoctors from "./getDoctors";
-import GetAppointments from "./getAppoinments";
-import axios from "axios";
+import {
+  FilterAppointmentsDate,
+  FilterAppointmentsStatus,
+} from "./getAppoinments";
 
-export default function Doctors() {
-  const [speciality, setSpeciality] = useState();
-  const [name, setName] = useState();
+export default function PatientAppointments() {
+  const [state, setState] = useState();
+  const [which, setWhich] = useState(false);
+  const PatientUsername = sessionStorage.getItem("Username");
   const [date, setDate] = useState();
-  let Doc = GetDoctors({
-    Speciality: speciality,
-    Name: name,
+
+  let appointmentStatus = FilterAppointmentsStatus({
+    Status: state,
+    PatientUsernameName: PatientUsername,
   });
-  let appointmentDate = GetAppointments({
+
+  let appointmentDate = FilterAppointmentsDate({
     Date: date,
-    Speciality: speciality,
-    Name: name,
+    PatientUsernameName: PatientUsername,
   });
+
   const handleSubmit = async (e) => {
     e.preventDefaut();
-    Doc = await GetDoctors({
-      Speciality: speciality,
-      Name: name,
-    });
-    appointmentDate = await GetAppointments({
+    appointmentDate = FilterAppointmentsDate({
       Date: date,
-      Speciality: speciality,
-      Name: name,
+      PatientUsernameName: PatientUsername,
     });
   };
-  const handleSubmit2 = async (e, doctor) => {
+  const handleSubmit2 = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:3001/updateAppointment`, {
-      DoctorUsername: doctor,
-      Availability: "Reserved",
+    appointmentStatus = FilterAppointmentsStatus({
+      Status: state,
+      PatientUsernameName: PatientUsername,
     });
   };
-  console.log(appointmentDate);
 
-  if (Doc || appointmentDate) {
-    console.log(appointmentDate);
+  if (appointmentDate || appointmentStatus) {
     return (
       <div className="Bootstrap PatientHome">
         <div className="header">
@@ -134,22 +131,19 @@ export default function Doctors() {
           </nav>
         </div>
         <div className="form-prescription">
-          <label htmlFor="">Speciality</label>
-          <input
-            type="text"
-            name=""
-            id=""
+          <label htmlFor="">Status</label>
+          <select
             onChange={(e) => {
-              setSpeciality(e.target.value);
+              setState(e.target.value);
+              setWhich(true);
             }}
-          />
-          <label htmlFor="">doctor</label>
-          <input
-            type="text"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
+          >
+            <option value="Boody"></option>
+            <option value="Upcoming">Upcoming</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Rescheduled">Rescheduled</option>
+            <option value="Completed">Completed</option>
+          </select>
           <label htmlFor="">Date</label>
           <input
             type="date"
@@ -157,43 +151,31 @@ export default function Doctors() {
             id=""
             onChange={(e) => {
               setDate(e.target.value);
+              setWhich(false);
             }}
           />
-          <button type="submit" onSubmit={handleSubmit}>
-            submit
-          </button>
         </div>
         <div>
-          {/* {Doc.map((d, index) => {
-            return (
-              <div key={index}>
-                <a>{d.Name}</a>
-                <br />
-                <a>{d.Hourlyrate + " EGP"}</a>
-                <br />
-                <a>{d.Affiliation}</a>
-                <br />
-                <a>{d.Education}</a>
-                <br />
-                <button>select</button>
-              </div>
-            );
-          })} */}
-          {appointmentDate.map((a, index) => {
-            return (
-              <div key={index}>
-                <p>Name: {a.Name}</p>
-                <p>Speciality: {a.Speciality}</p>
-                <p>Session Price/hour: {a.Hourlyrate}</p>
-                <p>Hospital: {a.Affiliation}</p>
-                <p>Education: {a.Education}</p>
-                <p>Available Date:{a.Date}</p>
-                <button onClick={(e) => handleSubmit2(e, a.Username)}>
-                  reserve
-                </button>
-              </div>
-            );
-          })}
+          {which
+            ? appointmentStatus.map((a, index) => {
+                return (
+                  <div key={index}>
+                    <p>Name: {a.DoctorUsername}</p>
+                    <p>Availability: {a.Availability}</p>
+                    <p>Status: {a.Status}</p>
+                    <p>Available Date:{a.Date}</p>
+                  </div>
+                );
+              })
+            : appointmentDate.map((a, index) => {
+                return (
+                  <div key={index}>
+                    <p> Doctor name: {a.DoctorUsername}</p>
+                    <p>Status: {a.Status}</p>
+                    <p>Appointment Date:{a.Date}</p>
+                  </div>
+                );
+              })}
         </div>
       </div>
     );

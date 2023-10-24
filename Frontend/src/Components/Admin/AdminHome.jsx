@@ -187,7 +187,7 @@ export default function AdminHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/ViewDocReq">
+            <a href="/DoctorRequests">
               <h3>View Doctor Requests</h3>
             </a>
             <p>View doctors trying to join the system</p>

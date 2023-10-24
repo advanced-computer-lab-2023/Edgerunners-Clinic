@@ -68,7 +68,6 @@ const getDoctors = async (req, res) => {
     }
     if(Status) {
       filter.Status=Status;
-      console.log("cgvhxh");
     }
     const Doctors = await Doctor.find(filter);
     res.status(200).send(Doctors);
@@ -136,6 +135,16 @@ const updateDoctor = async (req, res) => {
       { Username: user },
       { $set: { Affiliation: req.body.Affiliation } },
     );
+  }
+  if (req.body.Status) {
+    if(req.body.Status === "Rejected"){
+      await Doctor.deleteOne({ Username: req.body.Username });
+    }else{
+      await Doctor.updateOne(
+        { Username: user },
+        { $set: { Status: req.body.Status } }
+      );
+    }
   }
   res.status(200).send("Done");
 };

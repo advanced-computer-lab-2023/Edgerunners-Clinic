@@ -1,29 +1,29 @@
 // #Task route solution
-const Appointment= require("../Models/Appointment.js");
+const Appointment = require("../Models/Appointment.js");
 const Patient = require("../Models/Patient.js");
 const Doctor = require("../Models/Doctor.js");
 const { default: mongoose } = require("mongoose");
 
 const createAppointment = async (req, res) => {
-  //try {
-  await Appointment.create({
-    DoctorUsername: req.body.DoctorUsername,
-    PatientUsername: "",
-    Date: req.body.Date,
-    TimeH: req.body.TimeH,
-    TimeM: req.body.TimeM,
-    Availability: "Available",
-    Status: "Upcoming",
-  });
-  // await Mango.create({
-  //   variety: req.body.variety,
-  // countryOfOrigin: req.body.countryOfOrigin,
-  // });
-  res.status(200).send("Created successfully");
-  // } catch (e) {
-  //   console.log(e);
-  //   res.status(400).send("either patient or doctor is not found");
-  // }
+  try {
+    await Appointment.create({
+      DoctorUsername: req.body.DoctorUsername,
+      PatientUsername: "",
+      Date: req.body.Date,
+      TimeH: req.body.TimeH,
+      TimeM: req.body.TimeM,
+      Availability: "Available",
+      Status: "Upcoming",
+    });
+    // await Mango.create({
+    //   variety: req.body.variety,
+    // countryOfOrigin: req.body.countryOfOrigin,
+    // });
+    res.status(200).send("Created successfully");
+  } catch (e) {
+    console.log(e);
+    res.status(400).send("either patient or doctor is not found");
+  }
 };
 
 const getAppointments = async (req, res) => {
@@ -32,7 +32,7 @@ const getAppointments = async (req, res) => {
     const filter = {};
     const filter2 = {};
     if (Date) {
-      filter.Date = Date + "T22:00:00.000Z";
+      filter.Date = Date + "T00:00:00.000Z";
     }
     if (Speciality) {
       filter2.Speciality = Speciality;
@@ -47,7 +47,13 @@ const getAppointments = async (req, res) => {
       filter2.Username = Appointments[i].DoctorUsername;
       const tmp = await Doctor.findOne(filter2);
       if (tmp) {
-        r.push(tmp);
+        const t = {
+          Doctor: tmp,
+          Date: Appointments[i].Date,
+          TimeH: Appointments[i].TimeH,
+          TimeM: Appointments[i].TimeM,
+        };
+        r.push(t);
       }
     }
     res.status(200).send(r);
@@ -60,6 +66,9 @@ const updateAppointment = async (req, res) => {
   await Appointment.updateOne(
     {
       DoctorUsername: req.body.DoctorUsername,
+      Date: req.body.Date,
+      TimeH: req.body.TimeH,
+      TimeM: req.body.TimeM,
     },
     {
       $set: {
@@ -98,7 +107,7 @@ const filterDateAppointments = async (req, res) => {
     filter.DoctorUsername = DoctorUsername;
   }
   if (Date) {
-    filter.Date = Date + "T10:30:00.000Z";
+    filter.Date = Date + "T00:00:00.000Z";
   }
   const Appointments = await Appointment.find(filter);
   res.status(200).send(Appointments);

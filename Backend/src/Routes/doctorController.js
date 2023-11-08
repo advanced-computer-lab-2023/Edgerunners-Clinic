@@ -1,6 +1,7 @@
 // #Task route solution
 const Doctor = require("../Models/Doctor.js");
 const Patient = require("../Models/Patient.js");
+const Admin = require("../Models/Admin.js");
 const prescriptions = require("../Models/Prescriptions.js");
 const { default: mongoose } = require("mongoose");
 
@@ -8,19 +9,32 @@ const createDoctor = async (req, res) => {
   //add a new Doctor to the database with
   //Name, Email and Age
   try {
-    await Doctor.create({
-      Username: req.body.Username,
-      Password: req.body.Password,
-      DOB: req.body.DOB,
-      Name: req.body.Name,
-      Email: req.body.Email,
-      Hourlyrate: req.body.Hourlyrate,
-      Affiliation: req.body.Affiliation,
-      Education: req.body.Education,
-      Speciality: req.body.Speciality,
-      Status: "Pending",
-    });
-    res.status(200).send("Created successfully");
+    let doctorUsername = await Patient.findOne({Username: req.body.Username})
+    const doctorMail = await Patient.findOne({Email: req.body.Email})
+    if(!doctorUsername){
+      doctorUsername = await Admin.findOne({Username: req.body.Username});
+    }
+    if(!doctorUsername && !doctorMail){
+      await Doctor.create({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        DOB: req.body.DOB,
+        Name: req.body.Name,
+        Email: req.body.Email,
+        Hourlyrate: req.body.Hourlyrate,
+        Affiliation: req.body.Affiliation,
+        Education: req.body.Education,
+        Speciality: req.body.Speciality,
+        Status: "Pending",
+      });
+      res.status(200).send("Created successfully");
+    }else{
+      if(doctorMail){
+        res.status(401).send("e-mail already exists")
+      }else{
+        res.status(401).send("username already exists")
+      }
+    }
   } catch (e) {
     res.status(400).send("Failed to Create Doctor");
   }

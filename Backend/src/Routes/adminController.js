@@ -1,17 +1,27 @@
 // #Task route solution
 const Admin = require("../Models/Admin.js");
+const Patient = require("../Models/Patient.js");
+const Doctor = require("../Models/Doctor.js");
 const { default: mongoose } = require("mongoose");
 
 const createAdmin = async (req, res) => {
   //add a new Doctor to the database with
   //Name, Email and Age
   try {
-    await Admin.create({
-      Username: req.body.Username,
-      Password: req.body.Password,
-      Role: "Admin",
-    });
-    res.status(200).send("Created successfully");
+    let adminUsername = await Patient.findOne({Username:req.body.Username});
+    if(!adminUsername){
+      adminUsername = await Doctor.findOne({Username:req.body.Username});
+    }
+    if(!adminUsername){
+      await Admin.create({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Role: "Admin",
+      });
+      res.status(200).send("Created successfully");
+    }else{
+      res.status(401).send("username already exists!")
+    }
   } catch (e) {
     res.status(400).send("Error could not create Admin !!");
   }

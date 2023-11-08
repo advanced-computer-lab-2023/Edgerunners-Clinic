@@ -103,7 +103,7 @@ const DoctorRequests = () => {
     try {
       await axios.put("http://localhost:3001/updateDoctor", {
         Username: username,
-        Status: "Accepted",
+        Status: "Waiting",
       });
 
       const updatedRequests = requests.map((request) =>

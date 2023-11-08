@@ -138,6 +138,7 @@ const signin = async (req, res) => {
           token: createJWTD(username),
           type: "Doctor",
           Username: username,
+          Status: user.Status
         });
       } else {
         res.status(401).send("invalid password");

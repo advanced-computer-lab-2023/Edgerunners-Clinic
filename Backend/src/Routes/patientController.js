@@ -11,20 +11,44 @@ const hashPassword = async (password) => {
 const createPatient = async (req, res) => {
   //add a new Patient to the database with
   //Name, Email and Age
-  await Patient.create({
-    Username: req.body.Username,
-    Password: await hashPassword(req.body.Password),
-    Gender: req.body.Gender,
-    Name: req.body.Name,
-    Email: req.body.Email,
-    phoneNumber: req.body.phoneNumber,
-    DOB: req.body.DOB,
-    EmergencyContact: {
-      FullnameEC: req.body.EmergencyContact.FullnameEC,
-      phoneNumberEC: req.body.EmergencyContact.phoneNumberEC,
-    },
-  });
-  res.status(200).send("Created successfully");
+  try {
+    await Patient.create({
+      Username: req.body.Username,
+      Password: await hashPassword(req.body.Password),
+      Gender: req.body.Gender,
+      Name: req.body.Name,
+      Email: req.body.Email,
+      phoneNumber: req.body.phoneNumber,
+      FileNames: [],
+      DOB: req.body.DOB,
+      EmergencyContact: {
+        FullnameEC: req.body.EmergencyContact.FullnameEC,
+        phoneNumberEC: req.body.EmergencyContact.phoneNumberEC,
+      },
+    });
+    res.status(200).send("Created successfully");
+  } catch (e) {
+    res.status(400).send("Failed To Create");
+  }
+};
+
+const patientUploadFile = async (req, res) => {
+  const username = req.body.Username;
+  console.log(username);
+  const filter = {};
+  filter.Username = username;
+  const patient = await Patient.findOne({ Username: username });
+  console.log(patient);
+  const size = patient.FileNames.length + 1;
+  const filename = username + "-" + size + ".pdf";
+  const file = req.files.file;
+  var filePath = "./uploadPatient/" + filename;
+  file.mv(filePath);
+  await Patient.updateOne(
+    { Username: username },
+    { $push: { FileNames: filename } },
+  );
+  res.status(200);
 };
 
 const getPatients = async (req, res) => {
@@ -91,9 +115,19 @@ const filterPatients = async (req, res) => {
 const updatePatient = async (req, res) => {
   const password = req.query.Password;
   const username = req.params.Username;
-  Patient.updateOne(
+  await Patient.updateOne(
     { Username: username },
     { $set: { Password: password } },
+  ).catch("an error happened");
+  res.status(200).send("all good");
+};
+
+const ResetPass = async (req, res) => {
+  const newPassword = req.query.Password;
+  const email = req.params.Email;
+  await Patient.updateOne(
+    { Email: email },
+    { $set: { Password: newPassword } },
   ).catch("an error happened");
   res.status(200).send("all good");
 };
@@ -118,4 +152,6 @@ module.exports = {
   updatePatient,
   deletePatient,
   filterPatients,
+  patientUploadFile,
+  ResetPass,
 };

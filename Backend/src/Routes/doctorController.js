@@ -26,6 +26,36 @@ const createDoctor = async (req, res) => {
   }
 };
 
+const doctorUploadFile = async (req, res) => {
+  
+  
+  const filename = req.body.Username + "-" + ".pdf";
+  const file = req.files.file;
+  var filePath = "./uploadDoctor/" + filename;
+  file.mv(filePath);
+    await Doctor.create({
+      Username: req.body.Username,
+      Password: req.body.Password,
+      DOB: req.body.DOB,
+      Name: req.body.Name,
+      Email: req.body.Email,
+      Hourlyrate: req.body.Hourlyrate,
+      Affiliation: req.body.Affiliation,
+      Education: req.body.Education,
+      Speciality: req.body.Speciality,
+      Status: "Pending",
+      FileNames: [filename]
+    });
+    res.status(200).send("Created successfully");
+    // res.status(400).send("Failed to Create Doctor");
+  // const username = req.body.Username;
+  // console.log(username);
+  // const filter = {};
+  // filter.Username = username;
+  // const doctor = await Doctor.findOne({Username: username});
+  // console.log(doctor);
+};
+
 const getDoctors = async (req, res) => {
   try {
     const { Name, Speciality, Status } = req.query;
@@ -38,7 +68,6 @@ const getDoctors = async (req, res) => {
     }
     if(Status) {
       filter.Status=Status;
-      console.log("cgvhxh");
     }
     const Doctors = await Doctor.find(filter);
     res.status(200).send(Doctors);
@@ -107,6 +136,16 @@ const updateDoctor = async (req, res) => {
       { $set: { Affiliation: req.body.Affiliation } },
     );
   }
+  if (req.body.Status) {
+    if(req.body.Status === "Rejected"){
+      await Doctor.deleteOne({ Username: req.body.Username });
+    }else{
+      await Doctor.updateOne(
+        { Username: user },
+        { $set: { Status: req.body.Status } }
+      );
+    }
+  }
   res.status(200).send("Done");
 };
 const findDoctor = async (req, res) => {
@@ -135,4 +174,5 @@ module.exports = {
   deleteDoctor,
   findDoctor,
   addPatient4doctor,
+  doctorUploadFile
 };

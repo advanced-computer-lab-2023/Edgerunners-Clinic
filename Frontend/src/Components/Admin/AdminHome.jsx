@@ -78,7 +78,16 @@ export default function AdminHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#contact">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      window.location.replace("/");
+                    }}
+                  >
                     Log Out
                   </a>
                 </li>
@@ -187,7 +196,7 @@ export default function AdminHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/ViewDocReq">
+            <a href="/DoctorRequests">
               <h3>View Doctor Requests</h3>
             </a>
             <p>View doctors trying to join the system</p>

@@ -18,8 +18,10 @@ export default function PatientHome() {
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-          <a href="/PatientHome"><Logo /></a>
-            
+            <a href="/PatientHome">
+              <Logo />
+            </a>
+
             <button
               className="navbar-toggler ps-0"
               type="button"
@@ -60,7 +62,11 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/Prescriptions">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/Prescriptions"
+                  >
                     Prescriptions
                   </a>
                 </li>
@@ -70,7 +76,16 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/patientReg">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      window.location.replace("/");
+                    }}
+                  >
                     Log Out
                   </a>
                 </li>
@@ -162,8 +177,8 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-             <a href = "/ViewFamilyMem">
-            <h3>Family</h3>
+            <a href="/ViewFamilyMem">
+              <h3>Family</h3>
             </a>
             <p>
               add family members using name, National ID, age, gender and
@@ -189,8 +204,8 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href = "/Doctors">
-            <h3>Our Doctors</h3>
+            <a href="/Doctors">
+              <h3>Our Doctors</h3>
             </a>
             <p>view a list of all doctors along with their speciality</p>
           </div>
@@ -200,8 +215,8 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-             <a href = "/Packages">
-            <h3>Health Packages</h3>
+            <a href="/Packages">
+              <h3>Health Packages</h3>
             </a>
             <p>view all details of selected doctor including specilaty</p>
           </div>
@@ -212,7 +227,7 @@ export default function PatientHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/Prescriptions">
-            <h3>Pharmacy</h3>
+              <h3>Pharmacy</h3>
             </a>
             <p>view the available quantity, and sales of each medicine</p>
           </div>

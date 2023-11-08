@@ -10,7 +10,8 @@
 
 # production
 /build
-
+/Backend/uploadDoctor
+/Backend/uploadPatient
 # misc
 .DS_Store
 .env.local

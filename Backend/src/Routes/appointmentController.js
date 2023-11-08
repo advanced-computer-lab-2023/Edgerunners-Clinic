@@ -1,34 +1,29 @@
 // #Task route solution
-const Appointment = require("../Models/Appointment.js");
+const Appointment= require("../Models/Appointment.js");
 const Patient = require("../Models/Patient.js");
 const Doctor = require("../Models/Doctor.js");
 const { default: mongoose } = require("mongoose");
 
 const createAppointment = async (req, res) => {
-  //add a new Doctor to the database with
-  //Name, Email and Age
-  const startDate = new Date(req.body.Date);
-  const intervalInMinutes = 30; // You can adjust this interval as needed
-  const endDate = new Date(startDate.getTime() + intervalInMinutes * 60000);
-  let isValid = true;
-  const patient = await Patient.findOne({ Username: req.body.PatientUsername });
-  const doctor = await Doctor.findOne({ Username: req.body.DoctorUsername });
-  if (!patient || !doctor) {
-    isValid = false;
-  }
-  if (isValid) {
-    console.log(req.body.Date);
-    await Appointment.create({
-      PatientUsername: req.body.PatientUsername,
-      DoctorUsername: req.body.DoctorUsername,
-      Date: req.body.Date,
-      Availability: "Available",
-      Status: "Upcoming",
-    });
-    res.status(200).send("Created successfully");
-  } else {
-    res.status(400).send("either patient or doctor is not found");
-  }
+  //try {
+  await Appointment.create({
+    DoctorUsername: req.body.DoctorUsername,
+    PatientUsername: "",
+    Date: req.body.Date,
+    TimeH: req.body.TimeH,
+    TimeM: req.body.TimeM,
+    Availability: "Available",
+    Status: "Upcoming",
+  });
+  // await Mango.create({
+  //   variety: req.body.variety,
+  // countryOfOrigin: req.body.countryOfOrigin,
+  // });
+  res.status(200).send("Created successfully");
+  // } catch (e) {
+  //   console.log(e);
+  //   res.status(400).send("either patient or doctor is not found");
+  // }
 };
 
 const getAppointments = async (req, res) => {
@@ -67,15 +62,17 @@ const updateAppointment = async (req, res) => {
       DoctorUsername: req.body.DoctorUsername,
     },
     {
-      $set: { Availability: req.body.Availability },
+      $set: {
+        Availability: req.body.Availability,
+        PatientUsername: req.body.PatientUsername,
+      },
     },
   );
-  console.log("here");
   res.status(200).send("Updated!!");
 };
 
 const updateAppointmentStatus = async (req, res) => {
-  try{
+  try {
     await Appointment.updateOne(
       {
         DoctorUsername: req.body.DoctorUsername,
@@ -86,43 +83,42 @@ const updateAppointmentStatus = async (req, res) => {
     );
     console.log("here");
     res.status(200).send("Updated!!");
-  }catch(e){
+  } catch (e) {
     res.status(400).send("Not Updated!!");
   }
 };
 
 const filterDateAppointments = async (req, res) => {
-  const {PatientUsername, DoctorUsername, Date} = req.query;
+  const { PatientUsername, DoctorUsername, Date } = req.query;
   const filter = {};
-  if(PatientUsername){
+  if (PatientUsername) {
     filter.PatientUsername = PatientUsername;
   }
-  if(DoctorUsername){
+  if (DoctorUsername) {
     filter.DoctorUsername = DoctorUsername;
   }
-  if(Date){
-    filter.Date = Date+"T10:30:00.000Z";
+  if (Date) {
+    filter.Date = Date + "T10:30:00.000Z";
   }
   const Appointments = await Appointment.find(filter);
   res.status(200).send(Appointments);
-}
+};
 
 const filterStatusAppointments = async (req, res) => {
-  const {PatientUsername, DoctorUsername, Status} = req.query;
+  const { PatientUsername, DoctorUsername, Status } = req.query;
   const filter = {};
-  if(PatientUsername){
+  if (PatientUsername) {
     filter.PatientUsername = PatientUsername;
   }
-  if(DoctorUsername){
+  if (DoctorUsername) {
     filter.DoctorUsername = DoctorUsername;
   }
-  if(Status){
+  if (Status) {
     filter.Status = Status;
   }
   const Appointments = await Appointment.find(filter);
   res.status(200).send(Appointments);
-}
-
+};
 
 const deleteAppointment = async (req, res) => {
   //delete a Doctor from the database

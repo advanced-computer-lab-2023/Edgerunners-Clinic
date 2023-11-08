@@ -35,6 +35,7 @@ import UploadDocuments from "./Components/PatientHome/uploadDocuments";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
+import AddAppointment from "./Components/DoctorHome/AddAppointment";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 if (sessionStorage.getItem("Username") == null) {
@@ -62,7 +63,6 @@ if (sessionStorage.getItem("Username") == null) {
           <Route path="/PatientHome" element={<PatientHome />} />
           <Route path="/ChangePass" element={<ChangePass />} />
           <Route path="/ResetPass" element={<ResetPass />} />
-
           <Route path="/Prescriptions" element={<Prescriptions />} />
           <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
           <Route path="/NewFamilyMem" element={<NewFamilyMem />} />

@@ -34,6 +34,7 @@ export default function Doctors() {
     await axios.put(`http://localhost:3001/updateAppointment`, {
       DoctorUsername: doctor,
       Availability: "Reserved",
+      PatientUsername: sessionStorage.getItem("Username"),
     });
   };
   console.log(appointmentDate);
@@ -187,7 +188,6 @@ export default function Doctors() {
                 <p>Session Price/hour: {a.Hourlyrate}</p>
                 <p>Hospital: {a.Affiliation}</p>
                 <p>Education: {a.Education}</p>
-                <p>Available Date:{a.Date}</p>
                 <button onClick={(e) => handleSubmit2(e, a.Username)}>
                   reserve
                 </button>

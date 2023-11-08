@@ -11,7 +11,7 @@ export default function GetAppointments({ Date, Name, Speciality }) {
         params: {
           Date,
           Name,
-          Speciality
+          Speciality,
         },
       });
       setAppointments(res.data);
@@ -21,7 +21,13 @@ export default function GetAppointments({ Date, Name, Speciality }) {
   return Appointments;
 }
 
-export function UpdateAppointments({ PatientUsername, DoctorUsername }) {
+export function UpdateAppointments({
+  PatientUsername,
+  DoctorUsername,
+  Date,
+  TimeH,
+  TimeM,
+}) {
   useEffect(() => {
     getAppointments();
     async function getAppointments() {
@@ -29,6 +35,9 @@ export function UpdateAppointments({ PatientUsername, DoctorUsername }) {
         params: {
           PatientUsername,
           DoctorUsername,
+          Date,
+          TimeH,
+          TimeM,
         },
       });
     }
@@ -43,11 +52,15 @@ export function FilterAppointmentsDate({ Date, PatientUsername }) {
   useEffect(() => {
     getMyAppointments();
     async function getMyAppointments() {
-      const res = await axios.get(`http://localhost:3001/filterDateAppointments`, {
-        params: {
-          Date, PatientUsername
-        },
-      });
+      const res = await axios.get(
+        `http://localhost:3001/filterDateAppointments`,
+        {
+          params: {
+            Date,
+            PatientUsername,
+          },
+        }
+      );
       setAppointments(res.data);
     }
   }, [Date, PatientUsername]);
@@ -61,11 +74,15 @@ export function FilterAppointmentsStatus({ Status, PatientUsername }) {
   useEffect(() => {
     getMyAppointmentsD();
     async function getMyAppointmentsD() {
-      const res = await axios.get(`http://localhost:3001/filterStatusAppointments`, {
-        params: {
-          Status, PatientUsername
-        },
-      });
+      const res = await axios.get(
+        `http://localhost:3001/filterStatusAppointments`,
+        {
+          params: {
+            Status,
+            PatientUsername,
+          },
+        }
+      );
       setAppointments(res.data);
     }
   }, [Status, PatientUsername]);

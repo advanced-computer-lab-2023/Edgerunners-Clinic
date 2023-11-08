@@ -1,6 +1,7 @@
 // #Task route solution
 const Patient = require("../Models/Patient.js");
 const Doctor = require("../Models/Doctor.js");
+const Admin = require("../Models/Admin.js");
 const Appointment = require("../Models/Appointment.js");
 var bcrypt = require("bcrypt");
 const { default: mongoose } = require("mongoose");
@@ -12,21 +13,34 @@ const createPatient = async (req, res) => {
   //add a new Patient to the database with
   //Name, Email and Age
   try {
-    await Patient.create({
-      Username: req.body.Username,
-      Password: await hashPassword(req.body.Password),
-      Gender: req.body.Gender,
-      Name: req.body.Name,
-      Email: req.body.Email,
-      phoneNumber: req.body.phoneNumber,
-      FileNames: [],
-      DOB: req.body.DOB,
-      EmergencyContact: {
-        FullnameEC: req.body.EmergencyContact.FullnameEC,
-        phoneNumberEC: req.body.EmergencyContact.phoneNumberEC,
-      },
-    });
-    res.status(200).send("Created successfully");
+    let PatientUsername = await Doctor.findOne({Username: req.body.Username})
+    const PatientMail = await Doctor.findOne({Email: req.body.Email})
+    if(!PatientUsername){
+      PatientUsername = await Admin.findOne({Username: req.body.Username});
+    }
+    if(!PatientUsername && !PatientMail){
+      await Patient.create({
+        Username: req.body.Username,
+        Password: await hashPassword(req.body.Password),
+        Gender: req.body.Gender,
+        Name: req.body.Name,
+        Email: req.body.Email,
+        phoneNumber: req.body.phoneNumber,
+        FileNames: [],
+        DOB: req.body.DOB,
+        EmergencyContact: {
+          FullnameEC: req.body.EmergencyContact.FullnameEC,
+          phoneNumberEC: req.body.EmergencyContact.phoneNumberEC,
+        },
+      });
+      res.status(200).send("Created successfully");
+    }else{
+      if(PatientMail){
+        res.status(401).send("e-mail already exists")
+      }else{
+        res.status(401).send("username already exists")
+      }
+    }
   } catch (e) {
     res.status(400).send("Failed To Create");
   }
@@ -125,11 +139,19 @@ const updatePatient = async (req, res) => {
 const ResetPass = async (req, res) => {
   const newPassword = req.query.Password;
   const email = req.params.Email;
-  await Patient.updateOne(
+  const doctor = await Doctor.findOne({Email : req.params.Email});
+  if (doctor) {
+    await Patient.updateOne(
+      { Email: email ,Status: "Accepted" },
+      { $set: { Password: newPassword } },
+    ).catch("an error happened");
+  }
+  else{
+    await Patient.updateOne(
     { Email: email },
     { $set: { Password: newPassword } },
   ).catch("an error happened");
-  res.status(200).send("all good");
+  res.status(200).send("all good");}
 };
 
 const deletePatient = async (req, res) => {

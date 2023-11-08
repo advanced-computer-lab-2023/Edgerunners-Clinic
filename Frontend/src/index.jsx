@@ -31,6 +31,7 @@ import AdminHome from "./Components/Admin/AdminHome";
 import ChangePass from "./Components/Patient/ChangePass";
 
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
+import AddAppointment from "./Components/DoctorHome/AddAppointment";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -40,7 +41,9 @@ root.render(
         <Route path="/PatientAppointments" element={<PatientAppointments />} />
         <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
 
-        <Route path="/" element={<PatientReg />} />
+        <Route path="/AddAppointment" element={<AddAppointment />} />
+
+        <Route path="/" element={<DoctorHome />} />
         <Route path="/AdminHome" element={<AdminHome />} />
         <Route path="/Doctors" element={<Doctors />} />
         <Route path="/PatientHome" element={<PatientHome />} />

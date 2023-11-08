@@ -34,6 +34,7 @@ import DoctorRequests from "./Components/Admin/DoctorRequests";
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
 import ContractPage from "./Components/Login_Reg/contract";
 import LoginPage from "./Components/Login_Reg/LoginPage";
+import AddAppointment from "./Components/DoctorHome/AddAppointment";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token") == null && sessionStorage.getItem("type") == null) {

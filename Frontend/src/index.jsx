@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "@stripe/stripe-js";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import PatientHome from "./Components/PatientHome/PatientHome";
@@ -36,13 +37,19 @@ import ContractPage from "./Components/Login_Reg/contract";
 import LoginPage from "./Components/Login_Reg/LoginPage";
 import AddAppointment from "./Components/DoctorHome/AddAppointment";
 
+import Checkout from "./Checkout/Checkout";
+import Success from "./Checkout/Success";
+import Cancel from "./Checkout/Cancel";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token") == null && sessionStorage.getItem("type") == null) {
   console.log("signin")
   root.render(
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
+
           <Route path="/" element={<LoginPage />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
@@ -67,8 +74,9 @@ if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token"
           <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
          
           <Route path="/UploadDocuments" element={<UploadDocuments />} />
+
           <Route path="/Packages" element={<Packages />} />
-          
+
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

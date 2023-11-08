@@ -78,7 +78,16 @@ export default function AdminHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#contact">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      window.location.replace("/");
+                    }}
+                  >
                     Log Out
                   </a>
                 </li>

@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "@stripe/stripe-js";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import PatientHome from "./Components/PatientHome/PatientHome";
@@ -36,13 +37,20 @@ import DoctorRequests from "./Components/Admin/DoctorRequests";
 
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
 
+import Checkout from "./Checkout/Checkout";
+import Success from "./Checkout/Success";
+import Cancel from "./Checkout/Cancel";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-if (sessionStorage.getItem("Username") == null) {
+if (sessionStorage.getItem("Username") != null) {
   root.render(
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PatientReg />} />
+          <Route path="/Checkout" element={<Checkout />} />
+          <Route path="/Success" element={<Success />} />
+          <Route path="/Cancel" element={<Cancel/>} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
@@ -81,6 +89,7 @@ if (sessionStorage.getItem("Username") == null) {
           <Route path="/ViewDocReq" element={<ViewDocReq />} />
           <Route path="/UploadDocuments" element={<UploadDocuments />} />
           <Route path="/DoctorRequests" element={<DoctorRequests />} />
+
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

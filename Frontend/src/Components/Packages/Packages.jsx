@@ -7,6 +7,7 @@ import { Carousel, Typography, Button } from "@material-tailwind/react";
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import PayButton from "./PayButton";
 
 const silverFeatures = [
   "40% off any doctor session",
@@ -28,23 +29,55 @@ const platinumFeatures = [
    export default function Packages(){
     let stripePromise;
     const packages = GetPackages();
+
+  const checkout = () => {
+  fetch('/create-checkout-session',{
+    method: 'POST',
+    headers: {
+      'Content-Type' : 'application/json'
+    },
+    body: JSON.stringify({
+      items: [
+        { id: 1, quantity: 2},
+        { id: 2, quantity: 1},        
+      ]
+    })
+  }).then(res => {
+    if(res.ok) return res.json()
+    return res.json().then(json => Promise.reject(json) )
+  }).then(({url}) => {
+    console.log(url);
+    // window.location = url
+  }).catch(e => {
+    console.error(e.error)
+  })
+}
+
 const getStripe = () => {
   if (!stripePromise) {
-    stripePromise = loadStripe("pk_test_51OAF2VDji8BJzy8xEPZxPWlcGoDEJmZWjecJSAZF9krkMdEKXWIiXrhbUy0DRma1cOBsEfyWEQPCd2DXjf8VT4zT00XWXr178u");
+    stripePromise = loadStripe("pk_test_51OAYarCTaVksTfn0OXdujXuGWeTGatBccdz8bPZA0Ug5eERXsvWdeVbYauI2g0Zz2qvS0zVOdgqbZIACjtaKZNOM0068Ao6qVL");
   }
 
   return stripePromise;
 };
-
+console.log(packages.data)
   const [stripeError, setStripeError] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const item = {
-    price: "price_1OAGQQDji8BJzy8xRHIFOv4f",
+  const items = {
+    price: "price_1OAYdVCTaVksTfn0N2vLYtqO",
     quantity: 1
   };
+  // let lineItems;
+  // if(packages.data){
+  //  lineItems = packages.data.map((i) =>{
+  //   return{
+  //     price: i.Price,
+  //     quantity: 1
+  //   }
+  // });
 
   const checkoutOptions = {
-    lineItems: [item],
+    lineItems: [items],
     mode: "payment",
     successUrl: `${window.location.origin}/success`,
     cancelUrl: `${window.location.origin}/cancel`
@@ -122,10 +155,11 @@ const getStripe = () => {
                       <span className="text-5xl font-bold tracking-tight text-gray-900">{p.Price}</span>
                       <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">LE</span>
                     </p>
+                    {<PayButton name = {p.Name} /> }
                     <button
                       href="#"
                       className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      onClick={redirectToCheckout}
+                      onClick={checkout}
                     >
                       Get access
                     </button>

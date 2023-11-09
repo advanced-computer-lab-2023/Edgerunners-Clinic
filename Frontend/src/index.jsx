@@ -15,7 +15,8 @@ import CreatePackage from "./Components/Packages/CreatePackage";
 import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
-
+import LinkAnotherPat from "./Components/Patient/LinkAnotherPat";
+import MyWalletP from "./Components/Patient/MyWalletP";
 import AdminBody from "./Components/Admin/Body";
 import SetAdmin from "./Components/Admin/SetAdmin";
 import PatientAppointments from "./Components/PatientHome/MyAppointments";
@@ -26,8 +27,7 @@ import EditMyProf from "./Components/DoctorHome/EditMyProf";
 import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 import ViewDocReq from "./Components/Admin/ViewDocReq";
 import AdminHome from "./Components/Admin/AdminHome";
-import ChangePass from "./Components/Patient/ChangePass";
-import ResetPass from "./Components/Login_Reg/ResetPass";
+import MyWalletD from "./Components/DoctorHome/MyWalletD";
 
 import UploadDocuments from "./Components/PatientHome/uploadDocuments";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
@@ -40,6 +40,7 @@ import AddAppointment from "./Components/DoctorHome/AddAppointment";
 import Checkout from "./Checkout/Checkout";
 import Success from "./Checkout/Success";
 import Cancel from "./Checkout/Cancel";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -72,7 +73,7 @@ if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token"
           <Route path="/Prescriptions" element={<Prescriptions />} />
           <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
           <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
-         
+          <Route path="/MyWalletP" element={<MyWalletP/>} />
           <Route path="/UploadDocuments" element={<UploadDocuments />} />
           <Route path="/Packages" element={<Packages />} />
           <Route path="/Success" element={<Success />} />
@@ -94,6 +95,7 @@ if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token"
        <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
        <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
        <Route path="/contract" element={<ContractPage />} />
+       <Route path="/MyWalletD" element={<MyWalletD/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

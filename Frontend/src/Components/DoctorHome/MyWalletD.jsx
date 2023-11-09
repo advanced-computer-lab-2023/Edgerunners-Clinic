@@ -3,7 +3,7 @@ import Card from "../../UI/UX/Card";
 import axios from "axios";
 function MyWalletD(props){
     let doctUsername=sessionStorage.getItem("Username");
-    let totalAmount=sessionStorage.getItem("Amount");
+    let totalAmount=sessionStorage.getItem("Walltet");
     return(
         <div className="tailwind">
             <div className="flex justify-center mt-24">
@@ -11,7 +11,7 @@ function MyWalletD(props){
                
                 <div  className=" flex">
                     <div><Logo height="4rem" /></div>
-                    <div ><h1> Welcome {docUsername}</h1></div>
+                    <div ><h1> Welcome {doctUsername}</h1></div>
                 </div>
             
             <h1> Welcome {docUsername}</h1>

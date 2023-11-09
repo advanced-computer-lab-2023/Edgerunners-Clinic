@@ -29,11 +29,15 @@ export default function Doctors() {
       Name: name,
     });
   };
-  const handleSubmit2 = async (e, doctor) => {
+  const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
     await axios.put(`http://localhost:3001/updateAppointment`, {
       DoctorUsername: doctor,
+      Date: Date,
+      TimeH: TimeH,
+      TimeM: TimeM,
       Availability: "Reserved",
+      PatientUsername: sessionStorage.getItem("Username"),
     });
   };
   console.log(appointmentDate);
@@ -182,13 +186,25 @@ export default function Doctors() {
           {appointmentDate.map((a, index) => {
             return (
               <div key={index}>
-                <p>Name: {a.Name}</p>
-                <p>Speciality: {a.Speciality}</p>
-                <p>Session Price/hour: {a.Hourlyrate}</p>
-                <p>Hospital: {a.Affiliation}</p>
-                <p>Education: {a.Education}</p>
-                <p>Available Date:{a.Date}</p>
-                <button onClick={(e) => handleSubmit2(e, a.Username)}>
+                <p>Name: {a.Doctor.Name}</p>
+                <p>Speciality: {a.Doctor.Speciality}</p>
+                <p>Session Price/hour: {a.Doctor.Hourlyrate}</p>
+                <p>Hospital: {a.Doctor.Affiliation}</p>
+                <p>Education: {a.Doctor.Education}</p>
+                <p>Date: {a.Date}</p>
+                <p>Hour: {a.TimeH}</p>
+                <p>Minute: {a.TimeM}</p>
+                <button
+                  onClick={(e) =>
+                    handleSubmit2(
+                      e,
+                      a.Doctor.Username,
+                      a.Date,
+                      a.TimeH,
+                      a.TimeM
+                    )
+                  }
+                >
                   reserve
                 </button>
               </div>

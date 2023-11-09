@@ -31,6 +31,7 @@
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.1.2",
     "@mui/material": "^5.14.12",
+    "@stripe/stripe-js": "^2.1.11",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

@@ -18,7 +18,9 @@ export default function DoctorHome() {
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-            <a href="/DoctorHome"><Logo /></a>
+            <a href="/DoctorHome">
+              <Logo />
+            </a>
             <button
               className="navbar-toggler ps-0"
               type="button"
@@ -69,12 +71,25 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/EditMyProf">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/EditMyProf"
+                  >
                     My Account
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/doctorReg">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      window.location.replace("/");
+                    }}
+                  >
                     Log Out
                   </a>
                 </li>
@@ -161,7 +176,7 @@ export default function DoctorHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/Prescriptions">
-            <h3>Add Prescription</h3>
+              <h3>Add Prescription</h3>
             </a>
             <p>upload/remove documents for my medical history</p>
           </div>
@@ -173,7 +188,7 @@ export default function DoctorHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/ViewFamilyMem">
-            <h3>Schedule a Follow-Up</h3>
+              <h3>Schedule a Follow-Up</h3>
             </a>
             <p>schedule a follow-up for a patient</p>
           </div>
@@ -196,7 +211,7 @@ export default function DoctorHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/ViewMyPatients">
-            <h3>My Patients</h3>
+              <h3>My Patients</h3>
             </a>
             <p>view a list of all doctors along with their speciality</p>
           </div>

@@ -9,6 +9,7 @@ const createAppointment = async (req, res) => {
     await Appointment.create({
       DoctorUsername: req.body.DoctorUsername,
       PatientUsername: "",
+      NationalID: "",
       Date: req.body.Date,
       TimeH: req.body.TimeH,
       TimeM: req.body.TimeM,
@@ -74,6 +75,7 @@ const updateAppointment = async (req, res) => {
       $set: {
         Availability: req.body.Availability,
         PatientUsername: req.body.PatientUsername,
+        NationalID: req.body.NationalID
       },
     },
   );

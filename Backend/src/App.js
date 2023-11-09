@@ -13,6 +13,7 @@ const {
   filterPatients,
   patientUploadFile,
   ResetPass,
+  linkPatients,
 } = require("./Routes/patientController");
 
 const {
@@ -121,7 +122,7 @@ app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 app.put("/ResetPass", ResetPass);
-
+app.post("/linkPatients", linkPatients);
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
 app.put("/updateDoctor", updateDoctor);

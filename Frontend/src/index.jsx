@@ -17,7 +17,8 @@ import CreatePackage from "./Components/Packages/CreatePackage";
 import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
-
+import LinkAnotherPat from "./Components/Patient/LinkAnotherPat";
+import MyWalletP from "./Components/Patient/MyWalletP";
 import AdminBody from "./Components/Admin/Body";
 import SetAdmin from "./Components/Admin/SetAdmin";
 import PatientAppointments from "./Components/PatientHome/MyAppointments";
@@ -28,13 +29,13 @@ import EditMyProf from "./Components/DoctorHome/EditMyProf";
 import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 import ViewDocReq from "./Components/Admin/ViewDocReq";
 import AdminHome from "./Components/Admin/AdminHome";
-import ChangePass from "./Components/Patient/ChangePass";
-import ResetPass from "./Components/Login_Reg/ResetPass";
+import MyWalletD from "./Components/DoctorHome/MyWalletD";
 
 import UploadDocuments from "./Components/PatientHome/uploadDocuments";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -44,20 +45,20 @@ root.render(
         <Route path="/PatientAppointments" element={<PatientAppointments />} />
         <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
 
-        <Route path="/" element={<PatientReg />} />
+        <Route path="/" element={<LinkAnotherPat />} />
         <Route path="/AdminHome" element={<AdminHome />} />
         <Route path="/Doctors" element={<Doctors />} />
         <Route path="/PatientHome" element={<PatientHome />} />
         <Route path="/PatientReg" element={<PatientReg />} />
-        <Route path="/ChangePass" element={<ChangePass />} />
-        <Route path="/ResetPass" element={<ResetPass />} />
+        <Route path="/LinkAnotherPat" element={<LinkAnotherPat />} />
+        <Route path="/MyWalletP" element={<MyWalletP/>} />
 
         <Route path="/Prescriptions" element={<Prescriptions />} />
         <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
         <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
         <Route path="/UpdatePackage" element={<UpdatePackage />} />
         <Route path="/Packages" element={<Packages />} />
-
+        <Route path="/MyWalletD" element={<MyWalletD/>} />
         <Route path="/CreatePackage" element={<CreatePackage />} />
         <Route path="/PackagesForAdmin" element={<PackagesForAdmin />} />
         <Route path="/AdminBody" element={<AdminBody />} />

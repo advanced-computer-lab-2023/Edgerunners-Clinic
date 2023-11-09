@@ -63,6 +63,10 @@ const doctorSchema = new Schema(
     FileNames:{
       type: Array,
       required: false,
+    },
+    Wallet: {
+      type: Number,
+      required: false,
     }
   },
   { timestamps: true },

@@ -74,8 +74,9 @@ if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token"
           <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
          
           <Route path="/UploadDocuments" element={<UploadDocuments />} />
-
           <Route path="/Packages" element={<Packages />} />
+          <Route path="/Success" element={<Success />} />
+          <Route path="/Cancel" element={<Cancel />} />
 
         </Routes>
       </BrowserRouter>

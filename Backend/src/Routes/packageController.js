@@ -1,5 +1,6 @@
 const Package = require("../Models/Package.js");
 const { default: mongoose } = require("mongoose");
+const stripe = require('stripe')('sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw')
 
 const createPackage = async (req, res) => {
   try {
@@ -10,6 +11,14 @@ const createPackage = async (req, res) => {
       discountFamily: req.body.discountFamily,
       Price: req.body.Price,
     });
+    const price = parseInt(req.body.Price * 100);
+    await stripe.products.create({
+      name: req.body.Name,
+      default_price_data:{
+        currency: 'egp',
+        unit_amount: price
+      }
+    })
     res.status(200).send("Created successfully");
   } catch (e) {
     res.status(400).send("Error could not create package !!");

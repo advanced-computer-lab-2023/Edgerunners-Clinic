@@ -37,6 +37,7 @@ export default function Doctors() {
       Name: name,
     });
   };
+
   const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
     let NationalID = "";

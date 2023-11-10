@@ -187,7 +187,7 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/ViewFamilyMem">
+            <a href="/ScheduleAppointment">
               <h3>Schedule a Follow-Up</h3>
             </a>
             <p>schedule a follow-up for a patient</p>

@@ -12,6 +12,9 @@ const {
   deletePatient,
   filterPatients,
   patientUploadFile,
+  viewFiles,
+  gethealthrecords,
+  patientUploadHealthRecord,
   ResetPass,
   linkPatients,
 } = require("./Routes/patientController");
@@ -158,6 +161,9 @@ app.post("/create-checkout-session", async (req, res) =>{
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);
 app.post("/patientUploadFile", patientUploadFile);
+app.get("/viewFiles/:filename",viewFiles);
+app.get("/patientUploadHealthRecord",patientUploadHealthRecord);
+app.get("/gethealthrecords/:Username",gethealthrecords);
 app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
@@ -199,3 +205,4 @@ app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
+

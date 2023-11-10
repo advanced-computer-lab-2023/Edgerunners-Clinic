@@ -9,6 +9,8 @@ const { default: mongoose } = require("mongoose");
 const hashPassword = async (password) => {
   return bcrypt.hash(password, 5);
 };
+const fs = require('fs');
+const path = require('path');
 
 const createPatient = async (req, res) => {
   //add a new Patient to the database with
@@ -28,6 +30,7 @@ const createPatient = async (req, res) => {
         Email: req.body.Email,
         phoneNumber: req.body.phoneNumber,
         FileNames: [],
+        HealthRecords: [],
         DOB: req.body.DOB,
         Wallet: 0,
         EmergencyContact: {
@@ -65,6 +68,43 @@ const patientUploadFile = async (req, res) => {
     { $push: { FileNames: filename } },
   );
   res.status(200);
+};
+
+const patientUploadHealthRecord = async (req, res) => {
+  const username = req.body.Username;
+  console.log(username);
+  const filter = {};
+  filter.Username = username;
+  const patient = await Patient.findOne({ Username: username });
+  console.log(patient);
+  const filename = username + "-healthrecord-" + Math.floor(Math.random() * 900000000) + 100000000; + ".pdf";
+  const file = req.files.file;
+  var filePath = "./healthrecords/" + filename;
+  await Patient.updateOne(
+    { Username: username },
+    { $push: { HealthRecords : filename } },
+  );
+  file.mv(filePath);
+  res.status(200);
+};
+
+const gethealthrecords = async (req,res)=>{
+   const username = req.params.Username;
+   console.log(username);
+   const patient = await Patient.find({Username: username}).select("FileNames");
+   res.status(200).json(patient);
+}
+
+
+const viewFiles = async (req, res) => {
+  try {
+    const filename = req.params.filename;
+    // Read the contents of the uploadDirectory
+    res.status(200).download("./uploadPatient/" + filename);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 const getPatients = async (req, res) => {
@@ -235,6 +275,9 @@ module.exports = {
   deletePatient,
   filterPatients,
   patientUploadFile,
+  viewFiles,
+  gethealthrecords,
+  patientUploadHealthRecord,
   ResetPass,
   linkPatients,
 };

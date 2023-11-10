@@ -57,10 +57,15 @@ const patientSchema = new Schema(
       type: Array,
       required: false,
     },
+    
     HealthRecords:{
       type: Array,
+  },
+    Wallet: {
+      type: Number,
       required: false,
     }
+  
   },
   { timestamps: true },
 );

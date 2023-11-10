@@ -3,17 +3,58 @@ const Appointment = require("../Models/Appointment.js");
 const Patient = require("../Models/Patient.js");
 const Doctor = require("../Models/Doctor.js");
 const { default: mongoose } = require("mongoose");
+const stripe = require('stripe')('sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw')
 
 const createAppointment = async (req, res) => {
   try {
+    const {DoctorUsername} = req.query;
+    const filter = {};
+    if(DoctorUsername){
+      filter.DoctorUsername = DoctorUsername;
+    }
+    const Doctor1 = await Doctor.findOne(filter);
+    const price = parseInt(Doctor1.Hourlyrate * 100);
+    await stripe.products.create({
+      name: Doctor1.Name,
+      default_price_data:{
+        currency: 'egp',
+        unit_amount: price
+      }
+    })
+    
     await Appointment.create({
       DoctorUsername: req.body.DoctorUsername,
       PatientUsername: "",
+      NationalID: "",
       Date: req.body.Date,
       TimeH: req.body.TimeH,
       TimeM: req.body.TimeM,
       Availability: "Available",
       Status: "Upcoming",
+    });
+    // await Mango.create({
+    //   variety: req.body.variety,
+    // countryOfOrigin: req.body.countryOfOrigin,
+    // });
+    res.status(200).send("Created successfully");
+  } catch (e) {
+    console.log(e);
+    res.status(400).send("either patient or doctor is not found");
+  }
+};
+
+const createFollowUp = async (req, res) => {
+  try {
+    await Appointment.create({
+      DoctorUsername: req.body.DoctorUsername,
+      PatientUsername: req.body.PatientUsername,
+      NationalID: "",
+      Date: req.body.Date,
+      TimeH: req.body.TimeH,
+      TimeM: req.body.TimeM,
+      Availability: "Reserved",
+      Status: "Upcoming",
+      Type: "Follow Up"
     });
     // await Mango.create({
     //   variety: req.body.variety,
@@ -74,6 +115,7 @@ const updateAppointment = async (req, res) => {
       $set: {
         Availability: req.body.Availability,
         PatientUsername: req.body.PatientUsername,
+        NationalID: req.body.NationalID
       },
     },
   );
@@ -141,6 +183,7 @@ const deleteAppointment = async (req, res) => {
 
 module.exports = {
   createAppointment,
+  createFollowUp,
   getAppointments,
   updateAppointment,
   deleteAppointment,

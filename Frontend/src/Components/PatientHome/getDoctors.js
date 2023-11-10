@@ -1,6 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+export function GetSpecialities(){
+  return ['Internal Medicine',
+   'Family Medicine', 
+   'Pediatrics', 
+   'Obstetrics and Gynecology',
+    'Cardiology', 
+    'Orthopedic Surgery', 
+    'Psychiatry', 
+    'Emergency Medicine',
+    'Gastroenterology', 
+    'General Surgery'];
+
+}
+
 export default function GetDoctors({ Speciality, Name}) {
     const [Doctors, setDoctors] = useState([]);  
     useEffect(() => {

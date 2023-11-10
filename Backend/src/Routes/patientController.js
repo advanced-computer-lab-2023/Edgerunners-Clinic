@@ -1,6 +1,7 @@
 // #Task route solution
 const Patient = require("../Models/Patient.js");
 const Doctor = require("../Models/Doctor.js");
+const Relation= require("../Models/Relation.js");
 const Admin = require("../Models/Admin.js");
 const Appointment = require("../Models/Appointment.js");
 var bcrypt = require("bcrypt");
@@ -31,6 +32,7 @@ const createPatient = async (req, res) => {
         FileNames: [],
         HealthRecords: [],
         DOB: req.body.DOB,
+        Wallet: 0,
         EmergencyContact: {
           FullnameEC: req.body.EmergencyContact.FullnameEC,
           phoneNumberEC: req.body.EmergencyContact.phoneNumberEC,
@@ -207,7 +209,65 @@ const deletePatient = async (req, res) => {
     res.status(400).send("Error could not delete patient !!");
   }
 };
-
+function calculateAge(dateOfBirth) {
+  const dob = new Date(dateOfBirth);
+  if (isNaN(dob)) {
+    throw new Error('Invalid date of birth');
+  }
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const monthDiff = today.getMonth() - dob.getMonth();
+  
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+    age--;
+  }
+  
+  return age;
+};
+const linkPatients = async(req, res) => {
+  try {
+    let { email, phoneNumber,Relationn} = req.body;
+    const patient = await Patient.findOne({
+      $or: [{ Email: email }, { phoneNumber: phoneNumber }],
+    });
+  
+    if (!patient) {
+      res.status(404).send("Patient not found");
+      return;
+    }
+  
+    if(Relationn === "Wife/Husband"){
+     
+      if(patient.Gender === "Male"){
+        Relationn = "Husband";
+      }
+      else{
+        Relationn= "wife";
+      }
+    }
+    
+    console.log(patient.Gender);
+       const newRelation = {
+        Patient: req.body.Patient,
+        NationalID:0,
+        Gender: patient.Gender,
+        Name: patient.Name,
+        Age: calculateAge(patient.DOB),
+        Relation: Relationn,
+      };
+  
+      console.log(newRelation);
+      patient.Relations.push(newRelation);
+  
+     
+      await patient.save();
+ 
+      res.status(200).send("Relation added successfully");
+  } catch (e) {
+    
+    res.status(500).send("Internal Server Error");
+    }
+};
 module.exports = {
   createPatient,
   getPatients,
@@ -219,4 +279,5 @@ module.exports = {
   gethealthrecords,
   patientUploadHealthRecord,
   ResetPass,
+  linkPatients,
 };

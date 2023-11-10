@@ -167,7 +167,9 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+            <a href="/UploadDocuments">
             <h3>Upload/Remove Documents</h3>
+            </a>
             <p>upload/remove documents for my medical history</p>
           </div>
 

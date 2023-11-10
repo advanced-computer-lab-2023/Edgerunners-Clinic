@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
-import GetDoctors from "./getDoctors";
+import GetDoctors, { GetSpecialities } from "./getDoctors";
 import GetAppointments from "./getAppoinments";
 import axios from "axios";
+import GetRelation from "./getRelation";
+import PayButton from "../Packages/PayButton";
 
 export default function Doctors() {
   const [speciality, setSpeciality] = useState();
   const [name, setName] = useState();
   const [date, setDate] = useState();
+  const [chosen , setChosen] = useState();
+  let Specialities = GetSpecialities();
+  let Relation = GetRelation({
+    Username: sessionStorage.getItem("Username")
+  })
+
   let Doc = GetDoctors({
     Speciality: speciality,
     Name: name,
@@ -31,6 +39,10 @@ export default function Doctors() {
   };
   const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
+    let NationalID = "";
+    if(chosen !== sessionStorage.getItem("Username")){
+      NationalID = chosen;
+    }
     await axios.put(`http://localhost:3001/updateAppointment`, {
       DoctorUsername: doctor,
       Date: Date,
@@ -38,8 +50,19 @@ export default function Doctors() {
       TimeM: TimeM,
       Availability: "Reserved",
       PatientUsername: sessionStorage.getItem("Username"),
+      NationalID: NationalID
     });
   };
+  
+  const handleCheckout = async(name) => {
+    console.log(name);
+    await axios.post("http://localhost:3001/create-checkout-session",{
+       name
+   })
+   .then((res)=>{
+       window.location = res.data.url
+   }).catch((err) => console.log(err.message));
+}
   console.log(appointmentDate);
 
   if (Doc || appointmentDate) {
@@ -137,6 +160,7 @@ export default function Doctors() {
             </div>
           </nav>
         </div>
+        
         <div className="form-prescription">
           <label htmlFor="">Speciality</label>
           <input
@@ -147,6 +171,14 @@ export default function Doctors() {
               setSpeciality(e.target.value);
             }}
           />
+          <select onChange={(e) => {
+            setSpeciality(e.target.value);
+          }}>
+            <option value="">Select Speciality</option>
+            {Specialities.map((speciality) =>{
+              return <option value={speciality}>{speciality}</option>
+            })}
+          </select>
           <label htmlFor="">doctor</label>
           <input
             type="text"
@@ -194,15 +226,25 @@ export default function Doctors() {
                 <p>Date: {a.Date}</p>
                 <p>Hour: {a.TimeH}</p>
                 <p>Minute: {a.TimeM}</p>
+                
+                <select onChange={(e) => setChosen(e.target.value)}>
+                  <option value={sessionStorage.getItem("Username")}>myself</option>
+                  {Relation.data.map((item)=>{
+                    return <option value={item.NationalID}>{item.Name}</option>
+                  })
+                  }
+                </select>
+                {/* {<PayButton name = {a.Doctor.Name} /> } */}
                 <button
-                  onClick={(e) =>
+                  onClick={(e) =>{
                     handleSubmit2(
                       e,
                       a.Doctor.Username,
                       a.Date,
                       a.TimeH,
                       a.TimeM
-                    )
+                    ),
+                     handleCheckout({name:a.Doctor.Name})}
                   }
                 >
                   reserve

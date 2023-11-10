@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Logo from "../../UI/UX/Logo";
 
@@ -8,6 +8,36 @@ export default function ScheduleAppointment() {
   const [timeH, setTimeH] = useState("");
   const [timeM, setTimeM] = useState("");
   const [patient, setPatient] = useState("");
+  // let allNames = []
+  // const handleNames = async()=>{
+  //   async function getNames() {
+  //     allNames = await axios.get(`http://localhost:3001/PatientsName/${sessionStorage.getItem("Username")}`)
+  //   }
+  //   await getNames();
+  // }
+  // handleNames();
+  // console.log(allNames)
+
+
+  function patientNames () {
+    const [patientnames, setPatientnames] = useState([]);
+       useEffect(() => {
+      getMyAppointments();
+      async function getMyAppointments() {
+        const res = await axios.get(`http://localhost:3001/PatientsName/${sessionStorage.getItem("Username")}`);
+        setPatientnames(res.data);
+      }
+    }, []);
+    return patientnames;
+  }
+  
+  let patientnames = patientNames();
+  
+//   let patientName = axios.get(`http://localhost:3001/PatientsName/${sessionStorage.getItem("Username")}`)
+  
+//   if(patientName){
+//     console.log(patientName)
+//   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,13 +153,16 @@ export default function ScheduleAppointment() {
           <div>
             <div>
             <label htmlFor="Patient">Patient Name</label>
-              <input
-                type="text"
-                value={patient}
-                onChange={(e) => {
-                  setPatient(e.target.value);
-                }}
-              />
+            <select onChange = {(e) => {
+            setPatient(e.target.value);
+          }}>
+            <option>Select Patient</option>
+            {patientnames.map((patient,index)=>{   
+                return(
+              <option key = {index} value={patient.username}>{patient.name}</option>
+              )
+            })}
+            </select>
               <label htmlFor="">Date</label>
               <input
                 type="date"

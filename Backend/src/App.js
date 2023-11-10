@@ -41,6 +41,7 @@ const {
   findDoctor,
   addPatient4doctor,
   doctorUploadFile,
+  getPatientNames
 } = require("./Routes/doctorController");
 
 const {
@@ -168,8 +169,13 @@ app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
+
+
 app.put("/ResetPass", ResetPass);
 app.post("/linkPatients", linkPatients);
+
+
+
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
 app.put("/updateDoctor", updateDoctor);
@@ -177,6 +183,7 @@ app.put("/addPatient4Doctor", addPatient4doctor);
 app.delete("/deleteDoctor", deleteDoctor);
 app.get("/findDoctor", findDoctor);
 app.post("/doctorUploadFile", doctorUploadFile);
+app.get("/PatientsName/:Username", getPatientNames);
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);

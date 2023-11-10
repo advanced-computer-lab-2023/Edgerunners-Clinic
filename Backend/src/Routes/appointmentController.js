@@ -2,6 +2,7 @@
 const Appointment = require("../Models/Appointment.js");
 const Patient = require("../Models/Patient.js");
 const Doctor = require("../Models/Doctor.js");
+const prescriptions = require("../Models/Prescriptions.js");
 const { default: mongoose } = require("mongoose");
 const stripe = require('stripe')('sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw')
 
@@ -67,6 +68,8 @@ const createFollowUp = async (req, res) => {
   }
 };
 
+
+
 const getAppointments = async (req, res) => {
   try {
     const { Date, Speciality, Name } = req.query;
@@ -104,6 +107,26 @@ const getAppointments = async (req, res) => {
 };
 
 const updateAppointment = async (req, res) => {
+  const doctorPatients = await Doctor.findOne({ Username: req.body.DoctorUsername });
+  const patient = await Patient.findOne({ Username: req.body.PatientUsername });
+  const Prescription = await prescriptions.findOne({
+    Patient: req.body.PatientUsername,
+    Doctor: req.body.DoctorUsername,
+  });
+  let result = doctorPatients.Patients;
+  let hello = false;
+  for (let index = 0; index < result.length; index++) {
+    if(result[index].patient.Username == req.body.PatientUsername){
+      hello = true;
+    }
+  }
+  if(!hello){
+    result.push({ patient: patient, prescriptions: Prescription });
+  }
+  await Doctor.updateOne(
+    { Username: req.body.DoctorUsername },
+    { $set: { Patients: result } },
+  );
   await Appointment.updateOne(
     {
       DoctorUsername: req.body.DoctorUsername,

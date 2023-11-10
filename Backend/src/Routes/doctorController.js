@@ -71,6 +71,20 @@ const doctorUploadFile = async (req, res) => {
   // console.log(doctor);
 };
 
+const getPatientNames = async (req, res) => {
+  try{
+    const all = await Doctor.findOne({Username:req.params.Username});
+    let Patients = all.Patients;
+    const tmp = [];
+    for (let i = 0; i < Patients.length ; ++i){
+      tmp.push({name:Patients[i].patient.Name,  username:Patients[i].patient.Username})
+    }
+    res.status(200).send(tmp);
+  } catch (e) {
+    res.status(400).send("Could not get patients")
+  }
+}
+
 const getDoctors = async (req, res) => {
   try {
     const { Name, Speciality, Status } = req.query;
@@ -189,5 +203,6 @@ module.exports = {
   deleteDoctor,
   findDoctor,
   addPatient4doctor,
-  doctorUploadFile
+  doctorUploadFile,
+  getPatientNames
 };

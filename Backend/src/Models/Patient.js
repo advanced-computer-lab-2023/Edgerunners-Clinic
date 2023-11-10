@@ -56,6 +56,10 @@ const patientSchema = new Schema(
     FileNames:{
       type: Array,
       required: false,
+    },
+    HealthRecords:{
+      type: Array,
+      required: false,
     }
   },
   { timestamps: true },

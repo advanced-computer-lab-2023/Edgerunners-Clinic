@@ -12,6 +12,9 @@ const {
   deletePatient,
   filterPatients,
   patientUploadFile,
+  viewFiles,
+  gethealthrecords,
+  patientUploadHealthRecord,
   ResetPass,
 } = require("./Routes/patientController");
 
@@ -109,6 +112,7 @@ app.use(
     defParamCharset: "utf8",
   }),
 );
+
 // app.use(function(req, res, next){
 //   res.setHeader('Access-Control-Allow-Origin', '*');
 // });
@@ -116,6 +120,9 @@ app.use(
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);
 app.post("/patientUploadFile", patientUploadFile);
+app.get("/viewFiles/:filename",viewFiles);
+app.get("/patientUploadHealthRecord",patientUploadHealthRecord);
+app.get("/gethealthrecords/:Username",gethealthrecords);
 app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
@@ -156,3 +163,4 @@ app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
+

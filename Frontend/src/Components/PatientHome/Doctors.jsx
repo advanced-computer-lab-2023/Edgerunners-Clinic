@@ -4,6 +4,7 @@ import GetDoctors, { GetSpecialities } from "./getDoctors";
 import GetAppointments from "./getAppoinments";
 import axios from "axios";
 import GetRelation from "./getRelation";
+import PayButton from "../Packages/PayButton";
 
 export default function Doctors() {
   const [speciality, setSpeciality] = useState();
@@ -52,6 +53,16 @@ export default function Doctors() {
       NationalID: NationalID
     });
   };
+  
+  const handleCheckout = async(name) => {
+    console.log(name);
+    await axios.post("http://localhost:3001/create-checkout-session",{
+       name
+   })
+   .then((res)=>{
+       window.location = res.data.url
+   }).catch((err) => console.log(err.message));
+}
   console.log(appointmentDate);
 
   if (Doc || appointmentDate) {
@@ -223,15 +234,17 @@ export default function Doctors() {
                   })
                   }
                 </select>
+                {/* {<PayButton name = {a.Doctor.Name} /> } */}
                 <button
-                  onClick={(e) =>
+                  onClick={(e) =>{
                     handleSubmit2(
                       e,
                       a.Doctor.Username,
                       a.Date,
                       a.TimeH,
                       a.TimeM
-                    )
+                    ),
+                     handleCheckout({name:a.Doctor.Name})}
                   }
                 >
                   reserve

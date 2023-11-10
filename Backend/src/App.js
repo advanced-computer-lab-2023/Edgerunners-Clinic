@@ -56,6 +56,7 @@ const {
 
 const {
   createAppointment,
+  createFollowUp,
   getAppointments,
   updateAppointment,
   deleteAppointment,
@@ -112,38 +113,6 @@ app.use(
 );
 
 const stripe = require('stripe')('sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw')
-// const storeItems = new Map([
-//   [1,{priceInCents: 10000, name:"Silver Package"}],
-//   [2,{priceInCents: 20000, name:"Gold Package"}],
-// ])
-// app.post('/create-checkout-session', (req, res) =>{
-//   res.json({url:'Hi'})
-// })
-// app.get('/getProductList', async (req, res) => {
-//   const products = await stripe.products.list({
-//   });
-//   res.data = {products : products};
-  // const session = await stripe.checkout.sessions.create({
-  //   line_items: [
-  //     {
-  //       price_data: {
-  //         currency: 'usd',
-  //         product_data: {
-  //           name: 'T-shirt',
-  //         },
-  //         unit_amount: 2000,
-  //       },
-  //       quantity: 1,
-  //     },
-  //   ],
-  //   mode: 'payment',
-  //   success_url: 'http://localhost:5173/Success',
-  //   cancel_url: 'http://localhost:5173/Cancel',
-  // });
-
-  // res.redirect(303, session.url);
-// });
-
 
 app.post("/create-checkout-session", async (req, res) =>{
   const products = await stripe.products.list({
@@ -153,28 +122,12 @@ app.post("/create-checkout-session", async (req, res) =>{
   let price = null;
   for(let i =0; i< products.data.length ; i++ ){
     //console.log(products.data[i]);
-    console.log(products.data[i]);
+    console.log(req.body.name.name)
     if(products.data[i].name === req.body.name.name ){
       price = products.data[i].default_price; 
       break;
     }
   }
-  // const {amount} = req.body;
-    //console.log(amount);
-    // const price = parseInt(amount.amount.Price * 100);
-    // const product = await stripe.products.create({
-    //   name: amount.amount.Name,
-    //   default_price_data:{
-    //     currency: 'egp',
-    //     unit_amount: price
-    //   }
-    // })
-    // const final = await stripe.prices.create({
-    //   unit_amount: price,
-    //   currency : 'egp',
-    //   product: product.id
-    // })
-    //console.log(final)
     console.log(price);
     const session = await stripe.checkout.sessions.create({
       payment_method_types:["card"],
@@ -240,6 +193,7 @@ app.put("/updatePrescriptions", updatePrescriptions);
 app.delete("/deletePrescriptions", deletePrescriptions);
 
 app.post("/createAppointment", createAppointment);
+app.post("/createFollowUp", createFollowUp);
 app.get("/getAppointment", getAppointments);
 app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);

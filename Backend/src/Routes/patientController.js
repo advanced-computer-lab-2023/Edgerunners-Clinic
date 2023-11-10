@@ -29,6 +29,7 @@ const createPatient = async (req, res) => {
         phoneNumber: req.body.phoneNumber,
         FileNames: [],
         DOB: req.body.DOB,
+        Wallet: 0,
         EmergencyContact: {
           FullnameEC: req.body.EmergencyContact.FullnameEC,
           phoneNumberEC: req.body.EmergencyContact.phoneNumberEC,

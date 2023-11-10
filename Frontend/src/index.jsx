@@ -31,6 +31,8 @@ import MyWalletD from "./Components/DoctorHome/MyWalletD";
 
 import UploadDocuments from "./Components/PatientHome/uploadDocuments";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
+import ResetPass from "./Components/Login_Reg/ResetPass";
+import ChangePass from "./Components/Patient/ChangePass";
 
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
 import ContractPage from "./Components/Login_Reg/contract";
@@ -40,6 +42,8 @@ import AddAppointment from "./Components/DoctorHome/AddAppointment";
 import Checkout from "./Checkout/Checkout";
 import Success from "./Checkout/Success";
 import Cancel from "./Checkout/Cancel";
+
+import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -93,9 +97,11 @@ if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token"
        <Route path="/DoctorHome" element={<DoctorHome />} />
        <Route path="/EditMyProf" element={<EditMyProf />} />
        <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
+       <Route path="/AddAppointment" element={<AddAppointment />} />
        <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
        <Route path="/contract" element={<ContractPage />} />
        <Route path="/MyWalletD" element={<MyWalletD/>} />
+       <Route path="/ScheduleAppointment" element={<ScheduleAppointment/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

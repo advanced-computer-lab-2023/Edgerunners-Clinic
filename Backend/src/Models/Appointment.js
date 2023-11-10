@@ -34,6 +34,11 @@ const appointmentSchema = new Schema({
   NationalID: {
     type: String,
     required: false,
+  },
+  Type: {
+    type: String,
+    default: "New Appointment",
+    required: false,
   }
 });
 

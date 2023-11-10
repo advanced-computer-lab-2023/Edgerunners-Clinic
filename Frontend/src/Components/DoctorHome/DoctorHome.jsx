@@ -198,7 +198,9 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
+            <a href="/AddAppointment">
             <h3>Add Appointment</h3>
+            </a>
             <p>
               select an appointment date and time for myself or for a family
               member

@@ -25,6 +25,7 @@ const createDoctor = async (req, res) => {
         Affiliation: req.body.Affiliation,
         Education: req.body.Education,
         Speciality: req.body.Speciality,
+        Wallet:0,
         Status: "Pending",
       });
       res.status(200).send("Created successfully");

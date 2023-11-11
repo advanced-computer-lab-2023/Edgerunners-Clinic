@@ -13,7 +13,6 @@ const {
   filterPatients,
   patientUploadFile,
   ResetPass,
-  linkPatients,
 } = require("./Routes/patientController");
 
 const {
@@ -64,6 +63,17 @@ const {
   updateAppointmentStatus,
 } = require("./Routes/appointmentController");
 
+const{
+  createLinkedAccount,
+  getLinkedAccounts,
+}= require("./Routes/linkedAccountsController");
+const{
+  createHealthPackage ,
+  getHealthPackages,
+  viewStatusforMyself,
+  viewStatusForMyFamilyMember,
+  Cancelsubscription,
+}= require("./Routes/healthPackageController");
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -122,7 +132,6 @@ app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 app.put("/ResetPass", ResetPass);
-app.post("/linkPatients", linkPatients);
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
 app.put("/updateDoctor", updateDoctor);
@@ -157,3 +166,12 @@ app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
+
+app.post("/createLinkedAccount",createLinkedAccount);
+app.get("/getLinkedAccounts", getLinkedAccounts);
+
+app.post("/createHealthPackage",createHealthPackage );
+app.get("/getHealthPackages", getHealthPackages);
+app.get("/viewStatusforMyself",viewStatusforMyself);
+app.get("/viewStatusForMyFamilyMember",viewStatusForMyFamilyMember);
+app.put("/Cancelsubscription",Cancelsubscription);

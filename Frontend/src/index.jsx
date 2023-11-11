@@ -35,7 +35,7 @@ import UploadDocuments from "./Components/PatientHome/uploadDocuments";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
-
+import ViewAndSubToAHealthPackage from "./Components/Patient/ViewAndSubToAHealthPackage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -45,7 +45,7 @@ root.render(
         <Route path="/PatientAppointments" element={<PatientAppointments />} />
         <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
 
-        <Route path="/" element={<LinkAnotherPat />} />
+        <Route path="/" element={<ViewAndSubToAHealthPackage />} />
         <Route path="/AdminHome" element={<AdminHome />} />
         <Route path="/Doctors" element={<Doctors />} />
         <Route path="/PatientHome" element={<PatientHome />} />

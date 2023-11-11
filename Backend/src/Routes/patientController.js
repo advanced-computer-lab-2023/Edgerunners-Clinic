@@ -161,50 +161,53 @@ function calculateAge(dateOfBirth) {
   
   return age;
 };
-const linkPatients = async(req, res) => {
+
+//subscribing to healthpackages
+/*const subscribeHealthPackage = async(req, res) => {
   try {
-    let { email, phoneNumber,Relationn} = req.body;
-    const patient = await Patient.findOne({
-      $or: [{ Email: email }, { phoneNumber: phoneNumber }],
-    });
-  
-    if (!patient) {
-      res.status(404).send("Patient not found");
+    const { patientUsername, packageName } = req.body;
+    const subscriptionDate = new Date();
+    const oneYearLater = new Date(subscriptionDate);
+    oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+    
+    const formattedOneYearLater = `${oneYearLater.getFullYear()}-${String(
+      oneYearLater.getMonth() + 1
+    ).padStart(2, '0')}-${String(oneYearLater.getDate()).padStart(2, '0')}`;
+    
+    const statuss = `Subscribed until ${formattedOneYearLater}`;
+    const newHealthPackage = {
+      name: packageName,
+      status: statuss,
+    };
+
+    // Find the patient by username and update the HealthRecords array
+    const updatedPatient = await Patient.findOneAndUpdate(
+      { Username: patientUsername },
+      { $push: { HealthRecords: newHealthPackage } },
+      
+    );
+
+    if (!updatedPatient) {
+      res.status(404).send('Patient not found');
       return;
     }
-  
-    if(Relationn === "Wife/Husband"){
-     
-      if(patient.Gender === "Male"){
-        Relationn = "Husband";
-      }
-      else{
-        Relationn= "wife";
-      }
-    }
-    
-    console.log(patient.Gender);
-       const newRelation = {
-        Patient: req.body.Patient,
-        NationalID:0,
-        Gender: patient.Gender,
-        Name: patient.Name,
-        Age: calculateAge(patient.DOB),
-        Relation: Relationn,
-      };
-  
-      console.log(newRelation);
-      patient.Relations.push(newRelation);
-  
-     
-      await patient.save();
- 
-      res.status(200).send("Relation added successfully");
+
+    res.status(200).send('Health package subscribed successfully');
   } catch (e) {
-    
-    res.status(500).send("Internal Server Error");
-    }
+    console.error(e);
+    res.status(500).send('Internal Server Error');
+  }
+
 };
+const viewStatusOfMyHealthPackage = async(req, res) =>{
+  try{
+
+  }catch (e) {
+    console.error(e);
+    res.status(500).send('Internal Server Error');
+  }
+  
+};*/
 module.exports = {
   createPatient,
   getPatients,
@@ -213,5 +216,5 @@ module.exports = {
   filterPatients,
   patientUploadFile,
   ResetPass,
-  linkPatients,
+ 
 };

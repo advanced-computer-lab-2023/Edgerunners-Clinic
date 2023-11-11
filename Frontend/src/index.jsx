@@ -48,7 +48,7 @@ import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token") == null && sessionStorage.getItem("type") == null) {
+if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token") == null && sessionStorage.getItem("type") == null) || sessionStorage.getItem("Status")=="Waiting") {
   console.log("signin")
   root.render(
     <React.StrictMode>
@@ -87,7 +87,7 @@ if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token"
       </BrowserRouter>
     </React.StrictMode>
   );
-}else if(sessionStorage.getItem("type") == "Doctor"){
+}else if(sessionStorage.getItem("type") == "Doctor" && sessionStorage.getItem("Status")=="Accepted"){
   console.log("doctor")
   root.render(
     <React.StrictMode>

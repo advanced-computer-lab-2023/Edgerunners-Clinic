@@ -87,6 +87,7 @@ export default function DoctorHome() {
                       sessionStorage.removeItem("Username");
                       sessionStorage.removeItem("type");
                       sessionStorage.removeItem("token");
+                      sessionStorage.removeItem("Status");
                       window.location.replace("/");
                     }}
                   >

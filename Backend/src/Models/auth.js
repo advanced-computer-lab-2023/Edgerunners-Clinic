@@ -135,13 +135,17 @@ const signin = async (req, res) => {
     if (user) {
       isValid = comparePassword(password, user.Password);
       if (isValid) {
-        res.status(200).send({
-          token: createJWTD(username),
-          type: "Doctor",
-          Username: username,
-          Status: user.Status,
-          wallet: user.Wallet,
-        });
+        if (user.Status !== "Pending") {
+          res.status(200).send({
+            token: createJWTD(username),
+            type: "Doctor",
+            Username: username,
+            Status: user.Status,
+            wallet: user.Wallet,
+          });
+        } else {
+          res.status(401).send("Doctor not accepted yet");
+        }
       } else {
         res.status(401).send("invalid password");
       }

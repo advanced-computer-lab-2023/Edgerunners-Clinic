@@ -41,7 +41,8 @@ const {
   findDoctor,
   addPatient4doctor,
   doctorUploadFile,
-  getPatientNames
+  getPatientNames,
+  updateStatus
 } = require("./Routes/doctorController");
 
 const {
@@ -126,8 +127,8 @@ app.post("/create-checkout-session", async (req, res) =>{
   let price = null;
   for(let i =0; i< products.data.length ; i++ ){
     //console.log(products.data[i]);
-    console.log(req.body.name.name)
-    if(products.data[i].name === req.body.name.name ){
+    console.log(req.body.name)
+    if(products.data[i].name === req.body.name ){
       price = products.data[i].default_price; 
       break;
     }
@@ -184,6 +185,8 @@ app.delete("/deleteDoctor", deleteDoctor);
 app.get("/findDoctor", findDoctor);
 app.post("/doctorUploadFile", doctorUploadFile);
 app.get("/PatientsName/:Username", getPatientNames);
+app.put("/updateStatus", updateStatus);
+
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);

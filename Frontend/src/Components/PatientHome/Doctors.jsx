@@ -15,15 +15,17 @@ const modalOverlayStyle = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
+  backgroundColor: "rgba(0, 0, 0, 0.1)",
+  zIndex: 1,
 };
 
 const modalStyle = {
   backgroundColor: "white",
   padding: "20px",
   borderRadius: "8px",
-  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)", // Box shadow for depth
+  boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
   textAlign: "center",
+  zIndex: 2, // Set a higher value to overlap the overlay
 };
 
 const closeButtonStyle = {
@@ -298,18 +300,18 @@ export default function Doctors() {
                       <p>Session price: {a.Doctor.Hourlyrate} EGP</p>
                       <button
                         onClick={(e) => {
-                          handleSubmit2(
-                            e,
-                            a.Doctor.Username,
-                            a.Date,
-                            a.TimeH,
-                            a.TimeM
-                          );
-                          sessionStorage.setItem(
-                            "wallet",
-                            parseInt(sessionStorage.getItem("wallet")) -
-                              parseInt(a.Doctor.Hourlyrate)
-                          );
+                          // handleSubmit2(
+                          //   e,
+                          //   a.Doctor.Username,
+                          //   a.Date,
+                          //   a.TimeH,
+                          //   a.TimeM
+                          // );
+                          // sessionStorage.setItem(
+                          //   "wallet",
+                          //   parseInt(sessionStorage.getItem("wallet")) -
+                          //     parseInt(a.Doctor.Hourlyrate)
+                          // );
                           setModal(false);
                         }}
                       >

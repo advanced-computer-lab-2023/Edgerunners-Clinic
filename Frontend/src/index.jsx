@@ -36,6 +36,8 @@ import ResetPass from "./Components/Login_Reg/ResetPass";
 import ChangePass from "./Components/Patient/ChangePass";
 
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
+
+import ViewAndSubToAHealthPackage from "./Components/Patient/ViewAndSubToAHealthPackage";
 import ContractPage from "./Components/Login_Reg/contract";
 import LoginPage from "./Components/Login_Reg/LoginPage";
 import AddAppointment from "./Components/DoctorHome/AddAppointment";
@@ -45,6 +47,7 @@ import Success from "./Checkout/Success";
 import Cancel from "./Checkout/Cancel";
 
 import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

@@ -28,13 +28,15 @@ function LinkAnotherPat() {
         setWarning("Please enter the phone number or the email");
         setOk(true);
      }
+     const pusername= sessionStorage.getItem("Username");
      const linkedAcc={
+      patientUsername:pusername,
         email: emailV,
-        phoneNumber: phoneNumV,
-        Relationn: relationV,
+        phonenum: phoneNumV,
+        relation: relationV,
+        
      };
-     linkedAcc.Patient = sessionStorage.getItem("Username");
-     await axios.post("http://localhost:3001/linkPatients", linkedAcc);
+     await axios.post("http://localhost:3001/createLinkedAccount", linkedAcc);
 
         }
   

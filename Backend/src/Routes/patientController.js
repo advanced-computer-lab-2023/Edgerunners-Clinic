@@ -235,47 +235,7 @@ function calculateAge(dateOfBirth) {
   }
 
   return age;
-}
-const linkPatients = async (req, res) => {
-  try {
-    let { email, phoneNumber, Relationn } = req.body;
-    const patient = await Patient.findOne({
-      $or: [{ Email: email }, { phoneNumber: phoneNumber }],
-    });
 
-    if (!patient) {
-      res.status(404).send("Patient not found");
-      return;
-    }
-
-    if (Relationn === "Wife/Husband") {
-      if (patient.Gender === "Male") {
-        Relationn = "Husband";
-      } else {
-        Relationn = "wife";
-      }
-    }
-
-    console.log(patient.Gender);
-    const newRelation = {
-      Patient: req.body.Patient,
-      NationalID: 0,
-      Gender: patient.Gender,
-      Name: patient.Name,
-      Age: calculateAge(patient.DOB),
-      Relation: Relationn,
-    };
-
-    console.log(newRelation);
-    patient.Relations.push(newRelation);
-
-    await patient.save();
-
-    res.status(200).send("Relation added successfully");
-  } catch (e) {
-    res.status(500).send("Internal Server Error");
-  }
-};
 module.exports = {
   createPatient,
   getPatients,
@@ -287,6 +247,5 @@ module.exports = {
   gethealthrecords,
   patientUploadHealthRecord,
   ResetPass,
-  linkPatients,
   GetWallet,
 };

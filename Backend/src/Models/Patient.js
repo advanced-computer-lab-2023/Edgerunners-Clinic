@@ -64,6 +64,16 @@ const patientSchema = new Schema(
     Wallet: {
       type: Number,
       required: false,
+    },
+    HealthPackageflag: {
+      type:Boolean,
+      required: false,
+      default: false,
+    },
+    Linked:{
+      type:Boolean,
+      required: false,
+      default: false,
     }
   
   },

@@ -14,7 +14,7 @@ const packageSchema = new Schema(
       required: true,
     },
 
-    discountMedicin: {
+    discountMedicin:{ 
       type: String,
       required: true,
     },

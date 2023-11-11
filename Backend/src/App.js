@@ -17,7 +17,6 @@ const {
   patientUploadHealthRecord,
   ResetPass,
   GetWallet,
-
 } = require("./Routes/patientController");
 
 const {
@@ -73,17 +72,17 @@ const {
   updateAppointmentWallet,
 } = require("./Routes/appointmentController");
 
-const{
+const {
   createLinkedAccount,
   getLinkedAccounts,
-}= require("./Routes/linkedAccountsController");
-const{
-  createHealthPackage ,
+} = require("./Routes/linkedAccountsController");
+const {
+  createHealthPackage,
   getHealthPackages,
   viewStatusforMyself,
   viewStatusForMyFamilyMember,
   Cancelsubscription,
-}= require("./Routes/healthPackageController");
+} = require("./Routes/healthPackageController");
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -140,23 +139,13 @@ app.post("/create-checkout-session", async (req, res) => {
     active: true,
   });
   //console.log(products.data);
-  let price = null;
-  for (let i = 0; i < products.data.length; i++) {
-    //console.log(products.data[i]);
-
-    console.log(req.body.name)
-    if(products.data[i].name === req.body.name ){
-      price = products.data[i].default_price; 
-      break;
-    }
-  }
-  console.log(price);
+  const product = products.data.find((p) => p.name === req.body.name);
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
     line_items: [
       {
-        price: price,
+        price: product.default_price,
         quantity: 1,
       },
     ],
@@ -197,7 +186,6 @@ app.post("/doctorUploadFile", doctorUploadFile);
 app.get("/PatientsName/:Username", getPatientNames);
 app.put("/updateStatus", updateStatus);
 
-
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);
 app.put("/updateAdmin", updateAdmin);
@@ -227,11 +215,11 @@ app.put("/updateAppointment", updateAppointment);
 app.put("/updateAppointmentWallet", updateAppointmentWallet);
 app.delete("/deleteAppointment", deleteAppointment);
 
-app.post("/createLinkedAccount",createLinkedAccount);
+app.post("/createLinkedAccount", createLinkedAccount);
 app.get("/getLinkedAccounts", getLinkedAccounts);
 
-app.post("/createHealthPackage",createHealthPackage );
+app.post("/createHealthPackage", createHealthPackage);
 app.get("/getHealthPackages", getHealthPackages);
-app.get("/viewStatusforMyself",viewStatusforMyself);
-app.get("/viewStatusForMyFamilyMember",viewStatusForMyFamilyMember);
-app.put("/Cancelsubscription",Cancelsubscription);
+app.get("/viewStatusforMyself", viewStatusforMyself);
+app.get("/viewStatusForMyFamilyMember", viewStatusForMyFamilyMember);
+app.put("/Cancelsubscription", Cancelsubscription);

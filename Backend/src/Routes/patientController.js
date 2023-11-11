@@ -1,7 +1,7 @@
 // #Task route solution
 const Patient = require("../Models/Patient.js");
 const Doctor = require("../Models/Doctor.js");
-const Relation= require("../Models/Relation.js");
+const Relation = require("../Models/Relation.js");
 const Admin = require("../Models/Admin.js");
 const Appointment = require("../Models/Appointment.js");
 var bcrypt = require("bcrypt");
@@ -9,19 +9,19 @@ const { default: mongoose } = require("mongoose");
 const hashPassword = async (password) => {
   return bcrypt.hash(password, 5);
 };
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const createPatient = async (req, res) => {
   //add a new Patient to the database with
   //Name, Email and Age
   try {
-    let PatientUsername = await Doctor.findOne({Username: req.body.Username})
-    const PatientMail = await Doctor.findOne({Email: req.body.Email})
-    if(!PatientUsername){
-      PatientUsername = await Admin.findOne({Username: req.body.Username});
+    let PatientUsername = await Doctor.findOne({ Username: req.body.Username });
+    const PatientMail = await Doctor.findOne({ Email: req.body.Email });
+    if (!PatientUsername) {
+      PatientUsername = await Admin.findOne({ Username: req.body.Username });
     }
-    if(!PatientUsername && !PatientMail){
+    if (!PatientUsername && !PatientMail) {
       await Patient.create({
         Username: req.body.Username,
         Password: await hashPassword(req.body.Password),
@@ -39,11 +39,11 @@ const createPatient = async (req, res) => {
         },
       });
       res.status(200).send("Created successfully");
-    }else{
-      if(PatientMail){
-        res.status(401).send("e-mail already exists")
-      }else{
-        res.status(401).send("username already exists")
+    } else {
+      if (PatientMail) {
+        res.status(401).send("e-mail already exists");
+      } else {
+        res.status(401).send("username already exists");
       }
     }
   } catch (e) {
@@ -77,24 +77,30 @@ const patientUploadHealthRecord = async (req, res) => {
   filter.Username = username;
   const patient = await Patient.findOne({ Username: username });
   console.log(patient);
-  const filename = username + "-healthrecord-" + Math.floor(Math.random() * 900000000) + 100000000; + ".pdf";
+  const filename =
+    username +
+    "-healthrecord-" +
+    Math.floor(Math.random() * 900000000) +
+    100000000;
+  +".pdf";
   const file = req.files.file;
   var filePath = "./healthrecords/" + filename;
   await Patient.updateOne(
     { Username: username },
-    { $push: { HealthRecords : filename } },
+    { $push: { HealthRecords: filename } },
   );
   file.mv(filePath);
   res.status(200);
 };
 
-const gethealthrecords = async (req,res)=>{
-   const username = req.params.Username;
-   console.log(username);
-   const patient = await Patient.find({Username: username}).select("FileNames");
-   res.status(200).json(patient);
-}
-
+const gethealthrecords = async (req, res) => {
+  const username = req.params.Username;
+  console.log(username);
+  const patient = await Patient.find({ Username: username }).select(
+    "FileNames",
+  );
+  res.status(200).json(patient);
+};
 
 const viewFiles = async (req, res) => {
   try {
@@ -105,6 +111,12 @@ const viewFiles = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+};
+
+const GetWallet = async (req, res) => {
+  const user = await Patient.findOne({ Username: req.params.username });
+  const wallet = user.Wallet;
+  res.status(200).json(wallet);
 };
 
 const getPatients = async (req, res) => {
@@ -181,19 +193,19 @@ const updatePatient = async (req, res) => {
 const ResetPass = async (req, res) => {
   const newPassword = req.query.Password;
   const email = req.params.Email;
-  const doctor = await Doctor.findOne({Email : req.params.Email});
+  const doctor = await Doctor.findOne({ Email: req.params.Email });
   if (doctor) {
     await Patient.updateOne(
-      { Email: email ,Status: "Accepted" },
+      { Email: email, Status: "Accepted" },
       { $set: { Password: newPassword } },
     ).catch("an error happened");
-  }
-  else{
+  } else {
     await Patient.updateOne(
-    { Email: email },
-    { $set: { Password: newPassword } },
-  ).catch("an error happened");
-  res.status(200).send("all good");}
+      { Email: email },
+      { $set: { Password: newPassword } },
+    ).catch("an error happened");
+    res.status(200).send("all good");
+  }
 };
 
 const deletePatient = async (req, res) => {
@@ -212,61 +224,57 @@ const deletePatient = async (req, res) => {
 function calculateAge(dateOfBirth) {
   const dob = new Date(dateOfBirth);
   if (isNaN(dob)) {
-    throw new Error('Invalid date of birth');
+    throw new Error("Invalid date of birth");
   }
   const today = new Date();
   let age = today.getFullYear() - dob.getFullYear();
   const monthDiff = today.getMonth() - dob.getMonth();
-  
+
   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
     age--;
   }
-  
+
   return age;
-};
-const linkPatients = async(req, res) => {
+}
+const linkPatients = async (req, res) => {
   try {
-    let { email, phoneNumber,Relationn} = req.body;
+    let { email, phoneNumber, Relationn } = req.body;
     const patient = await Patient.findOne({
       $or: [{ Email: email }, { phoneNumber: phoneNumber }],
     });
-  
+
     if (!patient) {
       res.status(404).send("Patient not found");
       return;
     }
-  
-    if(Relationn === "Wife/Husband"){
-     
-      if(patient.Gender === "Male"){
+
+    if (Relationn === "Wife/Husband") {
+      if (patient.Gender === "Male") {
         Relationn = "Husband";
-      }
-      else{
-        Relationn= "wife";
+      } else {
+        Relationn = "wife";
       }
     }
-    
+
     console.log(patient.Gender);
-       const newRelation = {
-        Patient: req.body.Patient,
-        NationalID:0,
-        Gender: patient.Gender,
-        Name: patient.Name,
-        Age: calculateAge(patient.DOB),
-        Relation: Relationn,
-      };
-  
-      console.log(newRelation);
-      patient.Relations.push(newRelation);
-  
-     
-      await patient.save();
- 
-      res.status(200).send("Relation added successfully");
+    const newRelation = {
+      Patient: req.body.Patient,
+      NationalID: 0,
+      Gender: patient.Gender,
+      Name: patient.Name,
+      Age: calculateAge(patient.DOB),
+      Relation: Relationn,
+    };
+
+    console.log(newRelation);
+    patient.Relations.push(newRelation);
+
+    await patient.save();
+
+    res.status(200).send("Relation added successfully");
   } catch (e) {
-    
     res.status(500).send("Internal Server Error");
-    }
+  }
 };
 module.exports = {
   createPatient,
@@ -280,4 +288,5 @@ module.exports = {
   patientUploadHealthRecord,
   ResetPass,
   linkPatients,
+  GetWallet,
 };

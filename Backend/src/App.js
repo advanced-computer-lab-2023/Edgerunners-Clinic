@@ -17,6 +17,7 @@ const {
   patientUploadHealthRecord,
   ResetPass,
   linkPatients,
+  GetWallet,
 } = require("./Routes/patientController");
 
 const {
@@ -41,7 +42,8 @@ const {
   findDoctor,
   addPatient4doctor,
   doctorUploadFile,
-  getPatientNames
+  getPatientNames,
+  GetWalletD,
 } = require("./Routes/doctorController");
 
 const {
@@ -67,6 +69,7 @@ const {
   filterDateAppointments,
   filterStatusAppointments,
   updateAppointmentStatus,
+  updateAppointmentWallet,
 } = require("./Routes/appointmentController");
 
 const MongoURI =
@@ -116,40 +119,39 @@ app.use(
   }),
 );
 
-const stripe = require('stripe')('sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw')
+const stripe = require("stripe")(
+  "sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw",
+);
 
-app.post("/create-checkout-session", async (req, res) =>{
+app.post("/create-checkout-session", async (req, res) => {
   const products = await stripe.products.list({
     active: true,
   });
   //console.log(products.data);
   let price = null;
-  for(let i =0; i< products.data.length ; i++ ){
+  for (let i = 0; i < products.data.length; i++) {
     //console.log(products.data[i]);
-    console.log(req.body.name.name)
-    if(products.data[i].name === req.body.name.name ){
-      price = products.data[i].default_price; 
+    console.log(req.body.name.name);
+    if (products.data[i].name === req.body.name.name) {
+      price = products.data[i].default_price;
       break;
     }
   }
-    console.log(price);
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types:["card"],
-      mode: "payment",
-      line_items:[{
-        price :price,
+  console.log(price);
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    mode: "payment",
+    line_items: [
+      {
+        price: price,
         quantity: 1,
-    }],
-      success_url: 'http://localhost:5173/Success',
-      cancel_url: 'http://localhost:5173/Cancel',
-    });
-    res.send({url: session.url})
-  
-})
-
-
-
-
+      },
+    ],
+    success_url: "http://localhost:5173/Success",
+    cancel_url: "http://localhost:5173/Cancel",
+  });
+  res.send({ url: session.url });
+});
 
 // const {testStripe} = require("./stripe.js")
 // app.post("/stripe", testStripe);
@@ -157,24 +159,21 @@ app.post("/create-checkout-session", async (req, res) =>{
 //   res.setHeader('Access-Control-Allow-Origin', '*');
 // });
 
-
-
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);
 app.post("/patientUploadFile", patientUploadFile);
-app.get("/viewFiles/:filename",viewFiles);
-app.get("/patientUploadHealthRecord",patientUploadHealthRecord);
-app.get("/gethealthrecords/:Username",gethealthrecords);
+app.get("/viewFiles/:filename", viewFiles);
+app.get("/getWallet/:username", GetWallet);
+app.get("/getWalletD/:username", GetWalletD);
+app.get("/patientUploadHealthRecord", patientUploadHealthRecord);
+app.get("/gethealthrecords/:Username", gethealthrecords);
 app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 
-
 app.put("/ResetPass", ResetPass);
 app.post("/linkPatients", linkPatients);
-
-
 
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
@@ -211,5 +210,5 @@ app.get("/getAppointment", getAppointments);
 app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
+app.put("/updateAppointmentWallet", updateAppointmentWallet);
 app.delete("/deleteAppointment", deleteAppointment);
-

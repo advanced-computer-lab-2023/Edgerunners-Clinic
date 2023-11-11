@@ -312,8 +312,9 @@ export default function Doctors() {
                       a.TimeH,
                       a.TimeM
                     ),
-                      handleCheckout({ name: a.Doctor.Name });
-                  }}
+
+                     handleCheckout(a.Doctor.Name)}
+                  }
                 >
                   reserve with credit
                 </button>

@@ -40,12 +40,16 @@ const createDoctor = async (req, res) => {
     res.status(400).send("Failed to Create Doctor");
   }
 };
-
+const updateStatus = async(req,res) =>{
+  let user  = await Doctor.updateOne({Username : req.body.Username} , {$set: {Status : req.body.Status}});
+  res.status(200).send("Updateed Status");
+}
 const doctorUploadFile = async (req, res) => {
   const filename = req.body.Username + "-" + ".pdf";
   const file = req.files.file;
   var filePath = "./uploadDoctor/" + filename;
   file.mv(filePath);
+
   await Doctor.create({
     Username: req.body.Username,
     Password: req.body.Password,
@@ -212,5 +216,6 @@ module.exports = {
   addPatient4doctor,
   doctorUploadFile,
   getPatientNames,
+  updateStatus,
   GetWalletD,
 };

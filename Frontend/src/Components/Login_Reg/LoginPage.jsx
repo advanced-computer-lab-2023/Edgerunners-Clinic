@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { useRef, useState } from "react";
 import GenderInputSelect from "./GenderInputSelect";
 import axios from "axios";
+import ContractPage from "./contract";
 
 class LoginPage extends Component {
   state = {
@@ -14,10 +15,12 @@ class LoginPage extends Component {
     signIn_password: null,
     signUp_gender: null,
 
+    enable: false,
     role: true,
     signUp_hourlyRate: null,
     file: null,
   };
+
   handleFileChange = (e) => {
     if (e.target.files) {
       this.setState({ file: e.target.files[0] });
@@ -77,8 +80,7 @@ class LoginPage extends Component {
       .catch((err) => {
         console.log(err);
       });
-      this.setState({ isContainerActive: false });
-
+    this.setState({ isContainerActive: false });
   };
   signUpDoctor = (event) => {
     event.preventDefault();
@@ -104,7 +106,7 @@ class LoginPage extends Component {
         console.log(err);
       });
     this.setState({ isContainerActive: false });
-
+    
   };
   signIn = async (event) => {
     event.preventDefault();
@@ -122,7 +124,8 @@ class LoginPage extends Component {
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("type", res.data.type);
         sessionStorage.setItem("wallet", res.data.wallet);
-        if(res.data.Status){
+        let status = null;
+        if (res.data.Status) {
           sessionStorage.setItem("Status", res.data.Status);
         }
 
@@ -131,11 +134,11 @@ class LoginPage extends Component {
           if (sessionStorage.getItem("type") == "Patient") {
             window.location.replace("/PatientHome");
           } else if (sessionStorage.getItem("type") == "Doctor") {
-            if(sessionStorage.getItem("Status") == "Accepted"){
+            if (sessionStorage.getItem("Status") == "Accepted") {
               window.location.replace("/DoctorHome");
-            }else if(sessionStorage.getItem("Status") == "Waiting"){
-              window.location.replace("/Contract");
-            }              
+            } else if (sessionStorage.getItem("Status") == "Waiting") {
+              this.setState({ enable: true });
+            }
           } else {
             window.location.replace("/AdminHome");
           }
@@ -148,7 +151,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="PatientReg">
-        <body>
+        <div className = "bodyClass">
           <div
             className={`container${
               this.state.isContainerActive ? " right-panel-active" : ""
@@ -157,18 +160,18 @@ class LoginPage extends Component {
           >
             {this.state.role ? (
               //Patient Registeration
-              <div class="form-container sign-up-container">
+              <div className="form-container sign-up-container">
                 <form action="">
                   <h1>Create Account</h1>
-                  <div class="social-container">
-                    <a href="#" class="social">
-                      <i class="fab fa-facebook-f"></i>
+                  <div className="social-container">
+                    <a href="#" className="social">
+                      <i className="fab fa-facebook-f"></i>
                     </a>
-                    <a href="#" class="social">
-                      <i class="fab fa-google-plus-g"></i>
+                    <a href="#" className="social">
+                      <i className="fab fa-google-plus-g"></i>
                     </a>
-                    <a href="#" class="social">
-                      <i class="fab fa-linkedin-in"></i>
+                    <a href="#" className="social">
+                      <i className="fab fa-linkedin-in"></i>
                     </a>
                   </div>
                   <span>or use your email for registration</span>
@@ -253,18 +256,18 @@ class LoginPage extends Component {
               </div>
             ) : (
               //Doctor Registeration
-              <div class="form-container sign-up-container">
+              <div className="form-container sign-up-container">
                 <form action="">
                   <h1>Create Account</h1>
-                  <div class="social-container">
-                    <a href="#" class="social">
-                      <i class="fab fa-facebook-f"></i>
+                  <div className="social-container">
+                    <a href="#" className="social">
+                      <i className="fab fa-facebook-f"></i>
                     </a>
-                    <a href="#" class="social">
-                      <i class="fab fa-google-plus-g"></i>
+                    <a href="#" className="social">
+                      <i className="fab fa-google-plus-g"></i>
                     </a>
-                    <a href="#" class="social">
-                      <i class="fab fa-linkedin-in"></i>
+                    <a href="#" className="social">
+                      <i className="fab fa-linkedin-in"></i>
                     </a>
                   </div>
                   <span>or use your email for registration</span>
@@ -357,10 +360,13 @@ class LoginPage extends Component {
                   </div>
 
                   {this.state.file && (
-                    <button onClick={()=> {
-                      this.handleUpload();
-                      this.signUpDoctor();
-                    }} className="submit">
+                    <button
+                      onClick={() => {
+                        this.handleUpload();
+                        this.signUpDoctor();
+                      }}
+                      className="submit"
+                    >
                       Sign Up
                     </button>
                   )}
@@ -368,19 +374,19 @@ class LoginPage extends Component {
                 </form>
               </div>
             )}
-            <div class="form-container sign-in-container">
-              <img class="raya-img" alt="" />
+            <div className="form-container sign-in-container">
+              <img className="raya-img" alt="" />
               <form action="">
                 <h1>Sign in</h1>
-                <div class="social-container">
-                  <a href="/patientHome" class="social">
-                    <i class="fab fa-facebook-f"></i>
+                <div className="social-container">
+                  <a href="/patientHome" className="social">
+                    <i className="fab fa-facebook-f"></i>
                   </a>
-                  <a href="#" class="social">
-                    <i class="fab fa-google-plus-g"></i>
+                  <a href="#" className="social">
+                    <i className="fab fa-google-plus-g"></i>
                   </a>
-                  <a href="#" class="social">
-                    <i class="fab fa-linkedin-in"></i>
+                  <a href="#" className="social">
+                    <i className="fab fa-linkedin-in"></i>
                   </a>
                 </div>
                 <span>or use your account</span>
@@ -404,45 +410,50 @@ class LoginPage extends Component {
                 />
                 <a href="/ResetPass">Forgot your password?</a>
 
-                <button onClick={this.signIn}>Sign In</button>
+                <button
+                  onClick={this.signIn}
+                >
+                  Sign In
+                </button>
+                <ContractPage  enable={this.state.enable}/>
               </form>
             </div>
-            <div class="overlay-container">
-              <div class="overlay">
-                <div class="overlay-panel overlay-left">
+            <div className="overlay-container">
+              <div className="overlay">
+                <div className="overlay-panel overlay-left">
                   <h1>Welcome Back!</h1>
                   <p>
                     To keep connected with us please login with your personal
                     details
                   </p>
                   <button
-                    class="ghost"
+                  className="ghost"
                     id="signIn"
                     onClick={() => this.setState({ isContainerActive: false })}
                   >
                     Sign In
                   </button>
                 </div>
-                <div class="overlay-panel overlay-right">
+                <div className="overlay-panel overlay-right">
                   <h1>Hi There!</h1>
                   <p>Enter your personal details to open an account with us</p>
                   <button
-                    class="ghost"
+                  className="ghost"
                     id="signUp"
                     onClick={() => {
                       this.setState({ role: true });
                       this.setState({ isContainerActive: true });
-                    } }
+                    }}
                   >
                     Sign Up as a Patient
                   </button>
                   <button
-                    class="ghost"
+                  className="ghost"
                     id="signUp"
                     onClick={() => {
                       this.setState({ role: false });
                       this.setState({ isContainerActive: true });
-                    } }
+                    }}
                   >
                     Sign Up as a Doctor
                   </button>
@@ -450,7 +461,7 @@ class LoginPage extends Component {
               </div>
             </div>
           </div>
-        </body>
+        </div>
       </div>
     );
   }

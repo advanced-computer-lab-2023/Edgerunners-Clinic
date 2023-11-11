@@ -6,15 +6,44 @@ import axios from "axios";
 import GetRelation from "./getRelation";
 import PayButton from "../Packages/PayButton";
 
+const modalOverlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
+};
+
+const modalStyle = {
+  backgroundColor: "white",
+  padding: "20px",
+  borderRadius: "8px",
+  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)", // Box shadow for depth
+  textAlign: "center",
+};
+
+const closeButtonStyle = {
+  position: "absolute",
+  top: "10px",
+  right: "10px",
+  cursor: "pointer",
+};
+
 export default function Doctors() {
   const [speciality, setSpeciality] = useState();
   const [name, setName] = useState();
   const [date, setDate] = useState();
-  const [chosen , setChosen] = useState();
+  const [chosen, setChosen] = useState();
+  const [Modal, setModal] = useState(false);
+
   let Specialities = GetSpecialities();
   let Relation = GetRelation({
-    Username: sessionStorage.getItem("Username")
-  })
+    Username: sessionStorage.getItem("Username"),
+  });
 
   let Doc = GetDoctors({
     Speciality: speciality,
@@ -41,7 +70,7 @@ export default function Doctors() {
   const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
     let NationalID = "";
-    if(chosen !== sessionStorage.getItem("Username")){
+    if (chosen !== sessionStorage.getItem("Username")) {
       NationalID = chosen;
     }
     await axios.put(`http://localhost:3001/updateAppointment`, {
@@ -51,23 +80,22 @@ export default function Doctors() {
       TimeM: TimeM,
       Availability: "Reserved",
       PatientUsername: sessionStorage.getItem("Username"),
-      NationalID: NationalID
+      NationalID: NationalID,
     });
   };
-  
-  const handleCheckout = async(name) => {
-    console.log(name);
-    await axios.post("http://localhost:3001/create-checkout-session",{
-       name
-   })
-   .then((res)=>{
-       window.location = res.data.url
-   }).catch((err) => console.log(err.message));
-}
-  console.log(appointmentDate);
+
+  const handleCheckout = async (name) => {
+    await axios
+      .post("http://localhost:3001/create-checkout-session", {
+        name,
+      })
+      .then((res) => {
+        window.location = res.data.url;
+      })
+      .catch((err) => console.log(err.message));
+  };
 
   if (Doc || appointmentDate) {
-    console.log(appointmentDate);
     return (
       <div className="Bootstrap PatientHome">
         <div className="header">
@@ -161,7 +189,7 @@ export default function Doctors() {
             </div>
           </nav>
         </div>
-        
+
         <div className="form-prescription">
           <label htmlFor="">Speciality</label>
           <input
@@ -172,12 +200,14 @@ export default function Doctors() {
               setSpeciality(e.target.value);
             }}
           />
-          <select onChange={(e) => {
-            setSpeciality(e.target.value);
-          }}>
+          <select
+            onChange={(e) => {
+              setSpeciality(e.target.value);
+            }}
+          >
             <option value="">Select Speciality</option>
-            {Specialities.map((speciality) =>{
-              return <option value={speciality}>{speciality}</option>
+            {Specialities.map((speciality) => {
+              return <option value={speciality}>{speciality}</option>;
             })}
           </select>
           <label htmlFor="">doctor</label>
@@ -227,17 +257,18 @@ export default function Doctors() {
                 <p>Date: {a.Date}</p>
                 <p>Hour: {a.TimeH}</p>
                 <p>Minute: {a.TimeM}</p>
-                
+
                 <select onChange={(e) => setChosen(e.target.value)}>
-                  <option value={sessionStorage.getItem("Username")}>myself</option>
-                  {Relation.data.map((item)=>{
-                    return <option value={item.NationalID}>{item.Name}</option>
-                  })
-                  }
+                  <option value={sessionStorage.getItem("Username")}>
+                    myself
+                  </option>
+                  {Relation.data.map((item) => {
+                    return <option value={item.NationalID}>{item.Name}</option>;
+                  })}
                 </select>
                 {/* {<PayButton name = {a.Doctor.Name} /> } */}
                 <button
-                  onClick={(e) =>{
+                  onClick={(e) => {
                     handleSubmit2(
                       e,
                       a.Doctor.Username,
@@ -245,11 +276,48 @@ export default function Doctors() {
                       a.TimeH,
                       a.TimeM
                     ),
-                     handleCheckout({name:a.Doctor.Name})}
-                  }
+                      handleCheckout({ name: a.Doctor.Name });
+                  }}
                 >
-                  reserve
+                  reserve with credit
                 </button>
+                <button onClick={() => setModal(true)}>
+                  reserve with wallet
+                </button>
+                {Modal && (
+                  <div style={modalOverlayStyle}>
+                    <div style={modalStyle}>
+                      <span
+                        style={closeButtonStyle}
+                        onClick={() => setModal(false)}
+                      >
+                        &times;
+                      </span>
+                      <h2>Checkout:</h2>
+                      <p>Your wallet: {sessionStorage.getItem("wallet")} EGP</p>
+                      <p>Session price: {a.Doctor.Hourlyrate} EGP</p>
+                      <button
+                        onClick={(e) => {
+                          handleSubmit2(
+                            e,
+                            a.Doctor.Username,
+                            a.Date,
+                            a.TimeH,
+                            a.TimeM
+                          );
+                          sessionStorage.setItem(
+                            "wallet",
+                            parseInt(sessionStorage.getItem("wallet")) -
+                              parseInt(a.Doctor.Hourlyrate)
+                          );
+                          setModal(false);
+                        }}
+                      >
+                        Pay
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}

@@ -83,6 +83,7 @@ export default function PatientHome() {
                       sessionStorage.removeItem("Username");
                       sessionStorage.removeItem("type");
                       sessionStorage.removeItem("token");
+                      sessionStorage.removeItem("wallet");
                       window.location.replace("/");
                     }}
                   >
@@ -168,7 +169,7 @@ export default function PatientHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/UploadDocuments">
-            <h3>Upload/Remove Documents</h3>
+              <h3>Upload/Remove Documents</h3>
             </a>
             <p>upload/remove documents for my medical history</p>
           </div>

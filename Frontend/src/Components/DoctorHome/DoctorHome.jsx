@@ -87,6 +87,7 @@ export default function DoctorHome() {
                       sessionStorage.removeItem("Username");
                       sessionStorage.removeItem("type");
                       sessionStorage.removeItem("token");
+                      sessionStorage.removeItem("wallet");
                       sessionStorage.removeItem("Status");
                       window.location.replace("/");
                     }}
@@ -200,7 +201,7 @@ export default function DoctorHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/AddAppointment">
-            <h3>Add Appointment</h3>
+              <h3>Add Appointment</h3>
             </a>
             <p>
               select an appointment date and time for myself or for a family

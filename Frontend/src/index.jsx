@@ -30,6 +30,7 @@ import AdminHome from "./Components/Admin/AdminHome";
 import MyWalletD from "./Components/DoctorHome/MyWalletD";
 
 import UploadDocuments from "./Components/PatientHome/uploadDocuments";
+import UploadHRforPatients from "./Components/DoctorHome/UploadHRforPatients";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 import ResetPass from "./Components/Login_Reg/ResetPass";
 import ChangePass from "./Components/Patient/ChangePass";
@@ -45,7 +46,6 @@ import Cancel from "./Checkout/Cancel";
 
 import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token") == null && sessionStorage.getItem("type") == null) || sessionStorage.getItem("Status")=="Waiting") {
@@ -54,15 +54,14 @@ if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-
           <Route path="/" element={<LoginPage />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
   );
-} else if(sessionStorage.getItem("type") == "Patient"){
-  console.log("patient")
+} else if (sessionStorage.getItem("type") == "Patient") {
+  console.log("patient");
   root.render(
     <React.StrictMode>
       <BrowserRouter>
@@ -77,12 +76,11 @@ if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token
           <Route path="/Prescriptions" element={<Prescriptions />} />
           <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
           <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
-          <Route path="/MyWalletP" element={<MyWalletP/>} />
+          <Route path="/MyWalletP" element={<MyWalletP />} />
           <Route path="/UploadDocuments" element={<UploadDocuments />} />
           <Route path="/Packages" element={<Packages />} />
           <Route path="/Success" element={<Success />} />
           <Route path="/Cancel" element={<Cancel />} />
-
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
@@ -102,6 +100,7 @@ if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token
        <Route path="/contract" element={<ContractPage />} />
        <Route path="/MyWalletD" element={<MyWalletD/>} />
        <Route path="/ScheduleAppointment" element={<ScheduleAppointment/>} />
+       <Route path="/UploadHRforPatients" element={<UploadHRforPatients/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
@@ -110,19 +109,19 @@ if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token
   console.log("admin")
   root.render(
     <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/AdminHome" element={<AdminHome />} />
-        <Route path="/CreatePackage" element={<CreatePackage />} />
-        <Route path="/PackagesForAdmin" element={<PackagesForAdmin />} />
-        <Route path="/AdminBody" element={<AdminBody />} />
-        <Route path="/setAdmin" element={<SetAdmin />} />
-        <Route path="/DoctorRequests" element={<DoctorRequests />} />
-        <Route path="/RemovePar" element={<RemovePar />} />
-        <Route path="/ViewDocReq" element={<ViewDocReq />} />
-        <Route path="/UpdatePackage" element={<UpdatePackage />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
-  )
+      <BrowserRouter>
+        <Routes>
+          <Route path="/AdminHome" element={<AdminHome />} />
+          <Route path="/CreatePackage" element={<CreatePackage />} />
+          <Route path="/PackagesForAdmin" element={<PackagesForAdmin />} />
+          <Route path="/AdminBody" element={<AdminBody />} />
+          <Route path="/setAdmin" element={<SetAdmin />} />
+          <Route path="/DoctorRequests" element={<DoctorRequests />} />
+          <Route path="/RemovePar" element={<RemovePar />} />
+          <Route path="/ViewDocReq" element={<ViewDocReq />} />
+          <Route path="/UpdatePackage" element={<UpdatePackage />} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
 }

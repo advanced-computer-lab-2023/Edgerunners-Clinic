@@ -1,13 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../UI/UX/Logo";
-import GetDoctors from "./getDoctors";
+import GetDoctors, { GetSpecialities } from "./getDoctors";
 import GetAppointments from "./getAppoinments";
 import axios from "axios";
+import GetRelation from "./getRelation";
+import PayButton from "../Packages/PayButton";
+
+const modalOverlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "rgba(0, 0, 0, 0.1)",
+  zIndex: 1,
+};
+
+const modalStyle = {
+  backgroundColor: "white",
+  padding: "20px",
+  borderRadius: "8px",
+  boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
+  textAlign: "center",
+  zIndex: 2, // Set a higher value to overlap the overlay
+};
+
+const closeButtonStyle = {
+  position: "absolute",
+  top: "10px",
+  right: "10px",
+  cursor: "pointer",
+};
 
 export default function Doctors() {
   const [speciality, setSpeciality] = useState();
   const [name, setName] = useState();
   const [date, setDate] = useState();
+  const [chosen, setChosen] = useState();
+  const [Modal, setModal] = useState(false);
+
+  function wallet() {
+    const [wallet, setWallet] = useState();
+    useEffect(() => {
+      getMyWallet();
+      async function getMyWallet() {
+        const res = await axios.get(
+          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+            "Username"
+          )}`
+        );
+        setWallet(res.data);
+      }
+    }, []);
+    return wallet;
+  }
+  let totalAmount = wallet();
+
+  let Specialities = GetSpecialities();
+  let Relation = GetRelation({
+    Username: sessionStorage.getItem("Username"),
+  });
+
   let Doc = GetDoctors({
     Speciality: speciality,
     Name: name,
@@ -29,17 +85,53 @@ export default function Doctors() {
       Name: name,
     });
   };
-  const handleSubmit2 = async (e, doctor) => {
+
+  const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
+    let NationalID = "";
+    if (chosen !== sessionStorage.getItem("Username")) {
+      NationalID = chosen;
+    }
     await axios.put(`http://localhost:3001/updateAppointment`, {
       DoctorUsername: doctor,
+      Date: Date,
+      TimeH: TimeH,
+      TimeM: TimeM,
       Availability: "Reserved",
+      PatientUsername: sessionStorage.getItem("Username"),
+      NationalID: NationalID,
     });
   };
-  console.log(appointmentDate);
+
+  const handlePaymentWallet = async (e, doctor, Date, TimeH, TimeM) => {
+    e.preventDefault();
+    let NationalID = "";
+    if (chosen !== sessionStorage.getItem("Username")) {
+      NationalID = chosen;
+    }
+    await axios.put(`http://localhost:3001/updateAppointmentWallet`, {
+      DoctorUsername: doctor,
+      Date: Date,
+      TimeH: TimeH,
+      TimeM: TimeM,
+      Availability: "Reserved",
+      PatientUsername: sessionStorage.getItem("Username"),
+      NationalID: NationalID,
+    });
+  };
+
+  const handleCheckout = async (name) => {
+    await axios
+      .post("http://localhost:3001/create-checkout-session", {
+        name,
+      })
+      .then((res) => {
+        window.location = res.data.url;
+      })
+      .catch((err) => console.log(err.message));
+  };
 
   if (Doc || appointmentDate) {
-    console.log(appointmentDate);
     return (
       <div className="Bootstrap PatientHome">
         <div className="header">
@@ -61,7 +153,7 @@ export default function Doctors() {
                   <i className="fas fa-bars"></i>
                 </span>
               </button>
-              <div className="collapse navbar-collapse" id="navbarExample01">
+              <div className="navbar-collapse" id="navbarExample01">
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <a className="nav-link" aria-current="page" href="#pets">
@@ -133,6 +225,7 @@ export default function Doctors() {
             </div>
           </nav>
         </div>
+
         <div className="form-prescription">
           <label htmlFor="">Speciality</label>
           <input
@@ -143,6 +236,16 @@ export default function Doctors() {
               setSpeciality(e.target.value);
             }}
           />
+          <select
+            onChange={(e) => {
+              setSpeciality(e.target.value);
+            }}
+          >
+            <option value="">Select Speciality</option>
+            {Specialities.map((speciality) => {
+              return <option value={speciality}>{speciality}</option>;
+            })}
+          </select>
           <label htmlFor="">doctor</label>
           <input
             type="text"
@@ -182,15 +285,74 @@ export default function Doctors() {
           {appointmentDate.map((a, index) => {
             return (
               <div key={index}>
-                <p>Name: {a.Name}</p>
-                <p>Speciality: {a.Speciality}</p>
-                <p>Session Price/hour: {a.Hourlyrate}</p>
-                <p>Hospital: {a.Affiliation}</p>
-                <p>Education: {a.Education}</p>
-                <p>Available Date:{a.Date}</p>
-                <button onClick={(e) => handleSubmit2(e, a.Username)}>
-                  reserve
+                <p>Name: {a.Doctor.Name}</p>
+                <p>Speciality: {a.Doctor.Speciality}</p>
+                <p>Session Price/hour: {a.Doctor.Hourlyrate}</p>
+                <p>Hospital: {a.Doctor.Affiliation}</p>
+                <p>Education: {a.Doctor.Education}</p>
+                <p>Date: {a.Date}</p>
+                <p>Hour: {a.TimeH}</p>
+                <p>Minute: {a.TimeM}</p>
+
+                <select onChange={(e) => setChosen(e.target.value)}>
+                  <option value={sessionStorage.getItem("Username")}>
+                    myself
+                  </option>
+                  {Relation.data.map((item) => {
+                    return <option value={item.NationalID}>{item.Name}</option>;
+                  })}
+                </select>
+                {/* {<PayButton name = {a.Doctor.Name} /> } */}
+                <button
+                  onClick={(e) => {
+                    handleSubmit2(
+                      e,
+                      a.Doctor.Username,
+                      a.Date,
+                      a.TimeH,
+                      a.TimeM
+                    ),
+
+                     handleCheckout(a.Doctor.Name)}
+                  }
+                >
+                  reserve with credit
                 </button>
+                <button onClick={() => setModal(true)}>
+                  reserve with wallet
+                </button>
+                {Modal && (
+                  <div style={modalOverlayStyle}>
+                    <div style={modalStyle}>
+                      <span
+                        style={closeButtonStyle}
+                        onClick={() => setModal(false)}
+                      >
+                        &times;
+                      </span>
+                      <h2>Checkout:</h2>
+                      <p>
+                        Your wallet: {totalAmount != undefined && totalAmount}{" "}
+                        EGP
+                      </p>
+                      <p>Session price: {a.Doctor.Hourlyrate} EGP</p>
+                      <button
+                        onClick={(e) => {
+                          handlePaymentWallet(
+                            e,
+                            a.Doctor.Username,
+                            a.Date,
+                            a.TimeH,
+                            a.TimeM
+                          );
+                          setModal(false);
+                        }}
+                      >
+                        Pay
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}

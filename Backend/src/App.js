@@ -12,7 +12,12 @@ const {
   deletePatient,
   filterPatients,
   patientUploadFile,
+  viewFiles,
+  gethealthrecords,
+  patientUploadHealthRecord,
   ResetPass,
+  GetWallet,
+
 } = require("./Routes/patientController");
 
 const {
@@ -37,6 +42,9 @@ const {
   findDoctor,
   addPatient4doctor,
   doctorUploadFile,
+  getPatientNames,
+  updateStatus,
+  GetWalletD,
 } = require("./Routes/doctorController");
 
 const {
@@ -55,12 +63,14 @@ const {
 
 const {
   createAppointment,
+  createFollowUp,
   getAppointments,
   updateAppointment,
   deleteAppointment,
   filterDateAppointments,
   filterStatusAppointments,
   updateAppointmentStatus,
+  updateAppointmentWallet,
 } = require("./Routes/appointmentController");
 
 const{
@@ -120,6 +130,44 @@ app.use(
     defParamCharset: "utf8",
   }),
 );
+
+const stripe = require("stripe")(
+  "sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw",
+);
+
+app.post("/create-checkout-session", async (req, res) => {
+  const products = await stripe.products.list({
+    active: true,
+  });
+  //console.log(products.data);
+  let price = null;
+  for (let i = 0; i < products.data.length; i++) {
+    //console.log(products.data[i]);
+
+    console.log(req.body.name)
+    if(products.data[i].name === req.body.name ){
+      price = products.data[i].default_price; 
+      break;
+    }
+  }
+  console.log(price);
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    mode: "payment",
+    line_items: [
+      {
+        price: price,
+        quantity: 1,
+      },
+    ],
+    success_url: "http://localhost:5173/Success",
+    cancel_url: "http://localhost:5173/Cancel",
+  });
+  res.send({ url: session.url });
+});
+
+// const {testStripe} = require("./stripe.js")
+// app.post("/stripe", testStripe);
 // app.use(function(req, res, next){
 //   res.setHeader('Access-Control-Allow-Origin', '*');
 // });
@@ -127,11 +175,19 @@ app.use(
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);
 app.post("/patientUploadFile", patientUploadFile);
+app.get("/viewFiles/:filename", viewFiles);
+app.get("/getWallet/:username", GetWallet);
+app.get("/getWalletD/:username", GetWalletD);
+app.get("/patientUploadHealthRecord", patientUploadHealthRecord);
+app.get("/gethealthrecords/:Username", gethealthrecords);
 app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
+
 app.put("/ResetPass", ResetPass);
+app.post("/linkPatients", linkPatients);
+
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
 app.put("/updateDoctor", updateDoctor);
@@ -139,6 +195,9 @@ app.put("/addPatient4Doctor", addPatient4doctor);
 app.delete("/deleteDoctor", deleteDoctor);
 app.get("/findDoctor", findDoctor);
 app.post("/doctorUploadFile", doctorUploadFile);
+app.get("/PatientsName/:Username", getPatientNames);
+app.put("/updateStatus", updateStatus);
+
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);
@@ -161,10 +220,12 @@ app.put("/updatePrescriptions", updatePrescriptions);
 app.delete("/deletePrescriptions", deletePrescriptions);
 
 app.post("/createAppointment", createAppointment);
+app.post("/createFollowUp", createFollowUp);
 app.get("/getAppointment", getAppointments);
 app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
+app.put("/updateAppointmentWallet", updateAppointmentWallet);
 app.delete("/deleteAppointment", deleteAppointment);
 
 app.post("/createLinkedAccount",createLinkedAccount);

@@ -1,6 +1,7 @@
 // #Task route solution
 const Doctor = require("../Models/Doctor.js");
 const Patient = require("../Models/Patient.js");
+const Admin = require("../Models/Admin.js");
 const prescriptions = require("../Models/Prescriptions.js");
 const { default: mongoose } = require("mongoose");
 
@@ -8,52 +9,91 @@ const createDoctor = async (req, res) => {
   //add a new Doctor to the database with
   //Name, Email and Age
   try {
-    await Doctor.create({
-      Username: req.body.Username,
-      Password: req.body.Password,
-      DOB: req.body.DOB,
-      Name: req.body.Name,
-      Email: req.body.Email,
-      Hourlyrate: req.body.Hourlyrate,
-      Affiliation: req.body.Affiliation,
-      Education: req.body.Education,
-      Speciality: req.body.Speciality,
-      Status: "Pending",
-    });
-    res.status(200).send("Created successfully");
+    let doctorUsername = await Patient.findOne({ Username: req.body.Username });
+    const doctorMail = await Patient.findOne({ Email: req.body.Email });
+    if (!doctorUsername) {
+      doctorUsername = await Admin.findOne({ Username: req.body.Username });
+    }
+    if (!doctorUsername && !doctorMail) {
+      await Doctor.create({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        DOB: req.body.DOB,
+        Name: req.body.Name,
+        Email: req.body.Email,
+        Hourlyrate: req.body.Hourlyrate,
+        Affiliation: req.body.Affiliation,
+        Education: req.body.Education,
+        Speciality: req.body.Speciality,
+        Wallet: 0,
+        Status: "Pending",
+      });
+      res.status(200).send("Created successfully");
+    } else {
+      if (doctorMail) {
+        res.status(401).send("e-mail already exists");
+      } else {
+        res.status(401).send("username already exists");
+      }
+    }
   } catch (e) {
     res.status(400).send("Failed to Create Doctor");
   }
 };
-
+const updateStatus = async(req,res) =>{
+  let user  = await Doctor.updateOne({Username : req.body.Username} , {$set: {Status : req.body.Status}});
+  res.status(200).send("Updateed Status");
+}
 const doctorUploadFile = async (req, res) => {
-  
-  
   const filename = req.body.Username + "-" + ".pdf";
   const file = req.files.file;
   var filePath = "./uploadDoctor/" + filename;
   file.mv(filePath);
-    await Doctor.create({
-      Username: req.body.Username,
-      Password: req.body.Password,
-      DOB: req.body.DOB,
-      Name: req.body.Name,
-      Email: req.body.Email,
-      Hourlyrate: req.body.Hourlyrate,
-      Affiliation: req.body.Affiliation,
-      Education: req.body.Education,
-      Speciality: req.body.Speciality,
-      Status: "Pending",
-      FileNames: [filename]
-    });
-    res.status(200).send("Created successfully");
-    // res.status(400).send("Failed to Create Doctor");
+
+  await Doctor.create({
+    Username: req.body.Username,
+    Password: req.body.Password,
+    DOB: req.body.DOB,
+    Name: req.body.Name,
+    Email: req.body.Email,
+    Hourlyrate: req.body.Hourlyrate,
+    Affiliation: req.body.Affiliation,
+    Education: req.body.Education,
+    Speciality: req.body.Speciality,
+    Status: "Pending",
+    FileNames: [filename],
+  });
+  res.status(200).send("Created successfully");
+  // res.status(400).send("Failed to Create Doctor");
   // const username = req.body.Username;
   // console.log(username);
   // const filter = {};
   // filter.Username = username;
   // const doctor = await Doctor.findOne({Username: username});
   // console.log(doctor);
+};
+
+const getPatientNames = async (req, res) => {
+  try {
+    const all = await Doctor.findOne({ Username: req.params.Username });
+    let Patients = all.Patients;
+    const tmp = [];
+    for (let i = 0; i < Patients.length; ++i) {
+      tmp.push({
+        name: Patients[i].patient.Name,
+        username: Patients[i].patient.Username,
+      });
+    }
+    res.status(200).send(tmp);
+  } catch (e) {
+    res.status(400).send("Could not get patients");
+  }
+};
+
+const GetWalletD = async (req, res) => {
+  const user = await Doctor.findOne({ Username: req.params.username });
+  const wallet = user.Wallet;
+  res.status(200).json(wallet);
 };
 
 const getDoctors = async (req, res) => {
@@ -66,8 +106,8 @@ const getDoctors = async (req, res) => {
     if (Speciality) {
       filter.Speciality = Speciality;
     }
-    if(Status) {
-      filter.Status=Status;
+    if (Status) {
+      filter.Status = Status;
     }
     const Doctors = await Doctor.find(filter);
     res.status(200).send(Doctors);
@@ -137,12 +177,12 @@ const updateDoctor = async (req, res) => {
     );
   }
   if (req.body.Status) {
-    if(req.body.Status === "Rejected"){
+    if (req.body.Status === "Rejected") {
       await Doctor.deleteOne({ Username: req.body.Username });
-    }else{
+    } else {
       await Doctor.updateOne(
         { Username: user },
-        { $set: { Status: req.body.Status } }
+        { $set: { Status: req.body.Status } },
       );
     }
   }
@@ -174,5 +214,8 @@ module.exports = {
   deleteDoctor,
   findDoctor,
   addPatient4doctor,
-  doctorUploadFile
+  doctorUploadFile,
+  getPatientNames,
+  updateStatus,
+  GetWalletD,
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import fileDownload from 'js-file-download';
-const UploadDocuments = () => {
+const UploadHRforPatient = () => {
   const [file, setFile] = useState(null);
   const [files, setFiles] = useState([]); // Updated variable name to 'files'
   const [status, setStatus] = useState("initial");
@@ -21,8 +21,8 @@ const UploadDocuments = () => {
 
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("Username", sessionStorage.getItem("Username"));
-      console.log(sessionStorage.getItem("Username"));
+      formData.append("Username", sessionStorage.getItem("PatientUsername"));
+      console.log(sessionStorage.getItem("PatientUsername"));
       try {
         const result = await fetch("http://localhost:3001/patientUploadFile", {
           method: "POST",
@@ -42,9 +42,9 @@ const UploadDocuments = () => {
   };
   const handleViews = async () => {
       
-      console.log(sessionStorage.getItem("Username"));
+      console.log(sessionStorage.getItem("PatientUsername"));
       try {
-        const result = await fetch(`http://localhost:3001/gethealthrecords/${sessionStorage.getItem("Username")}`, {
+        const result = await fetch(`http://localhost:3001/gethealthrecords/${sessionStorage.getItem("PatientUsername")}`, {
           method: "GET",
         });
 
@@ -71,8 +71,8 @@ const UploadDocuments = () => {
 
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("Username", sessionStorage.getItem("Username"));
-      console.log(sessionStorage.getItem("Username"));
+      formData.append("Username", sessionStorage.getItem("PatientUsername"));
+      console.log(sessionStorage.getItem("PatientUsername"));
       try {
         const result = await fetch("http://localhost:3001/patientUploadHealthRecord", {
           method: "POST",
@@ -156,4 +156,4 @@ const Result = ( {status} ) => {
   }
 }; 
 
-export default UploadDocuments;
+export default UploadHRforPatient;

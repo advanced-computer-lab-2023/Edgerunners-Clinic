@@ -30,6 +30,7 @@ import AdminHome from "./Components/Admin/AdminHome";
 import MyWalletD from "./Components/DoctorHome/MyWalletD";
 
 import UploadDocuments from "./Components/PatientHome/uploadDocuments";
+import UploadHRforPatients from "./Components/DoctorHome/UploadHRforPatients";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 import ResetPass from "./Components/Login_Reg/ResetPass";
 import ChangePass from "./Components/Patient/ChangePass";
@@ -102,6 +103,7 @@ if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token"
        <Route path="/contract" element={<ContractPage />} />
        <Route path="/MyWalletD" element={<MyWalletD/>} />
        <Route path="/ScheduleAppointment" element={<ScheduleAppointment/>} />
+       <Route path="/UploadHRforPatients" element={<UploadHRforPatients/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

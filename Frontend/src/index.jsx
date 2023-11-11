@@ -84,6 +84,8 @@ if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token
           <Route path="/Packages" element={<Packages />} />
           <Route path="/Success" element={<Success />} />
           <Route path="/Cancel" element={<Cancel />} />
+          <Route path="/Link" element={<LinkAnotherPat />} />
+
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

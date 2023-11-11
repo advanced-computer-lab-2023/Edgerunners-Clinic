@@ -186,7 +186,6 @@ app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 
 app.put("/ResetPass", ResetPass);
-app.post("/linkPatients", linkPatients);
 
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);

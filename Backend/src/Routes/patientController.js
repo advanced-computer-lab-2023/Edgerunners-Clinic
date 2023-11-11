@@ -235,7 +235,7 @@ function calculateAge(dateOfBirth) {
   }
 
   return age;
-
+}
 module.exports = {
   createPatient,
   getPatients,

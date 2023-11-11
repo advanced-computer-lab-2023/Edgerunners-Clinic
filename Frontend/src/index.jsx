@@ -45,24 +45,26 @@ import Cancel from "./Checkout/Cancel";
 
 import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token") == null && sessionStorage.getItem("type") == null) {
-  console.log("signin")
+if (
+  sessionStorage.getItem("Username") == null &&
+  sessionStorage.getItem("token") == null &&
+  sessionStorage.getItem("type") == null
+) {
+  console.log("signin");
   root.render(
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-
           <Route path="/" element={<LoginPage />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
   );
-} else if(sessionStorage.getItem("type") == "Patient"){
-  console.log("patient")
+} else if (sessionStorage.getItem("type") == "Patient") {
+  console.log("patient");
   root.render(
     <React.StrictMode>
       <BrowserRouter>
@@ -77,52 +79,54 @@ if (sessionStorage.getItem("Username") == null && sessionStorage.getItem("token"
           <Route path="/Prescriptions" element={<Prescriptions />} />
           <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
           <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
-          <Route path="/MyWalletP" element={<MyWalletP/>} />
+          <Route path="/MyWalletP" element={<MyWalletP />} />
           <Route path="/UploadDocuments" element={<UploadDocuments />} />
           <Route path="/Packages" element={<Packages />} />
           <Route path="/Success" element={<Success />} />
           <Route path="/Cancel" element={<Cancel />} />
-
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
   );
-}else if(sessionStorage.getItem("type") == "Doctor"){
-  console.log("doctor")
+} else if (sessionStorage.getItem("type") == "Doctor") {
+  console.log("doctor");
   root.render(
     <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-      <Route path="/Prescriptions" element={<Prescriptions />} />
-       <Route path="/DoctorHome" element={<DoctorHome />} />
-       <Route path="/EditMyProf" element={<EditMyProf />} />
-       <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
-       <Route path="/AddAppointment" element={<AddAppointment />} />
-       <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
-       <Route path="/contract" element={<ContractPage />} />
-       <Route path="/MyWalletD" element={<MyWalletD/>} />
-       <Route path="/ScheduleAppointment" element={<ScheduleAppointment/>} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
-  )
-}else{
-  console.log("admin")
+      <BrowserRouter>
+        <Routes>
+          <Route path="/Prescriptions" element={<Prescriptions />} />
+          <Route path="/DoctorHome" element={<DoctorHome />} />
+          <Route path="/EditMyProf" element={<EditMyProf />} />
+          <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
+          <Route path="/AddAppointment" element={<AddAppointment />} />
+          <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
+          <Route path="/contract" element={<ContractPage />} />
+          <Route path="/MyWalletD" element={<MyWalletD />} />
+          <Route
+            path="/ScheduleAppointment"
+            element={<ScheduleAppointment />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+} else {
+  console.log("admin");
   root.render(
     <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/AdminHome" element={<AdminHome />} />
-        <Route path="/CreatePackage" element={<CreatePackage />} />
-        <Route path="/PackagesForAdmin" element={<PackagesForAdmin />} />
-        <Route path="/AdminBody" element={<AdminBody />} />
-        <Route path="/setAdmin" element={<SetAdmin />} />
-        <Route path="/DoctorRequests" element={<DoctorRequests />} />
-        <Route path="/RemovePar" element={<RemovePar />} />
-        <Route path="/ViewDocReq" element={<ViewDocReq />} />
-        <Route path="/UpdatePackage" element={<UpdatePackage />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
-  )
+      <BrowserRouter>
+        <Routes>
+          <Route path="/AdminHome" element={<AdminHome />} />
+          <Route path="/CreatePackage" element={<CreatePackage />} />
+          <Route path="/PackagesForAdmin" element={<PackagesForAdmin />} />
+          <Route path="/AdminBody" element={<AdminBody />} />
+          <Route path="/setAdmin" element={<SetAdmin />} />
+          <Route path="/DoctorRequests" element={<DoctorRequests />} />
+          <Route path="/RemovePar" element={<RemovePar />} />
+          <Route path="/ViewDocReq" element={<ViewDocReq />} />
+          <Route path="/UpdatePackage" element={<UpdatePackage />} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../UI/UX/Logo";
 import GetDoctors, { GetSpecialities } from "./getDoctors";
 import GetAppointments from "./getAppoinments";
@@ -42,6 +42,23 @@ export default function Doctors() {
   const [chosen, setChosen] = useState();
   const [Modal, setModal] = useState(false);
 
+  function wallet() {
+    const [wallet, setWallet] = useState();
+    useEffect(() => {
+      getMyWallet();
+      async function getMyWallet() {
+        const res = await axios.get(
+          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+            "Username"
+          )}`
+        );
+        setWallet(res.data);
+      }
+    }, []);
+    return wallet;
+  }
+  let totalAmount = wallet();
+
   let Specialities = GetSpecialities();
   let Relation = GetRelation({
     Username: sessionStorage.getItem("Username"),
@@ -76,6 +93,23 @@ export default function Doctors() {
       NationalID = chosen;
     }
     await axios.put(`http://localhost:3001/updateAppointment`, {
+      DoctorUsername: doctor,
+      Date: Date,
+      TimeH: TimeH,
+      TimeM: TimeM,
+      Availability: "Reserved",
+      PatientUsername: sessionStorage.getItem("Username"),
+      NationalID: NationalID,
+    });
+  };
+
+  const handlePaymentWallet = async (e, doctor, Date, TimeH, TimeM) => {
+    e.preventDefault();
+    let NationalID = "";
+    if (chosen !== sessionStorage.getItem("Username")) {
+      NationalID = chosen;
+    }
+    await axios.put(`http://localhost:3001/updateAppointmentWallet`, {
       DoctorUsername: doctor,
       Date: Date,
       TimeH: TimeH,
@@ -296,22 +330,20 @@ export default function Doctors() {
                         &times;
                       </span>
                       <h2>Checkout:</h2>
-                      <p>Your wallet: {sessionStorage.getItem("wallet")} EGP</p>
+                      <p>
+                        Your wallet: {totalAmount != undefined && totalAmount}{" "}
+                        EGP
+                      </p>
                       <p>Session price: {a.Doctor.Hourlyrate} EGP</p>
                       <button
                         onClick={(e) => {
-                          // handleSubmit2(
-                          //   e,
-                          //   a.Doctor.Username,
-                          //   a.Date,
-                          //   a.TimeH,
-                          //   a.TimeM
-                          // );
-                          // sessionStorage.setItem(
-                          //   "wallet",
-                          //   parseInt(sessionStorage.getItem("wallet")) -
-                          //     parseInt(a.Doctor.Hourlyrate)
-                          // );
+                          handlePaymentWallet(
+                            e,
+                            a.Doctor.Username,
+                            a.Date,
+                            a.TimeH,
+                            a.TimeM
+                          );
                           setModal(false);
                         }}
                       >

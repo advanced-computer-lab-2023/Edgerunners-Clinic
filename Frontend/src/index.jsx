@@ -30,6 +30,7 @@ import AdminHome from "./Components/Admin/AdminHome";
 import MyWalletD from "./Components/DoctorHome/MyWalletD";
 
 import UploadDocuments from "./Components/PatientHome/uploadDocuments";
+import UploadHRforPatients from "./Components/DoctorHome/UploadHRforPatients";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 import ResetPass from "./Components/Login_Reg/ResetPass";
 import ChangePass from "./Components/Patient/ChangePass";
@@ -92,26 +93,24 @@ if (
   console.log("doctor");
   root.render(
     <React.StrictMode>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/Prescriptions" element={<Prescriptions />} />
-          <Route path="/DoctorHome" element={<DoctorHome />} />
-          <Route path="/EditMyProf" element={<EditMyProf />} />
-          <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
-          <Route path="/AddAppointment" element={<AddAppointment />} />
-          <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
-          <Route path="/contract" element={<ContractPage />} />
-          <Route path="/MyWalletD" element={<MyWalletD />} />
-          <Route
-            path="/ScheduleAppointment"
-            element={<ScheduleAppointment />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </React.StrictMode>
-  );
-} else {
-  console.log("admin");
+    <BrowserRouter>
+      <Routes>
+      <Route path="/Prescriptions" element={<Prescriptions />} />
+       <Route path="/DoctorHome" element={<DoctorHome />} />
+       <Route path="/EditMyProf" element={<EditMyProf />} />
+       <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
+       <Route path="/AddAppointment" element={<AddAppointment />} />
+       <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
+       <Route path="/contract" element={<ContractPage />} />
+       <Route path="/MyWalletD" element={<MyWalletD/>} />
+       <Route path="/ScheduleAppointment" element={<ScheduleAppointment/>} />
+       <Route path="/UploadHRforPatients" element={<UploadHRforPatients/>} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+  )
+}else{
+  console.log("admin")
   root.render(
     <React.StrictMode>
       <BrowserRouter>

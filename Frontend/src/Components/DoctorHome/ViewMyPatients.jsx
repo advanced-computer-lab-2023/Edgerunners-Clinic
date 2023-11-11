@@ -13,6 +13,13 @@ function ViewMyPatients(props) {
     Name: searchPatient,
     up: searchStatus,
   });
+  const redirectToAnotherPage = async () => {
+    // Redirect to another page
+    window.location.href = '/UploadHRforPatients';
+  };
+  const handlepatientusername = async (patientusername) => {
+    sessionStorage.setItem("PatientUsername",patientusername);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Fuck me!");
@@ -24,6 +31,8 @@ function ViewMyPatients(props) {
     console.log("Updated", myPatients);
   };
   console.log(myPatients);
+
+
   if (myPatients) {
     return (
       <div className="tailwind">
@@ -73,7 +82,10 @@ function ViewMyPatients(props) {
                       Email:{user.Email}
                     </body>
                   </Card>
-                  <button>Select</button>
+                  <button onClick={async () => {
+                   handlepatientusername(user.Username),
+                   redirectToAnotherPage();
+                   }}>Select</button>
                 </div>
               );
             })}

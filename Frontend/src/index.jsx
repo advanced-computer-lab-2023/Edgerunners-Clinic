@@ -48,11 +48,15 @@ import Cancel from "./Checkout/Cancel";
 
 import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token") == null && sessionStorage.getItem("type") == null) || sessionStorage.getItem("Status")=="Waiting") {
-  console.log("signin")
+if (
+  (sessionStorage.getItem("Username") == null &&
+    sessionStorage.getItem("token") == null &&
+    sessionStorage.getItem("type") == null) ||
+  sessionStorage.getItem("Status") == "Waiting"
+) {
+  console.log("signin");
   root.render(
     <React.StrictMode>
       <BrowserRouter>
@@ -85,33 +89,41 @@ if ((sessionStorage.getItem("Username") == null && sessionStorage.getItem("token
           <Route path="/Success" element={<Success />} />
           <Route path="/Cancel" element={<Cancel />} />
           <Route path="/Link" element={<LinkAnotherPat />} />
-
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
   );
-}else if(sessionStorage.getItem("type") == "Doctor" && sessionStorage.getItem("Status")=="Accepted"){
-  console.log("doctor")
+} else if (
+  sessionStorage.getItem("type") == "Doctor" &&
+  sessionStorage.getItem("Status") == "Accepted"
+) {
+  console.log("doctor");
   root.render(
     <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-      <Route path="/Prescriptions" element={<Prescriptions />} />
-       <Route path="/DoctorHome" element={<DoctorHome />} />
-       <Route path="/EditMyProf" element={<EditMyProf />} />
-       <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
-       <Route path="/AddAppointment" element={<AddAppointment />} />
-       <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
-       <Route path="/contract" element={<ContractPage />} />
-       <Route path="/MyWalletD" element={<MyWalletD/>} />
-       <Route path="/ScheduleAppointment" element={<ScheduleAppointment/>} />
-       <Route path="/UploadHRforPatients" element={<UploadHRforPatients/>} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
-  )
-}else{
-  console.log("admin")
+      <BrowserRouter>
+        <Routes>
+          <Route path="/Prescriptions" element={<Prescriptions />} />
+          <Route path="/DoctorHome" element={<DoctorHome />} />
+          <Route path="/EditMyProf" element={<EditMyProf />} />
+          <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
+          <Route path="/AddAppointment" element={<AddAppointment />} />
+          <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
+          <Route path="/contract" element={<ContractPage />} />
+          <Route path="/MyWalletD" element={<MyWalletD />} />
+          <Route
+            path="/ScheduleAppointment"
+            element={<ScheduleAppointment />}
+          />
+          <Route
+            path="/UploadHRforPatients"
+            element={<UploadHRforPatients />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+} else {
+  console.log("admin");
   root.render(
     <React.StrictMode>
       <BrowserRouter>

@@ -122,10 +122,10 @@ export default function Packages() {
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600"></p>
         </div>
-        <Carousel className="rounded-x1" autoplay="true" loop="true">
+        <Carousel className="rounded-x1" autoplay={true} loop={true}>
           {packages.data.map((p, index) => {
             return (
-              <div className="bg-white py-2 ">
+              <div key={p.Name} className="bg-white py-2 ">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                   <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
                     <div className="p-8 sm:p-10 lg:flex-auto">

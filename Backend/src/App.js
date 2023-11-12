@@ -154,7 +154,13 @@ app.post("/create-checkout-session", async (req, res) => {
   });
   res.send({ url: session.url });
 });
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
+  const payload = request.body;
 
+  console.log("Got payload: " + payload);
+
+  response.status(200).end();
+});
 // const {testStripe} = require("./stripe.js")
 // app.post("/stripe", testStripe);
 // app.use(function(req, res, next){

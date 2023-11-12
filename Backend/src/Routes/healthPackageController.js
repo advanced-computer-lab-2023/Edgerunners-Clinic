@@ -25,11 +25,11 @@ const createHealthPackage = async (req, res) => {
         Username: patientUsername,
         packageName: packagename,
         Status: statuss,
-        EndDate : oneYearLater,
+        EndDate: oneYearLater,
         renewal: true,
-        discountDoctor : package.discountDoctor,
-        discountMedicin : package.discountMedicin,
-        discountFamily : package.discountFamily,
+        discountDoctor: package.discountDoctor,
+        discountMedicin: package.discountMedicin,
+        discountFamily: package.discountFamily,
       });
       await Patient.findOneAndUpdate(
         { Username: patientUsername },
@@ -78,13 +78,12 @@ const viewStatusforMyself = async (req, res) => {
       const ret = {
         Username: patientUsername,
         Status: healthPackages.Status,
-        EndDate : healthPackages.EndDate,
+        EndDate: healthPackages.EndDate,
         PackageName: healthPackages.packageName,
         discountDoctor: healthPackages.discountDoctor,
         discountMedicin: healthPackages.discountMedicin,
         discountFamily: healthPackages.discountFamily,
-        Renewal: healthPackages.Renewal
-       
+        Renewal: healthPackages.Renewal,
       };
       res.status(200).json(ret);
     } else {
@@ -112,25 +111,20 @@ const viewStatusForMyFamilyMember = async (req, res) => {
         const healthPackages = await HealthPackage.find({
           Username: linkedAccount.Username,
         });
-
         console.log(healthPackages);
-        if (healthPackages.length > 0) {
-          console.log("i passed");
-          // Assuming that a patient can have multiple health packages, you may need to iterate over the packages
-          const statuss = healthPackages[0].Status;
-          const packageDetails = await Package.findOne({
-            Name: healthPackages[0].packageName,
-          });
-          healthPackageStatusArray.push({
-            username: linkedAccount.Username,
-            Status: statuss,
-            PackageName: packageDetails.Name,
-            discountDoctor: packageDetails.discountDoctor,
-            discountMedicin: packageDetails.discountMedicin,
-            discountFamily: packageDetails.discountFamily,
-            Price: packageDetails.Price,
-          });
-        }
+        console.log("i passed");
+        // Assuming that a patient can have multiple health packages, you may need to iterate over the packages
+        const statuss = healthPackages[0].Status;
+        healthPackageStatusArray.push({
+          Username: linkedAccount.Username,
+          Status: healthPackages.Status,
+          EndDate: healthPackages.EndDate,
+          PackageName: healthPackages.packageName,
+          discountDoctor: healthPackages.discountDoctor,
+          discountMedicin: healthPackages.discountMedicin,
+          discountFamily: healthPackages.discountFamily,
+          Renewal: healthPackages.Renewal,
+        });
       }
       console.log(healthPackageStatusArray);
 

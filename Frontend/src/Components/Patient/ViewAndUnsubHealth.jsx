@@ -5,7 +5,7 @@ import Card from "../../UI/UX/Card";
 
 function ViewAndUNSubToAHealthPackage() {
   const username = sessionStorage.getItem("username");
-  const [MyPackage, setMyPackage] = useState([]);
+  const [MyPackage, setMyPackage] = useState(null);
   const [MyFamily, setMyFamily] = useState([]);
   const p = { patientUsername: username };
 
@@ -13,7 +13,11 @@ function ViewAndUNSubToAHealthPackage() {
     axios
       .get("http://localhost:3001/viewStatusforMyself", p)
       .then((response) => {
-        setMyPackage(response.data);
+        if (response.data) {
+          setMyPackage(response.data);
+        } else {
+          setMyPackage([]); // Set to null if there is no linked account
+        }
       })
       .catch((error) => {
         console.error("Error fetching data for myself:", error);
@@ -22,7 +26,11 @@ function ViewAndUNSubToAHealthPackage() {
     axios
       .get("http://localhost:3001/viewStatusForMyFamilyMember", p)
       .then((response) => {
-        setMyFamily(response.data);
+        if (response.data) {
+          setMyFamily(response.data);
+        } else {
+          setMyFamily(null); // Set to null if there is no linked account
+        }
       })
       .catch((error) => {
         console.error("Error fetching data for family members:", error);
@@ -50,6 +58,7 @@ function ViewAndUNSubToAHealthPackage() {
 
   return (
     <div className=" mb-4 justify-center flex">
+      <h1>testing</h1>
       {MyPackage !== null && (
         <Card className=" w-44 h-14">
           <h1>My Package Details</h1>
@@ -58,7 +67,8 @@ function ViewAndUNSubToAHealthPackage() {
             <br />
             Status: {myPackageStatus}
             <br />
-            discountDoctor: {MyPackage.discountDoctor}, discountMedicin: {MyPackage.discountMedicin}
+            discountDoctor: {MyPackage.discountDoctor}, discountMedicin:{" "}
+            {MyPackage.discountMedicin}
             <br />
             discountFamily: {MyPackage.discountFamily}
           </body>
@@ -75,7 +85,8 @@ function ViewAndUNSubToAHealthPackage() {
           familyMemberStatus = f.Status;
         } else {
           if (today < familyPackageEndDate) {
-            familyMemberStatus = "Cancelled until " + familyPackageEndDate.toDateString();
+            familyMemberStatus =
+              "Cancelled until " + familyPackageEndDate.toDateString();
           } else {
             familyMemberStatus = "Unsubscribed";
           }
@@ -89,7 +100,8 @@ function ViewAndUNSubToAHealthPackage() {
               <br />
               Status: {familyMemberStatus}
               <br />
-              discountDoctor: {f.discountDoctor}, discountMedicin: {f.discountMedicin}
+              discountDoctor: {f.discountDoctor}, discountMedicin:{" "}
+              {f.discountMedicin}
               <br />
               discountFamily: {f.discountFamily}
             </body>

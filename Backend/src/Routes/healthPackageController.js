@@ -9,7 +9,6 @@ const createHealthPackage = async (req, res) => {
     const { patientUsername, packagename } = req.body;
     const patient = await Patient.findOne({ Username: patientUsername });
     const package = await Package.findOne({ Name: packagename });
-    console.log(patientUsername);
 
     if (!patient.HealthPackageflag) {
       const subscriptionDate = new Date();
@@ -45,6 +44,7 @@ const createHealthPackage = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 const getHealthPackages = async (req, res) => {
   try {
     const { patientUsername } = req.query;
@@ -65,16 +65,14 @@ const getHealthPackages = async (req, res) => {
   }
 };
 const viewStatusforMyself = async (req, res) => {
-  const { patientUsername } = req.body;
+  const { patientUsername } = req.query;
   try {
     const healthPackages = await HealthPackage.findOne({
       Username: patientUsername,
     });
-    console.log(healthPackages);
-    const packageDetails = await Package.findOne({
-      Name: healthPackages.packageName,
-    });
-    if (packageDetails != null) {
+    console.log(req.query);
+
+    if (healthPackages != null) {
       const ret = {
         Username: patientUsername,
         Status: healthPackages.Status,
@@ -87,7 +85,7 @@ const viewStatusforMyself = async (req, res) => {
       };
       res.status(200).json(ret);
     } else {
-      res.status(200).send("you are not subscribing to one ");
+      res.status(400).send("Not subscribed to a Package");
     }
   } catch (error) {
     console.error(error);
@@ -96,27 +94,21 @@ const viewStatusforMyself = async (req, res) => {
 };
 const viewStatusForMyFamilyMember = async (req, res) => {
   try {
-    const { patientUsername } = req.body;
+    const { patientUsername } = req.query;
     // Assuming getLinkedAccounts is a function that returns an array of linked account usernames
     const linkedAccounts = await LinkedAccounts.find({
       PatientUsername: patientUsername,
     });
-    console.log(linkedAccounts);
-    if (linkedAccounts.length == 0) {
-      res.status(200).send("There is not any Linked Accounts");
-    } else {
+
+    if (linkedAccounts.length !== 0) {
       const healthPackageStatusArray = [];
 
       for (const linkedAccount of linkedAccounts) {
-        const healthPackages = await HealthPackage.find({
+        const healthPackages = await HealthPackage.findOne({
           Username: linkedAccount.Username,
         });
-        console.log(healthPackages);
-        console.log("i passed");
-        // Assuming that a patient can have multiple health packages, you may need to iterate over the packages
-        const statuss = healthPackages[0].Status;
         healthPackageStatusArray.push({
-          Username: linkedAccount.Username,
+          username: linkedAccount.Username,
           Status: healthPackages.Status,
           EndDate: healthPackages.EndDate,
           PackageName: healthPackages.packageName,
@@ -126,9 +118,11 @@ const viewStatusForMyFamilyMember = async (req, res) => {
           Renewal: healthPackages.Renewal,
         });
       }
-      console.log(healthPackageStatusArray);
 
       res.status(200).json(healthPackageStatusArray);
+    }else{
+      res.status(400).send("No Family Members Wa7ed");
+
     }
   } catch (error) {
     console.error(error);
@@ -149,10 +143,6 @@ const Cancelsubscription = async (req, res) => {
       );
 
       res.status(200).send("Subscription canceled successfully");
-    } else {
-      res
-        .status(404)
-        .send("No health package found for the specified patient.");
     }
   } catch (error) {}
 };

@@ -149,9 +149,10 @@ app.post("/create-checkout-session", async (req, res) => {
         quantity: 1,
       },
     ],
-    success_url: "http://localhost:5173/Success",
-    cancel_url: "http://localhost:5173/Cancel",
+    success_url: `http://localhost:5173/Success?Name=${req.body.name}&PaymentType=${req.body.PaymentType}`,
+    cancel_url: `http://localhost:5173/Cancel?PaymentType=${req.body.PaymentType}`,
   });
+  //console.log(session);
   res.send({ url: session.url });
 });
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {

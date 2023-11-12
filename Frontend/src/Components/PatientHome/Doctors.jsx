@@ -86,23 +86,35 @@ export default function Doctors() {
     });
   };
 
+  // const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
+  //   e.preventDefault();
+  //   let NationalID = "";
+  //   if (chosen !== sessionStorage.getItem("Username")) {
+  //     NationalID = chosen;
+  //   }
+  //   await axios.put(`http://localhost:3001/updateAppointment`, {
+  //     DoctorUsername: doctor,
+  //     Date: Date,
+  //     TimeH: TimeH,
+  //     TimeM: TimeM,
+  //     Availability: "Reserved",
+  //     PatientUsername: sessionStorage.getItem("Username"),
+  //     NationalID: NationalID,
+  //   });
+  // };
   const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
     let NationalID = "";
-    if (chosen !== sessionStorage.getItem("Username")) {
+    if (chosen && chosen !== sessionStorage.getItem("Username")) {
       NationalID = chosen;
     }
-    await axios.put(`http://localhost:3001/updateAppointment`, {
-      DoctorUsername: doctor,
-      Date: Date,
-      TimeH: TimeH,
-      TimeM: TimeM,
-      Availability: "Reserved",
-      PatientUsername: sessionStorage.getItem("Username"),
-      NationalID: NationalID,
-    });
+    sessionStorage.setItem("DoctorUsername",doctor);
+    sessionStorage.setItem("Date",Date);
+    sessionStorage.setItem("TimeH",TimeH);
+    sessionStorage.setItem("TimeM",TimeM);
+    sessionStorage.setItem("Availability","Reserved");
+    sessionStorage.setItem("NationalID",NationalID);
   };
-
   const handlePaymentWallet = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
     let NationalID = "";
@@ -121,9 +133,11 @@ export default function Doctors() {
   };
 
   const handleCheckout = async (name) => {
+    let Username = sessionStorage.getItem("Username");
+    let PaymentType = "Appointment"
     await axios
       .post("http://localhost:3001/create-checkout-session", {
-        name,
+        name,Username ,PaymentType
       })
       .then((res) => {
         window.location = res.data.url;
@@ -242,8 +256,8 @@ export default function Doctors() {
             }}
           >
             <option value="">Select Speciality</option>
-            {Specialities.map((speciality) => {
-              return <option value={speciality}>{speciality}</option>;
+            {Specialities.map((speciality,index) => {
+              return <option key={index} value={speciality}>{speciality}</option>;
             })}
           </select>
           <label htmlFor="">doctor</label>
@@ -298,8 +312,8 @@ export default function Doctors() {
                   <option value={sessionStorage.getItem("Username")}>
                     myself
                   </option>
-                  {Relation.data.map((item) => {
-                    return <option value={item.NationalID}>{item.Name}</option>;
+                  {Relation.data.map((item,index) => {
+                    return <option key= {index} value={item.NationalID}>{item.Name}</option>;
                   })}
                 </select>
                 {/* {<PayButton name = {a.Doctor.Name} /> } */}

@@ -45,7 +45,7 @@ import AddAppointment from "./Components/DoctorHome/AddAppointment";
 import Checkout from "./Checkout/Checkout";
 import Success from "./Checkout/Success";
 import Cancel from "./Checkout/Cancel";
-
+import ViewAndUNSubToAHealthPackage from "./Components/Patient/ViewAndUnsubHealth";
 import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -61,7 +61,7 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<ViewAndUNSubToAHealthPackage />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>

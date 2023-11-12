@@ -191,18 +191,19 @@ const updatePatient = async (req, res) => {
 };
 
 const ResetPass = async (req, res) => {
-  const newPassword = req.query.Password;
-  const email = req.params.Email;
+  const newPassword = req.body.Password;
+  const email = req.body.Email;
+
   const doctor = await Doctor.findOne({ Email: req.params.Email });
   if (doctor) {
     await Patient.updateOne(
       { Email: email, Status: "Accepted" },
-      { $set: { Password: newPassword } },
+      { $set: { Password: await hashPassword(newPassword) } },
     ).catch("an error happened");
   } else {
     await Patient.updateOne(
       { Email: email },
-      { $set: { Password: newPassword } },
+      { $set: { Password: await hashPassword(newPassword) } },
     ).catch("an error happened");
     res.status(200).send("all good");
   }

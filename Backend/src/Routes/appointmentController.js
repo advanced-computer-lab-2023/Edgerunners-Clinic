@@ -16,7 +16,7 @@ const createAppointment = async (req, res) => {
       filter.DoctorUsername = DoctorUsername;
     }
     const Doctor1 = await Doctor.findOne(filter);
-    const price = parseInt(Doctor1.Hourlyrate * 100);
+    const price = parseInt((Doctor1.Hourlyrate * 100) * 1.1);
     await stripe.products.create({
       name: Doctor1.Name,
       default_price_data: {

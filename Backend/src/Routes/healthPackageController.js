@@ -9,7 +9,7 @@ const createHealthPackage = async (req, res) => {
     const { patientUsername, packagename } = req.body;
     const patient = await Patient.findOne({ Username: patientUsername });
     const package = await Package.findOne({ Name: packagename });
-
+    console.log(patient);
     if (!patient.HealthPackageflag) {
       const subscriptionDate = new Date();
       const oneYearLater = new Date(subscriptionDate);
@@ -37,11 +37,11 @@ const createHealthPackage = async (req, res) => {
       );
       res.status(200).send("Health package subscribed successfully");
     } else {
-      res.status(400).send("you are subscribed to one already");
+      res.status(200).send("you are subscribed to one already");
     }
   } catch (e) {
     console.error(e);
-    res.status(500).send("Internal Server Error");
+    res.status(400).send("Internal Server Error");
   }
 };
 
@@ -120,9 +120,8 @@ const viewStatusForMyFamilyMember = async (req, res) => {
       }
 
       res.status(200).json(healthPackageStatusArray);
-    }else{
+    } else {
       res.status(400).send("No Family Members Wa7ed");
-
     }
   } catch (error) {
     console.error(error);
@@ -146,10 +145,67 @@ const Cancelsubscription = async (req, res) => {
     }
   } catch (error) {}
 };
+const getDiscountSession = async (req, res) => {
+  // try {
+  const { username } = req.query;
+  //console.log(username);
+  const patient = await Patient.findOne({ Username: username });
+  //console.log(patient);
+  if(patient.HealthPackageflag){
+    const healthPackage = await HealthPackage.findOne({
+      Username: username,
+    });
+    if (healthPackage) {
+      console.log(healthPackage);
+      res.status(200).json(healthPackage.discountDoctor);
+    } else {
+      res.status(200).json(0);
+    }
+  }else{
+    res.status(200).json(0);
+  }
+  
+  // } catch (error) {
+  //   console.error(error);
+  //   res.status(500).send("Internal Server Error");
+  // }
+};
+const getDiscount = async (req, res) => {
+  // try {
+  const { username } = req.query;
+  const zero = 0;
+  //console.log(username);
+  const patient = await Patient.findOne({ Username: username });
+  //console.log(patient);
+  if (patient && patient.Linked) {
+    const linkedAccount = await LinkedAccounts.findOne({ Username: username });
+    const patientUsername = linkedAccount.PatientUsername;
+
+    const healthPackage = await HealthPackage.findOne({
+      Username: patientUsername,
+    });
+
+    if (healthPackage) {
+      console.log(healthPackage);
+      res.status(200).json(healthPackage.discountFamily);
+    } else {
+      res.status(200).json(zero);
+    }
+  } else {
+    res.status(200).json(zero);
+  }
+  // } catch (error) {
+  //   console.error(error);
+  //   res.status(500).send("Internal Server Error");
+  // }
+};
+
 module.exports = {
   createHealthPackage,
   getHealthPackages,
   viewStatusforMyself,
   viewStatusForMyFamilyMember,
   Cancelsubscription,
+  getDiscount,
+  getDiscountSession
 };

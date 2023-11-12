@@ -29,18 +29,41 @@ const platinumFeatures = [
 export default function Packages() {
   let stripePromise;
   const packages = GetPackages();
+
   const handleCheckout = async (name) => {
     let Username = sessionStorage.getItem("Username");
-    let PaymentType = "Package"
+    let PaymentType = "Package";
+    let discount = null;
     await axios
-      .post("http://localhost:3001/create-checkout-session", {
-        name,Username , PaymentType
+      .get("http://localhost:3001/getDiscount", {
+        params: { username: sessionStorage.getItem("Username") },
       })
       .then((res) => {
-        sessionStorage.setItem("flag",false);
-        window.location = res.data.url;
-      })
-      .catch((err) => console.log(err.message));
+        discount = res.data;
+      });
+    if (discount !== null) {
+      let coupon = null;
+      await axios
+        .get("http://localhost:3001/create-coupon", {
+          params: { coupon: discount },
+        })
+        .then((res) => {
+          coupon = res.data;
+        });
+
+      await axios
+        .post("http://localhost:3001/create-checkout-session", {
+          name,
+          Username,
+          PaymentType,
+          coupon,
+        })
+        .then((res) => {
+          sessionStorage.setItem("flag", false);
+          window.location = res.data.url;
+        })
+        .catch((err) => console.log(err.message));
+    }
   };
 
   // const getStripe = () => {
@@ -163,7 +186,7 @@ export default function Packages() {
                           <button
                             href="#"
                             className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={()=> handleCheckout(p.Name)}
+                            onClick={() => handleCheckout(p.Name)}
                           >
                             Get access
                           </button>

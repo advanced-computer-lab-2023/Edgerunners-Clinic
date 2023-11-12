@@ -29,56 +29,36 @@ const platinumFeatures = [
 export default function Packages() {
   let stripePromise;
   const packages = GetPackages();
-
-  // const checkout = () => {
-  // fetch('/create-checkout-session',{
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type' : 'application/json'
-  //   },
-  //   body: JSON.stringify({
-  //     items: [
-  //       { id: 1, quantity: 2},
-  //       { id: 2, quantity: 1},
-  //     ]
-  //   })
-  // }).then(res => {
-  //   if(res.ok) return res.json()
-  //   return res.json().then(json => Promise.reject(json) )
-  // }).then(({url}) => {
-  //   console.log(url);
-  //   // window.location = url
-  // }).catch(e => {
-  //   console.error(e.error)
-  // })
-  // }
   const handleCheckout = async (name) => {
+    let Username = sessionStorage.getItem("Username");
+    let PaymentType = "Package"
     await axios
       .post("http://localhost:3001/create-checkout-session", {
-        name,
+        name,Username , PaymentType
       })
       .then((res) => {
+        sessionStorage.setItem("flag",false);
         window.location = res.data.url;
       })
       .catch((err) => console.log(err.message));
   };
 
-  const getStripe = () => {
-    if (!stripePromise) {
-      stripePromise = loadStripe(
-        "pk_test_51OAYarCTaVksTfn0OXdujXuGWeTGatBccdz8bPZA0Ug5eERXsvWdeVbYauI2g0Zz2qvS0zVOdgqbZIACjtaKZNOM0068Ao6qVL"
-      );
-    }
+  // const getStripe = () => {
+  //   if (!stripePromise) {
+  //     stripePromise = loadStripe(
+  //       "pk_test_51OAYarCTaVksTfn0OXdujXuGWeTGatBccdz8bPZA0Ug5eERXsvWdeVbYauI2g0Zz2qvS0zVOdgqbZIACjtaKZNOM0068Ao6qVL"
+  //     );
+  //   }
 
-    return stripePromise;
-  };
-  console.log(packages.data);
-  const [stripeError, setStripeError] = useState(null);
-  const [isLoading, setLoading] = useState(false);
-  const items = {
-    price: "price_1OAYdVCTaVksTfn0N2vLYtqO",
-    quantity: 1,
-  };
+  //   return stripePromise;
+  // };
+  // console.log(packages.data);
+  // const [stripeError, setStripeError] = useState(null);
+  // const [isLoading, setLoading] = useState(false);
+  // const items = {
+  //   price: "price_1OAYdVCTaVksTfn0N2vLYtqO",
+  //   quantity: 1,
+  // };
   // let lineItems;
   // if(packages.data){
   //  lineItems = packages.data.map((i) =>{
@@ -88,26 +68,26 @@ export default function Packages() {
   //   }
   // });
 
-  const checkoutOptions = {
-    lineItems: [items],
-    mode: "payment",
-    successUrl: `${window.location.origin}/success`,
-    cancelUrl: `${window.location.origin}/cancel`,
-  };
+  // const checkoutOptions = {
+  //   lineItems: [items],
+  //   mode: "payment",
+  //   successUrl: `${window.location.origin}/success`,
+  //   cancelUrl: `${window.location.origin}/cancel`,
+  // };
 
-  const redirectToCheckout = async () => {
-    setLoading(true);
-    console.log("redirectToCheckout");
+  // const redirectToCheckout = async () => {
+  //   setLoading(true);
+  //   console.log("redirectToCheckout");
 
-    const stripe = await getStripe();
-    const { error } = await stripe.redirectToCheckout(checkoutOptions);
-    console.log("Stripe checkout error", error);
+  //   const stripe = await getStripe();
+  //   const { error } = await stripe.redirectToCheckout(checkoutOptions);
+  //   console.log("Stripe checkout error", error);
 
-    if (error) setStripeError(error.message);
-    setLoading(false);
-  };
+  //   if (error) setStripeError(error.message);
+  //   setLoading(false);
+  // };
 
-  if (stripeError) alert(stripeError);
+  //if (stripeError) alert(stripeError);
 
   if (packages.data != null) {
     return (

@@ -8,6 +8,7 @@ const createHealthPackage = async (req, res) => {
   try {
     const { patientUsername, packagename } = req.body;
     const patient = await Patient.findOne({ Username: patientUsername });
+    const package = await Package.findOne({ Name: packagename });
     console.log(patientUsername);
 
     if (!patient.HealthPackageflag) {
@@ -21,20 +22,23 @@ const createHealthPackage = async (req, res) => {
 
       const statuss = `Subscribed until ${formattedOneYearLater}`;
       await HealthPackage.create({
-        UserName: patientUsername,
+        Username: patientUsername,
         packageName: packagename,
         Status: statuss,
+        EndDate : oneYearLater,
+        renewal: true,
+        discountDoctor : package.discountDoctor,
+        discountMedicin : package.discountMedicin,
+        discountFamily : package.discountFamily,
       });
-
-      const flag = true;
       await Patient.findOneAndUpdate(
         { Username: patientUsername },
-        { HealthPackageflag: flag },
+        { HealthPackageflag: true },
         { new: true }, // Return the modified document
       );
       res.status(200).send("Health package subscribed successfully");
     } else {
-      res.status(200).send("you are subscribing to one already");
+      res.status(400).send("you are subscribed to one already");
     }
   } catch (e) {
     console.error(e);
@@ -48,7 +52,7 @@ const getHealthPackages = async (req, res) => {
 
     if (patientUsername) {
       // Get health packages for a specific patient
-      healthPackages = await HealthPackage.find({ UserName: patientUsername });
+      healthPackages = await HealthPackage.find({ Username: patientUsername });
     } else {
       // Get all health packages
       healthPackages = await HealthPackage.find();
@@ -64,7 +68,7 @@ const viewStatusforMyself = async (req, res) => {
   const { patientUsername } = req.body;
   try {
     const healthPackages = await HealthPackage.findOne({
-      UserName: patientUsername,
+      Username: patientUsername,
     });
     console.log(healthPackages);
     const packageDetails = await Package.findOne({
@@ -72,13 +76,15 @@ const viewStatusforMyself = async (req, res) => {
     });
     if (packageDetails != null) {
       const ret = {
-        UserName: patientUsername,
+        Username: patientUsername,
         Status: healthPackages.Status,
-        PackageName: packageDetails.Name,
-        discountDoctor: packageDetails.discountDoctor,
-        discountMedicin: packageDetails.discountMedicin,
-        discountFamily: packageDetails.discountFamily,
-        Price: packageDetails.Price,
+        EndDate : healthPackages.EndDate,
+        PackageName: healthPackages.packageName,
+        discountDoctor: healthPackages.discountDoctor,
+        discountMedicin: healthPackages.discountMedicin,
+        discountFamily: healthPackages.discountFamily,
+        Renewal: healthPackages.Renewal
+       
       };
       res.status(200).json(ret);
     } else {
@@ -104,7 +110,7 @@ const viewStatusForMyFamilyMember = async (req, res) => {
 
       for (const linkedAccount of linkedAccounts) {
         const healthPackages = await HealthPackage.find({
-          UserName: linkedAccount.Username,
+          Username: linkedAccount.Username,
         });
 
         console.log(healthPackages);
@@ -139,12 +145,12 @@ const Cancelsubscription = async (req, res) => {
   try {
     const { patientUsername } = req.body;
     const healthPackages = await HealthPackage.findOne({
-      UserName: patientUsername,
+      Username: patientUsername,
     });
     if (healthPackages) {
       await HealthPackage.findOneAndUpdate(
-        { UserName: patientUsername },
-        { RenewalDate: false },
+        { Username: patientUsername },
+        { Renewal: false },
         { new: true },
       );
 

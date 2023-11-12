@@ -119,7 +119,7 @@ const signin = async (req, res) => {
   let user = await Patient.findOne({ Username: username });
   let isValid;
   if (user) {
-    isValid = comparePassword(password, user.Password);
+    isValid = await comparePassword(password, user.Password);
     if (isValid) {
       res.status(200).send({
         token: createJWTP(username),
@@ -133,7 +133,7 @@ const signin = async (req, res) => {
   } else {
     user = await Doctor.findOne({ Username: username });
     if (user) {
-      isValid = comparePassword(password, user.Password);
+      isValid = await comparePassword(password, user.Password);
       if (isValid) {
         if (user.Status !== "Pending") {
           res.status(200).send({
@@ -152,7 +152,7 @@ const signin = async (req, res) => {
     } else {
       user = await Admin.findOne({ Username: username });
       if (user) {
-        isValid = comparePassword(password, user.Password);
+        isValid = await comparePassword(password, user.Password);
         if (isValid) {
           res.status(200).send({
             token: createJWTA(username),

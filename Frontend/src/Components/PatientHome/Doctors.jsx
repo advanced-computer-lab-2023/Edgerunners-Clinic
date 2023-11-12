@@ -108,12 +108,12 @@ export default function Doctors() {
     if (chosen && chosen !== sessionStorage.getItem("Username")) {
       NationalID = chosen;
     }
-    sessionStorage.setItem("DoctorUsername",doctor);
-    sessionStorage.setItem("Date",Date);
-    sessionStorage.setItem("TimeH",TimeH);
-    sessionStorage.setItem("TimeM",TimeM);
-    sessionStorage.setItem("Availability","Reserved");
-    sessionStorage.setItem("NationalID",NationalID);
+    sessionStorage.setItem("DoctorUsername", doctor);
+    sessionStorage.setItem("Date", Date);
+    sessionStorage.setItem("TimeH", TimeH);
+    sessionStorage.setItem("TimeM", TimeM);
+    sessionStorage.setItem("Availability", "Reserved");
+    sessionStorage.setItem("NationalID", NationalID);
   };
   const handlePaymentWallet = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
@@ -134,15 +134,37 @@ export default function Doctors() {
 
   const handleCheckout = async (name) => {
     let Username = sessionStorage.getItem("Username");
-    let PaymentType = "Appointment"
+    let PaymentType = "Appointment";
+    let discount = null;
     await axios
-      .post("http://localhost:3001/create-checkout-session", {
-        name,Username ,PaymentType
+      .get("http://localhost:3001/getDiscountSession", {
+        params: { username: sessionStorage.getItem("Username") },
       })
       .then((res) => {
-        window.location = res.data.url;
-      })
-      .catch((err) => console.log(err.message));
+        discount = res.data;
+      });
+    if (discount !== null) {
+      let coupon = null;
+      await axios
+        .get("http://localhost:3001/create-coupon", {
+          params: { coupon: discount },
+        })
+        .then((res) => {
+          coupon = res.data;
+        });
+      await axios
+        .post("http://localhost:3001/create-checkout-session", {
+          name,
+          Username,
+          PaymentType,
+          coupon
+        })
+        .then((res) => {
+          sessionStorage.setItem("flag", false);
+          window.location = res.data.url;
+        })
+        .catch((err) => console.log(err.message));
+    }
   };
 
   if (Doc || appointmentDate) {
@@ -256,8 +278,12 @@ export default function Doctors() {
             }}
           >
             <option value="">Select Speciality</option>
-            {Specialities.map((speciality,index) => {
-              return <option key={index} value={speciality}>{speciality}</option>;
+            {Specialities.map((speciality, index) => {
+              return (
+                <option key={index} value={speciality}>
+                  {speciality}
+                </option>
+              );
             })}
           </select>
           <label htmlFor="">doctor</label>
@@ -312,8 +338,12 @@ export default function Doctors() {
                   <option value={sessionStorage.getItem("Username")}>
                     myself
                   </option>
-                  {Relation.data.map((item,index) => {
-                    return <option key= {index} value={item.NationalID}>{item.Name}</option>;
+                  {Relation.data.map((item, index) => {
+                    return (
+                      <option key={index} value={item.NationalID}>
+                        {item.Name}
+                      </option>
+                    );
                   })}
                 </select>
                 {/* {<PayButton name = {a.Doctor.Name} /> } */}
@@ -326,9 +356,8 @@ export default function Doctors() {
                       a.TimeH,
                       a.TimeM
                     ),
-
-                     handleCheckout(a.Doctor.Name)}
-                  }
+                      handleCheckout(a.Doctor.Name);
+                  }}
                 >
                   reserve with credit
                 </button>

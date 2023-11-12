@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
+import Logo from "../UI/UX/Logo"
 
 const Cancel = () => {
   const hasRunRef = useRef(false);

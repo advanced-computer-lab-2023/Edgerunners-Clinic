@@ -81,7 +81,11 @@ export default function ResetPass() {
       )}
       {Intial && (
         <>
-          <input type="text" onChange={(e) => setEmail(e.target.value)} />
+          <input
+            type="text"
+            placeholder="enter registered email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <button onClick={handle}>reset password</button>
         </>
       )}

@@ -14,6 +14,8 @@ class LoginPage extends Component {
     signIn_username: null,
     signIn_password: null,
     signUp_gender: null,
+    success: false,
+    error: false,
 
     enable: false,
     role: true,
@@ -106,7 +108,6 @@ class LoginPage extends Component {
         console.log(err);
       });
     this.setState({ isContainerActive: false });
-    
   };
   signIn = async (event) => {
     event.preventDefault();
@@ -120,6 +121,8 @@ class LoginPage extends Component {
         Password: newUser.Password,
       })
       .then((res) => {
+        this.setState({ success: true });
+        this.setState({ error: false });
         sessionStorage.setItem("Username", res.data.Username);
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("type", res.data.type);
@@ -146,12 +149,14 @@ class LoginPage extends Component {
       })
       .catch((err) => {
         console.log(err);
+        this.setState({ error: true });
+        this.setState({ success: false });
       });
   };
   render() {
     return (
       <div className="PatientReg">
-        <div className = "bodyClass">
+        <div className="bodyClass">
           <div
             className={`container${
               this.state.isContainerActive ? " right-panel-active" : ""
@@ -409,13 +414,14 @@ class LoginPage extends Component {
                   placeholder="Password"
                 />
                 <a href="/ResetPass">Forgot your password?</a>
-
-                <button
-                  onClick={this.signIn}
-                >
-                  Sign In
-                </button>
-                <ContractPage  enable={this.state.enable}/>
+                {this.state.success && (
+                  <a style={{ color: "green" }}>login successfull</a>
+                )}
+                {this.state.error && (
+                  <a style={{ color: "red" }}>invalid username or password</a>
+                )}
+                <button onClick={this.signIn}>Sign In</button>
+                <ContractPage enable={this.state.enable} />
               </form>
             </div>
             <div className="overlay-container">
@@ -427,7 +433,7 @@ class LoginPage extends Component {
                     details
                   </p>
                   <button
-                  className="ghost"
+                    className="ghost"
                     id="signIn"
                     onClick={() => this.setState({ isContainerActive: false })}
                   >
@@ -438,7 +444,7 @@ class LoginPage extends Component {
                   <h1>Hi There!</h1>
                   <p>Enter your personal details to open an account with us</p>
                   <button
-                  className="ghost"
+                    className="ghost"
                     id="signUp"
                     onClick={() => {
                       this.setState({ role: true });
@@ -448,7 +454,7 @@ class LoginPage extends Component {
                     Sign Up as a Patient
                   </button>
                   <button
-                  className="ghost"
+                    className="ghost"
                     id="signUp"
                     onClick={() => {
                       this.setState({ role: false });

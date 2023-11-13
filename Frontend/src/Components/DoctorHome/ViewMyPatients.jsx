@@ -22,7 +22,6 @@ function ViewMyPatients(props) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Fuck me!");
     myPatients = await GetSearchPatients({
       Username: sessionStorage.getItem("Username"),
       Name: searchPatient,

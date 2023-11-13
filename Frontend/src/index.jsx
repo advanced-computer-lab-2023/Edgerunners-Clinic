@@ -29,7 +29,7 @@ import ViewDocReq from "./Components/Admin/ViewDocReq";
 import AdminHome from "./Components/Admin/AdminHome";
 import MyWalletD from "./Components/DoctorHome/MyWalletD";
 
-import UploadDocuments from "./Components/PatientHome/uploadDocuments";
+import UploadDocuments from "./Components/PatientHome/UploadDocuments";
 import UploadHRforPatients from "./Components/DoctorHome/UploadHRforPatients";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 import ResetPass from "./Components/Login_Reg/ResetPass";
@@ -47,6 +47,7 @@ import Success from "./Checkout/Success";
 import Cancel from "./Checkout/Cancel";
 import ViewAndUNSubToAHealthPackage from "./Components/Patient/ViewAndUnsubHealth";
 import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
+import ChangePassword from "./Components/Login_Reg/ChangePassword";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -90,7 +91,7 @@ if (
           <Route path="/Cancel" element={<Cancel />} />
           <Route path="/Link" element={<LinkAnotherPat />} />
           <Route path="/ViewPackage" element={<ViewAndUNSubToAHealthPackage />} />
-
+          <Route path="/ChangePassword" element={<ChangePassword />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
@@ -120,6 +121,7 @@ if (
             path="/UploadHRforPatients"
             element={<UploadHRforPatients />}
           />
+          <Route path="/ChangePassword" element={<ChangePassword />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
@@ -139,6 +141,7 @@ if (
           <Route path="/RemovePar" element={<RemovePar />} />
           <Route path="/ViewDocReq" element={<ViewDocReq />} />
           <Route path="/UpdatePackage" element={<UpdatePackage />} />
+          <Route path="/ChangePassword" element={<ChangePassword />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

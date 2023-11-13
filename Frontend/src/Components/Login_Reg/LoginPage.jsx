@@ -16,6 +16,7 @@ class LoginPage extends Component {
     signUp_gender: null,
     success: false,
     error: false,
+    errorPassword: false,
 
     enable: false,
     role: true,
@@ -57,6 +58,27 @@ class LoginPage extends Component {
       }
     }
   };
+  passwordValidationP = (e) => {
+    e.preventDefault();
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
+
+    if (passwordRegex.test(this.state.signUp_password)) {
+      this.signUpPatient(e); // Call the signup function here or perform other actions
+    } else {
+      // Show error in the register page
+      this.setState({ errorPassword: true, success: false });
+    }
+  };
+  passwordValidationD = (e) => {
+    e.preventDefault();
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
+    if (passwordRegex.test(this.state.signUp_password)) {
+      this.signUpDoctor(e); // Call the signup function here or perform other actions
+    } else {
+      // Show error in the register page
+      this.setState({ errorPassword: true, success: false });
+    }
+  };
   signUpPatient = (event) => {
     event.preventDefault();
     const newUser = {
@@ -83,6 +105,8 @@ class LoginPage extends Component {
         console.log(err);
       });
     this.setState({ isContainerActive: false });
+    this.setState({ errorPassword: false });
+
   };
   signUpDoctor = (event) => {
     event.preventDefault();
@@ -108,6 +132,8 @@ class LoginPage extends Component {
         console.log(err);
       });
     this.setState({ isContainerActive: false });
+    this.setState({ errorPassword: false });
+
   };
   signIn = async (event) => {
     event.preventDefault();
@@ -256,7 +282,8 @@ class LoginPage extends Component {
                     type="number"
                     placeholder="Emergency Contact Number"
                   />
-                  <button onClick={this.signUpPatient}> Sign Up</button>
+                  <button onClick={this.passwordValidationP}> Sign Up</button>
+                  
                 </form>
               </div>
             ) : (
@@ -363,18 +390,18 @@ class LoginPage extends Component {
                       onChange={this.handleFileChange}
                     />
                   </div>
-
                   {this.state.file && (
                     <button
                       onClick={() => {
                         this.handleUpload();
-                        this.signUpDoctor();
+                        this.passwordValidationD();
                       }}
                       className="submit"
                     >
                       Sign Up
                     </button>
                   )}
+                  
                   {/* <button onClick = {this.handleUpload}> Sign Up</button> */}
                 </form>
               </div>
@@ -439,6 +466,11 @@ class LoginPage extends Component {
                   >
                     Sign In
                   </button>
+                  {this.state.errorPassword && (
+                    <p style={{ color: "red" }}>
+                     Please Write a Valid Password
+                    </p>
+                  )}
                 </div>
                 <div className="overlay-panel overlay-right">
                   <h1>Hi There!</h1>

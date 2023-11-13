@@ -121,7 +121,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const cors = require("cors");
-const { protectA, protectD, protectP, signin } = require("./Models/auth");
+const { protectA, protectD, protectP, signin , changePassword } = require("./Models/auth");
 
 app.use(cors());
 app.use(
@@ -204,6 +204,7 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, respo
 // app.use(function(req, res, next){
 //   res.setHeader('Access-Control-Allow-Origin', '*');
 // });
+app.put("/changePassword", changePassword);
 
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);

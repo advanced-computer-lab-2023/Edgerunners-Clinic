@@ -29,7 +29,7 @@ import ViewDocReq from "./Components/Admin/ViewDocReq";
 import AdminHome from "./Components/Admin/AdminHome";
 import MyWalletD from "./Components/DoctorHome/MyWalletD";
 
-import UploadDocuments from "./Components/PatientHome/uploadDocuments";
+import UploadDocuments from "./Components/PatientHome/UploadDocuments";
 import UploadHRforPatients from "./Components/DoctorHome/UploadHRforPatients";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 import ResetPass from "./Components/Login_Reg/ResetPass";

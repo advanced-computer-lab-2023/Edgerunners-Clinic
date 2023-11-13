@@ -204,8 +204,7 @@ export default function DoctorHome() {
               <h3>Add Appointment</h3>
             </a>
             <p>
-              select an appointment date and time for myself or for a family
-              member
+              Add an Appointment
             </p>
           </div>
           <div className="col-4">
@@ -217,7 +216,7 @@ export default function DoctorHome() {
             <a href="/ViewMyPatients">
               <h3>My Patients</h3>
             </a>
-            <p>view a list of all doctors along with their speciality</p>
+            <p>view a list of all patients</p>
           </div>
           <div className="col-4">
             <FontAwesomeIcon

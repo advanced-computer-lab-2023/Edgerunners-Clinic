@@ -80,6 +80,11 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="/changePassword">
+                    Change password
+                  </a>
+                </li>
+                <li className="nav-item">
                   <a
                     className="nav-link"
                     aria-current="page"

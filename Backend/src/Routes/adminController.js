@@ -4,6 +4,10 @@ const Patient = require("../Models/Patient.js");
 const Doctor = require("../Models/Doctor.js");
 const { default: mongoose } = require("mongoose");
 
+var bcrypt = require("bcrypt");
+const hashPassword = async (password) => {
+  return bcrypt.hash(password, 5);
+};
 const createAdmin = async (req, res) => {
   //add a new Doctor to the database with
   //Name, Email and Age
@@ -15,7 +19,7 @@ const createAdmin = async (req, res) => {
     if(!adminUsername){
       await Admin.create({
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: await hashPassword(req.body.Password),
         Role: "Admin",
       });
       res.status(200).send("Created successfully");

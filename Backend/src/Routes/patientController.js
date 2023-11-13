@@ -196,10 +196,11 @@ const ResetPass = async (req, res) => {
 
   const doctor = await Doctor.findOne({ Email: req.params.Email });
   if (doctor) {
-    await Patient.updateOne(
+    await Doctor.updateOne(
       { Email: email, Status: "Accepted" },
       { $set: { Password: await hashPassword(newPassword) } },
     ).catch("an error happened");
+    res.status(200).send("all good");
   } else {
     await Patient.updateOne(
       { Email: email },

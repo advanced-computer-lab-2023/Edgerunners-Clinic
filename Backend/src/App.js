@@ -84,6 +84,7 @@ const {
   Cancelsubscription,
   getDiscount,
   getDiscountSession,
+  PaymentPackageWallet,
 } = require("./Routes/healthPackageController");
 const MongoURI =
   process.env.MONGO_URI ||
@@ -139,6 +140,7 @@ const stripe = require("stripe")(
 app.get("/create-coupon", async (req, res) =>{
   //console.log(req.query);
   if(req.query.coupon!== '0'){
+    console.log("hereeee");
     const coupon = await stripe.coupons.create({
       percent_off: req.query.coupon,
       duration: 'repeating',
@@ -270,3 +272,4 @@ app.get("/viewStatusForMyFamilyMember", viewStatusForMyFamilyMember);
 app.put("/Cancelsubscription", Cancelsubscription);
 app.get("/getDiscount",getDiscount);
 app.get("/getDiscountSession",getDiscountSession);
+app.put("/PaymentPackageWallet",PaymentPackageWallet);

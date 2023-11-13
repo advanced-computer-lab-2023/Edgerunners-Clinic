@@ -9,7 +9,7 @@ const createHealthPackage = async (req, res) => {
     const { patientUsername, packagename } = req.body;
     const patient = await Patient.findOne({ Username: patientUsername });
     const package = await Package.findOne({ Name: packagename });
-    console.log(patient);
+    //console.log(patient);
     if (!patient.HealthPackageflag) {
       const subscriptionDate = new Date();
       const oneYearLater = new Date(subscriptionDate);
@@ -150,19 +150,20 @@ const getDiscountSession = async (req, res) => {
   const { username } = req.query;
   //console.log(username);
   const patient = await Patient.findOne({ Username: username });
+  const zero = 0;
   //console.log(patient);
   if(patient.HealthPackageflag){
     const healthPackage = await HealthPackage.findOne({
       Username: username,
     });
     if (healthPackage) {
-      console.log(healthPackage);
+      //console.log(healthPackage);
       res.status(200).json(healthPackage.discountDoctor);
     } else {
-      res.status(200).json(0);
+      res.status(200).json(zero);
     }
   }else{
-    res.status(200).json(0);
+    res.status(200).json(zero);
   }
   
   // } catch (error) {
@@ -170,6 +171,26 @@ const getDiscountSession = async (req, res) => {
   //   res.status(500).send("Internal Server Error");
   // }
 };
+
+const PaymentPackageWallet = async (req, res)=>{
+  const patient = await Patient.findOne({Username:req.body.username});
+  let wallet = patient.Wallet;
+  const discount = req.body.discount;
+  const price = req.body.price;
+  let total
+  if(discount == 0){
+    total = price;
+  }else{
+    total = price * ((100-discount)/100);
+  }
+  if(wallet >= total){
+    await Patient.updateOne({Username : req.body.username}, {$set:{Wallet: wallet - total}})
+    res.status(200).send('Payment Successful');
+  }else{
+    res.status(403).send('Insufficient Balance')
+  }
+}
+
 const getDiscount = async (req, res) => {
   // try {
   const { username } = req.query;
@@ -186,7 +207,7 @@ const getDiscount = async (req, res) => {
     });
 
     if (healthPackage) {
-      console.log(healthPackage);
+      //console.log(healthPackage);
       res.status(200).json(healthPackage.discountFamily);
     } else {
       res.status(200).json(zero);
@@ -207,5 +228,6 @@ module.exports = {
   viewStatusForMyFamilyMember,
   Cancelsubscription,
   getDiscount,
-  getDiscountSession
+  getDiscountSession,
+  PaymentPackageWallet
 };

@@ -223,6 +223,7 @@ const deletePatient = async (req, res) => {
     res.status(400).send("Error could not delete patient !!");
   }
 };
+
 function calculateAge(dateOfBirth) {
   const dob = new Date(dateOfBirth);
   if (isNaN(dob)) {
@@ -238,6 +239,7 @@ function calculateAge(dateOfBirth) {
 
   return age;
 }
+
 module.exports = {
   createPatient,
   getPatients,

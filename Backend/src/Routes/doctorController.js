@@ -4,6 +4,10 @@ const Patient = require("../Models/Patient.js");
 const Admin = require("../Models/Admin.js");
 const prescriptions = require("../Models/Prescriptions.js");
 const { default: mongoose } = require("mongoose");
+var bcrypt = require("bcrypt");
+const hashPassword = async (password) => {
+  return bcrypt.hash(password, 5);
+};
 
 const createDoctor = async (req, res) => {
   //add a new Doctor to the database with
@@ -16,9 +20,10 @@ const createDoctor = async (req, res) => {
       doctorUsername = await Admin.findOne({ Username: req.body.Username });
     }
     if (!doctorUsername && !doctorMail && !adminMail) {
+      console.log(await hashPassword(req.body.Password));
       await Doctor.create({
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: await hashPassword(req.body.Password),
         DOB: req.body.DOB,
         Name: req.body.Name,
         Email: req.body.Email,
@@ -41,30 +46,48 @@ const createDoctor = async (req, res) => {
     res.status(400).send("Failed to Create Doctor");
   }
 };
-const updateStatus = async(req,res) =>{
-  let user  = await Doctor.updateOne({Username : req.body.Username} , {$set: {Status : req.body.Status}});
+const updateStatus = async (req, res) => {
+  let user = await Doctor.updateOne(
+    { Username: req.body.Username },
+    { $set: { Status: req.body.Status } },
+  );
   res.status(200).send("Updateed Status");
-}
+};
 const doctorUploadFile = async (req, res) => {
   const filename = req.body.Username + "-" + ".pdf";
   const file = req.files.file;
   var filePath = "./uploadDoctor/" + filename;
   file.mv(filePath);
-
-  await Doctor.create({
-    Username: req.body.Username,
-    Password: req.body.Password,
-    DOB: req.body.DOB,
-    Name: req.body.Name,
-    Email: req.body.Email,
-    Hourlyrate: req.body.Hourlyrate,
-    Affiliation: req.body.Affiliation,
-    Education: req.body.Education,
-    Speciality: req.body.Speciality,
-    Status: "Pending",
-    FileNames: [filename],
-  });
-  res.status(200).send("Created successfully");
+  let doctorUsername = await Patient.findOne({ Username: req.body.Username });
+  const doctorMail = await Patient.findOne({ Email: req.body.Email });
+  const adminMail = await Admin.findOne({ Email: req.body.Email });
+  if (!doctorUsername) {
+    doctorUsername = await Admin.findOne({ Username: req.body.Username });
+  }
+  if (!doctorUsername && !doctorMail && !adminMail) {
+    //console.log(await hashPassword(req.body.Password));
+    await Doctor.create({
+      Username: req.body.Username,
+      Password: await hashPassword(req.body.Password),
+      DOB: req.body.DOB,
+      Name: req.body.Name,
+      Email: req.body.Email,
+      Hourlyrate: req.body.Hourlyrate,
+      Affiliation: req.body.Affiliation,
+      Education: req.body.Education,
+      Speciality: req.body.Speciality,
+      Wallet: 0,
+      Status: "Pending",
+      FileNames: [filename],
+    });
+    res.status(200).send("Created successfully");
+  } else {
+    if (doctorMail || adminMail) {
+      res.status(401).send("e-mail already exists");
+    } else {
+      res.status(401).send("username already exists");
+    }
+  }
   // res.status(400).send("Failed to Create Doctor");
   // const username = req.body.Username;
   // console.log(username);

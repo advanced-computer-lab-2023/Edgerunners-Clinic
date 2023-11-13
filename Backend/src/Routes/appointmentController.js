@@ -151,9 +151,11 @@ const updateAppointmentWallet = async (req, res) => {
   const doctorPatients = await Doctor.findOne({
     Username: req.body.DoctorUsername,
   });
+  const discount = req.body.Discount;
   const patient = await Patient.findOne({ Username: req.body.PatientUsername });
   let wallet = patient.Wallet;
-  let sessionPrice = doctorPatients.Hourlyrate;
+  let sessionPrice = (doctorPatients.Hourlyrate)*((100-discount)/100);
+  sessionPrice = sessionPrice*1.1
   let walletD = doctorPatients.Wallet;
   console.log("hi");
   if (wallet >= sessionPrice) {
@@ -178,7 +180,7 @@ const updateAppointmentWallet = async (req, res) => {
     console.log(wallet);
     await Doctor.updateOne(
       { Username: req.body.DoctorUsername },
-      { $set: { Patients: result, Wallet: walletD + sessionPrice * 0.9 } },
+      { $set: { Patients: result, Wallet: walletD + sessionPrice} },
     );
     console.log(walletD);
     await Appointment.updateOne(

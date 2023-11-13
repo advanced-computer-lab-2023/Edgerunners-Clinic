@@ -42,6 +42,21 @@ export default function Doctors() {
   const [chosen, setChosen] = useState();
   const [Modal, setModal] = useState(false);
 
+  function discount() {
+    const [discount, setDiscount] = useState();
+    useEffect(() => {
+      getMyDiscount();
+      async function getMyDiscount() {
+        const res = await axios.get(
+          `http://localhost:3001/getDiscountSession`,{params:{username:sessionStorage.getItem("Username")}}
+        );
+        setDiscount(res.data);
+      }
+    }, []);
+    return discount;
+  }
+  let discount3 = discount();
+
   function wallet() {
     const [wallet, setWallet] = useState();
     useEffect(() => {
@@ -126,6 +141,7 @@ export default function Doctors() {
       Date: Date,
       TimeH: TimeH,
       TimeM: TimeM,
+      Discount: discount3,
       Availability: "Reserved",
       PatientUsername: sessionStorage.getItem("Username"),
       NationalID: NationalID,
@@ -327,7 +343,7 @@ export default function Doctors() {
               <div key={index}>
                 <p>Name: {a.Doctor.Name}</p>
                 <p>Speciality: {a.Doctor.Speciality}</p>
-                <p>Session Price/hour: {a.Doctor.Hourlyrate}</p>
+                <p>Session Price/hour: {a.Doctor.Hourlyrate*1.1}</p>
                 <p>Hospital: {a.Doctor.Affiliation}</p>
                 <p>Education: {a.Doctor.Education}</p>
                 <p>Date: {a.Date}</p>
@@ -378,7 +394,9 @@ export default function Doctors() {
                         Your wallet: {totalAmount != undefined && totalAmount}{" "}
                         EGP
                       </p>
-                      <p>Session price: {a.Doctor.Hourlyrate} EGP</p>
+                      <p>Session price: {a.Doctor.Hourlyrate*1.1} EGP</p>
+                      <p>discount: {discount3}%</p>
+                      <p>total = {(a.Doctor.Hourlyrate*1.1)*((100-discount3)/100)}</p>
                       <button
                         onClick={(e) => {
                           handlePaymentWallet(
@@ -392,6 +410,13 @@ export default function Doctors() {
                         }}
                       >
                         Pay
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          setModal(false);
+                        }}
+                      >
+                        cancel
                       </button>
                     </div>
                   </div>

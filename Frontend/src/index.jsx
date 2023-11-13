@@ -79,7 +79,6 @@ if (
           />
           <Route path="/Doctors" element={<Doctors />} />
           <Route path="/PatientHome" element={<PatientHome />} />
-          <Route path="/ChangePass" element={<ChangePass />} />
           <Route path="/Prescriptions" element={<Prescriptions />} />
           <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
           <Route path="/NewFamilyMem" element={<NewFamilyMem />} />

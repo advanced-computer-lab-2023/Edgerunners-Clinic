@@ -5,9 +5,38 @@ import axios from "axios";
 import GetPackages from "./getPackages";
 import { Carousel, Typography, Button } from "@material-tailwind/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import PayButton from "./PayButton";
+
+const modalOverlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "rgba(0, 0, 0, 0.1)",
+  zIndex: 1,
+};
+
+const modalStyle = {
+  backgroundColor: "white",
+  padding: "20px",
+  borderRadius: "8px",
+  boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
+  textAlign: "center",
+  zIndex: 2, // Set a higher value to overlap the overlay
+};
+
+const closeButtonStyle = {
+  position: "absolute",
+  top: "10px",
+  right: "10px",
+  cursor: "pointer",
+};
 
 const silverFeatures = [
   "40% off any doctor session",
@@ -30,6 +59,62 @@ export default function Packages() {
   let stripePromise;
   const packages = GetPackages();
 
+  const [isEdit, setEdit] = useState(false);
+  const [price, setPrice] = useState(null);
+  const [pname, setname] = useState(null);
+
+  function discount() {
+    const [discount, setDiscount] = useState();
+    useEffect(() => {
+      getMyDiscount();
+      async function getMyDiscount() {
+        const res = await axios.get(`http://localhost:3001/getDiscount`, {
+          params: { username: sessionStorage.getItem("Username") },
+        });
+        setDiscount(res.data);
+      }
+    }, []);
+    return discount;
+  }
+  let discount3 = discount();
+
+  function wallet() {
+    const [wallet, setWallet] = useState();
+    useEffect(() => {
+      getMyWallet();
+      async function getMyWallet() {
+        const res = await axios.get(
+          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+            "Username"
+          )}`
+        );
+        setWallet(res.data);
+      }
+    }, []);
+    return wallet;
+  }
+  let totalAmount = wallet();
+
+  const paywallet = (price, name)=>{
+    setPrice(price);
+    setname(name);
+  }
+  const handlewalletPayment = async() =>{
+    const res = await axios.post("http://localhost:3001/createHealthPackage",{
+      patientUsername: sessionStorage.getItem("Username"),
+      packagename: pname
+    })
+    if(res.data == "you are subscribed to one already"){
+      console.log("you are subscribed to one already");
+    }else{
+      const res2 = await axios.put("http://localhost:3001/PaymentPackageWallet",{
+      username: sessionStorage.getItem("Username"),
+      price: price,
+      discount: discount3
+    })
+    console.log(res2)
+    }
+  }
   const handleCheckout = async (name) => {
     let Username = sessionStorage.getItem("Username");
     let PaymentType = "Package";
@@ -41,29 +126,27 @@ export default function Packages() {
       .then((res) => {
         discount = res.data;
       });
-    if (discount !== null) {
-      let coupon = null;
-      await axios
-        .get("http://localhost:3001/create-coupon", {
-          params: { coupon: discount },
-        })
-        .then((res) => {
-          coupon = res.data;
-        });
-
-      await axios
-        .post("http://localhost:3001/create-checkout-session", {
-          name,
-          Username,
-          PaymentType,
-          coupon,
-        })
-        .then((res) => {
-          sessionStorage.setItem("flag", false);
-          window.location = res.data.url;
-        })
-        .catch((err) => console.log(err.message));
-    }
+    console.log("I am hereeee" + discount);
+    let coupon = null;
+    await axios
+      .get("http://localhost:3001/create-coupon", {
+        params: { coupon: discount },
+      })
+      .then((res) => {
+        coupon = res.data;
+      });
+    await axios
+      .post("http://localhost:3001/create-checkout-session", {
+        name,
+        Username,
+        PaymentType,
+        coupon,
+      })
+      .then((res) => {
+        sessionStorage.setItem("flag", false);
+        window.location = res.data.url;
+      })
+      .catch((err) => console.log(err.message));
   };
 
   // const getStripe = () => {
@@ -125,7 +208,7 @@ export default function Packages() {
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600"></p>
         </div>
-        <Carousel className="rounded-x1" autoplay={true} loop={true}>
+        <Carousel className="rounded-x1">
           {packages.data.map((p, index) => {
             return (
               <div key={p.Name} className="bg-white py-2 ">
@@ -189,6 +272,51 @@ export default function Packages() {
                             onClick={() => handleCheckout(p.Name)}
                           >
                             Get access
+                          </button>
+                          {isEdit && (<div style={modalOverlayStyle}>
+                            <div style={modalStyle}>
+                              <span
+                                style={closeButtonStyle}
+                                onClick={() => setEdit(false)}
+                              >
+                                &times;
+                              </span>
+                              <h2>Checkout:</h2>
+                              <p>
+                                Your wallet:{" "}
+                                {totalAmount != undefined && totalAmount} EGP
+                              </p>
+                              <p>Package price: {price} EGP</p>
+                              <p>discount: {discount3}%</p>
+                              <p>
+                                total ={" "}
+                                {discount3 > 0 &&
+                                  price * ((100 - discount3) / 100)}
+                                  {discount3 == 0 && price }EGP
+                              </p>
+                              <button
+                                onClick={(e) => {
+                                  handlewalletPayment()
+                                  setEdit(false);
+                                }}
+                              >
+                                Pay
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  setEdit(false);
+                                }}
+                              >
+                                cancel
+                              </button>
+                            </div>
+                          </div>)}
+                          <button
+                            href="#"
+                            className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            onClick={() => {paywallet(p.Price,p.Name);setEdit(true);}}
+                          >
+                            Pay with wallet
                           </button>
                           <p className="mt-6 text-xs leading-5 text-gray-600"></p>
                         </div>

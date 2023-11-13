@@ -18,6 +18,15 @@ export default function ResetPass() {
   const [Success, setSuccess] = useState(false);
   const [Failed, setFailed] = useState(false);
 
+  const passwordValidation = () => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
+    if (passwordRegex.test(NewPass)) {
+      ResetPass(); // Call the signup function here or perform other actions
+    } else {
+      // Show error in the register page
+      setFailed(true);
+    }
+  };
   const handleVerify = () => {
     const res1 = UserInput[0] + UserInput[1] + UserInput[2];
     const res2 = UserInput[3] + UserInput[4] + UserInput[5];
@@ -53,12 +62,13 @@ export default function ResetPass() {
       Email: Email,
       Password: NewPass,
     });
+    setVerified(false);
     if (res.data == "all good") {
-      setVerified(false);
       setSuccess(true);
-    } else {
-      setVerified(false);
       setFailed(false);
+      window.location.href = "/";
+    } else {
+      setFailed(true);
     }
   };
   return (
@@ -96,7 +106,7 @@ export default function ResetPass() {
               setNewPass(e.target.value);
             }}
           />
-          <button onClick={ResetPass}>submit</button>
+          <button onClick={passwordValidation}>submit</button>
         </>
       )}
       {Success && <p>Password updated successfully.</p>}

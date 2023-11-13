@@ -33,7 +33,6 @@ import UploadDocuments from "./Components/PatientHome/UploadDocuments";
 import UploadHRforPatients from "./Components/DoctorHome/UploadHRforPatients";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 import ResetPass from "./Components/Login_Reg/ResetPass";
-import ChangePass from "./Components/Patient/ChangePass";
 
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
 

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import fileDownload from 'js-file-download';
+import Logo from "../../UI/UX/Logo";
+
 const UploadHRforPatient = () => {
   const [file, setFile] = useState(null);
   const [files, setFiles] = useState([]); // Updated variable name to 'files'
@@ -102,6 +104,9 @@ const UploadHRforPatient = () => {
    return (
     <>
       <div className="input-group">
+      <a href="/DoctorHome">
+              <Logo />
+            </a>
       <div>
       <button onClick={handleViews}>View Files</button>
       {/* Display file list on the screen */}

@@ -8,29 +8,41 @@ function SetAdmin(props) {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const passwordConRef = useRef();
+  const emailRef = useRef();
   const [warning, setWarning] = useState("");
   const [ok, setOk] = useState(false);
 
   function okHandeler() {
     setOk(false);
   }
-
   function confirmHandeler(event) {
     const usernameValue = usernameRef.current.value;
     const passwordValue = passwordRef.current.value;
+    const emailValue = emailRef.current.value;
 
     const newAdmin = {
       Username: usernameValue,
       Password: passwordValue,
+      Email: emailValue,
     };
-
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
+    let valid = false
+    if (passwordRegex.test(passwordValue)) {
+      valid= true; // Call the signup function here or perform other actions
+    } 
     if (!usernameValue) {
       setWarning("Please enter your name");
       setOk(true);
     } else if (!passwordValue) {
       setWarning("Please enter your password");
       setOk(true);
-    } else if (
+    }else if (!valid) {
+      setWarning("Please enter the password in the correct format");
+      setOk(true);
+    } else if (!emailValue) {
+      setWarning("Please enter your Email");
+      setOk(true);
+    }else if (
       !passwordConRef.current.value ||
       passwordConRef.current.value !== passwordValue
     ) {
@@ -43,6 +55,7 @@ function SetAdmin(props) {
           usernameRef.current.value = "";
           passwordRef.current.value = "";
           passwordConRef.current.value = "";
+          emailRef.current.value = "";
         })
         .catch((error) => {
           setOk(true);
@@ -61,7 +74,7 @@ function SetAdmin(props) {
         <Logo />
       </a>
       <div className=" justify-center flex mt-20">
-        <Card width="w-4/12" height=" h-[32rem]">
+        <Card width="w-4/12" height=" h-[34rem]" >
           <div className=" flex justify-center  mt-6 mb-0 ">
             <Logo height="4rem" />
 
@@ -87,7 +100,20 @@ function SetAdmin(props) {
                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                   />
                 </div>
-
+                <div className=" mb-4">
+                  <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500 ml-2">
+                    {" "}
+                    Email :{" "}
+                  </label>
+                  <br />
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    ref={emailRef}
+                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                  />
+                </div>
                 <div className=" mb-4">
                   <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500  ml-2">
                     {" "}

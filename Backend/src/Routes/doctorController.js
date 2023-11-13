@@ -11,10 +11,11 @@ const createDoctor = async (req, res) => {
   try {
     let doctorUsername = await Patient.findOne({ Username: req.body.Username });
     const doctorMail = await Patient.findOne({ Email: req.body.Email });
+    const adminMail = await Admin.findOne({ Email: req.body.Email });
     if (!doctorUsername) {
       doctorUsername = await Admin.findOne({ Username: req.body.Username });
     }
-    if (!doctorUsername && !doctorMail) {
+    if (!doctorUsername && !doctorMail && !adminMail) {
       await Doctor.create({
         Username: req.body.Username,
         Password: req.body.Password,
@@ -30,7 +31,7 @@ const createDoctor = async (req, res) => {
       });
       res.status(200).send("Created successfully");
     } else {
-      if (doctorMail) {
+      if (doctorMail || adminMail) {
         res.status(401).send("e-mail already exists");
       } else {
         res.status(401).send("username already exists");

@@ -12,19 +12,25 @@ const createAdmin = async (req, res) => {
   //add a new Doctor to the database with
   //Name, Email and Age
   try {
-    let adminUsername = await Patient.findOne({Username:req.body.Username});
-    if(!adminUsername){
-      adminUsername = await Doctor.findOne({Username:req.body.Username});
+    let adminUsername = await Patient.findOne({ Username: req.body.Username });
+    let patientEmail = await Patient.findOne({ Email: req.body.Email });
+    let doctorEmail = await Doctor.findOne({ Email: req.body.Email });
+
+    if (!adminUsername) {
+      adminUsername = await Doctor.findOne({ Username: req.body.Username });
     }
-    if(!adminUsername){
+    if (!adminUsername && !doctorEmail && !patientEmail) {
       await Admin.create({
         Username: req.body.Username,
         Password: await hashPassword(req.body.Password),
+        Email: req.body.Email,
         Role: "Admin",
       });
       res.status(200).send("Created successfully");
-    }else{
-      res.status(401).send("username already exists!")
+    } else if (doctorEmail || patientEmail) {
+      res.status(401).send("Email already exists!")
+    } else {
+      res.status(401).send("username already exists!");
     }
   } catch (e) {
     res.status(400).send("Error could not create Admin !!");
@@ -58,4 +64,4 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
-module.exports = { createAdmin, getAdmins, updateAdmin, deleteAdmin  };
+module.exports = { createAdmin, getAdmins, updateAdmin, deleteAdmin };

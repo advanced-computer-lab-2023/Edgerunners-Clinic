@@ -18,10 +18,11 @@ const createPatient = async (req, res) => {
   try {
     let PatientUsername = await Doctor.findOne({ Username: req.body.Username });
     const PatientMail = await Doctor.findOne({ Email: req.body.Email });
+    const adminMail = await Admin.findOne({ Email: req.body.Email });
     if (!PatientUsername) {
       PatientUsername = await Admin.findOne({ Username: req.body.Username });
     }
-    if (!PatientUsername && !PatientMail) {
+    if (!PatientUsername && !PatientMail && !adminMail) {
       await Patient.create({
         Username: req.body.Username,
         Password: await hashPassword(req.body.Password),
@@ -40,7 +41,7 @@ const createPatient = async (req, res) => {
       });
       res.status(200).send("Created successfully");
     } else {
-      if (PatientMail) {
+      if (PatientMail || adminMail) {
         res.status(401).send("e-mail already exists");
       } else {
         res.status(401).send("username already exists");
@@ -202,12 +203,25 @@ const ResetPass = async (req, res) => {
     ).catch("an error happened");
     res.status(200).send("all good");
   } else {
-    await Patient.updateOne(
-      { Email: email },
-      { $set: { Password: await hashPassword(newPassword) } },
-    ).catch("an error happened");
-    res.status(200).send("all good");
+    let user = await Patient.findOne({ Email: req.params.Email });
+    if (user) {
+      await Patient.updateOne(
+        { Email: email },
+        { $set: { Password: await hashPassword(newPassword) } }
+      ).catch("An error happened");
+    } else {
+      user = await Admin.findOne({ Email: req.params.Email });
+      if (user) {
+        await Admin.updateOne(
+          { Email: email },
+          { $set: { Password: await hashPassword(newPassword) } }
+        ).catch("An error happened");
+      } else {
+        res.status(404).send("Email not found");
+      }
+    }
   }
+  res.status(200).send("all good");
 };
 
 const deletePatient = async (req, res) => {

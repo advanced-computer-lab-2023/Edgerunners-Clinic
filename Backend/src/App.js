@@ -84,7 +84,7 @@ const {
   Cancelsubscription,
   getDiscount,
   getDiscountSession,
-  PaymentPackageWallet,
+  PaymentPackageWallet
 } = require("./Routes/healthPackageController");
 const MongoURI =
   process.env.MONGO_URI ||

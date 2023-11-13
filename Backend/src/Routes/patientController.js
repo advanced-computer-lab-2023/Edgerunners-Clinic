@@ -135,7 +135,7 @@ const getPatients = async (req, res) => {
 };
 
 const filterPatients = async (req, res) => {
-  try {
+  // try {
     const { Name, Username, up } = req.query;
     const filter = {};
     const filter2 = {};
@@ -163,22 +163,33 @@ const filterPatients = async (req, res) => {
     }
 
     const rr = [];
+    let flag = false;
     for (let i = 0; i < puser.length; ++i) {
       filter2.PatientUsername = puser[i];
-      const ap = await Appointment.findOne(filter2);
-      if (ap && ap.Date >= Date.now()) {
-        rr.push(ap);
+      const ap = await Appointment.find(filter2);
+      console.log(ap);
+      console.log(ap.length);
+      
+      for( let j = 0; j < ap.length; ++j){
+      if(!flag){
+      if (ap[j] && ap[j].Date >= Date.now()) {
+        const patientName = await Patient.findOne({Username: ap[j].PatientUsername});
+        rr.push(patientName);
+        flag = true;
       }
     }
+  }
+    }
+    console.log(rr);
 
     if (up == "abdo") {
       res.status(200).send(rr);
     } else {
       res.status(200).send(r);
     }
-  } catch (e) {
-    res.status(400).send("Error could not get Patients !!");
-  }
+  // } catch (e) {
+  //   res.status(400).send("Error could not get Patients !!");
+  // }
 };
 
 const updatePatient = async (req, res) => {

@@ -1,6 +1,8 @@
 const LinkedAccounts = require("../Models/LinkedAccounts.js");
 const { default: mongoose } = require("mongoose");
 const Patient = require("../Models/Patient.js");
+
+
 const createLinkedAccount = async (req, res) => {
   try {
     let { patientUsername, email, phonenum, relation } = req.body;
@@ -9,7 +11,7 @@ const createLinkedAccount = async (req, res) => {
       $or: [{ Email: email }, { phoneNumber: phonenum }],
     });
     // Find the patient based on patientUsername
-    console.log(patientl);
+    //console.log(patientl);
     if (!patientl) {
       res.status(404).send("Patient not found");
       return;
@@ -20,23 +22,23 @@ const createLinkedAccount = async (req, res) => {
         if (patientl.Gender === "Male") {
           relation = "Husband";
         } else {
-          relation = "wife";
+          relation = "Wife";
         }
-        await LinkedAccounts.create({
-          PatientUsername: patientUsername,
-          Username: patientl.Username,
-          Relation: relation,
-        });
-
-        // Save the linked account to the database
-
-        const flag = true;
-        await Patient.updateOne(
-          { Username: patientl.Username },
-          { $set: { Linked: flag } },
-        );
-        res.status(200).send("Linked account created successfully");
+        
+      }else{
+        relation = "Child"
       }
+      await LinkedAccounts.create({
+        PatientUsername: patientUsername,
+        Username: patientl.Username,
+        Relation: relation,
+      });
+      const flag = true;
+      await Patient.updateOne(
+        { Username: patientl.Username },
+        { $set: { Linked: flag } },
+      );
+      res.status(200).send("Linked account created successfully");
     } else {
       res.status(404).send("this is patient is already linked with another account");
     }
@@ -55,7 +57,7 @@ const getLinkedAccounts = async (req, res) => {
       PatientUsername: patientUsername,
     });
 
-    console.log(linkedAccounts);
+    //console.log(linkedAccounts);
     if (linkedAccounts.length === 0) {
       res
         .status(404)

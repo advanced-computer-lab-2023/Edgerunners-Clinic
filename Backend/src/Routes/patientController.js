@@ -54,11 +54,11 @@ const createPatient = async (req, res) => {
 
 const patientUploadFile = async (req, res) => {
   const username = req.body.Username;
-  console.log(username);
+  //console.log(username);
   const filter = {};
   filter.Username = username;
   const patient = await Patient.findOne({ Username: username });
-  console.log(patient);
+  //console.log(patient);
   const size = patient.FileNames.length + 1;
   const filename = username + "-" + size + ".pdf";
   const file = req.files.file;
@@ -105,11 +105,11 @@ const deleteFile = async (req, res) =>{
 
 const patientUploadHealthRecord = async (req, res) => {
   const username = req.body.Username;
-  console.log(username);
+  //console.log(username);
   const filter = {};
   filter.Username = username;
   const patient = await Patient.findOne({ Username: username });
-  console.log(patient);
+  //console.log(patient);
   const filename =
     username +
     "-healthrecord-" +
@@ -128,7 +128,7 @@ const patientUploadHealthRecord = async (req, res) => {
 
 const gethealthrecords = async (req, res) => {
   const username = req.params.Username;
-  console.log(username);
+  //console.log(username);
   const patient = await Patient.find({ Username: username }).select(
     "FileNames",
   );
@@ -171,7 +171,7 @@ const filterPatients = async (req, res) => {
     const { Name, Username, up } = req.query;
     const filter = {};
     const filter2 = {};
-    console.log({ Name, Username, up });
+    //console.log({ Name, Username, up });
     if (Name) {
       filter2.PatientUsername = Name;
     }
@@ -199,8 +199,8 @@ const filterPatients = async (req, res) => {
     for (let i = 0; i < puser.length; ++i) {
       filter2.PatientUsername = puser[i];
       const ap = await Appointment.find(filter2);
-      console.log(ap);
-      console.log(ap.length);
+      //console.log(ap);
+      //console.log(ap.length);
       
       for( let j = 0; j < ap.length; ++j){
       if(!flag){
@@ -212,7 +212,7 @@ const filterPatients = async (req, res) => {
     }
   }
     }
-    console.log(rr);
+    //console.log(rr);
 
     if (up == "abdo") {
       res.status(200).send(rr);
@@ -238,7 +238,7 @@ const ResetPass = async (req, res) => {
   const newPassword = req.body.Password;
   const email = req.body.Email;
 
-  const doctor = await Doctor.findOne({ Email: req.params.Email });
+  const doctor = await Doctor.findOne({ Email: email });
   if (doctor) {
     await Doctor.updateOne(
       { Email: email, Status: "Accepted" },
@@ -246,14 +246,15 @@ const ResetPass = async (req, res) => {
     ).catch("an error happened");
     res.status(200).send("all good");
   } else {
-    let user = await Patient.findOne({ Email: req.params.Email });
+    let user = await Patient.findOne({ Email: email });
     if (user) {
       await Patient.updateOne(
         { Email: email },
         { $set: { Password: await hashPassword(newPassword) } }
       ).catch("An error happened");
     } else {
-      user = await Admin.findOne({ Email: req.params.Email });
+      user = await Admin.findOne({ Email: email });
+      //console.log(user);
       if (user) {
         await Admin.updateOne(
           { Email: email },

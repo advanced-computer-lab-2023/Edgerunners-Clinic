@@ -343,10 +343,10 @@ export default function Doctors() {
               <div key={index}>
                 <p>Name: {a.Doctor.Name}</p>
                 <p>Speciality: {a.Doctor.Speciality}</p>
-                <p>Session Price/hour: {a.Doctor.Hourlyrate*1.1}</p>
+                <p>Session Price/hour: {parseInt(a.Doctor.Hourlyrate*1.1)}</p>
                 <p>Hospital: {a.Doctor.Affiliation}</p>
                 <p>Education: {a.Doctor.Education}</p>
-                <p>Date: {a.Date}</p>
+                <p>Date: {a.Date.toString().split("T")[0]}</p>
                 <p>Hour: {a.TimeH}</p>
                 <p>Minute: {a.TimeM}</p>
 
@@ -394,9 +394,9 @@ export default function Doctors() {
                         Your wallet: {totalAmount != undefined && totalAmount}{" "}
                         EGP
                       </p>
-                      <p>Session price: {a.Doctor.Hourlyrate*1.1} EGP</p>
+                      <p>Session price: {parseInt(a.Doctor.Hourlyrate*1.1)} EGP</p>
                       <p>discount: {discount3}%</p>
-                      <p>total = {(a.Doctor.Hourlyrate*1.1)*((100-discount3)/100)}</p>
+                      <p>total = {parseInt((a.Doctor.Hourlyrate*1.1)*((100-discount3)/100))}</p>
                       <button
                         onClick={(e) => {
                           handlePaymentWallet(

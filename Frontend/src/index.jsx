@@ -90,6 +90,8 @@ if (
           <Route path="/Link" element={<LinkAnotherPat />} />
           <Route path="/ViewPackage" element={<ViewAndUNSubToAHealthPackage />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/myAppointments" element={<PatientAppointments />} />
+          
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
@@ -103,7 +105,6 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/Prescriptions" element={<Prescriptions />} />
           <Route path="/DoctorHome" element={<DoctorHome />} />
           <Route path="/EditMyProf" element={<EditMyProf />} />
           <Route path="/DoctorAppointments" element={<DoctorAppointments />} />

@@ -51,14 +51,14 @@ export default function PatientHome() {
                   <a
                     className="nav-link"
                     aria-current="page"
-                    href="#foundation"
+                    href="/myAppointments"
                   >
                     My Appointments
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#help">
-                    Health Record
+                  <a className="nav-link" aria-current="page" href="/viewPackage">
+                    My Subscribtions
                   </a>
                 </li>
                 <li className="nav-item">
@@ -71,8 +71,8 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#about">
-                    My Account
+                  <a className="nav-link" aria-current="page" href="/myWalletP">
+                    My Wallet
                   </a>
                 </li>
                 <li className="nav-item">
@@ -200,10 +200,10 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Make Appointment</h3>
+            <a href="/Link"><h3>Link Account</h3></a>
+            
             <p>
-              select an appointment date and time for myself or for a family
-              member
+              Link the Account of a Family Member to Yours
             </p>
           </div>
           <div className="col-4">

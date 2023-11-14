@@ -84,11 +84,6 @@ function EditMyProf(props) {
           </div>
           <div className="  mt-1">
             <h2 className="  text-xl font-bold  text-center  text-sky-600  ml-0   mt-6 ">
-              Password: {pass}
-            </h2>
-          </div>
-          <div className="  mt-1">
-            <h2 className="  text-xl font-bold  text-center  text-sky-600  ml-0   mt-6 ">
               DOB: {dob}
             </h2>
           </div>
@@ -160,6 +155,7 @@ function EditMyProf(props) {
               </button>
             </div>
           </div>
+          
         </Card>
       </div>
     </div>

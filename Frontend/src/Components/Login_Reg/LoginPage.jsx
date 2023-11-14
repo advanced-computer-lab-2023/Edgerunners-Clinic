@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import GenderInputSelect from "./GenderInputSelect";
 import axios from "axios";
 import ContractPage from "./contract";
-
+import { GetSpecialities } from "../PatientHome/getDoctors";
 class LoginPage extends Component {
   state = {
     isContainerActive: false,
@@ -17,11 +17,11 @@ class LoginPage extends Component {
     success: false,
     error: false,
     errorPassword: false,
-
     enable: false,
     role: true,
     signUp_hourlyRate: null,
     file: null,
+    Specialities: GetSpecialities(),
   };
 
   handleFileChange = (e) => {
@@ -106,7 +106,6 @@ class LoginPage extends Component {
       });
     this.setState({ isContainerActive: false });
     this.setState({ errorPassword: false });
-
   };
   signUpDoctor = (event) => {
     event.preventDefault();
@@ -133,7 +132,6 @@ class LoginPage extends Component {
       });
     this.setState({ isContainerActive: false });
     this.setState({ errorPassword: false });
-
   };
   signIn = async (event) => {
     event.preventDefault();
@@ -283,7 +281,6 @@ class LoginPage extends Component {
                     placeholder="Emergency Contact Number"
                   />
                   <button onClick={this.passwordValidationP}> Sign Up</button>
-                  
                 </form>
               </div>
             ) : (
@@ -371,15 +368,27 @@ class LoginPage extends Component {
                     type="text"
                     placeholder="Education"
                   />
-                  <input
+                  
+                  <select
                     onChange={(event) => {
                       this.setState({
-                        signUp_speciality: event.currentTarget.value,
-                      });
+                      signUp_speciality: event.currentTarget.value
+                    });
                     }}
-                    type="text"
-                    placeholder="Speciality"
-                  />
+                  >
+                    <option value="">Select Speciality</option>
+                    {this.state.Specialities.map((speciality, index) => {
+                      return (
+                        <option
+                          key={index}
+                          value={speciality}
+                        
+                        >
+                          {speciality}
+                        </option>
+                      );
+                    })}
+                  </select>
                   <div className="input-group">
                     <label htmlFor="file" className="sr-only">
                       Choose a file
@@ -401,7 +410,7 @@ class LoginPage extends Component {
                       Sign Up
                     </button>
                   )}
-                  
+
                   {/* <button onClick = {this.handleUpload}> Sign Up</button> */}
                 </form>
               </div>
@@ -468,7 +477,7 @@ class LoginPage extends Component {
                   </button>
                   {this.state.errorPassword && (
                     <p style={{ color: "red" }}>
-                     Please Write a Valid Password
+                      Please Write a Valid Password
                     </p>
                   )}
                 </div>

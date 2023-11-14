@@ -42,7 +42,7 @@ export default function DoctorAppointments() {
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
+              <a href="/DoctorHome">
                 <Logo />
               </a>
               <button

@@ -13,26 +13,26 @@ export default function PatientAppointments() {
 
   let appointmentStatus = FilterAppointmentsStatus({
     Status: state,
-    PatientUsernameName: PatientUsername,
+    PatientUsername: PatientUsername,
   });
 
   let appointmentDate = FilterAppointmentsDate({
     Date: date,
-    PatientUsernameName: PatientUsername,
+    PatientUsername: PatientUsername,
   });
 
   const handleSubmit = async (e) => {
     e.preventDefaut();
     appointmentDate = FilterAppointmentsDate({
       Date: date,
-      PatientUsernameName: PatientUsername,
+      PatientUsername: PatientUsername,
     });
   };
   const handleSubmit2 = async (e) => {
     e.preventDefault();
     appointmentStatus = FilterAppointmentsStatus({
       Status: state,
-      PatientUsernameName: PatientUsername,
+      PatientUsername: PatientUsername,
     });
   };
 

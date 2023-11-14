@@ -28,17 +28,17 @@ function MyWalletD(props) {
         <Card width="w-4/12" height=" h-[32rem]">
           <div className=" flex">
             <div>
-              <Logo height="4rem" />
+              <a href="/DoctorHome">
+                <Logo height="4rem" />
+              </a>
             </div>
             <div>
               <h1> Welcome {doctUsername}</h1>
             </div>
           </div>
-
-          <h1> Welcome {doctUsername}</h1>
           {totalAmount != undefined && (
             <h2 className="  text-xl ">
-              Total Available Amount is : {totalAmount}
+              Total Available Amount is : {parseInt(totalAmount)}
             </h2>
           )}
         </Card>

@@ -159,15 +159,17 @@ app.get("/create-coupon", async (req, res) =>{
 
 app.post("/create-checkout-session", async (req, res) => {
   const products = await stripe.products.list({
-    active: true,
+    active: true,limit : 1000
   });
   //console.log(products.data);
+  console.log(req.body)
   const product = products.data.find((p) => p.name === req.body.name);
   let applyDiscount = false;
   //console.log(req.body.coupon);
   if(req.body.coupon !== ""){
     applyDiscount = true;
   }
+  console.log(products.data);
   const sessionData =  {
     payment_method_types: ["card"],
     mode: "payment",

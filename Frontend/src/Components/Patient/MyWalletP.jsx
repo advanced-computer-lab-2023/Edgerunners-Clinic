@@ -27,7 +27,9 @@ function MyWalletP(props) {
         <Card width="w-4/12" height=" h-[32rem]">
           <div className=" flex">
             <div>
-              <Logo height="4rem" />
+              <a href="/PatientHome">
+                <Logo height="4rem" />
+              </a>
             </div>
             <div>
               <h1> Welcome {patientUsername}</h1>

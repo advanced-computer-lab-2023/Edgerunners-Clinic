@@ -10,13 +10,17 @@ const stripe = require("stripe")(
 
 const createAppointment = async (req, res) => {
   try {
-    const { DoctorUsername } = req.query;
+    const { DoctorUsername } = req.body;
     const filter = {};
+    //console.log(req.body);
     if (DoctorUsername) {
-      filter.DoctorUsername = DoctorUsername;
+      filter.Username = DoctorUsername;
     }
+    //console.log(filter);
     const Doctor1 = await Doctor.findOne(filter);
-    const price = parseInt((Doctor1.Hourlyrate * 100) * 1.1);
+    //console.log(Doctor1);
+    const price = parseInt(Doctor1.Hourlyrate * 100 * 1.1);
+
     await stripe.products.create({
       name: Doctor1.Name,
       default_price_data: {
@@ -72,11 +76,12 @@ const createFollowUp = async (req, res) => {
 
 const getAppointments = async (req, res) => {
   try {
-    const { Date, Speciality, Name } = req.query;
+    const { Speciality, Name } = req.query;
+    const Date1 = req.query.Date;
     const filter = {};
     const filter2 = {};
-    if (Date) {
-      filter.Date = Date + "T00:00:00.000Z";
+    if (Date1) {
+      filter.Date = Date1 + "T00:00:00.000Z";
     }
     if (Speciality) {
       filter2.Speciality = Speciality;
@@ -97,11 +102,15 @@ const getAppointments = async (req, res) => {
           TimeH: Appointments[i].TimeH,
           TimeM: Appointments[i].TimeM,
         };
-        r.push(t);
+
+        if (Date.now() <= t.Date) {
+          r.push(t);
+        }
       }
     }
     res.status(200).send(r);
   } catch (e) {
+    console.log(e);
     res.status(400).send("Error could not get Appointments !!");
   }
 };
@@ -154,8 +163,8 @@ const updateAppointmentWallet = async (req, res) => {
   const discount = req.body.Discount;
   const patient = await Patient.findOne({ Username: req.body.PatientUsername });
   let wallet = patient.Wallet;
-  let sessionPrice = (doctorPatients.Hourlyrate)*((100-discount)/100);
-  sessionPrice = sessionPrice*1.1
+  let sessionPrice = doctorPatients.Hourlyrate * ((100 - discount) / 100);
+  sessionPrice = sessionPrice * 1.1;
   let walletD = doctorPatients.Wallet;
   console.log("hi");
   if (wallet >= sessionPrice) {
@@ -180,7 +189,7 @@ const updateAppointmentWallet = async (req, res) => {
     console.log(wallet);
     await Doctor.updateOne(
       { Username: req.body.DoctorUsername },
-      { $set: { Patients: result, Wallet: walletD + sessionPrice} },
+      { $set: { Patients: result, Wallet: walletD + sessionPrice } },
     );
     console.log(walletD);
     await Appointment.updateOne(
@@ -225,6 +234,7 @@ const updateAppointmentStatus = async (req, res) => {
 
 const filterDateAppointments = async (req, res) => {
   const { PatientUsername, DoctorUsername, Date } = req.query;
+  //console.log(req.query);
   const filter = {};
   if (PatientUsername) {
     filter.PatientUsername = PatientUsername;
@@ -235,6 +245,7 @@ const filterDateAppointments = async (req, res) => {
   if (Date) {
     filter.Date = Date + "T00:00:00.000Z";
   }
+  //console.log(filter);
   const Appointments = await Appointment.find(filter);
   res.status(200).send(Appointments);
 };

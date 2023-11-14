@@ -50,7 +50,7 @@ export default function DoctorHome() {
                   <a
                     className="nav-link"
                     aria-current="page"
-                    href="#foundation"
+                    href="/DoctorAppointments"
                   >
                     My Appointments
                   </a>
@@ -182,9 +182,9 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Prescriptions">
+            
               <h3>Add Prescription</h3>
-            </a>
+            
             <p>upload/remove documents for my medical history</p>
           </div>
 
@@ -229,8 +229,10 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Add Health Records</h3>
-            <p>view all details of selected doctor including specilaty</p>
+            <a href="/MyWalletD">
+              <h3>My Wallet</h3>
+            </a>
+            <p>View the Amount Available in My Wallet</p>
           </div>
           <div className="col-4">
             <FontAwesomeIcon

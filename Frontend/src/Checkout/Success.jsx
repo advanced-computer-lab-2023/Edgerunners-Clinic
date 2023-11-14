@@ -51,7 +51,7 @@ const Success = () => {
       })();
       sessionStorage.setItem("flag", true);
     }
-  }, [hasRun]);
+  }, []);
   const handleLogoClick = () => {
     sessionStorage.removeItem("flag");
   };

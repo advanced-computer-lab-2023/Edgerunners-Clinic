@@ -54,7 +54,7 @@ const updatePackage = async (req, res) => {
       },
     );
     const products = await stripe.products.list({
-      active: true,
+      active: true,limit : 1000
     });
     let package = Package.findOne({ Name: req.body.name });
     const product = products.data.find((p) => p.name === req.body.Name);
@@ -90,7 +90,7 @@ const deletePackage = async (req, res) => {
       Name: req.body.Name,
     });
     const products = await stripe.products.list({
-      active: true,
+      active: true,limit : 1000
     });
     const product = products.data.find((p) => p.name === req.body.Name);
     try{

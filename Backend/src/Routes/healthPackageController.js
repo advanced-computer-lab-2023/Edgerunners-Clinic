@@ -99,7 +99,7 @@ const viewStatusForMyFamilyMember = async (req, res) => {
     const linkedAccounts = await LinkedAccounts.find({
       PatientUsername: patientUsername,
     });
-
+    //console.log(linkedAccounts)
     if (linkedAccounts.length !== 0) {
       const healthPackageStatusArray = [];
 
@@ -107,6 +107,9 @@ const viewStatusForMyFamilyMember = async (req, res) => {
         const healthPackages = await HealthPackage.findOne({
           Username: linkedAccount.Username,
         });
+        if(healthPackages === null){
+          continue;
+        }
         healthPackageStatusArray.push({
           username: linkedAccount.Username,
           Status: healthPackages.Status,

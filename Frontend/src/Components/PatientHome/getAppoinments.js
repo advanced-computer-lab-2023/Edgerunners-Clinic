@@ -74,6 +74,7 @@ export function FilterAppointmentsStatus({ Status, PatientUsername }) {
   useEffect(() => {
     getMyAppointmentsD();
     async function getMyAppointmentsD() {
+      //console.log(PatientUsername)
       const res = await axios.get(
         `http://localhost:3001/filterStatusAppointments`,
         {
@@ -84,6 +85,7 @@ export function FilterAppointmentsStatus({ Status, PatientUsername }) {
         }
       );
       setAppointments(res.data);
+      //console.log(res.data)
     }
   }, [Status, PatientUsername]);
 

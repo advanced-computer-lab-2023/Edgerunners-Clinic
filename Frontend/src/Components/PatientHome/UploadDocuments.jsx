@@ -17,6 +17,14 @@ const UploadDocuments = () => {
   };
 
 
+  const handleDeleteFile = async (filename) =>{
+    const res = await axios.put("http://localhost:3001/deleteFile",{Username: sessionStorage.getItem("Username"), Filename: filename});
+    console.log(res);
+  }
+
+
+
+
   const handleUploadFiles = async () => {
     if (file) {
       setStatus("uploading");
@@ -42,6 +50,7 @@ const UploadDocuments = () => {
       }
     }
   };
+
   const handleViews = async () => {
       
       console.log(sessionStorage.getItem("Username"));
@@ -57,14 +66,6 @@ const UploadDocuments = () => {
         console.log(error);
       }
   };
-
-
-
-
-
-
-
-
 
 
   const handleUploadRecords = async () => {
@@ -115,7 +116,9 @@ const UploadDocuments = () => {
       <div key={index}>
          {item.FileNames.map((fileName, i) => (
         <><li key={i}>{fileName}</li>
-        <button onClick={() => handleViewFiles(fileName)}>Download</button></>
+        <button onClick={() => handleViewFiles(fileName)}>Download</button>
+        <button onClick={() => handleDeleteFile(fileName)}>Remove</button>
+        </>
              ))}
           </div>
             ))}

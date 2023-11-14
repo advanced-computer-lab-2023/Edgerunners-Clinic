@@ -71,6 +71,38 @@ const patientUploadFile = async (req, res) => {
   res.status(200);
 };
 
+const deleteFile = async (req, res) =>{
+  const username = req.body.Username;
+  const filter = {};
+  filter.Username = username;
+  const patient = await Patient.findOne({Username: username});
+  const filename = req.body.Filename;
+  let files = patient.FileNames;
+  let size  = files.length;
+  var filePath = "./uploadPatient/" + filename;
+  
+  let result  = [];
+  for (let i = 0 ; i < size ; ++i) {
+    const tmp = files.pop();
+    console.log(tmp + " " + filename);
+    if(tmp != filename){
+      result.unshift(tmp);
+    }
+}  
+  await Patient.updateOne(
+    {Username: username},
+    {$set: {FileNames: result}});
+
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+    console.log('File deleted:', filename);
+  } else {
+    console.log('File not found:', filename);
+  }
+  res.status(200).send("all good");
+
+}
+
 const patientUploadHealthRecord = async (req, res) => {
   const username = req.body.Username;
   console.log(username);
@@ -277,4 +309,5 @@ module.exports = {
   patientUploadHealthRecord,
   ResetPass,
   GetWallet,
+  deleteFile
 };

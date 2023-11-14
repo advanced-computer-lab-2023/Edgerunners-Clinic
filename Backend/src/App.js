@@ -17,6 +17,7 @@ const {
   patientUploadHealthRecord,
   ResetPass,
   GetWallet,
+  deleteFile
 } = require("./Routes/patientController");
 
 const {
@@ -220,6 +221,7 @@ app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
+app.put("/deleteFile", deleteFile);
 
 app.put("/ResetPass", ResetPass);
 

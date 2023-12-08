@@ -167,12 +167,14 @@ const rescheduleAppointment = async (req, res) => {
     },
     {
       $set: {
-      Date: req.body.NewDate,
-      TimeH: req.body.NewTimeH,
-      TimeM: req.body.NewTimeM,
+        PatientUsername: "",
+        NationalID: "",
+        Availability: "Available",
+        Status: "Upcoming", // You can update the status accordingly
       },
-    },
+    }
   );
+
   res.status(200).send("Updated!!");
 }
 

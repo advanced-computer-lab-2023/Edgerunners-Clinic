@@ -138,7 +138,7 @@ export default function PatientAppointments() {
               setWhich(true);
             }}
           >
-            <option value="Boody"></option>
+            <option value="">Status</option>
             <option value="Upcoming">Upcoming</option>
             <option value="Cancelled">Cancelled</option>
             <option value="Rescheduled">Rescheduled</option>
@@ -163,7 +163,9 @@ export default function PatientAppointments() {
                     <p>Name: {a.DoctorUsername}</p>
                     <p>Availability: {a.Availability}</p>
                     <p>Status: {a.Status}</p>
-                    <p>Available Date:{a.Date}</p>
+                    <p>Appointment Date: {a.Date.toString().split("T")[0]}</p>
+                    <p>Time: {a.TimeH}:{a.TimeM}</p>
+                    {a.NationalID !== "" && <p>Family Member: {a.NationalID}</p>}
                   </div>
                 );
               })
@@ -172,7 +174,9 @@ export default function PatientAppointments() {
                   <div key={index}>
                     <p> Doctor name: {a.DoctorUsername}</p>
                     <p>Status: {a.Status}</p>
-                    <p>Appointment Date:{a.Date}</p>
+                    <p>Appointment Date: {a.Date.toString().split("T")[0]}</p>
+                    <p>Time: {a.TimeH}:{a.TimeM}</p>
+                    {a.NationalID !== "" && <p>Family Member: {a.NationalID}</p>}
                   </div>
                 );
               })}

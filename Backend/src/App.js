@@ -71,6 +71,7 @@ const {
   filterStatusAppointments,
   updateAppointmentStatus,
   updateAppointmentWallet,
+  rescheduleAppointment,
 } = require("./Routes/appointmentController");
 
 const {
@@ -264,6 +265,7 @@ app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.put("/updateAppointmentWallet", updateAppointmentWallet);
+app.put("/rescheduleAppointment", rescheduleAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
 
 app.post("/createLinkedAccount", createLinkedAccount);

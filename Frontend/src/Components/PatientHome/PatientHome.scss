@@ -119,4 +119,140 @@
     font-weight: 700;
     background-color: rgb(224, 233, 241);
   }
+
+  .form-view-doctors-by-patient {
+    margin-top: 8rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 5rem;
+    flex-wrap: wrap;
+  }
+
+  .form-view-doctors-by-patient-div {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .form-view-doctors-by-patient-div input {
+    border-radius: 7px;
+    padding: 0.2rem;
+  }
+
+  .submit-btn{
+    background-color: #007BFF;
+    padding: 5px 25px;
+    color: white;
+    font-size: 18px;
+    border: #333 1px solid;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+}
+
+#FilterModal button,
+#FilterModal a {
+  background-color: #1aacac;
+  padding: 5px 25px;
+  color: white;
+  font-size: 18px;
+  border: #333 1px solid;
+  border-radius: 5px;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+#FilterModal {
+  background-color: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#FilterModal:empty {
+  display: none;
+}
+
+#FilterModal > div {
+  background-color: white;
+  padding: 15px;
+  text-align: center;
+  color: #fff;
+  border-radius: 30px;
+  background: rgba(147, 175, 218, 0.8);
+}
+
+#FilterModal button {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+#FilterModal label {
+  display: inline-block;
+  margin: 5px 5px;
+  border-radius: 15px;
+}
+
+.speciality-filter {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.speciality-filter label {
+  text-align: center;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.selected-label-filter {
+  background-color: #2e97a7;
+}
+
+.appointment-details-container {
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: #e0f7fa;
+  border-radius: 15px;
+}
+
+.appointment-details-container select {
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.appointment-details-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.appointment-details-items-title {
+  color: blue;
+}
+
+.wallet-icon {
+  cursor: pointer;
+}
+
+.credit-card-icon {
+  cursor: pointer;
+}
+
+.filter-icon {
+  cursor: pointer;
 }

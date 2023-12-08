@@ -347,8 +347,7 @@ export default function Doctors() {
                 <p>Hospital: {a.Doctor.Affiliation}</p>
                 <p>Education: {a.Doctor.Education}</p>
                 <p>Date: {a.Date.toString().split("T")[0]}</p>
-                <p>Hour: {a.TimeH}</p>
-                <p>Minute: {a.TimeM}</p>
+                <p>Time: {a.TimeH}:{a.TimeM}</p>
 
                 <select onChange={(e) => setChosen(e.target.value)}>
                   <option value={sessionStorage.getItem("Username")}>

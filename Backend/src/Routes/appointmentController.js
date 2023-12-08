@@ -156,6 +156,26 @@ const updateAppointment = async (req, res) => {
   res.status(200).send("Updated!!");
 };
 
+const rescheduleAppointment = async (req, res) => {
+  await Appointment.updateOne(
+    {
+      DoctorUsername: req.body.DoctorUsername,
+      PatientUsername: req.body.PatientUsername,
+      Date: req.body.Date + "T00:00:00.000Z",
+      TimeH: req.body.TimeH,
+      TimeM: req.body.TimeM,
+    },
+    {
+      $set: {
+      Date: req.body.NewDate,
+      TimeH: req.body.NewTimeH,
+      TimeM: req.body.NewTimeM,
+      },
+    },
+  );
+  res.status(200).send("Updated!!");
+}
+
 const updateAppointmentWallet = async (req, res) => {
   const doctorPatients = await Doctor.findOne({
     Username: req.body.DoctorUsername,
@@ -286,4 +306,5 @@ module.exports = {
   filterDateAppointments,
   filterStatusAppointments,
   updateAppointmentWallet,
+  rescheduleAppointment,
 };

@@ -48,6 +48,7 @@ import ViewAndUNSubToAHealthPackage from "./Components/Patient/ViewAndUnsubHealt
 import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 import ChangePassword from "./Components/Login_Reg/ChangePassword";
 
+import ViewPres from "./Components/Patient/ViewPres";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -91,7 +92,7 @@ if (
           <Route path="/ViewPackage" element={<ViewAndUNSubToAHealthPackage />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/myAppointments" element={<PatientAppointments />} />
-          
+                    <Route path="/ViewPres" element={<ViewPres/>} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

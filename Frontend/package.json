@@ -10,7 +10,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write \"Frontend/**/*.{js,jsx}\"",
-    "lint": "eslint \"Frontend/**/*.{js,jsx}\" --quiet"
+    "lint": "eslint \"Frontend/**/*.{js,jsx}\" --quiet",
+    "email": "email dev"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.1.2",
     "@mui/material": "^5.14.12",
+    "@react-email/components": "0.0.11",
     "@stripe/stripe-js": "^2.1.11",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -50,6 +52,7 @@
     "nodemon": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-email": "1.9.5",
     "react-icons": "^4.11.0",
     "react-phone-number-input": "^3.3.6",
     "react-router-dom": "^6.4.1",

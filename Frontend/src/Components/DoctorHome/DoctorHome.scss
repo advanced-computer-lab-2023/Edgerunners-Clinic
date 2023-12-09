@@ -1,6 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
 .DoctorHome {
   body {
-    font-family: "Sen", sans-serif;
+    font-family: "Montserrat", sans-serif;
   }
 
   .nav-color-bg {
@@ -92,5 +94,113 @@
   .col-4 p {
     font-size: 14px;
     text-align: left;
+  }
+  .input-box {
+    padding: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    border: 1px dashed #000;
+    border-radius: 3px;
+  }
+  .input-box:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+  }
+  .input-box::placeholder {
+    color: #999;
+  }
+  .pentosquare-icon {
+    cursor: pointer;
+    position: relative;
+  }
+
+  .parent-profile {
+    margin-top: 7rem;
+    margin-left: 2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .container-profile {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    align-content: space-evenly;
+    gap: 1.5rem;
+    justify-content: left;
+    text-align: left;
+  }
+
+  .container-profile-item {
+    display: grid;
+    grid-template-columns: 13rem auto auto;
+    align-content: space-evenly;
+  }
+
+  .container-profile-item span {
+    font-size: 20px;
+  }
+
+  .container-profile-item-left {
+    color: #4f4f3b;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .container-profile-item-right {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .tooltip {
+    visibility: visible;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+
+  .wallet {
+    width: 300px;
+    height: 150px;
+    background-color: #5a5c69;
+    border-radius: 0 0 50px 50px;
+    position: relative;
+    left: -250px;
+    top: 150px;
+  }
+
+  .wallet-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+  }
+
+  .hidden-content {
+    position: absolute;
+    width: 290px;
+    top: 0;
+    left: 5px;
+    right: 0;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    background-color: #3c3d41;
+    transform: translateY(0%);
+    transition: transform 0.3s ease-in-out;
+    z-index: -1;
+  }
+
+  .wallet:hover .hidden-content {
+    transform: translateY(-100%);
   }
 }

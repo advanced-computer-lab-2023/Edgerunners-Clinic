@@ -6,13 +6,10 @@ import { Route, Routes } from "react-router-dom";
 import PatientHome from "./Components/PatientHome/PatientHome";
 import Prescriptions from "./Components/PatientHome/Prescriptions";
 import Doctors from "./Components/PatientHome/Doctors";
-
 import Packages from "./Components/Packages/Packages";
 import UpdatePackage from "./Components/Packages/UpdatePackage";
 import PackagesForAdmin from "./Components/Packages/PackagesForAdmin";
 import CreatePackage from "./Components/Packages/CreatePackage";
-
-import App from "./App";
 import ViewFamilyMem from "./Components/Patient/ViewFamilyMem";
 import NewFamilyMem from "./Components/Patient/NewFamilyMem";
 import LinkAnotherPat from "./Components/Patient/LinkAnotherPat";
@@ -21,34 +18,28 @@ import AdminBody from "./Components/Admin/Body";
 import SetAdmin from "./Components/Admin/SetAdmin";
 import PatientAppointments from "./Components/PatientHome/MyAppointments";
 import RemovePar from "./Components/Admin/RemovePar";
-
 import DoctorHome from "./Components/DoctorHome/DoctorHome";
 import EditMyProf from "./Components/DoctorHome/EditMyProf";
 import ViewMyPatients from "./Components/DoctorHome/ViewMyPatients";
 import ViewDocReq from "./Components/Admin/ViewDocReq";
 import AdminHome from "./Components/Admin/AdminHome";
 import MyWalletD from "./Components/DoctorHome/MyWalletD";
-
 import UploadDocuments from "./Components/PatientHome/UploadDocuments";
 import UploadHRforPatients from "./Components/DoctorHome/UploadHRforPatients";
 import DoctorRequests from "./Components/Admin/DoctorRequests";
 import ResetPass from "./Components/Login_Reg/ResetPass";
-
 import DoctorAppointments from "./Components/DoctorHome/DoctorAppointments";
-
-import ViewAndSubToAHealthPackage from "./Components/Patient/ViewAndSubToAHealthPackage";
 import ContractPage from "./Components/Login_Reg/contract";
 import LoginPage from "./Components/Login_Reg/LoginPage";
 import AddAppointment from "./Components/DoctorHome/AddAppointment";
-
-import Checkout from "./Checkout/Checkout";
 import Success from "./Checkout/Success";
 import Cancel from "./Checkout/Cancel";
 import ViewAndUNSubToAHealthPackage from "./Components/Patient/ViewAndUnsubHealth";
 import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 import ChangePassword from "./Components/Login_Reg/ChangePassword";
-
 import ViewPres from "./Components/Patient/ViewPres";
+import ViewPresc from "./Components/DoctorHome/ViewPresc";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -89,10 +80,14 @@ if (
           <Route path="/Success" element={<Success />} />
           <Route path="/Cancel" element={<Cancel />} />
           <Route path="/Link" element={<LinkAnotherPat />} />
-          <Route path="/ViewPackage" element={<ViewAndUNSubToAHealthPackage />} />
+          <Route
+            path="/ViewPackage"
+            element={<ViewAndUNSubToAHealthPackage />}
+          />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/myAppointments" element={<PatientAppointments />} />
-           
+          <Route path="/ViewPres" element={<ViewPres />} />
+
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
@@ -108,11 +103,11 @@ if (
         <Routes>
           <Route path="/DoctorHome" element={<DoctorHome />} />
           <Route path="/EditMyProf" element={<EditMyProf />} />
+          <Route path="/ViewPresc" element={<ViewPresc />} />
           <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
           <Route path="/AddAppointment" element={<AddAppointment />} />
           <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
           <Route path="/contract" element={<ContractPage />} />
-          <Route path="/MyWalletD" element={<MyWalletD />} />
           <Route
             path="/ScheduleAppointment"
             element={<ScheduleAppointment />}

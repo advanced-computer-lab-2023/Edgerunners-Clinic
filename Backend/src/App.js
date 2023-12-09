@@ -88,6 +88,12 @@ const {
   getDiscountSession,
   PaymentPackageWallet
 } = require("./Routes/healthPackageController");
+const{
+  createNotification,
+  getNotifications,
+  deleteNotification
+} = require("./Routes/notificationController");
+
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -279,3 +285,7 @@ app.put("/Cancelsubscription", Cancelsubscription);
 app.get("/getDiscount",getDiscount);
 app.get("/getDiscountSession",getDiscountSession);
 app.put("/PaymentPackageWallet",PaymentPackageWallet);
+
+app.post("/createNotification", createNotification);
+app.get("/getNotification", getNotifications);
+app.delete("/deleteNotification", deleteNotification);

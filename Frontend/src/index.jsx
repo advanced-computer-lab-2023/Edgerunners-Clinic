@@ -62,7 +62,7 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<ViewPres />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>
@@ -92,7 +92,7 @@ if (
           <Route path="/ViewPackage" element={<ViewAndUNSubToAHealthPackage />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/myAppointments" element={<PatientAppointments />} />
-                    <Route path="/ViewPres" element={<ViewPres/>} />
+           
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

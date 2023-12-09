@@ -76,7 +76,7 @@ const createFollowUp = async (req, res) => {
 
 const getAppointments = async (req, res) => {
   try {
-    const { Speciality, Name } = req.query;
+    const { Speciality, Name} = req.query;
     const Date1 = req.query.Date;
     const filter = {};
     const filter2 = {};
@@ -89,6 +89,7 @@ const getAppointments = async (req, res) => {
     if (Name) {
       filter2.Name = Name;
     }
+    
     filter.Availability = "Available";
     const Appointments = await Appointment.find(filter);
     const r = [];
@@ -115,10 +116,39 @@ const getAppointments = async (req, res) => {
   }
 };
 
+const getAppointmentFilter = async (req, res) => {
+  try{
+  const {DoctorUsername, Availability} = req.query;
+  const filter = {};
+  if(DoctorUsername){
+    filter.DoctorUsername = DoctorUsername;
+  }
+    filter.Availability = "Available";
+  const Appointments = await Appointment.find(filter);
+  const r = [];
+  for(let i = 0 ; i < Appointments.length; ++i){
+    const t = {
+          DoctorUsername: Appointments[i].DoctorUsername,
+          Date: Appointments[i].Date,
+          TimeH: Appointments[i].TimeH,
+          TimeM: Appointments[i].TimeM,
+    }
+    if (Date.now() <= t.Date) {
+      r.push(t);
+    }
+  }    res.status(200).send(r);
+
+  } catch (e) {
+    console.log(e);
+    res.status(400).send("Error could not get Appointments !!");
+  }
+}
+
 const updateAppointment = async (req, res) => {
   const doctorPatients = await Doctor.findOne({
     Username: req.body.DoctorUsername,
   });
+  console.log(doctorPatients);
   const patient = await Patient.findOne({ Username: req.body.PatientUsername });
   const Prescription = await prescriptions.findOne({
     Patient: req.body.PatientUsername,
@@ -157,11 +187,50 @@ const updateAppointment = async (req, res) => {
 };
 
 const rescheduleAppointment = async (req, res) => {
+  try{
   await Appointment.updateOne(
     {
       DoctorUsername: req.body.DoctorUsername,
       PatientUsername: req.body.PatientUsername,
-      Date: req.body.Date + "T00:00:00.000Z",
+      Date: req.body.Date,
+      TimeH: req.body.TimeH,
+      TimeM: req.body.TimeM,
+    },
+    {
+      $set: {
+        PatientUsername: "",
+        NationalID: "",
+        Availability: "Available",
+        Status: "Upcoming", // You can update the status accordingly
+      },
+    }
+  );
+  res.status(200).send("Updated!!");
+  }
+  catch(e){
+    console.log("not working");
+    res.status(400).send("not working");
+  }
+}
+
+const cancelAppointment = async (req, res) =>{
+  // try{
+    const appointmentDate = new Date(req.body.Date);
+    const currentDate = new Date();
+    const doctorPatients = await Doctor.findOne({
+      Username: req.body.DoctorUsername,
+    });
+    console.log(doctorPatients);
+    const patient = await Patient.findOne({ Username: req.body.PatientUsername });
+    let wallet = patient.Wallet;
+    let sessionPrice = doctorPatients.Hourlyrate;
+    sessionPrice = sessionPrice * 1.1;
+
+  await Appointment.updateOne(
+    {
+      DoctorUsername: req.body.DoctorUsername,
+      PatientUsername: req.body.PatientUsername,
+      Date: req.body.Date,
       TimeH: req.body.TimeH,
       TimeM: req.body.TimeM,
     },
@@ -175,7 +244,18 @@ const rescheduleAppointment = async (req, res) => {
     }
   );
 
+  if (appointmentDate.getTime() >= currentDate.getTime() + 24 * 60 * 60 * 1000) {
+    await Patient.updateOne(
+      { Username: req.body.PatientUsername },
+      { $set: { Wallet: wallet + sessionPrice } },
+    );
+  }
   res.status(200).send("Updated!!");
+  // }
+  // catch(e){
+  //   console.log("not working");
+  //   res.status(400).send("not working");
+  // }
 }
 
 const updateAppointmentWallet = async (req, res) => {
@@ -302,6 +382,7 @@ module.exports = {
   createAppointment,
   createFollowUp,
   getAppointments,
+  getAppointmentFilter,
   updateAppointment,
   deleteAppointment,
   updateAppointmentStatus,
@@ -309,4 +390,5 @@ module.exports = {
   filterStatusAppointments,
   updateAppointmentWallet,
   rescheduleAppointment,
+  cancelAppointment,
 };

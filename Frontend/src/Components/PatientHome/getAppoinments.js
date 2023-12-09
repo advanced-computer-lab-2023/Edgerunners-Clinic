@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function GetAppointments({ Date, Name, Speciality }) {
+export default function GetAppointments({ Date, Name, Speciality}) {
   const [Appointments, setAppointments] = useState([]);
 
   useEffect(() => {
@@ -19,6 +19,22 @@ export default function GetAppointments({ Date, Name, Speciality }) {
   }, [Date, Name, Speciality]); // Include the filter parameters in the dependency array
 
   return Appointments;
+}
+
+export function GetAppointmentsFilter({DoctorUsername}){
+  const [appointmentsFilter, setAppointmentsFilter] = useState([]);
+  useEffect(() =>{
+    getAppointmentsFilter();
+    async function getAppointmentsFilter(){
+      const res = await axios.get(`http://localhost:3001/getAppointmentFilter`, {
+        params:{
+          DoctorUsername
+        }
+      });
+      setAppointmentsFilter(res.data);
+    }
+  }, [DoctorUsername]);
+  return appointmentsFilter;
 }
 
 export function UpdateAppointments({

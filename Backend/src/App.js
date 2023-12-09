@@ -65,6 +65,7 @@ const {
   createAppointment,
   createFollowUp,
   getAppointments,
+  getAppointmentFilter,
   updateAppointment,
   deleteAppointment,
   filterDateAppointments,
@@ -72,6 +73,7 @@ const {
   updateAppointmentStatus,
   updateAppointmentWallet,
   rescheduleAppointment,
+  cancelAppointment,
 } = require("./Routes/appointmentController");
 
 const {
@@ -88,6 +90,12 @@ const {
   getDiscountSession,
   PaymentPackageWallet
 } = require("./Routes/healthPackageController");
+const{
+  createNotification,
+  getNotifications,
+  deleteNotification
+} = require("./Routes/notificationController");
+
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -261,11 +269,13 @@ app.delete("/deletePrescriptions", deletePrescriptions);
 app.post("/createAppointment", createAppointment);
 app.post("/createFollowUp", createFollowUp);
 app.get("/getAppointment", getAppointments);
+app.get("/getAppointmentFilter", getAppointmentFilter);
 app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.put("/updateAppointmentWallet", updateAppointmentWallet);
 app.put("/rescheduleAppointment", rescheduleAppointment);
+app.put("/cancelAppointment", cancelAppointment)
 app.delete("/deleteAppointment", deleteAppointment);
 
 app.post("/createLinkedAccount", createLinkedAccount);
@@ -279,3 +289,7 @@ app.put("/Cancelsubscription", Cancelsubscription);
 app.get("/getDiscount",getDiscount);
 app.get("/getDiscountSession",getDiscountSession);
 app.put("/PaymentPackageWallet",PaymentPackageWallet);
+
+app.post("/createNotification", createNotification);
+app.get("/getNotification", getNotifications);
+app.delete("/deleteNotification", deleteNotification);

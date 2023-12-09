@@ -65,6 +65,7 @@ const {
   createAppointment,
   createFollowUp,
   getAppointments,
+  getAppointmentFilter,
   updateAppointment,
   deleteAppointment,
   filterDateAppointments,
@@ -72,6 +73,7 @@ const {
   updateAppointmentStatus,
   updateAppointmentWallet,
   rescheduleAppointment,
+  cancelAppointment,
 } = require("./Routes/appointmentController");
 
 const {
@@ -267,11 +269,13 @@ app.delete("/deletePrescriptions", deletePrescriptions);
 app.post("/createAppointment", createAppointment);
 app.post("/createFollowUp", createFollowUp);
 app.get("/getAppointment", getAppointments);
+app.get("/getAppointmentFilter", getAppointmentFilter);
 app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.put("/updateAppointmentWallet", updateAppointmentWallet);
 app.put("/rescheduleAppointment", rescheduleAppointment);
+app.put("/cancelAppointment", cancelAppointment)
 app.delete("/deleteAppointment", deleteAppointment);
 
 app.post("/createLinkedAccount", createLinkedAccount);

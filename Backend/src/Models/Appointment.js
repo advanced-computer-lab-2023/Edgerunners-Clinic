@@ -31,6 +31,15 @@ const appointmentSchema = new Schema({
     enum: ["Upcoming", "Completed", "Cancelled", "Rescheduled"],
     required: true,
   },
+  NationalID: {
+    type: String,
+    required: false,
+  },
+  Type: {
+    type: String,
+    default: "New Appointment",
+    required: false,
+  }
 });
 
 appointmentSchema.index(

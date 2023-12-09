@@ -1,10 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../UI/UX/Logo";
-<<<<<<< Updated upstream
-import GetDoctors from "./getDoctors";
-import GetAppointments from "./getAppoinments";
-import axios from "axios";
-=======
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFilter,
@@ -47,14 +42,11 @@ const closeButtonStyle = {
   right: "10px",
   cursor: "pointer",
 };
->>>>>>> Stashed changes
 
 export default function Doctors() {
   const [speciality, setSpeciality] = useState();
   const [name, setName] = useState();
   const [date, setDate] = useState();
-<<<<<<< Updated upstream
-=======
   const [chosen, setChosen] = useState();
   const [Modal, setModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
@@ -97,7 +89,6 @@ export default function Doctors() {
     Username: sessionStorage.getItem("Username"),
   });
 
->>>>>>> Stashed changes
   let Doc = GetDoctors({
     Speciality: speciality,
     Name: name,
@@ -119,20 +110,53 @@ export default function Doctors() {
       Name: name,
     });
   };
+
+  // const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
+  //   e.preventDefault();
+  //   let NationalID = "";
+  //   if (chosen !== sessionStorage.getItem("Username")) {
+  //     NationalID = chosen;
+  //   }
+  //   await axios.put(`http://localhost:3001/updateAppointment`, {
+  //     DoctorUsername: doctor,
+  //     Date: Date,
+  //     TimeH: TimeH,
+  //     TimeM: TimeM,
+  //     Availability: "Reserved",
+  //     PatientUsername: sessionStorage.getItem("Username"),
+  //     NationalID: NationalID,
+  //   });
+  // };
   const handleSubmit2 = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
-    await axios.put(`http://localhost:3001/updateAppointment`, {
+    let NationalID = "";
+    if (chosen && chosen !== sessionStorage.getItem("Username")) {
+      NationalID = chosen;
+    }
+    sessionStorage.setItem("DoctorUsername", doctor);
+    sessionStorage.setItem("Date", Date);
+    sessionStorage.setItem("TimeH", TimeH);
+    sessionStorage.setItem("TimeM", TimeM);
+    sessionStorage.setItem("Availability", "Reserved");
+    sessionStorage.setItem("NationalID", NationalID);
+  };
+  const handlePaymentWallet = async (e, doctor, Date, TimeH, TimeM) => {
+    e.preventDefault();
+    let NationalID = "";
+    if (chosen !== sessionStorage.getItem("Username")) {
+      NationalID = chosen;
+    }
+    await axios.put(`http://localhost:3001/updateAppointmentWallet`, {
       DoctorUsername: doctor,
       Date: Date,
       TimeH: TimeH,
       TimeM: TimeM,
+      Discount: discount3,
       Availability: "Reserved",
       PatientUsername: sessionStorage.getItem("Username"),
+      NationalID: NationalID,
     });
   };
-<<<<<<< Updated upstream
-  console.log(appointmentDate);
-=======
 
   const handleCheckout = async (name) => {
     let Username = sessionStorage.getItem("Username");
@@ -168,10 +192,8 @@ export default function Doctors() {
         .catch((err) => console.log(err.message));
     }
   };
->>>>>>> Stashed changes
 
   if (Doc || appointmentDate) {
-    console.log(appointmentDate);
     return (
       <div className="PatientHome Bootstrap">
         <div className="header">
@@ -193,7 +215,7 @@ export default function Doctors() {
                   <i className="fas fa-bars"></i>
                 </span>
               </button>
-              <div className="collapse navbar-collapse" id="navbarExample01">
+              <div className="navbar-collapse" id="navbarExample01">
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <a className="nav-link" aria-current="page" href="#pets">
@@ -265,37 +287,6 @@ export default function Doctors() {
             </div>
           </nav>
         </div>
-<<<<<<< Updated upstream
-        <div className="form-prescription">
-          <label htmlFor="">Speciality</label>
-          <input
-            type="text"
-            name=""
-            id=""
-            onChange={(e) => {
-              setSpeciality(e.target.value);
-            }}
-          />
-          <label htmlFor="">doctor</label>
-          <input
-            type="text"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-          <label htmlFor="">Date</label>
-          <input
-            type="date"
-            name=""
-            id=""
-            onChange={(e) => {
-              setDate(e.target.value);
-            }}
-          />
-          <button type="submit" onSubmit={handleSubmit}>
-            submit
-          </button>
-=======
 
         <div className="form-view-doctors-by-patient">
           <div className="form-view-doctors-by-patient-div">
@@ -383,7 +374,6 @@ export default function Doctors() {
               </FilterModal>
             ) : null}
           </div>
->>>>>>> Stashed changes
         </div>
         <div>
           {/* {Doc.map((d, index) => {
@@ -403,19 +393,6 @@ export default function Doctors() {
           })} */}
           {appointmentDate.map((a, index) => {
             return (
-<<<<<<< Updated upstream
-              <div key={index}>
-                <p>Name: {a.Doctor.Name}</p>
-                <p>Speciality: {a.Doctor.Speciality}</p>
-                <p>Session Price/hour: {a.Doctor.Hourlyrate}</p>
-                <p>Hospital: {a.Doctor.Affiliation}</p>
-                <p>Education: {a.Doctor.Education}</p>
-                <p>Date: {a.Date}</p>
-                <p>Hour: {a.TimeH}</p>
-                <p>Minute: {a.TimeM}</p>
-                <button
-                  onClick={(e) =>
-=======
               <div className="appointment-details-container" key={index}>
                 <div className="appointment-details-items">
                   <span className="appointment-details-items-title">Name</span> <span>{a.Doctor.Name}</span>
@@ -461,20 +438,12 @@ export default function Doctors() {
                   className="credit-card-icon"
                   icon={faCreditCard}
                   onClick={(e) => {
->>>>>>> Stashed changes
                     handleSubmit2(
                       e,
                       a.Doctor.Username,
                       a.Date,
                       a.TimeH,
                       a.TimeM
-<<<<<<< Updated upstream
-                    )
-                  }
-                >
-                  reserve
-                </button>
-=======
                     ),
                       handleCheckout(a.Doctor.Name);
                   }}
@@ -532,7 +501,6 @@ export default function Doctors() {
                     </div>
                   </div>
                 )}
->>>>>>> Stashed changes
               </div>
             );
           })}

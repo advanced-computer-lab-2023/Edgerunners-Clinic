@@ -5,8 +5,13 @@ const Doctor = require("../Models/Doctor.js");
 const Patient = require("../Models/Patient.js");
 const { default: mongoose } = require("mongoose");
 
-const comparePassword = (password, hash) => {
-  return bcrypt.compare(password, hash);
+const comparePassword = async (password, hash) => {
+  try {
+      return bcrypt.compare(password, hash);
+  } catch (error) {
+      console.error("Error comparing passwords:", error);
+      return false;
+  }
 };
 
 const createJWTP = (username) => {
@@ -119,12 +124,13 @@ const signin = async (req, res) => {
   let user = await Patient.findOne({ Username: username });
   let isValid;
   if (user) {
-    isValid = comparePassword(password, user.Password);
+    isValid = await comparePassword(password, user.Password);
     if (isValid) {
       res.status(200).send({
         token: createJWTP(username),
         type: "Patient",
         Username: username,
+        wallet: user.Wallet,
       });
     } else {
       res.status(401).send("invalid password");
@@ -132,20 +138,26 @@ const signin = async (req, res) => {
   } else {
     user = await Doctor.findOne({ Username: username });
     if (user) {
-      isValid = comparePassword(password, user.Password);
+      isValid = await comparePassword(password, user.Password);
       if (isValid) {
-        res.status(200).send({
-          token: createJWTD(username),
-          type: "Doctor",
-          Username: username,
-        });
+        if (user.Status !== "Pending") {
+          res.status(200).send({
+            token: createJWTD(username),
+            type: "Doctor",
+            Username: username,
+            Status: user.Status,
+            wallet: user.Wallet,
+          });
+        } else {
+          res.status(401).send("Doctor not accepted yet");
+        }
       } else {
         res.status(401).send("invalid password");
       }
     } else {
       user = await Admin.findOne({ Username: username });
       if (user) {
-        isValid = comparePassword(password, user.Password);
+        isValid = await comparePassword(password, user.Password);
         if (isValid) {
           res.status(200).send({
             token: createJWTA(username),
@@ -162,6 +174,43 @@ const signin = async (req, res) => {
   }
 };
 
+const hashPassword = async (password) => {
+  return bcrypt.hash(password, 5);
+};
+const changePassword = async (req, res) => {
+  let username = req.body.Username;
+  let password = req.body.Password;
+  let confirm = req.body.confirmPassword;
+
+  if (password == confirm) {
+      const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
+      if (passwordRegex.test(password)) {
+          let user = await Patient.findOne({ Username: username });
+          if (user) {
+              await Patient.updateOne({ Username: username }, { $set: { Password: await hashPassword(password) } });
+              res.status(200).send("Patient password successfully updated");
+          }else {
+              user = await Doctor.findOne({ Username: username });
+              if (user) {
+                  await Doctor.updateOne({ Username: username }, { $set: { Password: await hashPassword(password) } });
+                  res.status(200).send("Pharmacist password successfully updated");
+              } else {
+                  user = await Admin.findOne({ Username: username });
+                  if (user) {
+                      await Admin.updateOne({ Username: username }, { $set: { Password: await hashPassword(password) } });
+                      res.status(200).send("Admin password successfully updated");
+                  } else {
+                      res.status(401).send("User not found");
+                  }
+              }
+          }
+      } else {
+          res.status(401).send("Password must have at least 3 characters, including 1 uppercase letter, 1 lowercase letter, and 1 digit.");
+      }
+  } else {
+      res.status(401).send("Passwords don't match");
+  }
+}
 module.exports = {
   signin,
   comparePassword,
@@ -171,4 +220,5 @@ module.exports = {
   protectA,
   protectD,
   protectP,
+  changePassword,
 };

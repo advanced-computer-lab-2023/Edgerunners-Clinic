@@ -56,8 +56,17 @@ const doctorSchema = new Schema(
 
     Status: {
       type: String,
-      enum: ["Pending", "Accepted"],
+      enum: ["Pending", "Accepted", "Waiting"],
       required: true,
+    },
+    
+    FileNames:{
+      type: Array,
+      required: false,
+    },
+    Wallet: {
+      type: Number,
+      required: false,
     }
   },
   { timestamps: true },

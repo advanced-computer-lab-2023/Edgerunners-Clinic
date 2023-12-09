@@ -2,6 +2,7 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+var fileUpload = require("express-fileupload");
 mongoose.set("strictQuery", false);
 require("dotenv").config();
 const {
@@ -10,6 +11,13 @@ const {
   updatePatient,
   deletePatient,
   filterPatients,
+  patientUploadFile,
+  viewFiles,
+  gethealthrecords,
+  patientUploadHealthRecord,
+  ResetPass,
+  GetWallet,
+  deleteFile
 } = require("./Routes/patientController");
 
 const {
@@ -33,6 +41,10 @@ const {
   deleteDoctor,
   findDoctor,
   addPatient4doctor,
+  doctorUploadFile,
+  getPatientNames,
+  updateStatus,
+  GetWalletD,
 } = require("./Routes/doctorController");
 
 const {
@@ -51,14 +63,31 @@ const {
 
 const {
   createAppointment,
+  createFollowUp,
   getAppointments,
   updateAppointment,
   deleteAppointment,
   filterDateAppointments,
   filterStatusAppointments,
   updateAppointmentStatus,
+  updateAppointmentWallet,
+  rescheduleAppointment,
 } = require("./Routes/appointmentController");
 
+const {
+  createLinkedAccount,
+  getLinkedAccounts,
+} = require("./Routes/linkedAccountsController");
+const {
+  createHealthPackage,
+  getHealthPackages,
+  viewStatusforMyself,
+  viewStatusForMyFamilyMember,
+  Cancelsubscription,
+  getDiscount,
+  getDiscountSession,
+  PaymentPackageWallet
+} = require("./Routes/healthPackageController");
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -95,19 +124,109 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const cors = require("cors");
-const { protectA, protectD, protectP, signin } = require("./Models/auth");
+const { protectA, protectD, protectP, signin , changePassword } = require("./Models/auth");
 
 app.use(cors());
+app.use(
+  fileUpload({
+    createParentPath: true,
+    defCharset: "utf8",
+    defParamCharset: "utf8",
+  }),
+);
+
+const stripe = require("stripe")(
+  "sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw",
+);
+
+app.get("/create-coupon", async (req, res) =>{
+  //console.log(req.query);
+  if(req.query.coupon!== '0'){
+    console.log("hereeee");
+    const coupon = await stripe.coupons.create({
+      percent_off: req.query.coupon,
+      duration: 'repeating',
+      duration_in_months: 12,
+    });
+    res.status(200).send(coupon.id);
+  }else{
+    res.status(200).send(null);
+  }
+  
+})
+
+
+
+
+app.post("/create-checkout-session", async (req, res) => {
+  const products = await stripe.products.list({
+    active: true,limit : 1000
+  });
+  //console.log(products.data);
+  console.log(req.body)
+  const product = products.data.find((p) => p.name === req.body.name);
+  let applyDiscount = false;
+  //console.log(req.body.coupon);
+  if(req.body.coupon !== ""){
+    applyDiscount = true;
+  }
+  console.log(products.data);
+  const sessionData =  {
+    payment_method_types: ["card"],
+    mode: "payment",
+    line_items: [
+      {
+        price: product.default_price,
+        quantity: 1,
+      },
+    ],
+    success_url: `http://localhost:5173/Success?Name=${req.body.name}&PaymentType=${req.body.PaymentType}`,
+    cancel_url: `http://localhost:5173/Cancel?PaymentType=${req.body.PaymentType}`,
+  };
+  console.log(applyDiscount);
+
+  if (applyDiscount) {
+    sessionData.discounts = [
+      {
+        coupon: req.body.coupon,
+      },
+    ];
+  }
+  const session = await stripe.checkout.sessions.create(sessionData);
+  //console.log(session);
+  res.send({ url: session.url });
+});
+
+
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
+  const payload = request.body;
+
+  console.log("Got payload: " + payload);
+
+  response.status(200).end();
+});
+// const {testStripe} = require("./stripe.js")
+// app.post("/stripe", testStripe);
 // app.use(function(req, res, next){
 //   res.setHeader('Access-Control-Allow-Origin', '*');
 // });
+app.put("/changePassword", changePassword);
 
 app.post("/signin", signin);
 app.post("/addPatient", createPatient);
+app.post("/patientUploadFile", patientUploadFile);
+app.get("/viewFiles/:filename", viewFiles);
+app.get("/getWallet/:username", GetWallet);
+app.get("/getWalletD/:username", GetWalletD);
+app.get("/patientUploadHealthRecord", patientUploadHealthRecord);
+app.get("/gethealthrecords/:Username", gethealthrecords);
 app.get("/getPatient", getPatients);
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
+app.put("/deleteFile", deleteFile);
+
+app.put("/ResetPass", ResetPass);
 
 app.post("/addDoctor", createDoctor);
 app.get("/getDoctor", getDoctors);
@@ -115,6 +234,9 @@ app.put("/updateDoctor", updateDoctor);
 app.put("/addPatient4Doctor", addPatient4doctor);
 app.delete("/deleteDoctor", deleteDoctor);
 app.get("/findDoctor", findDoctor);
+app.post("/doctorUploadFile", doctorUploadFile);
+app.get("/PatientsName/:Username", getPatientNames);
+app.put("/updateStatus", updateStatus);
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);
@@ -137,8 +259,23 @@ app.put("/updatePrescriptions", updatePrescriptions);
 app.delete("/deletePrescriptions", deletePrescriptions);
 
 app.post("/createAppointment", createAppointment);
+app.post("/createFollowUp", createFollowUp);
 app.get("/getAppointment", getAppointments);
 app.get("/filterDateAppointments", filterDateAppointments);
 app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
+app.put("/updateAppointmentWallet", updateAppointmentWallet);
+app.put("/rescheduleAppointment", rescheduleAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
+
+app.post("/createLinkedAccount", createLinkedAccount);
+app.get("/getLinkedAccounts", getLinkedAccounts);
+
+app.post("/createHealthPackage", createHealthPackage);
+app.get("/getHealthPackages", getHealthPackages);
+app.get("/viewStatusforMyself", viewStatusforMyself);
+app.get("/viewStatusForMyFamilyMember", viewStatusForMyFamilyMember);
+app.put("/Cancelsubscription", Cancelsubscription);
+app.get("/getDiscount",getDiscount);
+app.get("/getDiscountSession",getDiscountSession);
+app.put("/PaymentPackageWallet",PaymentPackageWallet);

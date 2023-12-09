@@ -53,6 +53,29 @@ const patientSchema = new Schema(
       type: Array,
       required: false,
     },
+    FileNames:{
+      type: Array,
+      required: false,
+    },
+    
+    HealthRecords:{
+      type: Array,
+  },
+    Wallet: {
+      type: Number,
+      required: false,
+    },
+    HealthPackageflag: {
+      type:Boolean,
+      required: false,
+      default: false,
+    },
+    Linked:{
+      type:Boolean,
+      required: false,
+      default: false,
+    }
+  
   },
   { timestamps: true },
 );

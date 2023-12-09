@@ -18,8 +18,10 @@ export default function PatientHome() {
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-          <a href="/PatientHome"><Logo /></a>
-            
+            <a href="/PatientHome">
+              <Logo />
+            </a>
+
             <button
               className="navbar-toggler ps-0"
               type="button"
@@ -33,7 +35,7 @@ export default function PatientHome() {
                 <i className="fas fa-bars"></i>
               </span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarExample01">
+            <div className="navbar-collapse" id="navbarExample01">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a className="nav-link" aria-current="page" href="#pets">
@@ -49,28 +51,47 @@ export default function PatientHome() {
                   <a
                     className="nav-link"
                     aria-current="page"
-                    href="#foundation"
+                    href="/myAppointments"
                   >
                     My Appointments
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#help">
-                    Health Record
+                  <a className="nav-link" aria-current="page" href="/viewPackage">
+                    My Subscribtions
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/Prescriptions">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/Prescriptions"
+                  >
                     Prescriptions
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#about">
-                    My Account
+                  <a className="nav-link" aria-current="page" href="/myWalletP">
+                    My Wallet
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/patientReg">
+                  <a className="nav-link" aria-current="page" href="/changePassword">
+                    Change password
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      sessionStorage.removeItem("wallet");
+                      window.location.replace("/");
+                    }}
+                  >
                     Log Out
                   </a>
                 </li>
@@ -152,7 +173,9 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Upload/Remove Documents</h3>
+            <a href="/UploadDocuments">
+              <h3>Upload/Remove Documents</h3>
+            </a>
             <p>upload/remove documents for my medical history</p>
           </div>
 
@@ -162,8 +185,8 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-             <a href = "/ViewFamilyMem">
-            <h3>Family</h3>
+            <a href="/ViewFamilyMem">
+              <h3>Family</h3>
             </a>
             <p>
               add family members using name, National ID, age, gender and
@@ -177,10 +200,10 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Make Appointment</h3>
+            <a href="/Link"><h3>Link Account</h3></a>
+            
             <p>
-              select an appointment date and time for myself or for a family
-              member
+              Link the Account of a Family Member to Yours
             </p>
           </div>
           <div className="col-4">
@@ -189,8 +212,8 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href = "/Doctors">
-            <h3>Our Doctors</h3>
+            <a href="/Doctors">
+              <h3>Our Doctors</h3>
             </a>
             <p>view a list of all doctors along with their speciality</p>
           </div>
@@ -200,8 +223,8 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-             <a href = "/Packages">
-            <h3>Health Packages</h3>
+            <a href="/Packages">
+              <h3>Health Packages</h3>
             </a>
             <p>view all details of selected doctor including specilaty</p>
           </div>
@@ -212,7 +235,7 @@ export default function PatientHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/Prescriptions">
-            <h3>Pharmacy</h3>
+              <h3>Pharmacy</h3>
             </a>
             <p>view the available quantity, and sales of each medicine</p>
           </div>

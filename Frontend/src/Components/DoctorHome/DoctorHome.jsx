@@ -18,7 +18,9 @@ export default function DoctorHome() {
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-            <a href="/DoctorHome"><Logo /></a>
+            <a href="/DoctorHome">
+              <Logo />
+            </a>
             <button
               className="navbar-toggler ps-0"
               type="button"
@@ -32,7 +34,7 @@ export default function DoctorHome() {
                 <i className="fas fa-bars"></i>
               </span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarExample01">
+            <div className="navbar-collapse" id="navbarExample01">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a className="nav-link" aria-current="page" href="#pets">
@@ -48,7 +50,7 @@ export default function DoctorHome() {
                   <a
                     className="nav-link"
                     aria-current="page"
-                    href="#foundation"
+                    href="/DoctorAppointments"
                   >
                     My Appointments
                   </a>
@@ -69,12 +71,32 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/EditMyProf">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/EditMyProf"
+                  >
                     My Account
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/doctorReg">
+                  <a className="nav-link" aria-current="page" href="/changePassword">
+                    Change password
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      sessionStorage.removeItem("wallet");
+                      sessionStorage.removeItem("Status");
+                      window.location.replace("/");
+                    }}
+                  >
                     Log Out
                   </a>
                 </li>
@@ -160,9 +182,9 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Prescriptions">
-            <h3>Add Prescription</h3>
-            </a>
+            
+              <h3>Add Prescription</h3>
+            
             <p>upload/remove documents for my medical history</p>
           </div>
 
@@ -172,8 +194,8 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/ViewFamilyMem">
-            <h3>Schedule a Follow-Up</h3>
+            <a href="/ScheduleAppointment">
+              <h3>Schedule a Follow-Up</h3>
             </a>
             <p>schedule a follow-up for a patient</p>
           </div>
@@ -183,10 +205,11 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Add Appointment</h3>
+            <a href="/AddAppointment">
+              <h3>Add Appointment</h3>
+            </a>
             <p>
-              select an appointment date and time for myself or for a family
-              member
+              Add an Appointment
             </p>
           </div>
           <div className="col-4">
@@ -196,9 +219,9 @@ export default function DoctorHome() {
               style={{ color: "#82d76a" }}
             />
             <a href="/ViewMyPatients">
-            <h3>My Patients</h3>
+              <h3>My Patients</h3>
             </a>
-            <p>view a list of all doctors along with their speciality</p>
+            <p>view a list of all patients</p>
           </div>
           <div className="col-4">
             <FontAwesomeIcon
@@ -206,8 +229,10 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <h3>Add Health Records</h3>
-            <p>view all details of selected doctor including specilaty</p>
+            <a href="/MyWalletD">
+              <h3>My Wallet</h3>
+            </a>
+            <p>View the Amount Available in My Wallet</p>
           </div>
           <div className="col-4">
             <FontAwesomeIcon

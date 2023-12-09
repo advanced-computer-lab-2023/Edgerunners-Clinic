@@ -42,7 +42,7 @@ export default function DoctorAppointments() {
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
+              <a href="/DoctorHome">
                 <Logo />
               </a>
               <button
@@ -58,7 +58,7 @@ export default function DoctorAppointments() {
                   <i className="fas fa-bars"></i>
                 </span>
               </button>
-              <div className="collapse navbar-collapse" id="navbarExample01">
+              <div className="navbar-collapse" id="navbarExample01">
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <a className="nav-link" aria-current="page" href="#pets">

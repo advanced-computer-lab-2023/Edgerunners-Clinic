@@ -1,32 +1,32 @@
-import  { useState, useRef, useEffect } from "react";
-import Card from "../../UI/UX/Card";
+import { useState, useRef, useEffect } from "react";
 import React from "react";
-import { ReactDOM } from "react-dom/client";
 import Logo from "../../UI/UX/Logo";
 import axios from "axios";
-import { Carousel, Typography, Button } from "@material-tailwind/react";
-function ViewPres() {
+import { Carousel } from "@material-tailwind/react";
+
+function ViewPresc() {
   const [prescriptions, setPrescriptions] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
-        const response =await axios.get("http://localhost:3001/getPrescriptions", {
+        const response = await axios.get(
+          "http://localhost:3001/getPrescriptions",
+          {
             params: {
-              Username : x
-            }
-          });
-        
+              Username: x,
+            },
+          }
+        );
+
         setPrescriptions(response.data);
       } catch (error) {
         console.error("Error fetching prescription data:", error);
       }
     };
     fetchData();
-  }, []); 
+  }, []);
 
-
-if (prescriptions != null) {
+  if (prescriptions != null) {
     return (
       <div className="tailwind">
         <a href="/PatientHome">
@@ -47,31 +47,28 @@ if (prescriptions != null) {
                   <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
                     <div className="p-8 sm:p-10 lg:flex-auto">
                       <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-                        Doctor : {p.Doctor} 
+                        Doctor : {p.Doctor}
                       </h2>
                       <p className="mt-4 text-base leading-7 text-gray-600"></p>
                       <div className="mt-10 flex items-center gap-x-4">
                         <h3 className="flex-none text-sm font-semibold leading-6  text-gray-600">
-                        Status:{p.Status}
-                        <br />
-                        Date: {new Date(p.Date).toLocaleDateString()}
+                          Status:{p.Status}
+                          <br />
+                          Date: {new Date(p.Date).toLocaleDateString()}
                         </h3>
                         <div className="h-px flex-auto bg-gray-100" />
                       </div>
-                      
                     </div>
-                    <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-                   
-                    </div>
+                    <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0"></div>
                   </div>
                 </div>
               </div>
             );
           })}
-        </Carousel>    
-         <div className="bg-white py-44 sm:py-55"></div>
+        </Carousel>
+        <div className="bg-white py-44 sm:py-55"></div>
       </div>
     );
   }
 }
-export default ViewPres;
+export default ViewPresc;

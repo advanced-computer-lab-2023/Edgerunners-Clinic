@@ -5,7 +5,6 @@ import { ReactDOM } from "react-dom/client";
 import Logo from "../../UI/UX/Logo";
 import axios from "axios";
 import { Carousel, Typography, Button } from "@material-tailwind/react";
-import 
 function ViewPres() {
   const [prescriptions, setPrescriptions] = useState([]);
   useEffect(() => {

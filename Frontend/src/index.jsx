@@ -39,7 +39,8 @@ import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 import ChangePassword from "./Components/Login_Reg/ChangePassword";
 import ViewPres from "./Components/Patient/ViewPres";
 import ViewPresc from "./Components/DoctorHome/ViewPresc";
-
+import VideoCall from "./Components/VideoCall";
+import StartACall from "./Components/DoctorHome/StartACall";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -53,7 +54,7 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<ViewPres />} />
+          <Route path="/" element={<StartACall />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>

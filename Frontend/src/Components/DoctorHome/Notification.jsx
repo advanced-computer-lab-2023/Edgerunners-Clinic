@@ -1,7 +1,9 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
+import VideoCall from "../VideoCall";
 function Notification(){
     const [notification,setNotification]=useState([]);
+    const [joiningCall,setJoiningCall]=useState(false);
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -35,15 +37,30 @@ function Notification(){
           console.error("Error removing notification:", error);
         }
       };
+      const handleJoinCall = (message) => {
+    
+        if (message.toLowerCase().includes("video call")) {
+         
+          setJoiningCall(true); 
+        }
+      };
       console.log(notification);
     return(
-        <div>
+      <div>
       {notification.map((notification) => (
         <div key={notification._id} style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>
           <p>{notification.Message}</p>
+
+          {notification.Message.toLowerCase().includes("video call") && (
+            <button onClick={() => handleJoinCall(notification.Message)}>Join</button>
+          )}
+
           <button onClick={() => handleRemove(notification.Message)}>Remove</button>
         </div>
       ))}
+
+      {/* Conditional rendering of VideoCall component */}
+      {joiningCall && <VideoCall patientUsername={patientToCall} />}
     </div>
   );
 

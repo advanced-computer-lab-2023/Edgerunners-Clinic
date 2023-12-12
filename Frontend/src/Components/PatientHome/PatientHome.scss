@@ -119,33 +119,33 @@
     font-weight: 700;
     background-color: rgb(224, 233, 241);
   }
+}
 
-  #FilterModal button,
-  #FilterModal a {
-    background-color: #1aacac;
-    padding: 5px 25px;
-    color: white;
-    font-size: 18px;
-    border: #333 1px solid;
-    border-radius: 5px;
-    display: block;
-    margin: auto;
-    margin-top: 1rem;
-    cursor: pointer;
-  }
+#FilterModal button,
+#FilterModal a {
+  background-color: #1aacac;
+  padding: 5px 25px;
+  color: white;
+  font-size: 18px;
+  border: #333 1px solid;
+  border-radius: 5px;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  cursor: pointer;
+}
 
-  #FilterModal {
-    background-color: rgba(0, 0, 0, 0.9);
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    z-index: 50;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+#FilterModal {
+  background-color: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #FilterModal:empty {
@@ -256,4 +256,3 @@
   margin-top: 1rem;
   cursor: pointer;
 }
-

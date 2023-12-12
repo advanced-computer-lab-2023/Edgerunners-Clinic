@@ -39,13 +39,11 @@ import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 import ChangePassword from "./Components/Login_Reg/ChangePassword";
 import ViewPres from "./Components/Patient/ViewPres";
 import ViewPresc from "./Components/DoctorHome/ViewPresc";
-<<<<<<< Updated upstream
 
-=======
 import VideoCall from "./Components/VideoCall";
 import StartACall from "./Components/DoctorHome/StartACall";
 import Notificationp from "./Components/Patient/Notificationp";
->>>>>>> Stashed changes
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -59,7 +57,7 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<StartACall />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>
@@ -94,6 +92,7 @@ if (
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/myAppointments" element={<PatientAppointments />} />
           <Route path="/ViewPres" element={<ViewPres />} />
+
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

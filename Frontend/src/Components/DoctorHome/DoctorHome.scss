@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
+$char-w: 1ch;
+$gap: 0.5 * $char-w;
+$n-char: 2;
+$in-w: $n-char * ($char-w + $gap);
+
 .DoctorHome {
   body {
     font-family: "Montserrat", sans-serif;
@@ -11,10 +16,6 @@
 
   .nav-link {
     color: #000;
-  }
-
-  .form-prescription {
-    margin-top: 20rem;
   }
 
   .information-div {
@@ -203,4 +204,157 @@
   .wallet:hover .hidden-content {
     transform: translateY(-100%);
   }
+}
+
+.addapointment-parent {
+  display: flex;
+  font-size: 18px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.form-prescription {
+  padding: 2rem;
+  display: flex;
+}
+
+.addapointment-item-div {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.addapointment-item-time {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.time-input-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.addapointment-item input[type="date"] {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+
+.time-input {
+  display: block;
+  margin: 2em auto;
+  border: none;
+  padding: 0;
+  width: $in-w;
+  background: repeating-linear-gradient(
+      90deg,
+      dimgrey 0,
+      dimgrey $char-w,
+      transparent 0,
+      transparent $char-w + $gap
+    )
+    0 100% / #{$in-w - $gap} 2px no-repeat;
+  font: 5ch droid sans mono, consolas, monospace;
+  letter-spacing: $gap;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.circleXmark {
+  position: relative;
+  left: 7.5rem;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
+  position: relative;
+}
+
+input[type="checkbox"] {
+  border: 2px solid #808080;
+  border-radius: 25px;
+}
+
+input[type="checkbox"]:not(:checked):focus::before {
+  opacity: 0.5; /* Makes the checkbox appear faded out when unchecked */
+}
+
+.NotesMedical-icon {
+  cursor: pointer;
+}
+
+.doctors-by-patient-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.doctors-by-patient-image {
+  margin-top: -4.3rem;
+  width: 110%;
+  height: auto;
+  object-fit: cover;
+}
+
+.doctors-by-patient-container-in {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  justify-content: left;
+  padding: 3rem;
+  border: 2px solid #fff;
+  background-color: #fff;
+  height: 18rem;
+  z-index: 1;
+  position: relative;
+  top: -25rem;
+  right: 28rem;
+  gap: 1.5rem;
+}
+
+.doctors-by-patient-container-in .head{
+  color: green;
+  position: relative;
+  top: -1.5rem;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.form-view-patients-by-doctors-div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-left: -2rem;
+}
+
+.form-view-patients-by-doctors-div input {
+  border-radius: 7px;
+  padding: 0.4rem;
+}
+
+.form-view-patients-by-doctors-div input[type="text"] {
+  width: 110%;
+}
+
+.form-view-patients-by-doctors-checkbox{
+  display: flex;
+  gap: 1rem;
+}
+
+.view-my-patients{
+  margin-top: -15rem;
 }

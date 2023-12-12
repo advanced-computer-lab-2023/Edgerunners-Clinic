@@ -39,8 +39,11 @@ import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 import ChangePassword from "./Components/Login_Reg/ChangePassword";
 import ViewPres from "./Components/Patient/ViewPres";
 import ViewPresc from "./Components/DoctorHome/ViewPresc";
+
 import VideoCall from "./Components/VideoCall";
 import StartACall from "./Components/DoctorHome/StartACall";
+import Notificationp from "./Components/Patient/Notificationp";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -81,6 +84,7 @@ if (
           <Route path="/Success" element={<Success />} />
           <Route path="/Cancel" element={<Cancel />} />
           <Route path="/Link" element={<LinkAnotherPat />} />
+          <Route path="/Notification" element={<Notificationp />} />
           <Route
             path="/ViewPackage"
             element={<ViewAndUNSubToAHealthPackage />}
@@ -103,6 +107,7 @@ if (
       <BrowserRouter>
         <Routes>
           <Route path="/DoctorHome" element={<DoctorHome />} />
+          <Route path="/VideoCall" element={<StartACall />} />
           <Route path="/EditMyProf" element={<EditMyProf />} />
           <Route path="/ViewPresc" element={<ViewPresc />} />
           <Route path="/DoctorAppointments" element={<DoctorAppointments />} />

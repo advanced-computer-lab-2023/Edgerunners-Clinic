@@ -155,6 +155,7 @@ export default function Doctors() {
       Availability: "Reserved",
       PatientUsername: sessionStorage.getItem("Username"),
       NationalID: NationalID,
+      Status:"Upcoming",
     });
   };
 

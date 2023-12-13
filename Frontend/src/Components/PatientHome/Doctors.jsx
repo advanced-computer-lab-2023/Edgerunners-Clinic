@@ -11,7 +11,6 @@ import GetDoctors, { GetSpecialities } from "./getDoctors";
 import GetAppointments from "./getAppoinments";
 import axios from "axios";
 import GetRelation from "./getRelation";
-import PayButton from "../Packages/PayButton";
 import "./PatientHome.scss";
 
 const modalOverlayStyle = {
@@ -196,11 +195,11 @@ export default function Doctors() {
 
   if (Doc || appointmentDate) {
     return (
-      <div className="PatientHome Bootstrap">
+      <div className="Bootstrap DoctorHome">
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
+              <a href="/DoctorHome">
                 <Logo />
               </a>
               <button
@@ -396,20 +395,32 @@ export default function Doctors() {
             return (
               <div className="appointment-details-container" key={index}>
                 <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Name</span> <span>{a.Doctor.Name}</span>
+                  <span className="appointment-details-items-title">Name</span>{" "}
+                  <span>{a.Doctor.Name}</span>
                 </div>
                 <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Speciality</span> <span>{a.Doctor.Speciality}</span>
+                  <span className="appointment-details-items-title">
+                    Speciality
+                  </span>{" "}
+                  <span>{a.Doctor.Speciality}</span>
                 </div>
                 <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Session Price/hour</span>{" "}
+                  <span className="appointment-details-items-title">
+                    Session Price/hour
+                  </span>{" "}
                   <span>{parseInt(a.Doctor.Hourlyrate * 1.1)}</span>
                 </div>
                 <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Hospital</span> <span>{a.Doctor.Affiliation}</span>
+                  <span className="appointment-details-items-title">
+                    Hospital
+                  </span>{" "}
+                  <span>{a.Doctor.Affiliation}</span>
                 </div>
                 <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Education</span> <span>{a.Doctor.Education}</span>
+                  <span className="appointment-details-items-title">
+                    Education
+                  </span>{" "}
+                  <span>{a.Doctor.Education}</span>
                 </div>
                 <div className="appointment-details-items">
                   <span className="appointment-details-items-title">Date</span>

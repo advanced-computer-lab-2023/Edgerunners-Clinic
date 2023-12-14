@@ -39,6 +39,7 @@ const Success = () => {
 
             // Remove items from sessionStorage after successful update
             sessionStorage.removeItem("DoctorUsername");
+            sessionStorage.removeItem("Availability");
             sessionStorage.removeItem("Date");
             sessionStorage.removeItem("TimeH");
             sessionStorage.removeItem("TimeM");

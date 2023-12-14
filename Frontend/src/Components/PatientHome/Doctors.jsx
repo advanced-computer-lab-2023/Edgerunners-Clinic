@@ -195,11 +195,11 @@ export default function Doctors() {
 
   if (Doc || appointmentDate) {
     return (
-      <div className="Bootstrap DoctorHome">
+      <div className="Bootstrap PatientHome">
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/DoctorHome">
+              <a href="/PatientHome">
                 <Logo />
               </a>
               <button

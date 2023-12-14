@@ -21,6 +21,7 @@ const Cancel = () => {
           sessionStorage.removeItem("TimeH");
           sessionStorage.removeItem("TimeM");
           sessionStorage.removeItem("NationalID");
+          sessionStorage.removeItem("Availability");
         }
         hasRunRef.current = true;
       })();

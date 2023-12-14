@@ -123,11 +123,13 @@ const getAppointmentFilter = async (req, res) => {
   if(DoctorUsername){
     filter.DoctorUsername = DoctorUsername;
   }
+  
     filter.Availability = "Available";
   const Appointments = await Appointment.find(filter);
   const r = [];
   for(let i = 0 ; i < Appointments.length; ++i){
     const t = {
+          PatientUsername: Appointments[i].PatientUsername,
           DoctorUsername: Appointments[i].DoctorUsername,
           Date: Appointments[i].Date,
           TimeH: Appointments[i].TimeH,
@@ -180,6 +182,7 @@ const updateAppointment = async (req, res) => {
         Availability: req.body.Availability,
         PatientUsername: req.body.PatientUsername,
         NationalID: req.body.NationalID,
+        Status: req.body.Status,
       },
     },
   );
@@ -239,7 +242,7 @@ const cancelAppointment = async (req, res) =>{
         PatientUsername: "",
         NationalID: "",
         Availability: "Available",
-        Status: "Upcoming", // You can update the status accordingly
+        Status: "Cancelled", // You can update the status accordingly
       },
     }
   );
@@ -306,6 +309,7 @@ const updateAppointmentWallet = async (req, res) => {
           Availability: req.body.Availability,
           PatientUsername: req.body.PatientUsername,
           NationalID: req.body.NationalID,
+          Status: req.body.Status,
         },
       },
     );

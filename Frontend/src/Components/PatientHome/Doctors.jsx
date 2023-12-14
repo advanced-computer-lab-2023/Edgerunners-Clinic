@@ -11,7 +11,6 @@ import GetDoctors, { GetSpecialities } from "./getDoctors";
 import GetAppointments from "./getAppoinments";
 import axios from "axios";
 import GetRelation from "./getRelation";
-import PayButton from "../Packages/PayButton";
 import "./PatientHome.scss";
 
 const modalOverlayStyle = {
@@ -155,6 +154,7 @@ export default function Doctors() {
       Availability: "Reserved",
       PatientUsername: sessionStorage.getItem("Username"),
       NationalID: NationalID,
+      Status:"Upcoming",
     });
   };
 
@@ -195,11 +195,11 @@ export default function Doctors() {
 
   if (Doc || appointmentDate) {
     return (
-      <div className="PatientHome Bootstrap">
+      <div className="Bootstrap DoctorHome">
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
+              <a href="/DoctorHome">
                 <Logo />
               </a>
               <button
@@ -287,96 +287,104 @@ export default function Doctors() {
             </div>
           </nav>
         </div>
-
-        <div className="form-view-doctors-by-patient">
-          <div className="form-view-doctors-by-patient-div">
-            <label htmlFor="">Doctor</label>
-            <input
-              type="text"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
+        <img
+          className="patient-by-doctors-image"
+          src="./resources/team-of-doctors.jpg"
+          alt=""
+        />
+        <div className="doctors-parent">
+          <div className="form-view-patients-by-doctor">
+            <div className="form-view-doctors-by-patient-div">
+              <label htmlFor="">Doctor</label>
+              <input
+                type="text"
+                placeholder="Do You Know A Doctor's Name..?"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </div>
+            <div className="form-view-doctors-by-patient-div">
+              <label htmlFor="">Date</label>
+              <input
+                type="date"
+                name=""
+                id=""
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+              />
+            </div>
+            <div className="form-view-doctors-by-patient-div">
+              <label htmlFor="">Speciality</label>
+              <input
+                type="text"
+                name=""
+                id=""
+                onChange={(e) => {
+                  setSpeciality(e.target.value);
+                }}
+              />
+              <FontAwesomeIcon
+                icon={faFilter}
+                className="filter-icon fa-2x"
+                onClick={() => {
+                  setFilterModal(true);
+                }}
+              />
+              {filterModal ? (
+                <FilterModal>
+                  <div className="speciality-filter">
+                    {Specialities.map((speciality, index) => {
+                      return (
+                        <label
+                          id={speciality}
+                          key={index}
+                          value={speciality}
+                          onClick={() => {
+                            setSpeciality(speciality);
+                            Array.from(
+                              document.querySelectorAll(
+                                ".selected-label-filter"
+                              )
+                            ).forEach((el) =>
+                              el.classList.remove("selected-label-filter")
+                            );
+                            document
+                              .getElementById("" + speciality)
+                              .classList.add("selected-label-filter");
+                            var elements = document.getElementsByClassName(
+                              "selected-label-filter"
+                            );
+                            console.log(elements);
+                          }}
+                        >
+                          {speciality}
+                        </label>
+                      );
+                    })}
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFilterModal(false);
+                    }}
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSpeciality();
+                      setFilterModal(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </FilterModal>
+              ) : null}
+            </div>
           </div>
-          <div className="form-view-doctors-by-patient-div">
-            <label htmlFor="">Date</label>
-            <input
-              type="date"
-              name=""
-              id=""
-              onChange={(e) => {
-                setDate(e.target.value);
-              }}
-            />
-          </div>
-          <div className="form-view-doctors-by-patient-div">
-            <label htmlFor="">Speciality</label>
-            <FontAwesomeIcon
-              icon={faFilter}
-              className="filter-icon fa-2x"
-              onClick={() => {
-                setFilterModal(true);
-              }}
-            />
-            <input
-              type="text"
-              name=""
-              id=""
-              onChange={(e) => {
-                setSpeciality(e.target.value);
-              }}
-            />
-            {filterModal ? (
-              <FilterModal>
-                <div className="speciality-filter">
-                  {Specialities.map((speciality, index) => {
-                    return (
-                      <label
-                        id={speciality}
-                        key={index}
-                        value={speciality}
-                        onClick={() => {
-                          setSpeciality(speciality);
-                          Array.from(
-                            document.querySelectorAll(".selected-label-filter")
-                          ).forEach((el) =>
-                            el.classList.remove("selected-label-filter")
-                          );
-                          document
-                            .getElementById("" + speciality)
-                            .classList.add("selected-label-filter");
-                          var elements = document.getElementsByClassName(
-                            "selected-label-filter"
-                          );
-                          console.log(elements);
-                        }}
-                      >
-                        {speciality}
-                      </label>
-                    );
-                  })}
-                </div>
-                <button
-                  onClick={() => {
-                    setFilterModal(false);
-                  }}
-                >
-                  Confirm
-                </button>
-                <button
-                  onClick={() => {
-                    setSpeciality();
-                    setFilterModal(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </FilterModal>
-            ) : null}
-          </div>
-        </div>
-        <div>
-          {/* {Doc.map((d, index) => {
+          <div>
+            {/* {Doc.map((d, index) => {
             return (
               <div key={index}>
                 <a>{d.Name}</a>
@@ -391,119 +399,141 @@ export default function Doctors() {
               </div>
             );
           })} */}
-          {appointmentDate.map((a, index) => {
-            return (
-              <div className="appointment-details-container" key={index}>
-                <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Name</span> <span>{a.Doctor.Name}</span>
-                </div>
-                <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Speciality</span> <span>{a.Doctor.Speciality}</span>
-                </div>
-                <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Session Price/hour</span>{" "}
-                  <span>{parseInt(a.Doctor.Hourlyrate * 1.1)}</span>
-                </div>
-                <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Hospital</span> <span>{a.Doctor.Affiliation}</span>
-                </div>
-                <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Education</span> <span>{a.Doctor.Education}</span>
-                </div>
-                <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Date</span>
-                  <span>{a.Date.toString().split("T")[0]}</span>
-                </div>
-                <div className="appointment-details-items">
-                  <span className="appointment-details-items-title">Time</span>
-                  <span>
-                    {a.TimeH}:{a.TimeM}
-                  </span>
-                </div>
-                <select onChange={(e) => setChosen(e.target.value)}>
-                  <option value={sessionStorage.getItem("Username")}>
-                    myself
-                  </option>
-                  {Relation.data.map((item, index) => {
-                    return (
-                      <option key={index} value={item.NationalID}>
-                        {item.Name}
-                      </option>
-                    );
-                  })}
-                </select>
-                Pay:
-                {/* {<PayButton name = {a.Doctor.Name} /> } */}
-                <FontAwesomeIcon
-                  className="credit-card-icon"
-                  icon={faCreditCard}
-                  onClick={(e) => {
-                    handleSubmit2(
-                      e,
-                      a.Doctor.Username,
-                      a.Date,
-                      a.TimeH,
-                      a.TimeM
-                    ),
-                      handleCheckout(a.Doctor.Name);
-                  }}
-                />
-                <FontAwesomeIcon
-                  className="wallet-icon"
-                  icon={faWallet}
-                  onClick={() => setModal(true)}
-                />
-                {Modal && (
-                  <div style={modalOverlayStyle}>
-                    <div style={modalStyle}>
-                      <span
-                        style={closeButtonStyle}
-                        onClick={() => setModal(false)}
-                      >
-                        &times;
-                      </span>
-                      <h2>Checkout:</h2>
-                      <p>
-                        Your wallet: {totalAmount != undefined && totalAmount}{" "}
-                        EGP
-                      </p>
-                      <p>
-                        Session price: {parseInt(a.Doctor.Hourlyrate * 1.1)} EGP
-                      </p>
-                      <p>discount: {discount3}%</p>
-                      <p>
-                        total ={" "}
-                        {parseInt(
-                          a.Doctor.Hourlyrate * 1.1 * ((100 - discount3) / 100)
-                        )}
-                      </p>
-                      <button
-                        onClick={(e) => {
-                          handlePaymentWallet(
-                            e,
-                            a.Doctor.Username,
-                            a.Date,
-                            a.TimeH,
-                            a.TimeM
-                          );
-                          setModal(false);
-                        }}
-                      >
-                        Pay
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          setModal(false);
-                        }}
-                      >
-                        cancel
-                      </button>
-                    </div>
+            {appointmentDate.map((a, index) => {
+              return (
+                <div className="appointment-details-container" key={index}>
+                  <div className="appointment-details-items">
+                    <span className="appointment-details-items-title">
+                      Name
+                    </span>{" "}
+                    <span>{a.Doctor.Name}</span>
                   </div>
-                )}
-              </div>
-            );
-          })}
+                  <div className="appointment-details-items">
+                    <span className="appointment-details-items-title">
+                      Speciality
+                    </span>{" "}
+                    <span>{a.Doctor.Speciality}</span>
+                  </div>
+                  <div className="appointment-details-items">
+                    <span className="appointment-details-items-title">
+                      Session Price/hour
+                    </span>{" "}
+                    <span>{parseInt(a.Doctor.Hourlyrate * 1.1)}</span>
+                  </div>
+                  <div className="appointment-details-items">
+                    <span className="appointment-details-items-title">
+                      Hospital
+                    </span>{" "}
+                    <span>{a.Doctor.Affiliation}</span>
+                  </div>
+                  <div className="appointment-details-items">
+                    <span className="appointment-details-items-title">
+                      Education
+                    </span>{" "}
+                    <span>{a.Doctor.Education}</span>
+                  </div>
+                  <div className="appointment-details-items">
+                    <span className="appointment-details-items-title">
+                      Date
+                    </span>
+                    <span>{a.Date.toString().split("T")[0]}</span>
+                  </div>
+                  <div className="appointment-details-items">
+                    <span className="appointment-details-items-title">
+                      Time
+                    </span>
+                    <span>
+                      {a.TimeH}:{a.TimeM}
+                    </span>
+                  </div>
+                  <select onChange={(e) => setChosen(e.target.value)}>
+                    <option value={sessionStorage.getItem("Username")}>
+                      myself
+                    </option>
+                    {Relation.data.map((item, index) => {
+                      return (
+                        <option key={index} value={item.NationalID}>
+                          {item.Name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  Pay:
+                  {/* {<PayButton name = {a.Doctor.Name} /> } */}
+                  <FontAwesomeIcon
+                    className="credit-card-icon"
+                    icon={faCreditCard}
+                    onClick={(e) => {
+                      handleSubmit2(
+                        e,
+                        a.Doctor.Username,
+                        a.Date,
+                        a.TimeH,
+                        a.TimeM
+                      ),
+                        handleCheckout(a.Doctor.Name);
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    className="wallet-icon"
+                    icon={faWallet}
+                    onClick={() => setModal(true)}
+                  />
+                  {Modal && (
+                    <div style={modalOverlayStyle}>
+                      <div style={modalStyle}>
+                        <span
+                          style={closeButtonStyle}
+                          onClick={() => setModal(false)}
+                        >
+                          &times;
+                        </span>
+                        <h2>Checkout:</h2>
+                        <p>
+                          Your wallet: {totalAmount != undefined && totalAmount}{" "}
+                          EGP
+                        </p>
+                        <p>
+                          Session price: {parseInt(a.Doctor.Hourlyrate * 1.1)}{" "}
+                          EGP
+                        </p>
+                        <p>discount: {discount3}%</p>
+                        <p>
+                          total ={" "}
+                          {parseInt(
+                            a.Doctor.Hourlyrate *
+                              1.1 *
+                              ((100 - discount3) / 100)
+                          )}
+                        </p>
+                        <button
+                          onClick={(e) => {
+                            handlePaymentWallet(
+                              e,
+                              a.Doctor.Username,
+                              a.Date,
+                              a.TimeH,
+                              a.TimeM
+                            );
+                            setModal(false);
+                          }}
+                        >
+                          Pay
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            setModal(false);
+                          }}
+                        >
+                          cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     );

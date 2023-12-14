@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,11 +8,15 @@ import {
   faPeopleGroup,
   faCalendarCheck,
   faStethoscope,
+  faCircleXmark,
   faHandHoldingMedical,
   faPrescriptionBottleMedical,
 } from "@fortawesome/free-solid-svg-icons";
+import FilterModal from "../PatientHome/FilterModal.jsx";
+import AddAppointment from "./AddAppointment";
 
 export default function DoctorHome() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
@@ -80,7 +84,11 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/changePassword">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/changePassword"
+                  >
                     Change password
                   </a>
                 </li>
@@ -92,7 +100,6 @@ export default function DoctorHome() {
                       sessionStorage.removeItem("Username");
                       sessionStorage.removeItem("type");
                       sessionStorage.removeItem("token");
-                      sessionStorage.removeItem("wallet");
                       sessionStorage.removeItem("Status");
                       window.location.replace("/");
                     }}
@@ -182,9 +189,9 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            
-              <h3>Add Prescription</h3>
-            
+
+            <h3>Add Prescription</h3>
+
             <p>upload/remove documents for my medical history</p>
           </div>
 
@@ -205,12 +212,14 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/AddAppointment">
+            <a
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
               <h3>Add Appointment</h3>
             </a>
-            <p>
-              Add an Appointment
-            </p>
+            <p>Add an Appointment</p>
           </div>
           <div className="col-4">
             <FontAwesomeIcon
@@ -244,6 +253,20 @@ export default function DoctorHome() {
             <p>view the available quantity, and sales of each medicine</p>
           </div>
         </div>
+      </div>
+      <div>
+        {isModalOpen ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalOpen(false);
+              }}
+            />
+            <AddAppointment />
+          </FilterModal>
+        ) : null}
       </div>
     </div>
   );

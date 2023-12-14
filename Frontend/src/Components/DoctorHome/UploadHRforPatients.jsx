@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import fileDownload from 'js-file-download';
-import Logo from "../../UI/UX/Logo";
+import fileDownload from "js-file-download";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload, faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 const UploadHRforPatient = () => {
   const [file, setFile] = useState(null);
-  const [files, setFiles] = useState([]); // Updated variable name to 'files'
   const [status, setStatus] = useState("initial");
   const [data, setData] = useState([]);
 
@@ -15,7 +15,6 @@ const UploadHRforPatient = () => {
       setFile(e.target.files[0]);
     }
   };
-
 
   const handleUploadFiles = async () => {
     if (file) {
@@ -42,97 +41,72 @@ const UploadHRforPatient = () => {
       }
     }
   };
-  const handleViews = async () => {
-      
-      console.log(sessionStorage.getItem("PatientUsername"));
-      try {
-        const result = await fetch(`http://localhost:3001/gethealthrecords/${sessionStorage.getItem("PatientUsername")}`, {
-          method: "GET",
-        });
 
-        const data = await result.json();
-        setData(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
+  function handleViews() {
+    const [res, SetRes] = useState();
+    useEffect(() => {
+      getFiles();
+      async function getFiles() {
+        try {
+          const result = await axios.get(
+            `http://localhost:3001/gethealthrecords/${sessionStorage.getItem(
+              "PatientUsername"
+            )}`
+          );
+          SetRes(result.data);
+        } catch (error) {}
       }
-  };
-
-
-
-
-
-
-
-
-
-
-  const handleUploadRecords = async () => {
-    if (file) {
-      setStatus("uploading");
-
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("Username", sessionStorage.getItem("PatientUsername"));
-      console.log(sessionStorage.getItem("PatientUsername"));
-      try {
-        const result = await fetch("http://localhost:3001/patientUploadHealthRecord", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await result.json();
-
-        console.log(data);
-        setStatus("success");
-        console.log(status);
-      } catch (error) {
-        console.error(error);
-        setStatus("fail");
-      }
-    }
-  };
-  const handleViewFiles = async (filename) => {
-    await axios.get(`http://localhost:3001/viewFiles/${filename}`, {
-      responseType: 'blob',
-    })
-    .then((res) => {
-      fileDownload(res.data, filename)
-    })
+    }, []);
+    return res;
   }
 
-   return (
+  let d = handleViews();
+
+  const handleViewFiles = async (filename) => {
+    await axios
+      .get(`http://localhost:3001/viewFiles/${filename}`, {
+        responseType: "blob",
+      })
+      .then((res) => {
+        fileDownload(res.data, filename);
+      });
+  };
+
+  return (
     <>
-      <div className="input-group">
-      <a href="/DoctorHome">
-              <Logo />
-            </a>
-      <div>
-      <button onClick={handleViews}>View Files</button>
-      {/* Display file list on the screen */}
-      <ul>
-      {data.map((item, index) => (
-      <div key={index}>
-         {item.FileNames.map((fileName, i) => (
-        <><li key={i}>{fileName}</li>
-        <button onClick={() => handleViewFiles(fileName)}>Download</button></>
-             ))}
-          </div>
-            ))}
-      </ul>
-      </div>
-        <label htmlFor="file" className="sr-only">
-          Choose a file
+      <div className="hr-file-parent">
+        <label for="file" className="fafilearrowup-div">
+          <FontAwesomeIcon
+            icon={faFileArrowUp}
+            onChange={handleFileChange}
+            className="faFileArrowUp"
+          />
+          <input
+            id="file"
+            style={{ display: "none", zIndex: "20" }}
+            type="file"
+            onChange={handleFileChange}
+          />
         </label>
-        <input id="file" type="file" onChange={handleFileChange} />
+        <div className="hr-file-upload">
+          {d != undefined &&
+            d.map((fileName, index) => (
+              <div key={index} className="hr-file-upload-item">
+                <span>{fileName}</span>
+                <FontAwesomeIcon
+                  icon={faDownload}
+                  className="faDownload"
+                  onClick={() => handleViewFiles(fileName)}
+                />
+              </div>
+            ))}
+        </div>
       </div>
       {file && (
         <section>
           File details:
           <ul>
             <li>Name: {file.name}</li>
-            <li>Type: {file.type}</li>
-            <li>Size: {file.size} bytes</li>
           </ul>
         </section>
       )}
@@ -142,23 +116,8 @@ const UploadHRforPatient = () => {
           Upload a file
         </button>
       )}
-      
-
-      <Result status={status} />
     </>
   );
 };
-
-const Result = ( {status} ) => {
-  if (status === "success") {
-    return <p>✅ File uploaded successfully!</p>;
-  } else if (status === "fail") {
-    return <p>❌ File upload failed!</p>;
-  } else if (status === "uploading") {
-    return <p>⏳ Uploading selected file...</p>;
-  } else {
-    return null;
-  }
-}; 
 
 export default UploadHRforPatient;

@@ -129,10 +129,9 @@ const patientUploadHealthRecord = async (req, res) => {
 const gethealthrecords = async (req, res) => {
   const username = req.params.Username;
   //console.log(username);
-  const patient = await Patient.find({ Username: username }).select(
-    "FileNames",
-  );
-  res.status(200).json(patient);
+  const patient = await Patient.findOne({ Username: username });
+  console.log(patient.FileNames);
+  res.status(200).json(patient.FileNames);
 };
 
 const viewFiles = async (req, res) => {

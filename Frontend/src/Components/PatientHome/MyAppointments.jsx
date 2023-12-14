@@ -3,7 +3,7 @@ import Logo from "../../UI/UX/Logo";
 import {
   FilterAppointmentsDate,
   FilterAppointmentsStatus,
-  GetAppointmentsFilter,
+   GetAppointmentsFilter,
 } from "./getAppoinments";
 import FilterModal from "./FilterModal";
 import GetAppointments from "./getAppoinments";
@@ -39,6 +39,7 @@ export default function PatientAppointments() {
   const [filterModal, setFilterModal] = useState(false);
   const [filterModalCancel, setFilterModalCancel] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  
 
   const [date, setDate] = useState();
   const [timeH, setTimeH] = useState();
@@ -110,6 +111,7 @@ export default function PatientAppointments() {
       TimeH: newtimeH,
       TimeM: newtimeM,
       Availability: "Reserved",
+      Status: "Rescheduled",
       PatientUsername: sessionStorage.getItem("Username"),
       NationalID: nationalid,
     });
@@ -234,63 +236,7 @@ export default function PatientAppointments() {
             }}
           />
         </div>
-        <div>
-          {which
-            ? appointmentStatus.map((appstatus, index) => {
-                return (
-                  <div key={index}>
-                    <p>Name: {appstatus.DoctorUsername}</p>
-                    <p>Availability: {appstatus.Availability}</p>
-                    <p>Status: {appstatus.Status}</p>
-                    <p>
-                      Appointment Date:{" "}
-                      {appstatus.Date.toString().split("T")[0]}
-                    </p>
-                    <p>
-                      Time: {appstatus.TimeH}:{appstatus.TimeM}
-                    </p>
-                    {appstatus.NationalID !== "" && (
-                      <p>Family Member: {appstatus.NationalID}</p>
-                    )}
-                  </div>
-                );
-              })
-            : appointmentDate.map((app, index) => {
-                return (
-                  <div key={index}>
-                    <p>Doctor name: {app.DoctorUsername}</p>
-                    <p>Status: {app.Status}</p>
-                    <p>Appointment Date: {app.Date.toString().split("T")[0]}</p>
-                    <p>
-                      Time: {app.TimeH}:{app.TimeM}
-                    </p>
-                    {app.NationalID !== "" && (
-                      <p>Family Member: {app.NationalID}</p>
-                    )}
-                    <button
-                      onClick={() => {
-                        setSelectedAppointment(app);
-                        setFilterModal(true);
-                        setRescheduleDate(app.Date);
-                        setTimeH(app.TimeH);
-                        setTimeM(app.TimeM);
-                        setDocUser(app.DoctorUsername);
-                      }}
-                    >
-                      Reschedule
-                    </button>
-                    <button
-                      onClick={() => {
-                        setRescheduleDate(app.Date);
-                        setFilterModalCancel(true);
-                        setTimeH(app.TimeH);
-                        setTimeM(app.TimeM);
-                        setDocUser(app.DoctorUsername);
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    {filterModalCancel ? (
+        {filterModalCancel ? (
                       <FilterModal>
                         <div className="speciality-filter">
                           <p>Are sure you want to cancel the appointment?</p>
@@ -358,6 +304,153 @@ export default function PatientAppointments() {
                         </button>
                       </FilterModal>
                     ) : null}
+        <div>
+          {which
+            ? appointmentStatus.map((appstatus, index) => {
+                return (
+                  <div key={index}>
+                    <p>Name: {appstatus.DoctorUsername}</p>
+                    <p>Availability: {appstatus.Availability}</p>
+                    <p>Status: {appstatus.Status}</p>
+                    <p>
+                      Appointment Date:{" "}
+                      {appstatus.Date.toString().split("T")[0]}
+                    </p>
+                    <p>
+                      Time: {appstatus.TimeH}:{appstatus.TimeM}
+                    </p>
+                    {appstatus.NationalID !== "" && (
+                      <p>Family Member: {appstatus.NationalID}</p>
+                    )}
+                    <button
+                      onClick={() => {
+                        setFilterModal(true);
+                        setRescheduleDate(appstatus.Date);
+                        setTimeH(appstatus.TimeH);
+                        setTimeM(appstatus.TimeM);
+                        setDocUser(appstatus.DoctorUsername);
+                      }}
+                    >
+                      Reschedule
+                    </button>
+                    <button
+                      onClick={() => {
+                        setRescheduleDate(appstatus.Date);
+                        setFilterModalCancel(true);
+                        setTimeH(appstatus.TimeH);
+                        setTimeM(appstatus.TimeM);
+                        setDocUser(appstatus.DoctorUsername);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    
+                  </div>
+                );
+              })
+            : appointmentDate.map((app, index) => {
+                return (
+                  <div key={index}>
+                    <p>Doctor name: {app.DoctorUsername}</p>
+                    <p>Status: {app.Status}</p>
+                    <p>Appointment Date: {app.Date.toString().split("T")[0]}</p>
+                    <p>
+                      Time: {app.TimeH}:{app.TimeM}
+                    </p>
+                    {app.NationalID !== "" && (
+                      <p>Family Member: {app.NationalID}</p>
+                    )}
+                    <button
+                      onClick={() => {
+                        setSelectedAppointment(app);
+                        setFilterModal(true);
+                        setRescheduleDate(app.Date);
+                        setTimeH(app.TimeH);
+                        setTimeM(app.TimeM);
+                        setDocUser(app.DoctorUsername);
+                      }}
+                    >
+                      Reschedule
+                    </button>
+                    <button
+                      onClick={() => {
+                        setRescheduleDate(app.Date);
+                        setFilterModalCancel(true);
+                        setTimeH(app.TimeH);
+                        setTimeM(app.TimeM);
+                        setDocUser(app.DoctorUsername);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    {/* {filterModalCancel ? (
+                      <FilterModal>
+                        <div className="speciality-filter">
+                          <p>Are sure you want to cancel the appointment?</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFilterModalCancel(false);
+                            setSelectedAppointment(null);
+                            handleCancel();
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => {
+                            setFilterModalCancel(false);
+                            setSelectedAppointment(null);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </FilterModal>
+                    ) : null}
+                    
+                    {filterModal ? (
+                      <FilterModal>
+                        <div className="speciality-filter">
+                          {appointmentNew.map((a, newindex) => {
+                            return (
+                              <label
+                                id={a}
+                                key={newindex}
+                                onClick={() => {
+                                  setNewDocUser(a.DoctorUsername);
+                                  setNewTimeH(a.TimeH);
+                                  setNewTimeM(a.TimeM);
+                                  setNewdate(a.Date);
+                                }}
+                              >
+                                <p>{a.Date.toString().split("T")[0]}</p>
+                                <p>
+                                  {a.TimeH}:{a.TimeM}
+                                </p>
+                              </label>
+                            );
+                          })}
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFilterModal(false);
+                            setSelectedAppointment(null);
+                            handleReschedule();
+                            handleReschedule2();
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => {
+                            setFilterModal(false);
+                            setSelectedAppointment(null);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </FilterModal>
+                    ) : null} */}
                   </div>
                 );
               })}

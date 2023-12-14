@@ -37,7 +37,7 @@
   }
 
   .description {
-    z-index: 55;
+    z-index: 5;
     margin-top: -5rem;
     background-color: #fff;
     box-shadow: 2px 2px 2px 2px;
@@ -119,38 +119,6 @@
     font-weight: 700;
     background-color: rgb(224, 233, 241);
   }
-
-  .form-view-doctors-by-patient {
-    margin-top: 8rem;
-    padding: 2rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    gap: 5rem;
-    flex-wrap: wrap;
-  }
-
-  .form-view-doctors-by-patient-div {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .form-view-doctors-by-patient-div input {
-    border-radius: 7px;
-    padding: 0.2rem;
-  }
-
-  .submit-btn {
-    background-color: #007bff;
-    padding: 5px 25px;
-    color: white;
-    font-size: 18px;
-    border: #333 1px solid;
-    border-radius: 5px;
-    margin: auto;
-    margin-top: 1rem;
-    cursor: pointer;
-  }
 }
 
 #FilterModal button,
@@ -174,7 +142,7 @@
   right: 0;
   bottom: 0;
   top: 0;
-  z-index: 10;
+  z-index: 50;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -195,7 +163,6 @@
 
 #FilterModal button {
   display: inline-block;
-  margin-right: 15px;
 }
 
 #FilterModal label {
@@ -255,4 +222,103 @@
 
 .filter-icon {
   cursor: pointer;
+}
+
+.form-view-patients-by-doctor {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 3rem;
+  flex-wrap: wrap;
+  position: relative;
+  top: -10rem;
+  left: 5rem;
+  background-color: #fff;
+  width: 25%;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+}
+.form-view-doctors-by-patient {
+  margin-top: 8rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  gap: 5rem;
+  flex-wrap: wrap;
+}
+.doctors-parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: -15rem;
+}
+
+.form-view-doctors-by-patient-div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.form-view-doctors-by-patient-div input {
+  border-radius: 7px;
+  padding: 0.2rem;
+  width: 110%;
+}
+
+.patient-by-doctors-image {
+  width: 100%;
+  height: 550px;
+  margin-top: 5.7rem;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  padding: 5px 25px;
+  color: white;
+  font-size: 18px;
+  border: #333 1px solid;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+}
+
+.link-patient-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  padding-left: 0;
+  padding-right: 6rem;
+  width: 130%;
+  justify-content: left;
+  text-align: left;
+}
+
+.link-patient-item{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.link-patient-container input{
+  border-radius: 10px;
+  padding: 0.6rem;
+}
+
+.link-patient-header{
+  color: greenyellow;
+}
+
+.link-patient-parent{
+  margin-left: 2rem;
+}
+
+.warning{
+  background-color: red;
 }

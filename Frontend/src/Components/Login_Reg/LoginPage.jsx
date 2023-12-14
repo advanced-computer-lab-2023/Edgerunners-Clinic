@@ -150,7 +150,6 @@ class LoginPage extends Component {
         sessionStorage.setItem("Username", res.data.Username);
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("type", res.data.type);
-        sessionStorage.setItem("wallet", res.data.wallet);
         let status = null;
         if (res.data.Status) {
           sessionStorage.setItem("Status", res.data.Status);

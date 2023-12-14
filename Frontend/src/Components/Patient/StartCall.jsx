@@ -3,6 +3,8 @@ import VideoCall from "../VideoCall";
 import axios from "axios";
 
 function StartCall() {
+
+
   const [isCallStarted, setIsCallStarted] = useState(false);
   const videoCallRef = useRef();
   const doctor = useRef();
@@ -12,14 +14,14 @@ function StartCall() {
   };
 
   useEffect(() => {
-    
     return () => {
       setIsCallStarted(false);
     };
   }, []);
 
-  const handleFormSubmit =async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+
     
    
     const patientUsername = sessionStorage.getItem("Username");
@@ -35,21 +37,21 @@ function StartCall() {
         console.error("Error removing notification:", error);
       }
       
+
     handleCallStart();
   };
-
-
+  
   return (
     <div>
       <h1>Choose Your Doctor</h1>
       {!isCallStarted ? (
         <form onSubmit={handleFormSubmit}>
           <label>
+
            Doctor Username:
             <input
               type="text"
               ref={doctor}
-          
             />
           </label>
           <button type="submit">Start Call</button>

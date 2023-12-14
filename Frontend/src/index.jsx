@@ -46,7 +46,6 @@ import Notification from "./Components/DoctorHome/Notification";
 import StartACall from "./Components/DoctorHome/StartACall";
 import Notificationp from "./Components/Patient/Notificationp";
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (

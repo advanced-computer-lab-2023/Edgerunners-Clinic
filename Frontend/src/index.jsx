@@ -61,6 +61,7 @@ if (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>

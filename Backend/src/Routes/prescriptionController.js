@@ -11,8 +11,8 @@ const createPrescriptions = async (req, res) => {
     const d = await Doctor.findOne({ Username: req.body.Doctor });
 
     if (p && d) {
-      // Create a new prescription
-      const newPrescription = await prescriptions.create({
+     console.log(p);
+      await prescriptions.create({
         Patient: req.body.Patient,
         Status: req.body.Status,
         Doctor: req.body.Doctor,
@@ -21,7 +21,7 @@ const createPrescriptions = async (req, res) => {
         RequiredMedicines: req.body.RequiredMedicines,
       });
 
-      res.status(200).json({ message: "Prescription created successfully", prescription: newPrescription });
+      res.status(200).json({ message: "Prescription created successfully"});
     } else {
       res.status(404).json({ message: "Patient or Doctor not found" });
     }
@@ -57,7 +57,7 @@ const getPrescriptions = async (req, res) => {
 
 const updatePrescriptions = async (req, res) => {
   try {
-    const { prescriptionId, medicineName, newDose, newMedicineName, newMedicineDose } = req.params;
+    const { prescriptionId, medicineName, newDose, newMedicineName, newMedicineDose } = req.body;
     const prescription = await prescriptions.findOne({
       _id: prescriptionId,
       Submitted: false,
@@ -66,16 +66,18 @@ const updatePrescriptions = async (req, res) => {
     if (!prescription) {
       return res.status(404).json({ message: "Prescription not found or already submitted" });
     }
+    if(medicineName &&newDose){
     const medicineToUpdate = prescription.RequiredMedicines.find((med) => med.name === medicineName);
     if (medicineToUpdate) {
       medicineToUpdate.dose = newDose;
     } else {
 
       return res.status(404).json({ message: "Medicine not found in the prescription" });
-    }
+    }}
+    else{
     prescription.RequiredMedicines.push({ name: newMedicineName, dose: newMedicineDose });
     await prescription.save();
-    res.status(200).json({ message: "Prescription updated successfully", prescription });
+    res.status(200).json({ message: "Prescription updated successfully", prescription });}
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -84,7 +86,7 @@ const updatePrescriptions = async (req, res) => {
 
 const removemedicine = async (req, res) => {
   try {
-    const { prescriptionId, medicineNameToRemove } = req.params;
+    const { prescriptionId, medicineNameToRemove } = req.body;
 
     const prescription = await prescriptions.findOne({
       _id: prescriptionId,

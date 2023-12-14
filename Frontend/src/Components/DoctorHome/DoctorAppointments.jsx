@@ -213,41 +213,7 @@ export default function DoctorAppointments() {
             }}
           />
         </div>
-        <div>
-          {which
-            ? appointmentStatus.map((a, index) => {
-              {if(a.Availability == "Reserved")
-                return (
-                  <div key={index}>
-                    <p>Patient name: {a.PatientUsername}</p>
-                    <p>Status: {a.Status}</p>
-                    <p>Appointment Date:{a.Date}</p>
-                    <button
-                      onClick={() => {
-                        setFilterModal(true);
-                        setRescheduleDate(a.Date);
-                        setTimeH(a.TimeH);
-                        setTimeM(a.TimeM);
-                        setDocUser(a.DoctorUsername);
-                        setPatientUsername(a.PatientUsername);
-                        
-                      }}
-                    >
-                      Reschedule
-                    </button>
-                    <button
-                      onClick={() => {
-                        setRescheduleDate(a.Date);
-                        setFilterModalCancel(true);
-                        setTimeH(a.TimeH);
-                        setTimeM(a.TimeM);
-                        setDocUser(a.DoctorUsername);
-                        setPatientUsername(a.PatientUsername);
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    {filterModalCancel ? (
+        {filterModalCancel ? (
                       <FilterModal>
                         <div className="speciality-filter">
                           <p>Are sure you want to cancel the appointment?</p>
@@ -312,6 +278,41 @@ export default function DoctorAppointments() {
                         </button>
                       </FilterModal>
                     ) : null}
+        <div>
+          {which
+            ? appointmentStatus.map((a, index) => {
+              {if(a.Availability == "Reserved")
+                return (
+                  <div key={index}>
+                    <p>Patient name: {a.PatientUsername}</p>
+                    <p>Status: {a.Status}</p>
+                    <p>Appointment Date:{a.Date}</p>
+                    <button
+                      onClick={() => {
+                        setFilterModal(true);
+                        setRescheduleDate(a.Date);
+                        setTimeH(a.TimeH);
+                        setTimeM(a.TimeM);
+                        setDocUser(a.DoctorUsername);
+                        setPatientUsername(a.PatientUsername);
+                        
+                      }}
+                    >
+                      Reschedule
+                    </button>
+                    <button
+                      onClick={() => {
+                        setRescheduleDate(a.Date);
+                        setFilterModalCancel(true);
+                        setTimeH(a.TimeH);
+                        setTimeM(a.TimeM);
+                        setDocUser(a.DoctorUsername);
+                        setPatientUsername(a.PatientUsername);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    
                   </div>
                 );
                 else 
@@ -350,7 +351,7 @@ export default function DoctorAppointments() {
                     >
                       Cancel
                     </button>
-                    {filterModalCancel ? (
+                    {/* {filterModalCancel ? (
                       <FilterModal>
                         <div className="speciality-filter">
                           <p>Are sure you want to cancel the appointment?</p>
@@ -414,7 +415,7 @@ export default function DoctorAppointments() {
                           Cancel
                         </button>
                       </FilterModal>
-                    ) : null}
+                    ) : null} */}
                   </div>
                 );
               else 

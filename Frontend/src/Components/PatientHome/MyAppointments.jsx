@@ -236,6 +236,74 @@ export default function PatientAppointments() {
             }}
           />
         </div>
+        {filterModalCancel ? (
+                      <FilterModal>
+                        <div className="speciality-filter">
+                          <p>Are sure you want to cancel the appointment?</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFilterModalCancel(false);
+                            setSelectedAppointment(null);
+                            handleCancel();
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => {
+                            setFilterModalCancel(false);
+                            setSelectedAppointment(null);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </FilterModal>
+                    ) : null}
+                    
+                    {filterModal ? (
+                      <FilterModal>
+                        <div className="speciality-filter">
+                          {appointmentNew.map((a, newindex) => {
+                            return (
+                              <label
+                                id={a}
+                                key={newindex}
+                                onClick={() => {
+                                  setNewDocUser(a.DoctorUsername);
+                                  setNewTimeH(a.TimeH);
+                                  setNewTimeM(a.TimeM);
+                                  setNewdate(a.Date);
+                                }}
+                              >
+                                <p>{a.Date.toString().split("T")[0]}</p>
+                                <p>
+                                  {a.TimeH}:{a.TimeM}
+                                </p>
+                              </label>
+                            );
+                          })}
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFilterModal(false);
+                            setSelectedAppointment(null);
+                            handleReschedule();
+                            handleReschedule2();
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => {
+                            setFilterModal(false);
+                            setSelectedAppointment(null);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </FilterModal>
+                    ) : null}
         <div>
           {which
             ? appointmentStatus.map((appstatus, index) => {
@@ -276,74 +344,7 @@ export default function PatientAppointments() {
                     >
                       Cancel
                     </button>
-                    {filterModalCancel ? (
-                      <FilterModal>
-                        <div className="speciality-filter">
-                          <p>Are sure you want to cancel the appointment?</p>
-                        </div>
-                        <button
-                          onClick={() => {
-                            setFilterModalCancel(false);
-                            setSelectedAppointment(null);
-                            handleCancel();
-                          }}
-                        >
-                          Confirm
-                        </button>
-                        <button
-                          onClick={() => {
-                            setFilterModalCancel(false);
-                            setSelectedAppointment(null);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </FilterModal>
-                    ) : null}
                     
-                    {filterModal ? (
-                      <FilterModal>
-                        <div className="speciality-filter">
-                          {appointmentNew.map((a, newindex) => {
-                            return (
-                              <label
-                                id={a}
-                                key={newindex}
-                                onClick={() => {
-                                  setNewDocUser(a.DoctorUsername);
-                                  setNewTimeH(a.TimeH);
-                                  setNewTimeM(a.TimeM);
-                                  setNewdate(a.Date);
-                                }}
-                              >
-                                <p>{a.Date.toString().split("T")[0]}</p>
-                                <p>
-                                  {a.TimeH}:{a.TimeM}
-                                </p>
-                              </label>
-                            );
-                          })}
-                        </div>
-                        <button
-                          onClick={() => {
-                            setFilterModal(false);
-                            setSelectedAppointment(null);
-                            handleReschedule();
-                            handleReschedule2();
-                          }}
-                        >
-                          Confirm
-                        </button>
-                        <button
-                          onClick={() => {
-                            setFilterModal(false);
-                            setSelectedAppointment(null);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </FilterModal>
-                    ) : null}
                   </div>
                 );
               })
@@ -382,7 +383,7 @@ export default function PatientAppointments() {
                     >
                       Cancel
                     </button>
-                    {filterModalCancel ? (
+                    {/* {filterModalCancel ? (
                       <FilterModal>
                         <div className="speciality-filter">
                           <p>Are sure you want to cancel the appointment?</p>
@@ -449,7 +450,7 @@ export default function PatientAppointments() {
                           Cancel
                         </button>
                       </FilterModal>
-                    ) : null}
+                    ) : null} */}
                   </div>
                 );
               })}

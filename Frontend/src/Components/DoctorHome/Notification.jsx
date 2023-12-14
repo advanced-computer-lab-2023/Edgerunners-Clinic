@@ -1,17 +1,16 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
 import axios from "axios";
 import VideoCall from "../VideoCall";
 function Notification(){
     const [notification,setNotification]=useState([]);
     const [joiningCall,setJoiningCall]=useState(false);
+   let p="";
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const u=  sessionStorage.getItem("Username");
+            const u= sessionStorage.getItem("Username");
             const response =await axios.get("http://localhost:3001/getNotification", {
-                params: {
                   doctorUsername : u,
-                }
               });
             
               setNotification(Array.isArray(response.data.notifications) ? response.data.notifications : []);
@@ -29,7 +28,7 @@ function Notification(){
           });
           console.log(message);
     
-          // Remove the deleted notification from the state
+          
            setNotification((prevNotifications) =>
              prevNotifications.filter((notification) => notification.Message !== message)
            );
@@ -37,11 +36,10 @@ function Notification(){
           console.error("Error removing notification:", error);
         }
       };
-      const handleJoinCall = (message) => {
-    
+      const handleJoinCall = (message, patientUsername) => {
         if (message.toLowerCase().includes("video call")) {
-         
-          setJoiningCall(true); 
+          setJoiningCall(true);
+          p=patientUsername; // Save Patient_Username for later use
         }
       };
       console.log(notification);
@@ -55,12 +53,11 @@ function Notification(){
             <button onClick={() => handleJoinCall(notification.Message)}>Join</button>
           )}
 
-          <button onClick={() => handleRemove(notification.Message)}>Remove</button>
+          <button onClick={() => handleRemove(notification.Message,notification.Patient_Username)}>Remove</button>
         </div>
       ))}
 
-      {/* Conditional rendering of VideoCall component */}
-      {joiningCall && <VideoCall patientUsername={patientToCall} />}
+      {joiningCall && <VideoCall user={p} />}
     </div>
   );
 

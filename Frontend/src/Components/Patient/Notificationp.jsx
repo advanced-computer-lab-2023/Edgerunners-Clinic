@@ -5,7 +5,7 @@ import VideoCall from "../VideoCall";
 function Notificationp() {
   const [notification, setNotification] = useState([]);
 const [joiningCall,setJoiningCall]=useState(false);
-
+let p="";
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,12 +38,10 @@ const [joiningCall,setJoiningCall]=useState(false);
       console.error("Error removing notification:", error);
     }
   };
-
-  const handleJoinCall = (message) => {
-    
+  const handleJoinCall = (message, doctorUsername) => {
     if (message.toLowerCase().includes("video call")) {
-     
-      setJoiningCall(true); 
+      setJoiningCall(true);
+      p=doctorUsername; // Save Patient_Username for later use
     }
   };
 
@@ -57,12 +55,12 @@ const [joiningCall,setJoiningCall]=useState(false);
             <button onClick={() => handleJoinCall(notification.Message)}>Join</button>
           )}
 
-          <button onClick={() => handleRemove(notification.Message)}>Remove</button>
+          <button onClick={() => handleRemove(notification.Message,notification.Doctor_Username)}>Remove</button>
         </div>
       ))}
 
       {/* Conditional rendering of VideoCall component */}
-      {joiningCall && <VideoCall patientUsername={patientToCall} />}
+      {joiningCall && <VideoCall user={p} />}
     </div>
   );
 }

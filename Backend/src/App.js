@@ -59,6 +59,7 @@ const {
   getPrescriptions,
   updatePrescriptions,
   deletePrescriptions,
+  removemedicine,
 } = require("./Routes/prescriptionController");
 
 const {
@@ -205,6 +206,17 @@ app.post("/create-checkout-session", async (req, res) => {
   res.send({ url: session.url });
 });
 
+const {
+  createMedicine,
+  getMedicines,
+  updateMedicine,
+  archiveMedicine,
+  unarchiveMedicine,
+  findMedicine,
+  updateQuantity,
+  reverseQuantity,
+} = require("./Routes/medicineController");
+
 
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
   const payload = request.body;
@@ -265,6 +277,7 @@ app.post("/createPrescriptions", createPrescriptions);
 app.get("/getPrescriptions", getPrescriptions);
 app.put("/updatePrescriptions", updatePrescriptions);
 app.delete("/deletePrescriptions", deletePrescriptions);
+app.put("/removemedicine", removemedicine);
 
 app.post("/createAppointment", createAppointment);
 app.post("/createFollowUp", createFollowUp);
@@ -293,3 +306,11 @@ app.put("/PaymentPackageWallet",PaymentPackageWallet);
 app.post("/createNotification", createNotification);
 app.get("/getNotification", getNotifications);
 app.delete("/deleteNotification", deleteNotification);
+
+app.post("/addMedicine", createMedicine);
+app.get("/getMedicine", getMedicines);
+app.put("/updateMedicine", updateMedicine);
+app.put("/archiveMedicine", archiveMedicine);
+app.put("/unarchiveMedicine", unarchiveMedicine);
+app.put("/updateQuantity", updateQuantity);
+app.put("/reverseQuantity", reverseQuantity);

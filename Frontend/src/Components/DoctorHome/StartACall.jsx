@@ -2,10 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import VideoCall from "../VideoCall";
 import axios from "axios";
 
+
 function StartACall() {
   const [patientusername, setPatientUsername] = useState("");
   const [isCallStarted, setIsCallStarted] = useState(false);
-  const videoCallRef = useRef();
+  const patient = useRef();
 
   const handleCallStart = () => {
     // Perform any necessary actions before starting the call
@@ -22,14 +23,16 @@ function StartACall() {
   const handleFormSubmit =async (e) => {
     e.preventDefault();
     
-    videoCallRef.current = patientusername;
+   
+  
+    const p = patient.current.value;
     const doctorUsername = sessionStorage.getItem("Username");
-    const notificationMessage = `Hello ${patientusername}, Dr ${doctorUsername} wants to start a video call with you at ${new Date().toLocaleString()}`;
+    const notificationMessage = `Hello ${p}, Dr ${doctorUsername} wants to start a video call with you at ${new Date().toLocaleString()}`;
       try {
-      await axios.post("http://localhost:3001/createNotification", {params:{patientUsername:patientusername,message: notificationMessage}
+      await axios.post("http://localhost:3001/createNotification", {patientUsername:p,message: notificationMessage}
         
         
-        });
+        );
         
       } catch (error) {
         console.error("Error removing notification:", error);
@@ -37,6 +40,7 @@ function StartACall() {
       
     handleCallStart();
   };
+ 
 
 
   return (
@@ -48,17 +52,18 @@ function StartACall() {
             Patient Username:
             <input
               type="text"
-              value={patientusername}
+              ref={patient}
               onChange={(e) => setPatientUsername(e.target.value)}
             />
           </label>
           <button type="submit">Start Call</button>
         </form>
       ) : (
-        <VideoCall patientUsername={videoCallRef.current} />
+        <VideoCall user={patient.current.value} />
       )}
     </div>
   );
 }
+
 
 export default StartACall;

@@ -14,9 +14,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import FilterModal from "../PatientHome/FilterModal.jsx";
 import AddAppointment from "./AddAppointment";
+import ScheduleAppointment from "./ScheduleAppointment.jsx";
+import Footer from "./Footer.jsx";
 
 export default function DoctorHome() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenFollowUp, setIsModalOpenFollowUp] = useState(false);
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
@@ -201,7 +204,11 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/ScheduleAppointment">
+            <a
+              onClick={() => {
+                setIsModalOpenFollowUp(true);
+              }}
+            >
               <h3>Schedule a Follow-Up</h3>
             </a>
             <p>schedule a follow-up for a patient</p>
@@ -267,6 +274,23 @@ export default function DoctorHome() {
             <AddAppointment />
           </FilterModal>
         ) : null}
+      </div>
+      <div>
+        {isModalOpenFollowUp ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalOpenFollowUp(false);
+              }}
+            />
+            <ScheduleAppointment />
+          </FilterModal>
+        ) : null}
+      </div>
+      <div>
+        <Footer></Footer>
       </div>
     </div>
   );

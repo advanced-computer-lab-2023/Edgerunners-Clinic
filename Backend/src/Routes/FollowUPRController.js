@@ -7,11 +7,16 @@ const CreateRequest = async (req, res) => {
   const PatientUsername = req.body.PatientUsername;
   const NationalID = req.body.NationalID;
   const Date = req.body.Date;
+  const TimeM = req.body.TimeM;
+  console.log(PatientUsername);
+  const TimeH = req.body.TimeH;
   await FollowUpRequest.create({
     DoctorUsername: DoctorUsername,
     PatientUsername: PatientUsername,
     NationalID: NationalID,
     Date: Date,
+    TimeH: TimeH,
+    TimeM: TimeM,
   });
   res.status(200).send("Request Created Successfully!");
 };

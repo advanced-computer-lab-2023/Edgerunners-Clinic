@@ -24,6 +24,14 @@ const FollowUpRequestSchema = new Schema(
       type: Date,
       required: true,
     },
+    TimeH: {
+      type: String,
+      required: true,
+    },
+    TimeM: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true },
 );

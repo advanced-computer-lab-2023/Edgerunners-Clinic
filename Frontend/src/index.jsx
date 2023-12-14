@@ -41,6 +41,8 @@ import ViewPres from "./Components/Patient/ViewPres";
 import ViewPresc from "./Components/DoctorHome/ViewPresc";
 
 import VideoCall from "./Components/VideoCall";
+import StartCall from "./Components/Patient/StartCall";
+import Notification from "./Components/DoctorHome/Notification";
 import StartACall from "./Components/DoctorHome/StartACall";
 import Notificationp from "./Components/Patient/Notificationp";
 import StartCall from "./Components/Patient/StartCall";

@@ -100,7 +100,6 @@ export default function DoctorHome() {
                       sessionStorage.removeItem("Username");
                       sessionStorage.removeItem("type");
                       sessionStorage.removeItem("token");
-                      sessionStorage.removeItem("wallet");
                       sessionStorage.removeItem("Status");
                       window.location.replace("/");
                     }}

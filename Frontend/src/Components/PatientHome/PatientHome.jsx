@@ -101,7 +101,6 @@ export default function PatientHome() {
                       sessionStorage.removeItem("Username");
                       sessionStorage.removeItem("type");
                       sessionStorage.removeItem("token");
-                      sessionStorage.removeItem("wallet");
                       window.location.replace("/");
                     }}
                   >

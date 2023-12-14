@@ -1,15 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../UI/UX/Logo";
 import {
   FilterAppointmentsDate,
   FilterAppointmentsStatus,
 } from "./getAppointments";
+ import { GetAppointmentsFilter } from "../PatientHome/getAppoinments";
+import GetAppointments from "../PatientHome/getAppoinments";
+import axios from "axios";
+import FilterModal from "../PatientHome/FilterModal";
 
 export default function DoctorAppointments() {
   const [state, setState] = useState();
   const [which, setWhich] = useState(false);
   const DoctorUsername = sessionStorage.getItem("Username");
+  const [patientUsername, setPatientUsername] = useState();
+
   const [date, setDate] = useState();
+  const [timeH, setTimeH] = useState();
+  const [timeM, setTimeM] = useState();
+  const [docUser, setDocUser] = useState();
+  const [rescheduleDate, setRescheduleDate] = useState();
+
+  const [newdate, setNewdate] = useState();
+  const [newtimeH, setNewTimeH] = useState();
+  const [newtimeM, setNewTimeM] = useState();
+  const [newdocUser, setNewDocUser] = useState();
+  const [nationalid, setnationalid] = useState();
+  const [filterModalCancel, setFilterModalCancel] = useState(false);
+  const [filterModal, setFilterModal] = useState(false);
 
   let appointmentStatus = FilterAppointmentsStatus({
     Status: state,
@@ -18,6 +36,10 @@ export default function DoctorAppointments() {
 
   let appointmentDate = FilterAppointmentsDate({
     Date: date,
+    DoctorUsername: DoctorUsername,
+  });
+
+  let appointmentNew = GetAppointmentsFilter({
     DoctorUsername: DoctorUsername,
   });
 
@@ -33,6 +55,42 @@ export default function DoctorAppointments() {
     appointmentStatus = FilterAppointmentsStatus({
       Status: state,
       DoctorUsername: DoctorUsername,
+    });
+  };
+
+  const handleReschedule = async (e) => {
+    await axios.put("http://localhost:3001/rescheduleAppointment", {
+      DoctorUsername: DoctorUsername,
+      PatientUsername: patientUsername,
+      Date: rescheduleDate,
+      TimeH: timeH,
+      TimeM: timeM,
+    });
+  };
+
+  const handleCancel = async (e) => {
+    console.log(docUser);
+    await axios.put("http://localhost:3001/cancelAppointment", {
+      DoctorUsername: DoctorUsername,
+      PatientUsername: patientUsername,
+      Date: rescheduleDate,
+      TimeH: timeH,
+      TimeM: timeM,
+    });
+  };
+
+  useEffect(() => {}, [newdocUser, newdate, newtimeH, newtimeM, nationalid]);
+  const handleReschedule2 = async (e) => {
+    console.log(patientUsername);
+    await axios.put("http://localhost:3001/updateAppointment", {
+      DoctorUsername: DoctorUsername ,
+      Date: newdate,
+      TimeH: newtimeH,
+      TimeM: newtimeM,
+      Availability: "Reserved",
+      Status: "Rescheduled",
+      PatientUsername: patientUsername,
+      NationalID: nationalid,
     });
   };
 
@@ -138,7 +196,7 @@ export default function DoctorAppointments() {
               setWhich(true);
             }}
           >
-            <option value="Boody"></option>
+            <option value="">Status</option>
             <option value="Upcoming">Upcoming</option>
             <option value="Cancelled">Cancelled</option>
             <option value="Rescheduled">Rescheduled</option>
@@ -155,25 +213,219 @@ export default function DoctorAppointments() {
             }}
           />
         </div>
+        {filterModalCancel ? (
+                      <FilterModal>
+                        <div className="speciality-filter">
+                          <p>Are sure you want to cancel the appointment?</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFilterModalCancel(false);
+                            handleCancel();
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => {
+                            setFilterModalCancel(false);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </FilterModal>
+                    ) : null}
+                    
+                    {filterModal ? (
+                      <FilterModal>
+                        <div className="speciality-filter">
+                          {appointmentNew.map((a, newindex) => {
+                            return (
+                              <label
+                                id={a}
+                                key={newindex}
+                                onClick={() => {
+                                  setNewDocUser(a.DoctorUsername);
+                                  setNewTimeH(a.TimeH);
+                                  setNewTimeM(a.TimeM);
+                                  setNewdate(a.Date);
+                                  console.log(patientUsername);
+                                }}
+                              >
+                                <p>{a.Date.toString().split("T")[0]}</p>
+                                <p>
+                                  {a.TimeH}:{a.TimeM}
+                                </p>
+                              </label>
+                            );
+                          })}
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFilterModal(false);
+                            handleReschedule();
+                            handleReschedule2();
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => {
+                            setFilterModal(false);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </FilterModal>
+                    ) : null}
         <div>
           {which
             ? appointmentStatus.map((a, index) => {
+              {if(a.Availability == "Reserved")
                 return (
                   <div key={index}>
                     <p>Patient name: {a.PatientUsername}</p>
                     <p>Status: {a.Status}</p>
-                    <p>Appointment Date:{a.Date}</p>
+                    <p>Appointment Date:{a.Date.toString().split("T")[0]}</p>
+                    <p>
+                      Time: {a.TimeH}:{a.TimeM}
+                    </p>
+                    <button
+                      onClick={() => {
+                        setFilterModal(true);
+                        setRescheduleDate(a.Date);
+                        setTimeH(a.TimeH);
+                        setTimeM(a.TimeM);
+                        setDocUser(a.DoctorUsername);
+                        setPatientUsername(a.PatientUsername);
+                        
+                      }}
+                    >
+                      Reschedule
+                    </button>
+                    <button
+                      onClick={() => {
+                        setRescheduleDate(a.Date);
+                        setFilterModalCancel(true);
+                        setTimeH(a.TimeH);
+                        setTimeM(a.TimeM);
+                        setDocUser(a.DoctorUsername);
+                        setPatientUsername(a.PatientUsername);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    
                   </div>
                 );
+                else 
+              return(<div></div>)}
               })
             : appointmentDate.map((a, index) => {
+              {if(a.Availability == "Reserved") 
                 return (
+                  <div>
                   <div key={index}>
                     <p>Patient name: {a.PatientUsername}</p>
                     <p>Status: {a.Status}</p>
-                    <p>Appointment Date:{a.Date}</p>
+                    <p>Appointment Date:{a.Date.toString().split("T")[0]}</p>
+                    <p>
+                      Time: {a.TimeH}:{a.TimeM}
+                    </p>
+                  </div>
+                  <button
+                      onClick={() => {
+                        setFilterModal(true);
+                        setRescheduleDate(a.Date);
+                        setTimeH(a.TimeH);
+                        setTimeM(a.TimeM);
+                        setDocUser(a.DoctorUsername);
+                        setPatientUsername(a.PatientUsername);
+                      }}
+                    >
+                      Reschedule
+                    </button>
+                    <button
+                      onClick={() => {
+                        setRescheduleDate(a.Date);
+                        setFilterModalCancel(true);
+                        setTimeH(a.TimeH);
+                        setTimeM(a.TimeM);
+                        setDocUser(a.DoctorUsername);
+                        setPatientUsername(a.PatientUsername);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    {/* {filterModalCancel ? (
+                      <FilterModal>
+                        <div className="speciality-filter">
+                          <p>Are sure you want to cancel the appointment?</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFilterModalCancel(false);
+                            handleCancel();
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => {
+                            setFilterModalCancel(false);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </FilterModal>
+                    ) : null}
+
+                    {filterModal ? (
+                      <FilterModal>
+                        <div className="speciality-filter">
+                          {appointmentNew.map((a, newindex) => {
+                            return (
+                              <label
+                                id={a}
+                                key={newindex}
+                                onClick={() => {
+                                  setNewDocUser(a.DoctorUsername);
+                                  setNewTimeH(a.TimeH);
+                                  setNewTimeM(a.TimeM);
+                                  setNewdate(a.Date);
+                                  console.log(patientUsername);
+                                }}
+                              >
+                                <p>{a.Date.toString().split("T")[0]}</p>
+                                <p>
+                                  {a.TimeH}:{a.TimeM}
+                                </p>
+                              </label>
+                            );
+                          })}
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFilterModal(false);
+                            handleReschedule();
+                            handleReschedule2();
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => {
+                            setFilterModal(false);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </FilterModal>
+                    ) : null} */}
                   </div>
                 );
+              else 
+              return(<div></div>)}
               })}
         </div>
       </div>

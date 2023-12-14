@@ -5,18 +5,29 @@ const Doctor = require("../Models/Doctor.js");
 const { default: mongoose } = require("mongoose");
 
 const createPrescriptions = async (req, res) => {
-  //add a new Patient to the database with
-  //Name, Email and Age
-  const p = await Patient.findOne({ Username: req.body.Patient });
-  const d = await Doctor.findOne({ Username: req.body.Doctor });
-  if (p && d) {
-    await prescriptions.create({
-      Patient: req.body.Patient,
-      Status: req.body.Status,
-      Doctor: req.body.Doctor,
-      Date: req.body.Date,
-    });
-    res.status(200).send("Created successfully");
+  try {
+    // Check if the Patient and Doctor exist
+    const p = await Patient.findOne({ Username: req.body.Patient });
+    const d = await Doctor.findOne({ Username: req.body.Doctor });
+
+    if (p && d) {
+      // Create a new prescription
+      const newPrescription = await prescriptions.create({
+        Patient: req.body.Patient,
+        Status: req.body.Status,
+        Doctor: req.body.Doctor,
+        Date: req.body.Date,
+        Submitted: req.body.Submitted,
+        RequiredMedicines: req.body.RequiredMedicines,
+      });
+
+      res.status(200).json({ message: "Prescription created successfully", prescription: newPrescription });
+    } else {
+      res.status(404).json({ message: "Patient or Doctor not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -45,8 +56,62 @@ const getPrescriptions = async (req, res) => {
 };
 
 const updatePrescriptions = async (req, res) => {
-  //update a Patient in the database
-  await prescriptions.updateOne({} & {});
+  try {
+    const { prescriptionId, medicineName, newDose, newMedicineName, newMedicineDose } = req.params;
+    const prescription = await prescriptions.findOne({
+      _id: prescriptionId,
+      Submitted: false,
+    });
+
+    if (!prescription) {
+      return res.status(404).json({ message: "Prescription not found or already submitted" });
+    }
+    const medicineToUpdate = prescription.RequiredMedicines.find((med) => med.name === medicineName);
+    if (medicineToUpdate) {
+      medicineToUpdate.dose = newDose;
+    } else {
+
+      return res.status(404).json({ message: "Medicine not found in the prescription" });
+    }
+    prescription.RequiredMedicines.push({ name: newMedicineName, dose: newMedicineDose });
+    await prescription.save();
+    res.status(200).json({ message: "Prescription updated successfully", prescription });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const removemedicine = async (req, res) => {
+  try {
+    const { prescriptionId, medicineNameToRemove } = req.params;
+
+    const prescription = await prescriptions.findOne({
+      _id: prescriptionId,
+      Submitted: false,
+    });
+
+    if (!prescription) {
+      return res.status(404).json({ message: "Prescription not found or already submitted" });
+    }
+
+    const medicineIndexToRemove = prescription.RequiredMedicines.findIndex((med) => med.name === medicineNameToRemove);
+
+    if (medicineIndexToRemove !== -1) {
+      // Remove the medicine from the RequiredMedicines array
+      prescription.RequiredMedicines.splice(medicineIndexToRemove, 1);
+
+      // Save the updated prescription
+      await prescription.save();
+
+      return res.status(200).json({ message: "Medicine removed successfully", prescription });
+    } else {
+      return res.status(404).json({ message: "Medicine not found in the prescription" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 const deletePrescriptions = async (req, res) => {
@@ -70,4 +135,5 @@ module.exports = {
   getPrescriptions,
   updatePrescriptions,
   deletePrescriptions,
+  removemedicine,
 };

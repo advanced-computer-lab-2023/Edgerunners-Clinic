@@ -286,7 +286,10 @@ export default function DoctorAppointments() {
                   <div key={index}>
                     <p>Patient name: {a.PatientUsername}</p>
                     <p>Status: {a.Status}</p>
-                    <p>Appointment Date:{a.Date}</p>
+                    <p>Appointment Date:{a.Date.toString().split("T")[0]}</p>
+                    <p>
+                      Time: {a.TimeH}:{a.TimeM}
+                    </p>
                     <button
                       onClick={() => {
                         setFilterModal(true);
@@ -325,7 +328,10 @@ export default function DoctorAppointments() {
                   <div key={index}>
                     <p>Patient name: {a.PatientUsername}</p>
                     <p>Status: {a.Status}</p>
-                    <p>Appointment Date:{a.Date}</p>
+                    <p>Appointment Date:{a.Date.toString().split("T")[0]}</p>
+                    <p>
+                      Time: {a.TimeH}:{a.TimeM}
+                    </p>
                   </div>
                   <button
                       onClick={() => {

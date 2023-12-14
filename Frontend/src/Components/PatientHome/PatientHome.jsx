@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../../UI/UX/Logo";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBedPulse,
@@ -9,10 +10,14 @@ import {
   faCalendarCheck,
   faStethoscope,
   faHandHoldingMedical,
+  faCircleXmark,
   faPrescriptionBottleMedical,
 } from "@fortawesome/free-solid-svg-icons";
+import FilterModal from "./FilterModal";
+import LinkAnotherPat from "../Patient/LinkAnotherPat";
 
 export default function PatientHome() {
+  const [isLinkPatientModalOpen, setIsLinkPatientModalOpen] = useState(false);
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
@@ -57,7 +62,11 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/viewPackage">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/viewPackage"
+                  >
                     My Subscribtions
                   </a>
                 </li>
@@ -76,7 +85,11 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/changePassword">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/changePassword"
+                  >
                     Change password
                   </a>
                 </li>
@@ -173,7 +186,7 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/UploadDocuments">
+            <a>
               <h3>Upload/Remove Documents</h3>
             </a>
             <p>upload/remove documents for my medical history</p>
@@ -200,11 +213,15 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Link"><h3>Link Account</h3></a>
-            
-            <p>
-              Link the Account of a Family Member to Yours
-            </p>
+            <a
+              onClick={() => {
+                setIsLinkPatientModalOpen(true);
+              }}
+            >
+              <h3>Link Account</h3>
+            </a>
+
+            <p>Link the Account of a Family Member to Yours</p>
           </div>
           <div className="col-4">
             <FontAwesomeIcon
@@ -241,6 +258,18 @@ export default function PatientHome() {
           </div>
         </div>
       </div>
+      {isLinkPatientModalOpen ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="link-patient-parent circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsLinkPatientModalOpen(false);
+            }}
+          />
+          <LinkAnotherPat />
+        </FilterModal>
+      ) : null}
     </div>
   );
 }

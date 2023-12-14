@@ -358,3 +358,53 @@ body {
 .view-my-patients {
   margin-top: -15rem;
 }
+
+.hr-file-upload {
+  height: 250px;
+  overflow: scroll;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 120%;
+  padding: 1rem;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+.hr-file-upload-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.faDownload{
+  cursor: pointer;
+}
+
+.faFileArrowUp{
+  cursor: pointer;
+  position: relative;
+  top: 0.5rem;
+}
+
+.hr-file-parent{
+  padding: 2rem 3rem;
+  padding-right: 5rem;
+  padding-left: 0;
+  font-size: 20px;
+}
+
+.fafilearrowup-div{
+  border-radius: 25px;
+  background-color: #000;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 37rem;
+  top: 12rem;
+}

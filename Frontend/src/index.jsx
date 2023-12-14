@@ -43,6 +43,7 @@ import ViewPresc from "./Components/DoctorHome/ViewPresc";
 import VideoCall from "./Components/VideoCall";
 import StartACall from "./Components/DoctorHome/StartACall";
 import Notificationp from "./Components/Patient/Notificationp";
+import StartCall from "./Components/Patient/StartCall";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -57,7 +58,7 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<StartACall />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>
@@ -89,10 +90,10 @@ if (
             path="/ViewPackage"
             element={<ViewAndUNSubToAHealthPackage />}
           />
+          <Route path="/VideoCall" element={<StartCall />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/myAppointments" element={<PatientAppointments />} />
           <Route path="/ViewPres" element={<ViewPres />} />
-
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

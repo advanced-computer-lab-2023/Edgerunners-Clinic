@@ -3,12 +3,15 @@ import { useState } from "react";
 import { GetSearchPatients } from "../PatientHome/getDoctors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNotesMedical } from "@fortawesome/free-solid-svg-icons";
+import UploadHRforPatient from "./UploadHRforPatients";
+import FilterModal from "../PatientHome/FilterModal";
 
 function ViewMyPatients(props) {
   const [searchPatient, setPatient] = useState();
   const [searchStatus, setStatus] = useState();
   const [visible, setVisible] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [filterModal, setFilterModal] = useState(false);
 
   const showTooltip = (e) => {
     setVisible(true);
@@ -24,10 +27,7 @@ function ViewMyPatients(props) {
     Name: searchPatient,
     up: searchStatus,
   });
-  const redirectToAnotherPage = async () => {
-    // Redirect to another page
-    window.location.href = "/UploadHRforPatients";
-  };
+
   const handlepatientusername = async (patientusername) => {
     sessionStorage.setItem("PatientUsername", patientusername);
   };
@@ -140,7 +140,7 @@ function ViewMyPatients(props) {
           <div className="doctors-by-patient-container">
             <img
               className="doctors-by-patient-image"
-              src="./resources/1.png"
+              src="./resources/11.png"
               alt=""
             />
             <div className="doctors-by-patient-container-in">
@@ -215,8 +215,7 @@ function ViewMyPatients(props) {
                   onMouseOut={hideTooltip}
                   className="NotesMedical-icon"
                   onClick={async () => {
-                    handlepatientusername(user.Username),
-                      redirectToAnotherPage();
+                    handlepatientusername(user.Username), setFilterModal(true);
                   }}
                 />
                 {visible && (
@@ -231,6 +230,27 @@ function ViewMyPatients(props) {
             );
           })}
         </div>
+        {filterModal ? (
+          <FilterModal>
+            <div className="">
+              <UploadHRforPatient />
+            </div>
+            <button
+              onClick={() => {
+                setFilterModal(false);
+              }}
+            >
+              Confirm
+            </button>
+            <button
+              onClick={() => {
+                setFilterModal(false);
+              }}
+            >
+              Cancel
+            </button>
+          </FilterModal>
+        ) : null}
       </div>
     );
   }

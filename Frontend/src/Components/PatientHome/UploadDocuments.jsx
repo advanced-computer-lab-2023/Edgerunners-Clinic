@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import axios from "axios";
 import fileDownload from 'js-file-download';
 import Logo from "../../UI/UX/Logo";
@@ -51,22 +51,21 @@ const UploadDocuments = () => {
     }
   };
 
-  const handleViews = async () => {
-      
-      console.log(sessionStorage.getItem("Username"));
-      try {
-        const result = await fetch(`http://localhost:3001/gethealthrecords/${sessionStorage.getItem("Username")}`, {
-          method: "GET",
-        });
-
-        const data = await result.json();
-        setData(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
+  function handleViews() {
+    const [res , SetRes] = useState();
+    useEffect(() => {
+      getFiles();
+      async function getFiles() {
+        try {
+          const result = await axios.get(`http://localhost:3001/gethealthrecords/${sessionStorage.getItem("Username")}`)
+          SetRes(result.data);
+        } catch (error) {}
       }
-  };
+    }, []);
+    return res;
+  }
 
+  let d = handleViews();
 
   const handleUploadRecords = async () => {
     if (file) {
@@ -109,20 +108,16 @@ const UploadDocuments = () => {
               <Logo />
             </a>
       <div>
-      <button onClick={handleViews}>View Files</button>
       {/* Display file list on the screen */}
       <ul>
-      {data.map((item, index) => (
-      <div key={index}>
-         {item.FileNames.map((fileName, i) => (
-        <><li key={i}>{fileName}</li>
-        <button onClick={() => handleViewFiles(fileName)}>Download</button>
-        <button onClick={() => handleDeleteFile(fileName)}>Remove</button>
-        </>
-             ))}
-          </div>
+            {d!=undefined && d.map((fileName, index) => (
+              <div key={index}>
+                <li key={index}>{fileName}</li>
+                <button onClick={() => handleViewFiles(fileName)}>Download</button>
+                <button onClick={() => handleDeleteFile(fileName)}>Remove</button>
+              </div>
             ))}
-      </ul>
+          </ul>
       </div>
         <label htmlFor="file" className="sr-only">
           Choose a file

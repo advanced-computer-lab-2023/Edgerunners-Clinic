@@ -18,26 +18,29 @@ export default function ScheduleAppointment() {
   // handleNames();
   // console.log(allNames)
 
-
-  function patientNames () {
+  function patientNames() {
     const [patientnames, setPatientnames] = useState([]);
-       useEffect(() => {
+    useEffect(() => {
       getMyAppointments();
       async function getMyAppointments() {
-        const res = await axios.get(`http://localhost:3001/PatientsName/${sessionStorage.getItem("Username")}`);
+        const res = await axios.get(
+          `http://localhost:3001/PatientsName/${sessionStorage.getItem(
+            "Username"
+          )}`
+        );
         setPatientnames(res.data);
       }
     }, []);
     return patientnames;
   }
-  
+
   let patientnames = patientNames();
-  
-//   let patientName = axios.get(`http://localhost:3001/PatientsName/${sessionStorage.getItem("Username")}`)
-  
-//   if(patientName){
-//     console.log(patientName)
-//   }
+
+  //   let patientName = axios.get(`http://localhost:3001/PatientsName/${sessionStorage.getItem("Username")}`)
+
+  //   if(patientName){
+  //     console.log(patientName)
+  //   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,19 +153,26 @@ export default function ScheduleAppointment() {
       </div>
       <div className="form-prescription">
         <form onSubmit={handleSubmit}>
+          <br />
+          <br />
+          <br />
           <div>
             <div>
-            <label htmlFor="Patient">Patient Name</label>
-            <select onChange = {(e) => {
-            setPatient(e.target.value);
-          }}>
-            <option>Select Patient</option>
-            {patientnames.map((patient,index)=>{   
-                return(
-              <option key = {index} value={patient.username}>{patient.name}</option>
-              )
-            })}
-            </select>
+              <label htmlFor="Patient">Patient Name</label>
+              <select
+                onChange={(e) => {
+                  setPatient(e.target.value);
+                }}
+              >
+                <option>Select Patient</option>
+                {patientnames.map((patient, index) => {
+                  return (
+                    <option key={index} value={patient.username}>
+                      {patient.name}
+                    </option>
+                  );
+                })}
+              </select>
               <label htmlFor="">Date</label>
               <input
                 type="date"

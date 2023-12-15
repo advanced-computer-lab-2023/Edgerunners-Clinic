@@ -31,7 +31,13 @@ Our goal is straightforward: to break down the complexities of traditional healt
 - **Braces:** K&R style is used for brace placement.
 - **Comments:** Use meaningful comments sparingly to explain complex logic or important details.
 
-## How to use
+## installion
+
+- clone:
+
+```bash
+  git clone https://github.com/advanced-computer-lab-2023/Edgerunners-Clinic.git
+```
 
 To setup everything
 
@@ -40,8 +46,6 @@ To setup everything
 ```bash
   cd backend
   npm install
-  cd src
-  node app
 ```
 
 - frontend:
@@ -49,7 +53,6 @@ To setup everything
 ```bash
   cd frontend
   npm install
-  npm run dev
 ```
 
 ## Screenshots of website
@@ -58,3 +61,172 @@ To setup everything
 ![HomePage1](Screenshots/homepage1.png)
 ![HomePage2](Screenshots/homepage2.png)
 ![FamilyMembers](Screenshots/familymembers.png)
+![DoctorDetails](Screenshots/doctordetail.png)
+
+## Tech/Framework Used
+
+This project is developed using the MERN stack, a popular technology stack for building full-stack web applications. The MERN stack includes:
+
+- **MongoDB:** NoSQL database for storing and retrieving data.
+- **Express.js:** A web application framework for building our API and handling HTTP requests.
+- **React:** A JavaScript library for building UI.
+- **Node.js:** A runtime environment for executing JavaScript code on the server.
+
+### Additional Tools and Libraries
+
+- **Prettier:** The codebase is formatted using Prettier, an opinionated code formatter that enforces a consistent code style.
+
+- **Vite:** Vite is used as the build tool for this project. It provides fast and efficient development server and builds, making the development experience smooth and performance-optimized.
+
+## Features
+
+### Patient-Friendly Appointments
+
+- **Reschedule and Cancel:** Patients have the flexibility to reschedule or cancel appointments at any time before the scheduled appointment. In case of cancellation, the money is automatically returned to the patient's wallet.
+
+- **Family Appointments:** Patients can schedule appointments not only for themselves but also for their family members, all through a single account. This streamlines the process for managing healthcare for the entire family.
+
+### Secure Payment Options
+
+- **Credit Card Payments:** Seamless and secure credit card payments for appointment sessions are supported, ensuring a hassle-free transaction experience for patients.
+
+- **Wallet Integration:** Patients have the option to pay for sessions using their wallet balance, providing a convenient and quick payment method.
+
+### Video Consultations
+
+- **Virtual Consultations:** Connect with healthcare professionals through video chat for remote consultations. This feature enables patients to have virtual face-to-face meetings with doctors for medical advice and guidance.
+
+## How to use
+
+- backend:
+
+```bash
+  cd backend/src
+  node app
+```
+
+- frontend:
+
+```bash
+  cd frontend
+  npm run dev
+```
+
+## Code Examples
+
+**the following shows how based on what type user is entering what routes is open for them**
+
+```jsx
+if (
+  (sessionStorage.getItem("Username") == null &&
+    sessionStorage.getItem("token") == null &&
+    sessionStorage.getItem("type") == null) ||
+  sessionStorage.getItem("Status") == "Waiting"
+) {
+  // user hasn't logged in yet so won't acces anything except login page and reset password page only and also register page
+  console.log("signin");
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/ResetPass" element={<ResetPass />} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+} else if (sessionStorage.getItem("type") == "Patient") {
+  // if he is a patient a set of routes is only available for him meaning he can't access doctor's routes even if he know the url
+  console.log("patient");
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>............</Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+} else if (
+  sessionStorage.getItem("type") == "Doctor" &&
+  sessionStorage.getItem("Status") == "Accepted"
+) {
+  // here if the user is a doctor and he/she accepted the terms and conditions and uploaded signed contract and admin accepted then they can access the routes
+  console.log("doctor");
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>....</Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+} else {
+  console.log("admin");
+  // we also check here if an admin has logged in
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>........</Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+}
+```
+
+**the following code shows how we check which user is logging in**
+
+`javascript
+    const signin = async (req, res) => {
+  const username = req.body.Username;
+  const password = req.body.Password;
+  let user = await Patient.findOne({ Username: username });
+  let isValid;
+  if (user) {
+    isValid = await comparePassword(password, user.Password);
+    if (isValid) {
+      res.status(200).send({
+        token: createJWTP(username),
+        type: "Patient",
+        Username: username,
+        wallet: user.Wallet,
+      });
+    } else {
+      res.status(401).send("invalid password");
+    }
+  } else {
+    user = await Doctor.findOne({ Username: username });
+    if (user) {
+      isValid = await comparePassword(password, user.Password);
+      if (isValid) {
+        if (user.Status !== "Pending") {
+          res.status(200).send({
+            token: createJWTD(username),
+            type: "Doctor",
+            Username: username,
+            Status: user.Status,
+            wallet: user.Wallet,
+          });
+        } else {
+          res.status(401).send("Doctor not accepted yet");
+        }
+      } else {
+        res.status(401).send("invalid password");
+      }
+    } else {
+      user = await Admin.findOne({ Username: username });
+      if (user) {
+        isValid = await comparePassword(password, user.Password);
+        if (isValid) {
+          res.status(200).send({
+            token: createJWTA(username),
+            type: "Admin",
+            Username: username,
+          });
+        } else {
+          res.status(401).send("invalid password");
+        }
+      } else {
+        res.status(401).send("user not found");
+      }
+    }
+  }
+};
+`

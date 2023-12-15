@@ -173,13 +173,15 @@ if (
 
 **the following code shows how we check which user is logging in**
 
-`javascript
-    const signin = async (req, res) => {
+```jsx
+const signin = async (req, res) => {
   const username = req.body.Username;
   const password = req.body.Password;
+  // at first we check if the user is a patient as they are the ones who will login the most
   let user = await Patient.findOne({ Username: username });
   let isValid;
   if (user) {
+    //we check for pasword here and compare it to encrypted database
     isValid = await comparePassword(password, user.Password);
     if (isValid) {
       res.status(200).send({
@@ -192,6 +194,7 @@ if (
       res.status(401).send("invalid password");
     }
   } else {
+    // if the user isn't a patient we check if they are a doctor
     user = await Doctor.findOne({ Username: username });
     if (user) {
       isValid = await comparePassword(password, user.Password);
@@ -211,6 +214,7 @@ if (
         res.status(401).send("invalid password");
       }
     } else {
+      // lastly we check if he is an admin
       user = await Admin.findOne({ Username: username });
       if (user) {
         isValid = await comparePassword(password, user.Password);
@@ -224,9 +228,14 @@ if (
           res.status(401).send("invalid password");
         }
       } else {
+        // if non them match out database he/she entered invalid credentials
         res.status(401).send("user not found");
       }
     }
   }
 };
-`
+```
+
+## API References
+
+[API-References](API.md)

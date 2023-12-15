@@ -16,10 +16,12 @@ import FilterModal from "../PatientHome/FilterModal.jsx";
 import AddAppointment from "./AddAppointment";
 import ScheduleAppointment from "./ScheduleAppointment.jsx";
 import Footer from "./Footer.jsx";
+import FollowUpRequests from "./FollowUpRequest.jsx";
 
 export default function DoctorHome() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenFollowUp, setIsModalOpenFollowUp] = useState(false);
+  const [modalFollowupRequests, setmodalFollowupRequests] = useState(false);
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
@@ -73,7 +75,11 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#education">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => setmodalFollowupRequests(true)}
+                  >
                     Follow Up Requests
                   </a>
                 </li>
@@ -286,6 +292,18 @@ export default function DoctorHome() {
               }}
             />
             <ScheduleAppointment />
+          </FilterModal>
+        ) : null}
+        {modalFollowupRequests ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setmodalFollowupRequests(false);
+              }}
+            />
+            <FollowUpRequests />
           </FilterModal>
         ) : null}
       </div>

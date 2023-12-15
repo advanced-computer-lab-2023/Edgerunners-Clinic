@@ -53,6 +53,16 @@ const updateStatus = async (req, res) => {
   );
   res.status(200).send("Updateed Status");
 };
+const viewFilesDoctor = async (req, res) => {
+  try {
+    const filename = req.params.filename;
+    // Read the contents of the uploadDirectory
+    res.status(200).download("./uploadDoctor/" + filename);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 const doctorUploadFile = async (req, res) => {
   const filename = req.body.Username + "-" + ".pdf";
   const file = req.files.file;
@@ -242,4 +252,5 @@ module.exports = {
   getPatientNames,
   updateStatus,
   GetWalletD,
+  viewFilesDoctor,
 };

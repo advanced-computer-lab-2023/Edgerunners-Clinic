@@ -45,6 +45,7 @@ const {
   getPatientNames,
   updateStatus,
   GetWalletD,
+  viewFilesDoctor,
 } = require("./Routes/doctorController");
 
 const {
@@ -223,6 +224,9 @@ const {
   CreateRequest,
   DeleteAllRequests,
   GetAllRequest,
+  GetMyRequests,
+  handleReject,
+  handleAccept,
 } = require("./Routes/FollowUPRController.js");
 
 app.post(
@@ -247,6 +251,8 @@ app.post("/signin", signin);
 app.post("/addPatient", createPatient);
 app.post("/patientUploadFile", patientUploadFile);
 app.get("/viewFiles/:filename", viewFiles);
+app.get("/viewFilesDoctor/:filename", viewFilesDoctor);
+
 app.get("/getWallet/:username", GetWallet);
 app.get("/getWalletD/:username", GetWalletD);
 app.get("/patientUploadHealthRecord", patientUploadHealthRecord);
@@ -329,3 +335,6 @@ app.put("/reverseQuantity", reverseQuantity);
 app.post("/createFURP", CreateRequest);
 app.delete("/deleteAllRequests", DeleteAllRequests);
 app.get("/getAllRequests", GetAllRequest);
+app.get("/getMyRequests", GetMyRequests);
+app.delete("/deleteRequest", handleReject);
+app.put("/acceptRequest", handleAccept);

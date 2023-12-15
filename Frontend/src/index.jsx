@@ -59,8 +59,8 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<ViewMyPatients />} />
 
+          <Route path="/" element={<LoginPage />} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>

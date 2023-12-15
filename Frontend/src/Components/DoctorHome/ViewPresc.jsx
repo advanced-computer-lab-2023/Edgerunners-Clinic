@@ -3,6 +3,7 @@ import Logo from "../../UI/UX/Logo";
 import axios from "axios";
 import MedicinesDropDown from "../../UI/UX/MedicinesDropDown";
 
+
 function ViewPresc() {
   const [prescriptions, setPrescriptions] = useState([]);
   const [updateData, setUpdateData] = useState({
@@ -126,7 +127,7 @@ function ViewPresc() {
   if (prescriptions != null) {
     return (
       <div className="tailwind">
-        <a href="/PatientHome">
+        <a href="/DoctorHome">
           <Logo />
         </a>
         <div className="bg-white py-30 sm:py-4"></div>
@@ -136,11 +137,13 @@ function ViewPresc() {
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600"></p>
         </div>
+
         <div className="flex flex-wrap justify-evenly">
         {prescriptions.map((p, index) => {
             return (
               <div
                 key={index}
+
                 className="bg-white py-2 mb-10 mx-22  rounded-3xl ring-1 ring-gray-200"
               >
                 <div className="mx-auto max-w-2xl p-8 sm:p-10">
@@ -161,6 +164,7 @@ function ViewPresc() {
                           <h4 className="flex-none text-sm font-semibold leading-6 text-gray-600">
                             Required Medicines:
                             <ul>
+
                             {p.RequiredMedicines.map((medicine, index) => (
                     <li>
                       <div>
@@ -216,6 +220,7 @@ function ViewPresc() {
     </div>
               </h4>
              
+
                         </h3>
                         <div className="h-px flex-auto bg-gray-100" />
                       </div>
@@ -234,3 +239,4 @@ function ViewPresc() {
 }
 
 export default ViewPresc;
+

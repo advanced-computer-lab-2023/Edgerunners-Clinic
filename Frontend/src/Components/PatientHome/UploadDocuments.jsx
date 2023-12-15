@@ -103,7 +103,7 @@ const UploadDocuments = () => {
 
    return (
     <>
-      <div className="input-group">
+      <div>
       <a href="/PatientHome">
               <Logo />
             </a>

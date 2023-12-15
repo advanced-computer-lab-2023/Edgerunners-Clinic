@@ -55,3 +55,6 @@ To setup everything
 ## Screenshots of website
 
 ![Login](Screenshots/login.png)
+![HomePage1](Screenshots/homepage1.png)
+![HomePage2](Screenshots/homepage2.png)
+![FamilyMembers](Screenshots/familymembers.png)

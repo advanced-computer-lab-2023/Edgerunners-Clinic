@@ -27,7 +27,7 @@ function ViewPresc() {
   if (prescriptions != null) {
     return (
       <div className="tailwind">
-        <a href="/PatientHome">
+        <a href="/DoctorHome">
           <Logo />
         </a>
         <div className="bg-white py-30 sm:py-4"></div>

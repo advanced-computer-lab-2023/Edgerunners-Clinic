@@ -45,6 +45,7 @@ const {
   getPatientNames,
   updateStatus,
   GetWalletD,
+  viewFilesDoctor,
 } = require("./Routes/doctorController");
 
 const {
@@ -250,6 +251,8 @@ app.post("/signin", signin);
 app.post("/addPatient", createPatient);
 app.post("/patientUploadFile", patientUploadFile);
 app.get("/viewFiles/:filename", viewFiles);
+app.get("/viewFilesDoctor/:filename", viewFilesDoctor);
+
 app.get("/getWallet/:username", GetWallet);
 app.get("/getWalletD/:username", GetWalletD);
 app.get("/patientUploadHealthRecord", patientUploadHealthRecord);

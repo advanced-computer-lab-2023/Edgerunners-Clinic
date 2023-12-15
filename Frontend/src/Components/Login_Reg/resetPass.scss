@@ -1,26 +1,44 @@
-/* ResetPass.css */
-
-.reset-pass-container {
+.resetPass {
+  .blue-container{
+    border:20px solid #046cb5;
+    border-radius: 8px;
+    height: 660px;
+    position: relative;
+  }
+  .logo-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.1;
+    z-index: -1; 
+  }
+  .reset-pass-container {
     max-width: 400px;
     margin: auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    //box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
   }
-  
+
   .title {
     margin-bottom: 15px;
-    font-size: 18px;
+    //make the font bold
+    font-weight: bold;
+    font-size: 22px;
     color: #333;
   }
-  
+
   .otp-input {
     display: flex;
     justify-content: space-between;
   }
-  
+
   .input-field {
     width: 100%;
     padding: 10px;
@@ -29,10 +47,9 @@
     border-radius: 4px;
     box-sizing: border-box;
   }
-  
 
   .button {
-    background-color: #007bff;
+    background-color: #046cb5;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -41,11 +58,11 @@
     font-size: 16px;
     transition: background-color 0.3s;
   }
-  
+
   .button:hover {
-    background-color: #0069d9;
+    background-color: #005da5;
   }
-  
+
   .message {
     margin-top: 15px;
     color: #333;
@@ -53,14 +70,16 @@
   .back-to-login {
     margin-top: 20px;
   }
-  
+
   .back-to-login a {
     text-decoration: none;
-    color: #007bff;
+    color: #046cb5;
     font-size: 16px;
     transition: color 0.3s;
   }
-  
+
   .back-to-login a:hover {
-    color: #0056b3;
+    color: #005da5;
+    text-decoration: underline;
   }
+}

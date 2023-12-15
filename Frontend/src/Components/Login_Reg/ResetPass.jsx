@@ -1,8 +1,9 @@
-import React, { useMemo, useState, useCallback , useRef} from "react";
+import React, { useMemo, useState, useCallback, useRef } from "react";
 import emailjs from "emailjs-com";
 import axios from "axios";
-import "./resetPass.css"; // Import the CSS file
+import "./resetPass.scss";
 import { Link } from "react-router-dom";
+import Logo from "../../UI/UX/Logo";
 
 export default function ResetPass() {
   const [Email, setEmail] = useState("");
@@ -19,9 +20,8 @@ export default function ResetPass() {
   const passwordValidation = () => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
     if (passwordRegex.test(NewPass)) {
-      ResetPass(); // Call the signup function here or perform other actions
+      ResetPass();
     } else {
-      // Show error in the register page
       setFailed(true);
     }
   };
@@ -44,7 +44,7 @@ export default function ResetPass() {
   };
 
   const handle = () => {
-    if(Email!== ""){
+    if (Email !== "") {
       console.log(final1 + "" + final2);
       emailjs.send(
         "service_bow4wjw",
@@ -59,7 +59,6 @@ export default function ResetPass() {
       setIntial(false);
       setOTP(true);
     }
-    
   };
 
   const ResetPass = async () => {
@@ -78,58 +77,72 @@ export default function ResetPass() {
   };
 
   return (
-    <div className="reset-pass-container">
-      {OTP && (
-        <React.Fragment>
-          <div className="title">Enter the OTP</div>
-          <div className="otp-input">
-            {UserInput.map((value, index) => (
-              <input
-                key={index}
-                type="text"
-                maxLength="1"
-                onChange={(e) => handleInputChange(e, index)}
-                value={value}
-                className="input-field"
-              />
-            ))}
+    <div className="resetPass PatientReg">
+      <div className="bodyClass">
+        <div className={`container`} id="container">
+          <div className="blue-container">
+            <div className="logo-container">
+              <Logo width={600} height={600} />
+            </div>
+            <div className="reset-pass-container">
+              {OTP && (
+                <React.Fragment>
+                  <div className="title">Enter the OTP</div>
+                  <div className="otp-input">
+                    {UserInput.map((value, index) => (
+                      <input
+                        key={index}
+                        type="text"
+                        maxLength="1"
+                        onChange={(e) => handleInputChange(e, index)}
+                        value={value}
+                        className="input-field"
+                      />
+                    ))}
+                  </div>
+                  <button className="button" onClick={handleVerify}>
+                    verify
+                  </button>
+                </React.Fragment>
+              )}
+              {Intial && (
+                <React.Fragment>
+                  <div className="title">Enter Registered Email</div>
+                  <input
+                    type="text"
+                    placeholder="Enter your email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="input-field"
+                  />
+                  <button className="button" onClick={handle}>
+                    Reset Password
+                  </button>
+                </React.Fragment>
+              )}
+              {Verified && (
+                <React.Fragment>
+                  <div className="title">Enter New Password</div>
+                  <input
+                    type="password"
+                    placeholder="Enter your new password"
+                    onChange={(e) => setNewPass(e.target.value)}
+                    className="input-field"
+                  />
+                  <button className="button" onClick={passwordValidation}>
+                    Submit
+                  </button>
+                </React.Fragment>
+              )}
+              {Success && (
+                <p className="message">Password updated successfully.</p>
+              )}
+              {Failed && <p className="message">An error occurred.</p>}
+              <div className="back-to-login">
+                <Link to="/">Back to Login</Link>
+              </div>
+            </div>
           </div>
-          <button className="button" onClick={handleVerify}>verify</button>
-        </React.Fragment>
-
-      )}
-      {Intial && (
-        <React.Fragment>
-          <div className="title">Enter Registered Email</div>
-          <input
-            type="text"
-            placeholder="Enter your email"
-            onChange={(e) => setEmail(e.target.value)}
-            className="input-field"
-          />
-          <button className="button" onClick={handle}>
-            Reset Password
-          </button>
-        </React.Fragment>
-      )}
-      {Verified && (
-        <React.Fragment>
-          <div className="title">Enter New Password</div>
-          <input
-            type="password"
-            placeholder="Enter your new password"
-            onChange={(e) => setNewPass(e.target.value)}
-            className="input-field"
-          />
-          <button className="button" onClick={passwordValidation}>
-            Submit
-          </button>
-        </React.Fragment>
-      )}
-      {Success && <p className="message">Password updated successfully.</p>}
-      {Failed && <p className="message">An error occurred.</p>}
-      <div className="back-to-login">
-        <Link to="/">Back to Login</Link>
+        </div>
       </div>
     </div>
   );

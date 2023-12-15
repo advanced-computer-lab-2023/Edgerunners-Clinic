@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Logo from "../../UI/UX/Logo";
+import fileDownload from "js-file-download";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload, faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 const makeRequestTable = async () => {
   const data = [];
@@ -22,7 +25,7 @@ const makeRequestTable = async () => {
       const educationalBackground = p.Education;
       const speciality = p.Speciality;
       const status = p.Status;
-
+      const files  = p.FileNames;
       data.push({
         id,
         username,
@@ -34,6 +37,7 @@ const makeRequestTable = async () => {
         educationalBackground,
         speciality,
         status,
+        files,
       });
     }
   } catch (error) {
@@ -84,7 +88,7 @@ const styles = {
 
 const DoctorRequests = () => {
   const [requests, setRequests] = useState([]);
-
+  const [expandedRow, setExpandedRow] = useState(null);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -137,10 +141,21 @@ const DoctorRequests = () => {
   const pendingRequests = requests.filter(
     (request) => request.status === "Pending"
   );
-
+  const handleToggleExpand = (index) => {
+    setExpandedRow(expandedRow === index ? null : index);
+  };
+  const handleViewFiles = async (filename) => {
+    await axios
+      .get(`http://localhost:3001/viewFilesDoctor/${filename}`, {
+        responseType: "blob",
+      })
+      .then((res) => {
+        fileDownload(res.data, filename);
+      });
+  };
   return (
-    <div  >
-      <div >
+    <div>
+      <div>
         <a href="/AdminHome">
           <Logo />
         </a>
@@ -163,36 +178,62 @@ const DoctorRequests = () => {
           </thead>
           <tbody>
             {pendingRequests.map((request, index) => (
-              <tr
-                key={request.id}
-                style={index % 2 === 0 ? styles.evenRow : {}}
-              >
-                <td style={styles.tableCell}>{request.id}</td>
-                <td style={styles.tableCell}>{request.username}</td>
-                <td style={styles.tableCell}>{request.fullName}</td>
-                <td style={styles.tableCell}>{request.email}</td>
-                <td style={styles.tableCell}>{request.dateOfBirth}</td>
-                <td style={styles.tableCell}>{request.hourlyRate}</td>
-                <td style={styles.tableCell}>{request.affiliation}</td>
-                <td style={styles.tableCell}>
-                  {request.educationalBackground}
-                </td>
-                <td style={styles.tableCell}>{request.speciality}</td>
-                <td style={styles.tableCell}>
-                  <button
-                    style={styles.acceptButton}
-                    onClick={() => handleAccept(request.username)}
-                  >
-                    Accept
-                  </button>
-                  <button
-                    style={styles.rejectButton}
-                    onClick={() => handleReject(request.username)}
-                  >
-                    Reject
-                  </button>
-                </td>
-              </tr>
+              <React.Fragment key={request.id}>
+                <tr style={index % 2 === 0 ? styles.evenRow : {}}>
+                  <td style={styles.tableCell}>{request.id}</td>
+                  <td style={styles.tableCell}>{request.username}</td>
+                  <td style={styles.tableCell}>{request.fullName}</td>
+                  <td style={styles.tableCell}>{request.email}</td>
+                  <td style={styles.tableCell}>{request.dateOfBirth}</td>
+                  <td style={styles.tableCell}>{request.hourlyRate}</td>
+                  <td style={styles.tableCell}>{request.affiliation}</td>
+                  <td style={styles.tableCell}>
+                    {request.educationalBackground}
+                  </td>
+                  <td style={styles.tableCell}>{request.speciality}</td>
+                  <td style={styles.tableCell}>
+                    <button
+                      style={styles.acceptButton}
+                      onClick={() => handleAccept(request.username)}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      style={styles.rejectButton}
+                      onClick={() => handleReject(request.username)}
+                    >
+                      Reject
+                    </button>
+                    <span
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleToggleExpand(index)}
+                    >
+                      {expandedRow === index ? "▲" : "▼"}
+                    </span>
+                  </td>
+                </tr>
+                {expandedRow === index && (
+                  <tr>
+                    <td colSpan="10">
+                    {request.files.map((fileName, index) => (
+                        <div key={index} style={{
+                          fontSize: "20px", 
+                          marginTop: "5px", 
+                          marginBottom: "5px", 
+                          padding: "5px", 
+                        }} className="hr-file-upload-item">
+                          <span>{request.fullName + " Documents"}</span>
+                          <FontAwesomeIcon
+                            icon={faDownload}
+                            className="faDownload"
+                            onClick={() => handleViewFiles(fileName)}
+                          />
+                        </div>
+                      ))}
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))}
           </tbody>
         </table>

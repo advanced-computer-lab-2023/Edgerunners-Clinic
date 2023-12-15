@@ -223,6 +223,9 @@ const {
   CreateRequest,
   DeleteAllRequests,
   GetAllRequest,
+  GetMyRequests,
+  handleReject,
+  handleAccept,
 } = require("./Routes/FollowUPRController.js");
 
 app.post(
@@ -329,3 +332,6 @@ app.put("/reverseQuantity", reverseQuantity);
 app.post("/createFURP", CreateRequest);
 app.delete("/deleteAllRequests", DeleteAllRequests);
 app.get("/getAllRequests", GetAllRequest);
+app.get("/getMyRequests", GetMyRequests);
+app.delete("/deleteRequest", handleReject);
+app.put("/acceptRequest", handleAccept);

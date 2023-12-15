@@ -65,7 +65,7 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#education">
+                  <a className="nav-link" aria-current="page" href="/ViewPresc">
                     Prescriptions
                   </a>
                 </li>

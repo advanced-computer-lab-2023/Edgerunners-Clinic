@@ -15,9 +15,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import FilterModal from "./FilterModal";
 import LinkAnotherPat from "../Patient/LinkAnotherPat";
+import UploadDocuments from "./UploadDocuments";
 
 export default function PatientHome() {
   const [isLinkPatientModalOpen, setIsLinkPatientModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
@@ -185,7 +187,9 @@ export default function PatientHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a>
+            <a  onClick={() => {
+                setIsModalOpen(true);
+              }}>
               <h3>Upload/Remove Documents</h3>
             </a>
             <p>upload/remove documents for my medical history</p>
@@ -269,6 +273,18 @@ export default function PatientHome() {
           <LinkAnotherPat />
         </FilterModal>
       ) : null}
+        {isModalOpen ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalOpen(false);
+              }}
+            />
+            <UploadDocuments/>
+          </FilterModal>
+        ) : null}
     </div>
   );
 }

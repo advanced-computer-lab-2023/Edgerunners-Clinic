@@ -70,7 +70,7 @@ export default function PatientHome() {
                     aria-current="page"
                     href="/viewPackage"
                   >
-                    My Subscribtions
+                    My Subscriptions
                   </a>
                 </li>
                 <li className="nav-item">

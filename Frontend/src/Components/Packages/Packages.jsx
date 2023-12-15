@@ -8,6 +8,7 @@ import { CheckIcon } from "@heroicons/react/20/solid";
 import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import PayButton from "./PayButton";
+import Footer from "../Patient/Footer";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -197,26 +198,138 @@ export default function Packages() {
 
   if (packages.data != null) {
     return (
-      <div className="tailwind">
-        <a href="/PatientHome">
-          <Logo />
-        </a>
-        <div className="bg-white py-30 sm:py-4"></div>
+      <div className="tailwind Bootstrap PatientHome backgroundPicture">
+        <div className="header">
+        <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+          <div className="container">
+            <a href="/PatientHome">
+              <Logo />
+            </a>
+
+            <button
+              className="navbar-toggler ps-0"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#navbarExample01"
+              aria-controls="navbarExample01"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon d-flex justify-content-start align-items-center">
+                <i className="fas fa-bars"></i>
+              </span>
+            </button>
+            <div className="navbar-collapse" id="navbarExample01">
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#pets">
+                    Video Call
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#adoptions">
+                    Chat
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/myAppointments"
+                  >
+                    My Appointments
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/viewPackage"
+                  >
+                    My Subscriptions
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/Prescriptions"
+                  >
+                    Prescriptions
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="/myWalletP">
+                    My Wallet
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/changePassword"
+                  >
+                    Change password
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      window.location.replace("/");
+                    }}
+                  >
+                    Log Out
+                  </a>
+                </li>
+              </ul>
+
+              {/* <ul className="navbar-nav flex-row">
+                <li className="nav-item">
+                  <a className="nav-link px-2" href="#!">
+                    <i className="fab fa-facebook-square"></i>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link px-2" href="#!">
+                    <i className="fab fa-instagram"></i>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link ps-2" href="#!">
+                    <i className="fab fa-youtube"></i>
+                  </a>
+                </li>
+              </ul> */}
+            </div>
+          </div>
+        </nav>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <div className="mx-auto max-w-2xl sm:text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Health Care Packages
-          </h2>
+          <br />
+          <br />
+          <br />
           <p className="mt-6 text-lg leading-8 text-gray-600"></p>
         </div>
-        <Carousel className="rounded-x1">
+        <Carousel className="rounded-x1 ">
+          
           {packages.data.map((p, index) => {
             return (
-              <div key={p.Name} className="bg-white py-2 ">
+              <div key={p.Name} className=" py-2 ">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                   <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
-                    <div className="p-8 sm:p-10 lg:flex-auto">
+                    <div  style={{ background: "rgb(250,250,250)", borderRadius: "20px 0px 0px 20px" }} className="p-8 sm:p-10 lg:flex-auto">
                       <h3 className="text-2xl font-bold tracking-tight text-gray-900">
-                        {p.Name} membership
+                        {p.Name} Membership
                       </h3>
                       <p className="mt-6 text-base leading-7 text-gray-600"></p>
                       <div className="mt-10 flex items-center gap-x-4">
@@ -241,7 +354,7 @@ export default function Packages() {
                             className="h-6 w-5 flex-none text-indigo-600"
                             aria-hidden="true"
                           />
-                          {p.discountMedicin}% off any medicin ordered from
+                          {p.discountMedicin}% off any medicine ordered from
                           pharmacy platform
                         </li>
                         <li className="flex gap-x-3">
@@ -254,7 +367,7 @@ export default function Packages() {
                         </li>
                       </ul>
                     </div>
-                    <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+                    <div  style={{ background: "rgb(250,250,250)", borderRadius:"0px 20px 20px 0px" }}className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
                       <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
                         <div className="mx-auto max-w-xs px-8">
                           <p className="text-base font-semibold text-gray-600"></p>
@@ -268,7 +381,8 @@ export default function Packages() {
                           </p>
                           <button
                             href="#"
-                            className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            style={{ color:"white" }}
+                            className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             onClick={() => handleCheckout(p.Name)}
                           >
                             Get access
@@ -313,7 +427,8 @@ export default function Packages() {
                           </div>)}
                           <button
                             href="#"
-                            className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            style={{ color:"white" }}
+                            className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold  shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             onClick={() => {paywallet(p.Price,p.Name);setEdit(true);}}
                           >
                             Pay with wallet
@@ -343,7 +458,8 @@ export default function Packages() {
               </a>
         </div> */}
 
-        <div className="bg-white py-44 sm:py-55"></div>
+        <div className=" py-44 sm:py-55"></div>
+        <Footer></Footer>
       </div>
     );
   }

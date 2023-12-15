@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
 import GetPrescriptions from "./getPrescriptions";
-import html2pdf from 'html2pdf.js';
+import html2pdf from "html2pdf.js";
+import Footer from "../Patient/Footer";
 
 export default function Prescriptions() {
   const [date, setDate] = useState();
@@ -19,88 +20,30 @@ export default function Prescriptions() {
 
   const downloadPrescriptionAsPDF = (prescription) => {
     // Create a div element with the prescription details
-    const prescriptionDiv = document.createElement('div');
+    const prescriptionDiv = document.createElement("div");
     prescriptionDiv.innerHTML = `
       <h2>Patient: ${prescription.Patient}</h2>
       <p>Status: ${prescription.Status}</p>
       <p>Doctor: ${prescription.Doctor}</p>
       <p>Date: ${new Date(prescription.Date).toLocaleDateString()}</p>
-      <p>Submitted: ${prescription.Submitted ? 'Yes' : 'No'}</p>
+      <p>Submitted: ${prescription.Submitted ? "Yes" : "No"}</p>
       <h4>Required Medicines:</h4>
       <ul>
-        ${prescription.RequiredMedicines.map((medicine) => `<li>${medicine.name} - ${medicine.dose}</li>`).join('')}
+        ${prescription.RequiredMedicines.map(
+          (medicine) => `<li>${medicine.name} - ${medicine.dose}</li>`
+        ).join("")}
       </ul>
     `;
-  
+
     // Convert the div to a PDF using html2pdf
     html2pdf(prescriptionDiv, {
       margin: 10,
-      filename: 'prescription.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
+      filename: "prescription.pdf",
+      image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
     });
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -119,8 +62,7 @@ export default function Prescriptions() {
     });
   };
 
-
-const Selected = false;
+  const Selected = false;
 
   if (Prescriptions) {
     console.log(Prescriptions);
@@ -129,7 +71,9 @@ const Selected = false;
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-            <a href="/PatientHome"><Logo /></a>
+              <a href="/PatientHome">
+                <Logo />
+              </a>
               <button
                 className="navbar-toggler ps-0"
                 type="button"
@@ -249,39 +193,49 @@ const Selected = false;
             submit
           </button>
         </div>
-        <div>
+        <div class="row">
           {Prescriptions.map((p, index) => {
             return (
-              <div key={index}>
-                <a>{p.Patient}</a>
-                <br />
-                <a>{p.Status}</a>
-                <br />
-                <a>{p.Doctor}</a>
-                <br />
-                <a>{p.Date}</a>
-                <br />
-                {selectedPrescriptions[index] && (
-              <a>
-                Required Medicines:
-                <ul>
-                  {p.RequiredMedicines.map((medicine, index) => (
-                    <li key={index}>
-                      {medicine.name} - {medicine.dose}
-                    </li>
-                  ))}
-                </ul>
-                <button onClick={() => downloadPrescriptionAsPDF(p)}>Download</button>
-              </a>)}
-              <button onClick={() => handleSelect(index)}>
-              {selectedPrescriptions[index] ? "Deselect" : "Select"}
-
-             </button>
-
+              <div class="col-sm-3 py-2">
+                <div class="card h-100 border-primary">
+                  <div class="card-body">
+                    <h3 class="card-title">Prescription</h3>
+                    <a>{p.Patient}</a>
+                    <br />
+                    <a>{p.Status}</a>
+                    <br />
+                    <a>{p.Doctor}</a>
+                    <br />
+                    <a>{p.Date.toString().split("T")[0]}</a>
+                    <br />
+                    {selectedPrescriptions[index] && (
+                      <a>
+                        Required Medicines:
+                        <ul>
+                          {p.RequiredMedicines.map((medicine, index) => (
+                            <li key={index}>
+                              {medicine.name} - {medicine.dose}
+                            </li>
+                          ))}
+                        </ul>
+                        <button onClick={() => downloadPrescriptionAsPDF(p)}>
+                          Download
+                        </button>
+                      </a>
+                    )}
+                    <button
+                      class="btn btn-outline-secondary"
+                      onClick={() => handleSelect(index)}
+                    >
+                      {selectedPrescriptions[index] ? "Deselect" : "Select"}
+                    </button>
+                  </div>
+                </div>
               </div>
             );
           })}
         </div>
+        <Footer></Footer>
       </div>
     );
   }

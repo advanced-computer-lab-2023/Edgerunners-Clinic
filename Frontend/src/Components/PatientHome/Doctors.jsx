@@ -12,6 +12,7 @@ import GetAppointments from "./getAppoinments";
 import axios from "axios";
 import GetRelation from "./getRelation";
 import "./PatientHome.scss";
+import Footer from "../Patient/Footer";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -289,7 +290,7 @@ export default function Doctors() {
         </div>
         <img
           className="patient-by-doctors-image"
-          src="./resources/team-of-doctors.jpg"
+          src="./resources/11.png"
           alt=""
         />
         <div className="doctors-parent">
@@ -535,6 +536,7 @@ export default function Doctors() {
             })}
           </div>
         </div>
+        <Footer></Footer>
       </div>
     );
   }

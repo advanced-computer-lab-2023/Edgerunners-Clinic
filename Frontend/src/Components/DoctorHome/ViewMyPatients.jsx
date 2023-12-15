@@ -217,7 +217,9 @@ function ViewMyPatients(props) {
                   onClick={async () => {
                     handlepatientusername(user.Username), setFilterModal(true);
                   }}
+                  
                 />
+                
                 {visible && (
                   <div
                     className="tooltip"

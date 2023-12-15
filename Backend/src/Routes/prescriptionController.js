@@ -67,13 +67,18 @@ const updatePrescriptions = async (req, res) => {
       return res.status(404).json({ message: "Prescription not found or already submitted" });
     }
     if(medicineName &&newDose){
+      console.log(prescription);
     const medicineToUpdate = prescription.RequiredMedicines.find((med) => med.name === medicineName);
-    if (medicineToUpdate) {
-      medicineToUpdate.dose = newDose;
-    } else {
-
-      return res.status(404).json({ message: "Medicine not found in the prescription" });
-    }}
+    const medicineIndexToRemove = prescription.RequiredMedicines.findIndex((med) => med.name === medicineName);
+    if (medicineIndexToRemove !== -1) {
+      // Remove the medicine from the RequiredMedicines array
+      prescription.RequiredMedicines.splice(medicineIndexToRemove, 1);
+      prescription.RequiredMedicines.push({ name: medicineName, dose: newDose });
+      // Save the updated prescription
+      await prescription.save();
+      res.status(200).json({ message: "Prescription updated successfully", prescription });
+   
+   }}
     else{
     prescription.RequiredMedicines.push({ name: newMedicineName, dose: newMedicineDose });
     await prescription.save();

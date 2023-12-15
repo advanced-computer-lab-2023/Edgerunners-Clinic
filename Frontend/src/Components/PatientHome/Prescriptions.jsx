@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
 import GetPrescriptions from "./getPrescriptions";
+import html2pdf from 'html2pdf.js';
 
 export default function Prescriptions() {
   const [date, setDate] = useState();
   const [doctor, setDoctor] = useState();
   const [status, setStatus] = useState();
+  const [selectedPrescriptions, setSelectedPrescriptions] = useState([]);
+
   console.log("date is: " + date);
   let Prescriptions = GetPrescriptions({
     Patient: sessionStorage.getItem("Username"),
@@ -13,6 +16,92 @@ export default function Prescriptions() {
     Doctor: doctor,
     Status: status,
   });
+
+  const downloadPrescriptionAsPDF = (prescription) => {
+    // Create a div element with the prescription details
+    const prescriptionDiv = document.createElement('div');
+    prescriptionDiv.innerHTML = `
+      <h2>Patient: ${prescription.Patient}</h2>
+      <p>Status: ${prescription.Status}</p>
+      <p>Doctor: ${prescription.Doctor}</p>
+      <p>Date: ${new Date(prescription.Date).toLocaleDateString()}</p>
+      <p>Submitted: ${prescription.Submitted ? 'Yes' : 'No'}</p>
+      <h4>Required Medicines:</h4>
+      <ul>
+        ${prescription.RequiredMedicines.map((medicine) => `<li>${medicine.name} - ${medicine.dose}</li>`).join('')}
+      </ul>
+    `;
+  
+    // Convert the div to a PDF using html2pdf
+    html2pdf(prescriptionDiv, {
+      margin: 10,
+      filename: 'prescription.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    });
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     Prescriptions = await GetPrescriptions({
@@ -22,6 +111,16 @@ export default function Prescriptions() {
       Status: status,
     });
   };
+  const handleSelect = (index) => {
+    setSelectedPrescriptions((prevSelected) => {
+      const newSelected = [...prevSelected];
+      newSelected[index] = !newSelected[index];
+      return newSelected;
+    });
+  };
+
+
+const Selected = false;
 
   if (Prescriptions) {
     console.log(Prescriptions);
@@ -162,7 +261,23 @@ export default function Prescriptions() {
                 <br />
                 <a>{p.Date}</a>
                 <br />
-                <button>select</button>
+                {selectedPrescriptions[index] && (
+              <a>
+                Required Medicines:
+                <ul>
+                  {p.RequiredMedicines.map((medicine, index) => (
+                    <li key={index}>
+                      {medicine.name} - {medicine.dose}
+                    </li>
+                  ))}
+                </ul>
+                <button onClick={() => downloadPrescriptionAsPDF(p)}>Download</button>
+              </a>)}
+              <button onClick={() => handleSelect(index)}>
+              {selectedPrescriptions[index] ? "Deselect" : "Select"}
+
+             </button>
+
               </div>
             );
           })}

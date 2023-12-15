@@ -103,3 +103,33 @@
 | Parameter  | Type     | Description  |
 | :--------- | :------- | :----------- |
 | `Username` | `string` | **Required** |
+
+#### get patients
+
+```http
+  GET /getPatient
+```
+
+#### get patients filtered
+
+```http
+  GET /filterPatient
+```
+
+#### update patient
+
+```http
+  PUT /updatePatient
+```
+
+#### delete patient
+
+```http
+  DELETE /deletePatient
+```
+
+#### delete file
+
+```http
+  PUT /deleteFile
+```

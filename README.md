@@ -239,3 +239,37 @@ const signin = async (req, res) => {
 ## API References
 
 [API-References](API.md)
+
+## Tests using postman
+
+![test login patient](Screenshots/test1.png)
+![test login doctor](Screenshots/test2.png)
+![test get all patients](Screenshots/test3.png)
+![test patient wallet ammount](Screenshots/test4.png)
+![test get my health records](Screenshots/test5.png)
+
+## Contribution
+
+if you would like to contribute there are alot of things to optmize in both backend and frontend.
+
+**backend:**
+
+- optimizing code's efficiency & performance.
+- adding more validations for the data that comes from the client side.
+- adding more middleware to increase the security of the api server.
+
+**frontend:**
+
+- create better looking UI in Pages.
+- add animations to make it look more interactive.
+- make website compatible with other devices with different screen sizes.
+
+## Credits
+
+- [how to create api backend nodejs with scott moss](https://frontendmasters.com/courses/api-design-nodejs-v4/)
+- [Intro to react with Brian Holt](https://frontendmasters.com/courses/complete-react-v8/)
+- [Carousel](https://getbootstrap.com/docs/4.0/components/carousel/)
+
+## License
+
+[MIT license](LICENSE)

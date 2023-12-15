@@ -23,3 +23,31 @@ Our goal is straightforward: to break down the complexities of traditional healt
 ## Build Status
 
 ![GIF Waiting](https://media.giphy.com/media/jc2PkKKr3clTBekMzn/giphy.gif)
+
+## Code Style
+
+- **Indentation:** We use Prettier formatter for indentation and maintain a set spaces per level.
+- **Naming Conventions:** Variables and functions follow PascalCase naming convention.
+- **Braces:** K&R style is used for brace placement.
+- **Comments:** Use meaningful comments sparingly to explain complex logic or important details.
+
+## How to use
+
+To setup everything
+
+- backend:
+
+```bash
+  cd backend
+  npm install
+  cd src
+  node app
+```
+
+- frontend:
+
+```bash
+  cd frontend
+  npm install
+  npm run dev
+```

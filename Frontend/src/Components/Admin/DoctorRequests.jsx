@@ -184,7 +184,7 @@ const DoctorRequests = () => {
                   <td style={styles.tableCell}>{request.username}</td>
                   <td style={styles.tableCell}>{request.fullName}</td>
                   <td style={styles.tableCell}>{request.email}</td>
-                  <td style={styles.tableCell}>{request.dateOfBirth}</td>
+                  <td style={styles.tableCell}>{request.dateOfBirth.toString().split("T")[0]}</td>
                   <td style={styles.tableCell}>{request.hourlyRate}</td>
                   <td style={styles.tableCell}>{request.affiliation}</td>
                   <td style={styles.tableCell}>

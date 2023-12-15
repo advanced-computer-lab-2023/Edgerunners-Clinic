@@ -159,45 +159,80 @@ export default function Prescriptions() {
             </div>
           </nav>
         </div>
-        <div className="form-prescription">
-          <label htmlFor="">Date</label>
-          <input
-            type="date"
-            name=""
-            id=""
-            onChange={(e) => {
-              setDate(e.target.value);
-            }}
+
+        <div style={{ position: "relative" }}>
+          <img
+            style={{ width: "100%", height: "auto" }}
+            src="./resources/pills.jpg"
+            alt=""
           />
-          <label htmlFor="">Status</label>
-          <input
-            type="checkbox"
-            name=""
-            id=""
-            onChange={(e) => {
-              if (e.target.checked) {
-                setStatus("Filled");
-              } else {
-                setStatus("Unfilled");
-              }
-            }}
-          />
-          <label htmlFor="">doctor</label>
-          <input
-            type="text"
-            onChange={(e) => {
-              setDoctor(e.target.value);
-            }}
-          />
-          <button type="submit" onSubmit={handleSubmit}>
-            submit
-          </button>
+          <div style={{ marginTop: "-20rem" }} className="form-prescription">
+            <div  style = {{ backgroundColor:"rgb(168, 191, 225)", marginLeft: "70px"}}className="form-view-patients-by-doctor">
+              <div className="form-view-doctors-by-patient-div">
+                <label htmlFor="">Doctor</label>
+                <input
+                  type="text"
+                  placeholder="Do You Know A Doctor's Name..?"
+                  onChange={(e) => {
+                    setDoctor(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-view-doctors-by-patient-div">
+                <label htmlFor="">Date</label>
+                <input
+                  type="date"
+                  name=""
+                  id=""
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+              <label style={{marginRight:"10px", marginLeft:"10px"}} htmlFor="">All</label>
+                <input
+                  type="radio"
+                  name="status"
+                  id=""
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setStatus("");
+                    }
+                  }}
+                />
+                <label style={{marginRight:"10px", marginLeft:"10px"}} htmlFor="">Unfilled</label>
+                <input
+                  type="radio"
+                  name="status"
+                  id=""
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setStatus("Unfilled");
+                    }
+                  }}
+                />
+                <label style={{marginRight:"10px" , marginLeft:"10px"}} htmlFor="">Filled</label>
+                <input
+                  type="radio"
+                  name="status"
+                  id=""
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setStatus("Filled");
+                    }
+                  }}
+                />
+                
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row">
+        <div style={{ marginTop: " -2rem" }} class="row">
           {Prescriptions.map((p, index) => {
             return (
               <div class="col-sm-3 py-2">
-                <div class="card h-100 border-primary">
+                <div class="card h-100 border-primary bg-gr">
                   <div class="card-body">
                     <h3 class="card-title">Prescription</h3>
                     <a>{p.Patient}</a>

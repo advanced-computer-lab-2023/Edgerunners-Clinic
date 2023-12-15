@@ -1,18 +1,25 @@
 import Logo from "../../UI/UX/Logo";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GetSearchPatients } from "../PatientHome/getDoctors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNotesMedical } from "@fortawesome/free-solid-svg-icons";
 import UploadHRforPatient from "./UploadHRforPatients";
 import FilterModal from "../PatientHome/FilterModal";
-
+import { Button } from "@material-tailwind/react";
+import axios from "axios";
 function ViewMyPatients(props) {
   const [searchPatient, setPatient] = useState();
   const [searchStatus, setStatus] = useState();
   const [visible, setVisible] = useState(false);
+  const [visibleAddP, setVisibleAddP] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [filterModal, setFilterModal] = useState(false);
+  const [presModal,setPresModal]=useState(false);
+  const [medicine, setMedicine] = useState("");
+  const [dose, setDose] = useState("");
+  const[medicines,setMedicines]=useState([]);
 
+let  patientUsername="";
   const showTooltip = (e) => {
     setVisible(true);
     setCoords({ x: e.clientX, y: e.clientY });
@@ -21,6 +28,28 @@ function ViewMyPatients(props) {
   const hideTooltip = () => {
     setVisible(false);
   };
+
+  const showTooltipAddP = (e) => {
+    setVisibleAddP(true);
+    setCoords({ x: e.clientX, y: e.clientY });
+  };
+
+  const hideTooltipAddP = () => {
+    setVisibleAddP(false);
+  };
+
+  const handleAddMed = (e) => {
+    e.preventDefault();
+    setMedicines((prevMedicines) => [
+      ...prevMedicines,
+      {
+        name: medicine,
+        dose: dose,
+      },
+    ]);
+    setMedicine("");
+    setDose("");
+  }
 
   let myPatients = GetSearchPatients({
     Username: sessionStorage.getItem("Username"),
@@ -41,6 +70,33 @@ function ViewMyPatients(props) {
     console.log("Updated", myPatients);
   };
   console.log(myPatients);
+  const handlConfirmPres=async(patientUsername)=>{
+setPresModal(false);
+
+try {
+  // Make axios PUT request
+  const currentDate = new Date();
+  const response = await axios.post(
+    "http://localhost:3001/createPrescriptions",
+    {
+      Patient: sessionStorage.getItem("PatientUsername"),
+        Status: "Unfilled",
+        Doctor: sessionStorage.getItem("Username"),
+        Date: new Date(),
+        Submitted:false,
+        RequiredMedicines: medicines,
+    }
+  );
+console.log(sessionStorage.getItem("Username"));
+ 
+ 
+} catch (error) {
+  console.error("Error updating prescription:", error);
+}
+setMedicines([]);
+
+
+  };
 
   if (myPatients) {
     return (
@@ -202,6 +258,7 @@ function ViewMyPatients(props) {
                   </span>{" "}
                   <span>{user.DOB.toString().split("T")[0]}</span>
                 </div>
+               
                 <div className="appointment-details-items">
                   <span className="appointment-details-items-title">
                     Phone Number
@@ -219,13 +276,33 @@ function ViewMyPatients(props) {
                   }}
                   
                 />
-                
+                  <FontAwesomeIcon
+                  icon={faNotesMedical}
+                  size="2x"
+                  onMouseMove={showTooltipAddP}
+                  onMouseOut={hideTooltipAddP}
+                  className="NotesMedical-icon"
+                  onClick={async () => {
+                    handlepatientusername(user.Username), setPresModal(true);
+                  }}
+                  
+                />
+               
                 {visible && (
                   <div
                     className="tooltip"
                     style={{ top: coords.y + 160, left: coords.x - 130 }}
                   >
                     Check Health Records
+                  </div>
+                )}
+
+                {visibleAddP && (
+                  <div
+                    className="tooltip"
+                    style={{ top: coords.y + 160, left: coords.x - 130 }}
+                  >
+                    Add New Prescription
                   </div>
                 )}
               </div>
@@ -247,6 +324,32 @@ function ViewMyPatients(props) {
             <button
               onClick={() => {
                 setFilterModal(false);
+              }}
+            >
+              Cancel
+            </button>
+          </FilterModal>
+        ) : null}
+                {presModal ? (
+          <FilterModal>
+            <form>
+                  <div>
+                  <label>Medicine Name: </label>
+                  <input type="text" value={medicine} onChange={(e) => setMedicine(e.target.value)}></input>
+                  </div>
+                  <div>
+                  <label>Dose: </label>
+                  <input type="text" value={dose} onChange={(e) => setDose(e.target.value)}></input>
+                  </div>
+                  <button onClick={handleAddMed}>Add</button>
+            </form>
+            <button onClick={() => handlConfirmPres()}>
+              Confirm
+            </button>
+            <button
+              onClick={() => {
+                setPresModal(false);
+                setMedicines([]);
               }}
             >
               Cancel

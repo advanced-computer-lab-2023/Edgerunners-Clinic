@@ -51,3 +51,7 @@ To setup everything
   npm install
   npm run dev
 ```
+
+## Screenshots of website
+
+![Login](Screenshots/login.png)

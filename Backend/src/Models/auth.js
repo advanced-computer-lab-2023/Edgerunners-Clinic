@@ -7,10 +7,10 @@ const { default: mongoose } = require("mongoose");
 
 const comparePassword = async (password, hash) => {
   try {
-      return bcrypt.compare(password, hash);
+    return bcrypt.compare(password, hash);
   } catch (error) {
-      console.error("Error comparing passwords:", error);
-      return false;
+    console.error("Error comparing passwords:", error);
+    return false;
   }
 };
 
@@ -183,34 +183,47 @@ const changePassword = async (req, res) => {
   let confirm = req.body.confirmPassword;
 
   if (password == confirm) {
-      const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
-      if (passwordRegex.test(password)) {
-          let user = await Patient.findOne({ Username: username });
-          if (user) {
-              await Patient.updateOne({ Username: username }, { $set: { Password: await hashPassword(password) } });
-              res.status(200).send("Patient password successfully updated");
-          }else {
-              user = await Doctor.findOne({ Username: username });
-              if (user) {
-                  await Doctor.updateOne({ Username: username }, { $set: { Password: await hashPassword(password) } });
-                  res.status(200).send("Pharmacist password successfully updated");
-              } else {
-                  user = await Admin.findOne({ Username: username });
-                  if (user) {
-                      await Admin.updateOne({ Username: username }, { $set: { Password: await hashPassword(password) } });
-                      res.status(200).send("Admin password successfully updated");
-                  } else {
-                      res.status(401).send("User not found");
-                  }
-              }
-          }
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
+    if (passwordRegex.test(password)) {
+      let user = await Patient.findOne({ Username: username });
+      if (user) {
+        await Patient.updateOne(
+          { Username: username },
+          { $set: { Password: await hashPassword(password) } },
+        );
+        res.status(200).send("Patient password successfully updated");
       } else {
-          res.status(401).send("Password must have at least 3 characters, including 1 uppercase letter, 1 lowercase letter, and 1 digit.");
+        user = await Doctor.findOne({ Username: username });
+        if (user) {
+          await Doctor.updateOne(
+            { Username: username },
+            { $set: { Password: await hashPassword(password) } },
+          );
+          res.status(200).send("Pharmacist password successfully updated");
+        } else {
+          user = await Admin.findOne({ Username: username });
+          if (user) {
+            await Admin.updateOne(
+              { Username: username },
+              { $set: { Password: await hashPassword(password) } },
+            );
+            res.status(200).send("Admin password successfully updated");
+          } else {
+            res.status(401).send("User not found");
+          }
+        }
       }
+    } else {
+      res
+        .status(401)
+        .send(
+          "Password must have at least 3 characters, including 1 uppercase letter, 1 lowercase letter, and 1 digit.",
+        );
+    }
   } else {
-      res.status(401).send("Passwords don't match");
+    res.status(401).send("Passwords don't match");
   }
-}
+};
 module.exports = {
   signin,
   comparePassword,

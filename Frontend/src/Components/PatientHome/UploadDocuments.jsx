@@ -5,7 +5,7 @@ import Logo from "../../UI/UX/Logo";
 
 const UploadDocuments = () => {
   const [file, setFile] = useState(null);
-  const [files, setFiles] = useState([]); // Updated variable name to 'files'
+  const [files, setFiles] = useState([]);
   const [status, setStatus] = useState("initial");
   const [data, setData] = useState([]);
 
@@ -19,10 +19,9 @@ const UploadDocuments = () => {
 
   const handleDeleteFile = async (filename) =>{
     const res = await axios.put("http://localhost:3001/deleteFile",{Username: sessionStorage.getItem("Username"), Filename: filename});
+    setFiles((prevFiles) => prevFiles.filter((file) => file !== filename));
     console.log(res);
   }
-
-
 
 
   const handleUploadFiles = async () => {
@@ -51,21 +50,19 @@ const UploadDocuments = () => {
     }
   };
 
-  function handleViews() {
-    const [res , SetRes] = useState();
-    useEffect(() => {
-      getFiles();
-      async function getFiles() {
-        try {
-          const result = await axios.get(`http://localhost:3001/gethealthrecords/${sessionStorage.getItem("Username")}`)
-          SetRes(result.data);
-        } catch (error) {}
+  useEffect(() => {
+    // Fetch initial data and set the 'files' state
+    async function fetchData() {
+      try {
+        const result = await axios.get(`http://localhost:3001/gethealthrecords/${sessionStorage.getItem("Username")}`);
+        setFiles(result.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
       }
-    }, []);
-    return res;
-  }
-
-  let d = handleViews();
+    }
+  
+    fetchData(); // Call the fetchData function to fetch data once
+  }, []);
 
   const handleUploadRecords = async () => {
     if (file) {
@@ -104,13 +101,10 @@ const UploadDocuments = () => {
    return (
     <>
       <div>
-      <a href="/PatientHome">
-              <Logo />
-            </a>
       <div>
       {/* Display file list on the screen */}
       <ul>
-            {d!=undefined && d.map((fileName, index) => (
+      {files != undefined && files.map((fileName, index) => (
               <div key={index}>
                 <li key={index}>{fileName}</li>
                 <button onClick={() => handleViewFiles(fileName)}>Download</button>
@@ -136,7 +130,7 @@ const UploadDocuments = () => {
       )}
 
       {file && (
-        <button onClick={handleUploadFiles} className="submit">
+        <button onClick={() => {handleUploadFiles(); window.location.reload(false);}} className="submit">
           Upload a file
         </button>
       )}

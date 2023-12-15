@@ -16,6 +16,7 @@ import {
 import FilterModal from "./FilterModal";
 import LinkAnotherPat from "../Patient/LinkAnotherPat";
 import UploadDocuments from "./UploadDocuments";
+import Footer from "../Patient/Footer";
 
 export default function PatientHome() {
   const [isLinkPatientModalOpen, setIsLinkPatientModalOpen] = useState(false);
@@ -285,6 +286,7 @@ export default function PatientHome() {
             <UploadDocuments/>
           </FilterModal>
         ) : null}
+        <Footer></Footer>
     </div>
   );
 }

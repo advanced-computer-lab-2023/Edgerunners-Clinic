@@ -288,7 +288,7 @@ body {
   margin: 0;
 }
 
-.link-patient-container{
+.link-patient-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -300,25 +300,32 @@ body {
   text-align: left;
 }
 
-.link-patient-item{
+.link-patient-item {
   display: flex;
   flex-direction: column;
   justify-content: left;
 }
 
-.link-patient-container input{
+.link-patient-container input {
   border-radius: 10px;
   padding: 0.6rem;
 }
 
-.link-patient-header{
+.link-patient-header {
   color: greenyellow;
 }
 
-.link-patient-parent{
+.link-patient-parent {
   margin-left: 2rem;
 }
 
-.warning{
+.warning {
   background-color: red;
+}
+
+.backgroundPicture {
+  background-image: url('../resources/1.jpg'); /* Replace with the actual path to your image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

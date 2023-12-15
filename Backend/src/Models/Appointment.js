@@ -39,7 +39,7 @@ const appointmentSchema = new Schema({
     type: String,
     default: "New Appointment",
     required: false,
-  }
+  },
 });
 
 appointmentSchema.index(

@@ -17,7 +17,7 @@ const {
   patientUploadHealthRecord,
   ResetPass,
   GetWallet,
-  deleteFile
+  deleteFile,
 } = require("./Routes/patientController");
 
 const {
@@ -89,12 +89,12 @@ const {
   Cancelsubscription,
   getDiscount,
   getDiscountSession,
-  PaymentPackageWallet
+  PaymentPackageWallet,
 } = require("./Routes/healthPackageController");
-const{
+const {
   createNotification,
   getNotifications,
-  deleteNotification
+  deleteNotification,
 } = require("./Routes/notificationController");
 
 const MongoURI =
@@ -133,7 +133,13 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const cors = require("cors");
-const { protectA, protectD, protectP, signin , changePassword } = require("./Models/auth");
+const {
+  protectA,
+  protectD,
+  protectP,
+  signin,
+  changePassword,
+} = require("./Models/auth");
 
 app.use(cors());
 app.use(
@@ -148,39 +154,36 @@ const stripe = require("stripe")(
   "sk_test_51OAYarCTaVksTfn04m2fjCWyIUscrRLMD57NmZ58DTz0O2ljqL8P42WLklVXPUZGPvmUD4hlxEkbit9nfpSPCWEB00UWnsTWUw",
 );
 
-app.get("/create-coupon", async (req, res) =>{
+app.get("/create-coupon", async (req, res) => {
   //console.log(req.query);
-  if(req.query.coupon!== '0'){
+  if (req.query.coupon !== "0") {
     console.log("hereeee");
     const coupon = await stripe.coupons.create({
       percent_off: req.query.coupon,
-      duration: 'repeating',
+      duration: "repeating",
       duration_in_months: 12,
     });
     res.status(200).send(coupon.id);
-  }else{
+  } else {
     res.status(200).send(null);
   }
-  
-})
-
-
-
+});
 
 app.post("/create-checkout-session", async (req, res) => {
   const products = await stripe.products.list({
-    active: true,limit : 1000
+    active: true,
+    limit: 1000,
   });
   //console.log(products.data);
-  console.log(req.body)
+  console.log(req.body);
   const product = products.data.find((p) => p.name === req.body.name);
   let applyDiscount = false;
   //console.log(req.body.coupon);
-  if(req.body.coupon !== ""){
+  if (req.body.coupon !== "") {
     applyDiscount = true;
   }
   console.log(products.data);
-  const sessionData =  {
+  const sessionData = {
     payment_method_types: ["card"],
     mode: "payment",
     line_items: [
@@ -216,15 +219,26 @@ const {
   updateQuantity,
   reverseQuantity,
 } = require("./Routes/medicineController");
+const {
+  CreateRequest,
+  DeleteAllRequests,
+  GetAllRequest,
+  GetMyRequests,
+  handleReject,
+  handleAccept,
+} = require("./Routes/FollowUPRController.js");
 
+app.post(
+  "/webhook",
+  bodyParser.raw({ type: "application/json" }),
+  (request, response) => {
+    const payload = request.body;
 
-app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
-  const payload = request.body;
+    console.log("Got payload: " + payload);
 
-  console.log("Got payload: " + payload);
-
-  response.status(200).end();
-});
+    response.status(200).end();
+  },
+);
 // const {testStripe} = require("./stripe.js")
 // app.post("/stripe", testStripe);
 // app.use(function(req, res, next){
@@ -288,7 +302,7 @@ app.get("/filterStatusAppointments", filterStatusAppointments);
 app.put("/updateAppointment", updateAppointment);
 app.put("/updateAppointmentWallet", updateAppointmentWallet);
 app.put("/rescheduleAppointment", rescheduleAppointment);
-app.put("/cancelAppointment", cancelAppointment)
+app.put("/cancelAppointment", cancelAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
 
 app.post("/createLinkedAccount", createLinkedAccount);
@@ -299,9 +313,9 @@ app.get("/getHealthPackages", getHealthPackages);
 app.get("/viewStatusforMyself", viewStatusforMyself);
 app.get("/viewStatusForMyFamilyMember", viewStatusForMyFamilyMember);
 app.put("/Cancelsubscription", Cancelsubscription);
-app.get("/getDiscount",getDiscount);
-app.get("/getDiscountSession",getDiscountSession);
-app.put("/PaymentPackageWallet",PaymentPackageWallet);
+app.get("/getDiscount", getDiscount);
+app.get("/getDiscountSession", getDiscountSession);
+app.put("/PaymentPackageWallet", PaymentPackageWallet);
 
 app.post("/createNotification", createNotification);
 app.get("/getNotification", getNotifications);
@@ -314,3 +328,10 @@ app.put("/archiveMedicine", archiveMedicine);
 app.put("/unarchiveMedicine", unarchiveMedicine);
 app.put("/updateQuantity", updateQuantity);
 app.put("/reverseQuantity", reverseQuantity);
+
+app.post("/createFURP", CreateRequest);
+app.delete("/deleteAllRequests", DeleteAllRequests);
+app.get("/getAllRequests", GetAllRequest);
+app.get("/getMyRequests", GetMyRequests);
+app.delete("/deleteRequest", handleReject);
+app.put("/acceptRequest", handleAccept);

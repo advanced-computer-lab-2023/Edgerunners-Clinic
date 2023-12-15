@@ -3,10 +3,11 @@ import Logo from "../../UI/UX/Logo";
 import {
   FilterAppointmentsDate,
   FilterAppointmentsStatus,
-   GetAppointmentsFilter,
+  GetAppointmentsFilter,
 } from "./getAppoinments";
 import FilterModal from "./FilterModal";
 import GetAppointments from "./getAppoinments";
+import GetRelation from "./getRelation";
 import axios from "axios";
 
 const modalOverlayStyle = {
@@ -38,8 +39,8 @@ export default function PatientAppointments() {
   const [name, setName] = useState();
   const [filterModal, setFilterModal] = useState(false);
   const [filterModalCancel, setFilterModalCancel] = useState(false);
+  const [filterModalFollowUp, setfilterModalFollowUp] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  
 
   const [date, setDate] = useState();
   const [timeH, setTimeH] = useState();
@@ -89,6 +90,17 @@ export default function PatientAppointments() {
       Date: rescheduleDate,
       TimeH: timeH,
       TimeM: timeM,
+    });
+  };
+
+  const handleFollowUp = async (e) => {
+    await axios.post("http://localhost:3001/createFURP", {
+      DoctorUsername: newdocUser,
+      PatientUsername: PatientUsername,
+      Date: newdate,
+      TimeH: newtimeH,
+      TimeM: newtimeM,
+      NationalID: nationalid,
     });
   };
 
@@ -237,73 +249,117 @@ export default function PatientAppointments() {
           />
         </div>
         {filterModalCancel ? (
-                      <FilterModal>
-                        <div className="speciality-filter">
-                          <p>Are sure you want to cancel the appointment?</p>
-                        </div>
-                        <button
-                          onClick={() => {
-                            setFilterModalCancel(false);
-                            setSelectedAppointment(null);
-                            handleCancel();
-                          }}
-                        >
-                          Confirm
-                        </button>
-                        <button
-                          onClick={() => {
-                            setFilterModalCancel(false);
-                            setSelectedAppointment(null);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </FilterModal>
-                    ) : null}
-                    
-                    {filterModal ? (
-                      <FilterModal>
-                        <div className="speciality-filter">
-                          {appointmentNew.map((a, newindex) => {
-                            return (
-                              <label
-                                id={a}
-                                key={newindex}
-                                onClick={() => {
-                                  setNewDocUser(a.DoctorUsername);
-                                  setNewTimeH(a.TimeH);
-                                  setNewTimeM(a.TimeM);
-                                  setNewdate(a.Date);
-                                }}
-                              >
-                                <p>{a.Date.toString().split("T")[0]}</p>
-                                <p>
-                                  {a.TimeH}:{a.TimeM}
-                                </p>
-                              </label>
-                            );
-                          })}
-                        </div>
-                        <button
-                          onClick={() => {
-                            setFilterModal(false);
-                            setSelectedAppointment(null);
-                            handleReschedule();
-                            handleReschedule2();
-                          }}
-                        >
-                          Confirm
-                        </button>
-                        <button
-                          onClick={() => {
-                            setFilterModal(false);
-                            setSelectedAppointment(null);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </FilterModal>
-                    ) : null}
+          <FilterModal>
+            <div className="speciality-filter">
+              <p>Are sure you want to cancel the appointment?</p>
+            </div>
+            <button
+              onClick={() => {
+                setFilterModalCancel(false);
+                setSelectedAppointment(null);
+                handleCancel();
+              }}
+            >
+              Confirm
+            </button>
+            <button
+              onClick={() => {
+                setFilterModalCancel(false);
+                setSelectedAppointment(null);
+              }}
+            >
+              Cancel
+            </button>
+          </FilterModal>
+        ) : null}
+
+        {filterModal ? (
+          <FilterModal>
+            <div className="speciality-filter">
+              {appointmentNew.map((a, newindex) => {
+                return (
+                  <label
+                    id={a}
+                    key={newindex}
+                    onClick={() => {
+                      setNewDocUser(a.DoctorUsername);
+                      setNewTimeH(a.TimeH);
+                      setNewTimeM(a.TimeM);
+                      setNewdate(a.Date);
+                    }}
+                  >
+                    <p>{a.Date.toString().split("T")[0]}</p>
+                    <p>
+                      {a.TimeH}:{a.TimeM}
+                    </p>
+                  </label>
+                );
+              })}
+            </div>
+            <button
+              onClick={() => {
+                setFilterModal(false);
+                setSelectedAppointment(null);
+                handleReschedule();
+                handleReschedule2();
+              }}
+            >
+              Confirm
+            </button>
+            <button
+              onClick={() => {
+                setFilterModal(false);
+                setSelectedAppointment(null);
+              }}
+            >
+              Cancel
+            </button>
+          </FilterModal>
+        ) : null}
+
+        {filterModalFollowUp ? (
+          <FilterModal>
+            <div className="speciality-filter">
+              {appointmentNew.map((a, newindex) => {
+                return (
+                  <label
+                    id={a}
+                    key={newindex}
+                    onClick={() => {
+                      setNewDocUser(a.DoctorUsername);
+                      setNewTimeH(a.TimeH);
+                      setNewTimeM(a.TimeM);
+                      setNewdate(a.Date);
+                    }}
+                  >
+                    <p>{a.Date.toString().split("T")[0]}</p>
+                    <p>
+                      {a.TimeH}:{a.TimeM}
+                    </p>
+                  </label>
+                );
+              })}
+            </div>
+            <button
+              onClick={() => {
+                setfilterModalFollowUp(false);
+                setSelectedAppointment(null);
+                handleFollowUp();
+              }}
+            >
+              send request
+            </button>
+            <button
+              onClick={() => {
+                setfilterModalFollowUp(false);
+                setSelectedAppointment(null);
+              }}
+            >
+              Cancel
+            </button>
+          </FilterModal>
+        ) : null}
+
         <div>
           {which
             ? appointmentStatus.map((appstatus, index) => {
@@ -322,29 +378,43 @@ export default function PatientAppointments() {
                     {appstatus.NationalID !== "" && (
                       <p>Family Member: {appstatus.NationalID}</p>
                     )}
-                    <button
-                      onClick={() => {
-                        setFilterModal(true);
-                        setRescheduleDate(appstatus.Date);
-                        setTimeH(appstatus.TimeH);
-                        setTimeM(appstatus.TimeM);
-                        setDocUser(appstatus.DoctorUsername);
-                      }}
-                    >
-                      Reschedule
-                    </button>
-                    <button
-                      onClick={() => {
-                        setRescheduleDate(appstatus.Date);
-                        setFilterModalCancel(true);
-                        setTimeH(appstatus.TimeH);
-                        setTimeM(appstatus.TimeM);
-                        setDocUser(appstatus.DoctorUsername);
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    
+                    {appstatus.Status == "Completed" ? (
+                      <>
+                        <button
+                          onClick={() => {
+                            setfilterModalFollowUp(true);
+                            setnationalid(appstatus.NationalID);
+                          }}
+                        >
+                          Follow up
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => {
+                            setFilterModal(true);
+                            setRescheduleDate(appstatus.Date);
+                            setTimeH(appstatus.TimeH);
+                            setTimeM(appstatus.TimeM);
+                            setDocUser(appstatus.DoctorUsername);
+                          }}
+                        >
+                          Reschedule
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRescheduleDate(appstatus.Date);
+                            setFilterModalCancel(true);
+                            setTimeH(appstatus.TimeH);
+                            setTimeM(appstatus.TimeM);
+                            setDocUser(appstatus.DoctorUsername);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )}
                   </div>
                 );
               })
@@ -360,29 +430,44 @@ export default function PatientAppointments() {
                     {app.NationalID !== "" && (
                       <p>Family Member: {app.NationalID}</p>
                     )}
-                    <button
-                      onClick={() => {
-                        setSelectedAppointment(app);
-                        setFilterModal(true);
-                        setRescheduleDate(app.Date);
-                        setTimeH(app.TimeH);
-                        setTimeM(app.TimeM);
-                        setDocUser(app.DoctorUsername);
-                      }}
-                    >
-                      Reschedule
-                    </button>
-                    <button
-                      onClick={() => {
-                        setRescheduleDate(app.Date);
-                        setFilterModalCancel(true);
-                        setTimeH(app.TimeH);
-                        setTimeM(app.TimeM);
-                        setDocUser(app.DoctorUsername);
-                      }}
-                    >
-                      Cancel
-                    </button>
+                    {app.Status == "Completed" ? (
+                      <>
+                        <button
+                          onClick={() => {
+                            setfilterModalFollowUp(true);
+                            setnationalid(appstatus.NationalID);
+                          }}
+                        >
+                          Follow up
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => {
+                            setSelectedAppointment(app);
+                            setFilterModal(true);
+                            setRescheduleDate(app.Date);
+                            setTimeH(app.TimeH);
+                            setTimeM(app.TimeM);
+                            setDocUser(app.DoctorUsername);
+                          }}
+                        >
+                          Reschedule
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRescheduleDate(app.Date);
+                            setFilterModalCancel(true);
+                            setTimeH(app.TimeH);
+                            setTimeM(app.TimeM);
+                            setDocUser(app.DoctorUsername);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )}
                     {/* {filterModalCancel ? (
                       <FilterModal>
                         <div className="speciality-filter">

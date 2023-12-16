@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../UI/UX/Logo";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBedPulse,
@@ -10,13 +11,18 @@ import {
   faCalendarCheck,
   faStethoscope,
   faHandHoldingMedical,
+  faCircleXmark,
   faPrescriptionBottleMedical,
 } from "@fortawesome/free-solid-svg-icons";
+import FilterModal from "../PatientHome/FilterModal";
+import SetAdmin from "./SetAdmin";
+//import SetAdmin from "../PatientHome/UploadDocuments";
 import Footer from "../Patient/Footer";
 
 export default function AdminHome() {
+  const [isModalSetAdminOpen, setIsModalSetAdminOpen] = useState(false);
+  //const [isUwU, setIsUwU] = useState(false);
   const navigate = useNavigate();
-
   const handleClick = (path) => {
     navigate(path);
   };
@@ -172,18 +178,24 @@ export default function AdminHome() {
           <h3>What You Need..</h3>
         </div>
         <div className="footer-in row">
-          <div className="col-4" onClick={() => handleClick("/setAdmin")}>
+
+
+
+
+          <div className="col-4" onClick={() => { setIsModalSetAdminOpen(true); }}>
             <FontAwesomeIcon
               icon={faFileCirclePlus}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-
             <a>
               <h3>Add Admin</h3>
             </a>
+
             <p>Add a new admin to the system</p>
           </div>
+
+
 
           <div className="col-4" onClick={() => handleClick("/RemovePar")}>
             <FontAwesomeIcon
@@ -240,7 +252,20 @@ export default function AdminHome() {
           </div>
         </div>
       </div>
-      <Footer></Footer>
+      {isModalSetAdminOpen ? (
+          <FilterModal>
+          <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalSetAdminOpen(false);
+              }}
+            />
+          <SetAdmin/>
+          {/*<div>Test component</div>*/}
+          </FilterModal>
+        ) : null}
+        <Footer></Footer>
     </div>
   );
 }

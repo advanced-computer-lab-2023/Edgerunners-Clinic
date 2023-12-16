@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-const FilterModal = ({ children }) => {
+
+const FilterModal = ({ children, width = "", height = "" }) => {
   const elRef = useRef(null);
+
   if (!elRef.current) {
     elRef.current = document.createElement("div");
   }
@@ -13,7 +15,13 @@ const FilterModal = ({ children }) => {
     return () => modalRoot.removeChild(elRef.current);
   }, []);
 
-  return createPortal(<div>{children}</div>, elRef.current);
+  const modalStyle = {
+    width,
+    height,
+  };
+
+  return createPortal(<div style={modalStyle}>{children}</div>, elRef.current);
+  //return createPortal(<div>{children}</div>, elRef.current);
 };
 
 export default FilterModal;

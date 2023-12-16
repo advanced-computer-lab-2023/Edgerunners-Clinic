@@ -74,7 +74,23 @@ const patientSchema = new Schema(
       type:Boolean,
       required: false,
       default: false,
-    }
+    },
+    Cart: {
+      type: Array,
+      required: false
+    },
+    Orders: {
+      type: Array,
+      required: false
+    },
+    Sales: {
+      type: Array,
+      required: false
+    },
+    Address: {
+      type: Array,
+      required: false
+    },
   
   },
   { timestamps: true },

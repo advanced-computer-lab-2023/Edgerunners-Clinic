@@ -1,6 +1,7 @@
 // #Task route solution
 const Appointment = require("../Models/Appointment.js");
 const Patient = require("../Models/Patient.js");
+const HealthPackage = require("../Models/HealthPackage.js");
 const Doctor = require("../Models/Doctor.js");
 const prescriptions = require("../Models/Prescriptions.js");
 const { default: mongoose } = require("mongoose");
@@ -225,9 +226,9 @@ const cancelAppointment = async (req, res) =>{
     });
     console.log(doctorPatients);
     const patient = await Patient.findOne({ Username: req.body.PatientUsername });
+    const healthPackage = await HealthPackage.findOne({ Username: req.body.PatientUsername });
     let wallet = patient.Wallet;
     let sessionPrice = doctorPatients.Hourlyrate;
-    sessionPrice = sessionPrice * 1.1;
 
   await Appointment.updateOne(
     {
@@ -246,11 +247,19 @@ const cancelAppointment = async (req, res) =>{
       },
     }
   );
+  if(healthPackage){
+    sessionPrice = sessionPrice * ((100 - healthPackage.discountDoctor) / 100);
+  }
+  sessionPrice = sessionPrice * 1.1;
 
   if (appointmentDate.getTime() >= currentDate.getTime() + 24 * 60 * 60 * 1000) {
     await Patient.updateOne(
       { Username: req.body.PatientUsername },
       { $set: { Wallet: wallet + sessionPrice } },
+    );
+    await Doctor.updateOne(
+      { Username: req.body.DoctorUsername },
+      { $set: { Wallet: doctorPatients.Wallet - sessionPrice } },
     );
   }
   res.status(200).send("Updated!!");

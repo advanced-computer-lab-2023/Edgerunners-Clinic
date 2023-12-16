@@ -297,6 +297,202 @@ function calculateAge(dateOfBirth) {
   return age;
 }
 
+const getCart = async (req, res) => {
+  const user = await Patient.findOne({ Username: req.query.username });
+
+  let cart = [];
+  if (user.Cart) {
+    cart = user.Cart;
+    let total = 0;
+    for (let i = 0; i < cart.length; i++) {
+      total += cart[i].price;
+    }
+  }
+  // console.log(user.Cart);
+  res.status(200).send({ cart });
+};
+const incrementQuantity = async (req, res) => {
+  try {
+    const orderName = req.body.medicinename;
+    const orderPrice = req.body.price;
+    const username = req.body.username;
+    const user = await Patient.findOne({ Username: username });
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    let cart = user.Cart || [];
+    const existingMedicineIndex = cart.findIndex(
+      (item) => item.medicineName === orderName
+    );
+
+    if (existingMedicineIndex !== -1) {
+      cart[existingMedicineIndex].count += 1;
+      cart[existingMedicineIndex].totalprice += orderPrice;
+    } else {
+      return res.status(404).send("Medicine not found in the cart");
+    }
+
+    await Patient.updateOne({ Username: username }, { $set: { Cart: cart } });
+    res.status(200).send("Incremented quantity successfully!");
+  } catch (e) {
+    console.log(e);
+    res.status(400).send("Error could not increment quantity");
+  }
+};
+
+const decrementQuantity = async (req, res) => {
+  try {
+    const orderName = req.body.medicinename;
+    const orderPrice = req.body.price;
+    const username = req.body.username; // Assuming you pass the username in the request
+    const user = await Patient.findOne({ Username: username });
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    let cart = user.Cart || [];
+    const existingMedicineIndex = cart.findIndex(
+      (item) => item.medicineName === orderName
+    );
+
+    if (existingMedicineIndex !== -1) {
+      // If the medicine is found in the cart
+      if (cart[existingMedicineIndex].count > 1) {
+        // If the count is greater than 1, decrement the quantity
+        cart[existingMedicineIndex].count -= 1;
+        cart[existingMedicineIndex].totalprice -= orderPrice;
+      } else {
+        // If the count is 1, remove the medicine from the cart
+        cart.splice(existingMedicineIndex, 1);
+      }
+    } else {
+      // If the medicine is not in the cart, you may want to handle this case
+      return res.status(404).send("Medicine not found in the cart");
+    }
+
+    await Patient.updateOne({ Username: username }, { $set: { Cart: cart } });
+    res.status(200).send("Decremented quantity successfully!");
+  } catch (e) {
+    console.log(e);
+    res.status(400).send("Error could not decrement quantity");
+  }
+};
+
+const removeFromCart = async (req, res) => {
+  try {
+    const orderName = req.body.medicinename;
+    const username = req.body.username; // Assuming you pass the username in the request
+    const user = await Patient.findOne({ Username: username });
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    let cart = user.Cart || [];
+    const existingMedicineIndex = cart.findIndex(
+      (item) => item.medicineName === orderName
+    );
+
+    if (existingMedicineIndex !== -1) {
+      cart.splice(existingMedicineIndex, 1);
+    } else {
+      // If the medicine is not in the cart
+      return res.status(404).send("Medicine not found in the cart");
+    }
+    await Patient.updateOne({ Username: username }, { $set: { Cart: cart } });
+    res.status(200).send("Decremented quantity successfully!");
+  } catch (e) {
+    console.log(e);
+    res.status(400).send("Error could not remove medicine");
+  }
+};
+
+const addOrder = async (req, res) => {
+  try {
+    const orderAddress = req.body.orderaddress;
+    const paymentMethod = req.body.paymentmethod;
+    const orderStatus = "Accepted";
+    const username = req.body.username; // Replace with the actual username
+    const user = await Patient.findOne({ Username: username });
+    let wallet = user.Wallet;
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    let order = user.Orders || [];
+    let orderid = order.length;
+    order.push({
+      orderid,
+      cartItems: [...user.Cart],
+      orderAddress,
+      paymentMethod,
+      orderStatus,
+    });
+    let sales = user.Sales || [];
+    let salesid = sales.length;
+    for (let i = 0; i < user.Cart.length; i++) {
+      salesid = sales.length;
+      sales.push({
+        salesid,
+        medicineName: user.Cart[i].medicineName,
+        quantity: user.Cart[i].count,
+        price: user.Cart[i].totalprice,
+        date: req.body.date,
+        month: req.body.month,
+        orderid,
+      });
+    }
+    const totalpricepaid = user.Cart.reduce(
+      (acc, item) => acc + item.totalprice,
+      0
+    );
+    if (wallet >= totalpricepaid) {
+      wallet -= totalpricepaid;
+    }
+    user.Cart = [];
+    await Patient.updateOne(
+      { Username: username },
+      { $set: { Orders: order, Sales: sales, Cart: [], Wallet: wallet } }
+    );
+    res.status(200).send("Added order successfully!");
+  } catch (e) {
+    res.status(400).send("Error could not add order !!");
+  }
+};
+
+const getWalletPharmacy = async (req, res) => {
+  const username = req.query.username;
+  const user = await Patient.findOne({ Username: username });
+  // console.log(user);
+  wallet = user.Wallet;
+  res.status(200).json(wallet);
+};
+
+const getAddress = async (req, res) => {
+  const username = req.query.username;
+  const user = await Patient.findOne({ Username: username });
+  //const address = user.Address;
+  // console.log(user);
+  let address = [];
+  if (user.Address) {
+    address = user.Address;
+  }
+  res.status(200).send(address);
+};
+
+const PaymentPrescriptionWallet = async (req, res)=>{
+  const patient = await Patient.findOne({Username:req.body.username});
+  let wallet = patient.Wallet;
+  const price = req.body.price;
+  const discount = req.body.discount;
+  total = price* ((100-discount)/100);
+  if(wallet >= total){
+    await Patient.updateOne({Username : req.body.username}, {$set:{Wallet: wallet - total}})
+    res.status(200).send('Payment Successful');
+  }else{
+    res.status(403).send('Insufficient Balance')
+  }
+};
+
 module.exports = {
   createPatient,
   getPatients,
@@ -309,5 +505,13 @@ module.exports = {
   patientUploadHealthRecord,
   ResetPass,
   GetWallet,
-  deleteFile
+  deleteFile,
+  getWalletPharmacy,
+  addOrder,
+  removeFromCart,
+  incrementQuantity,
+  decrementQuantity,
+  getCart,
+  getAddress,
+  PaymentPrescriptionWallet,
 };

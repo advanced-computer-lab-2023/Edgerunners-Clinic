@@ -39,6 +39,7 @@ import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 import ChangePassword from "./Components/Login_Reg/ChangePassword";
 import ViewPres from "./Components/Patient/ViewPres";
 import ViewPresc from "./Components/DoctorHome/ViewPresc";
+import Cart from "./Components/Patient/Cart";
 
 import VideoCall from "./Components/VideoCall";
 import StartCall from "./Components/Patient/StartCall";
@@ -88,6 +89,8 @@ if (
           <Route path="/Cancel" element={<Cancel />} />
           <Route path="/Link" element={<LinkAnotherPat />} />
           <Route path="/Notification" element={<Notificationp />} />
+          <Route path="/Cart" element={<Cart />} />
+          
           <Route
             path="/ViewPackage"
             element={<ViewAndUNSubToAHealthPackage />}

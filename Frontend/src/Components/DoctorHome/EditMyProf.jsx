@@ -202,7 +202,7 @@ function EditMyProf(props) {
                 <FontAwesomeIcon icon={faCalendarDays} />
                 <span>Birth Date</span>
               </div>
-              <span>{dob.toString().split("T")[0]}</span>
+              <span>{dob}</span>
             </div>
             <div className="container-profile-item">
               <div className="container-profile-item-left">

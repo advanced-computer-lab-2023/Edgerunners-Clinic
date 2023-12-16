@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import MyWalletP from "../Patient/MyWalletP";
 import FilterModal from "./FilterModal";
+import axios from "axios";
 
 export default function Prescriptions() {
   const [date, setDate] = useState();
@@ -22,6 +23,30 @@ export default function Prescriptions() {
     Doctor: doctor,
     Status: status,
   });
+  console.log(Prescriptions);
+
+  const handlePayment = async (index) => {
+    let pay = Prescriptions[index].RequiredMedicines;
+    let arr = [];
+    for (let i = 0; i < pay.length; ++i) {
+      const res = await axios.get(`http://localhost:3001/getmedicine`, {
+        params: { Name: pay[i].name },
+      });
+      console.log(res.data[0].Name);
+      arr.push({
+        medicinename: res.data[0].Name,
+        count: 1,
+        price: res.data[0].Price,
+        totalprice: res.data[0].Price,
+      });
+    }
+    console.log(arr);
+    axios.put("http://localhost:3001/updateCart", {
+      arr,
+      username: sessionStorage.getItem("Username"),
+    });
+     window.location.href = "http://localhost:5173/Cart";
+  };
 
   const downloadPrescriptionAsPDF = (prescription) => {
     // Create a div element with the prescription details
@@ -305,7 +330,16 @@ export default function Prescriptions() {
                             </li>
                           ))}
                         </ul>
-                        <button onClick={() => downloadPrescriptionAsPDF(p)}>
+                        <button
+                          class="btn btn-outline-secondary"
+                          onClick={() => handlePayment(index)}
+                        >
+                          Pay
+                        </button>
+                        <button
+                          class="btn btn-outline-secondary"
+                          onClick={() => downloadPrescriptionAsPDF(p)}
+                        >
                           Download
                         </button>
                       </a>

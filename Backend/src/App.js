@@ -23,9 +23,12 @@ const {
   decrementQuantity,
   getWalletPharmacy,
   addOrder,
+  updateCart,
   getCart,
   getAddress,
   PaymentPrescriptionWallet,
+  getPharmacists,
+  notifyOutOfStock,
 } = require("./Routes/patientController");
 
 const {
@@ -293,6 +296,9 @@ app.get("/findDoctor", findDoctor);
 app.post("/doctorUploadFile", doctorUploadFile);
 app.get("/PatientsName/:Username", getPatientNames);
 app.put("/updateStatus", updateStatus);
+app.put("/updateCart", updateCart);
+app.get("/getPharmacist", getPharmacists);
+app.put("/notifyOutOfStock", notifyOutOfStock);
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);
@@ -326,6 +332,7 @@ app.put("/updateAppointmentWallet", updateAppointmentWallet);
 app.put("/rescheduleAppointment", rescheduleAppointment);
 app.put("/cancelAppointment", cancelAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
+
 
 app.post("/createLinkedAccount", createLinkedAccount);
 app.get("/getLinkedAccounts", getLinkedAccounts);

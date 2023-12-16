@@ -1,8 +1,6 @@
-
+import Logo from '../../UI/UX/Logo';
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import './PatientPharmacy.scss'
-import './BootstrapPharmacy.scss'
 import {
   faTrashCan,
   faArrowLeft,
@@ -12,6 +10,7 @@ import {
 import GetCart from "./getCart";
 import GetAddress from "./getAddress";
 import axios from "axios";
+import emailjs from "emailjs-com";
 import { Input } from "postcss";
 import { useNavigate } from "react-router-dom";
 
@@ -30,11 +29,7 @@ function Cart() {
   const [pointsTakenAway, setPointsTakenAway] = useState(0);
   const [pointsRemaining, setPointsRemaining] = useState(0);
 
-  // let navigate = useNavigate();
-  // const routeChange = () => {
-  //   let path = `/ViewMedPatient`;
-  //   navigate(path);
-  // };
+ 
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
@@ -124,13 +119,22 @@ function Cart() {
   };
   const handlePayment = async () => {
     try {
+      const pharmacistData = await axios.get("http://localhost:3001/getPharmacist", {});
+
       await Promise.all(CartData.map(async (medicine) => {
         const { medicineName, count } = medicine;
-        console.log(count);
-        await axios.put("http://localhost:3001/updateQuantity", {
+        const response = await axios.put("http://localhost:3001/updateQuantity", {
           Name: medicineName,
           taken: count,
         });
+
+        if (response.data === "Quantity is now zero") {
+          await Promise.all(pharmacistData.data.map(async (pharmacist) => {
+            const { Name, Email, ReqStatus } = pharmacist;
+            if(ReqStatus === "Accepted")
+              await notification(medicineName, Name, Email);
+          }));
+        }
       }));
 
       if (paymentMethod === "payWithVisa") {
@@ -178,18 +182,169 @@ function Cart() {
         date: newFullDate,
         month: newMonth,
       });
+
       console.log("Order request sent successfully");
     } catch (error) {
       console.error("Error updating data:", error);
     }
-  }
+  };
+
+  const notification = async (medicineName, pharmacistName, pharmacistEmail) => {
+    try {
+      const notificationData = {
+        name: pharmacistName,
+        message: `${medicineName} is out of stock`,
+        receiver: pharmacistEmail,
+      };
+
+      if (!notificationData.receiver) {
+        console.error("Recipient email address is empty");
+        // Handle the error or notify the user about the issue
+        return;
+      }
+
+      const response = emailjs.send(
+        "service_0mev55g",
+        "template_y4a9dm4",
+        {
+          name: pharmacistName,
+          message: `${medicineName} is out of stock`,
+          receiver: pharmacistEmail,
+        },
+        "JQ3H-s3Z8rus70cVv"
+      );
+
+      await axios.put("http://localhost:3001/notifyOutOfStock", {
+        notifications: notificationData
+      });
+      
+      console.log(`Notification sent: ${medicineName}`);
+    } catch (error) {
+      console.error(`Error in notification: ${error.message}`);
+      // Handle other errors as needed...
+    }
+  };
 
   if (CartData && CartData.length > 0) {
     return (
       <div>
-        
+        <div className="patientPharmacy">
+        <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+          <div className="container">
+            <a href="/PatientHome">
+              <Logo />
+            </a>
+
+            <button
+              className="navbar-toggler ps-0"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#navbarExample01"
+              aria-controls="navbarExample01"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon d-flex justify-content-start align-items-center">
+                <i className="fas fa-bars"></i>
+              </span>
+            </button>
+            <div className="navbar-collapse" id="navbarExample01">
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#pets">
+                    Video Call
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#adoptions">
+                    Chat
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/myAppointments"
+                  >
+                    My Appointments
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/viewPackage"
+                  >
+                    My Subscriptions
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/Prescriptions"
+                  >
+                    Prescriptions
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => setWalletModal(true)}
+                  >
+                    My Wallet
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/changePassword"
+                  >
+                    Change password
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      window.location.replace("/");
+                    }}
+                  >
+                    Log Out
+                  </a>
+                </li>
+              </ul>
+
+              <ul className="navbar-nav flex-row">
+                <li className="nav-item">
+                  <a className="nav-link px-2" href="#!">
+                    <i className="fab fa-facebook-square"></i>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link px-2" href="#!">
+                    <i className="fab fa-instagram"></i>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link ps-2" href="#!">
+                    <i className="fab fa-youtube"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        </div>
+
         <div className="flex mb-14 mt-32">
-          <div style ={{marginLeft : "160px"}} className="ml-10">
+          <div className="ml-10">
             {CartData.map((p, index) => (
               <div key={index} className="mt-6 w-[60rem] h-[14.25rem] rounded-md shadow-md  bg-gray-100 justify-center space-y-4">
                 <div className="justify-center pl-4 pt-4">
@@ -212,7 +367,11 @@ function Cart() {
                         <button className="justify-end text-red-600 outline w-9 h-9 rounded-md mb-2 mt-0.5 ml-2" onClick={() => handledecrement(p.medicineName, p.price)}>
                           -
                         </button>
-                        <button className="justify-end text-sky-600 outline w-9 h-9 rounded-md mb-2 mt-0.5 ml-3" onClick={() => handleincrement(p.medicineName, p.price)}>
+                        <button
+                          className={`justify-end text-sky-600 outline w-9 h-9 rounded-md mb-2 mt-0.5 ml-3 ${p.count <= 0 ? 'cursor-not-allowed' : ''}`}
+                          onClick={() => handleincrement(p.medicineName, p.price)}
+                          disabled={p.count <= 0}
+                        >
                           +
                         </button>
                         <button className="justify-end ml-80 pl-52" onClick={() => handleremove(p.medicineName)}>
@@ -271,7 +430,7 @@ function Cart() {
               )}
             </form>
             <div className="pt-4">
-              <label className="text-gray-500 ml-4"> Shipping cost </label><label style ={{marginLeft:"293px"}} className="text-gray-500 ml-72"> TBD </label>
+              <label className="text-gray-500 ml-4"> Shipping cost </label><label className="text-gray-500 ml-72"> TBD </label>
               <br></br>
               <label className="text-gray-500 ml-4"> Tax </label><label className="text-gray-500 pl-12 ml-80"> TBD </label>
               <br></br>
@@ -296,10 +455,9 @@ function Cart() {
   } else {
     return (
       <div>
-        
         <div className="mt-40">
-          {/* <button className="text-sky-600  outline  w-40  h-9 rounded-md shadow ml-16" onClick={routeChange}> Back </button> */}
-          <div className="h-[16rem] justify-center text-center space-y-4">
+          <button className="text-sky-600  outline  w-40  h-9 rounded-md shadow ml-16"> Back </button>
+          <div className="h-[16rem] justify-center text-center space-y-4 mt-28">
             <h1>The cart is empty</h1>
             <h3>You can add medicines <a href="/ViewMedPatient">here</a></h3>
           </div>

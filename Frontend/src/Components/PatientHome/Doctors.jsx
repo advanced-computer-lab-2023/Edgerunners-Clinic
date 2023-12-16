@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFilter,
   faCreditCard,
+  faCircleXmark,
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import FilterModal from "./FilterModal";
@@ -13,6 +14,7 @@ import axios from "axios";
 import GetRelation from "./getRelation";
 import "./PatientHome.scss";
 import Footer from "../Patient/Footer";
+import MyWalletP from "../Patient/MyWalletP";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -50,6 +52,7 @@ export default function Doctors() {
   const [chosen, setChosen] = useState();
   const [Modal, setModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
+  const [WalletModal, setWalletModal] = useState(false);
 
   function discount() {
     const [discount, setDiscount] = useState();
@@ -155,7 +158,7 @@ export default function Doctors() {
       Availability: "Reserved",
       PatientUsername: sessionStorage.getItem("Username"),
       NationalID: NationalID,
-      Status:"Upcoming",
+      Status: "Upcoming",
     });
   };
 
@@ -203,6 +206,7 @@ export default function Doctors() {
               <a href="/PatientHome">
                 <Logo />
               </a>
+
               <button
                 className="navbar-toggler ps-0"
                 type="button"
@@ -236,32 +240,58 @@ export default function Doctors() {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#foundation"
+                      href="/myAppointments"
                     >
                       My Appointments
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#help">
-                      Health Record
                     </a>
                   </li>
                   <li className="nav-item">
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#education"
+                      href="/viewPackage"
                     >
-                      Doctors
+                      My Subscribtions
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#about">
-                      My Account
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/Prescriptions"
+                    >
+                      Prescriptions
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#contact">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      onClick={() => setWalletModal(true)}
+                    >
+                      My Wallet
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/changePassword"
+                    >
+                      Change password
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      onClick={() => {
+                        sessionStorage.removeItem("Username");
+                        sessionStorage.removeItem("type");
+                        sessionStorage.removeItem("token");
+                        window.location.replace("/");
+                      }}
+                    >
                       Log Out
                     </a>
                   </li>
@@ -333,6 +363,18 @@ export default function Doctors() {
                   setFilterModal(true);
                 }}
               />
+              {WalletModal ? (
+                <FilterModal>
+                  <FontAwesomeIcon
+                    className="circleXmark"
+                    icon={faCircleXmark}
+                    onClick={() => {
+                      setWalletModal(false);
+                    }}
+                  />
+                  <MyWalletP />
+                </FilterModal>
+              ) : null}
               {filterModal ? (
                 <FilterModal>
                   <div className="speciality-filter">

@@ -23,28 +23,21 @@ function MyWalletP(props) {
 
   return (
     <div className="tailwind">
-      <div className="flex justify-center mt-24">
-        <Card width="w-4/12" height=" h-[32rem]">
-          <div className=" flex">
-            <div>
-              <a href="/PatientHome">
-                <Logo height="4rem" />
-              </a>
-            </div>
-            <div>
-              <h1> Welcome {patientUsername}</h1>
-            </div>
-          </div>
+      <div className="flex">
+        {/* Logo covering the whole left side */}
+        <Logo height="10rem" className="flex-shrink-0" />
 
-          <br />
-          <br />
-          {totalAmount != undefined && (
-            <h2 className="  text-xl ">
-              Total Available Amount is : {totalAmount}
-              <button className="">add money</button>
-            </h2>
+        {/* Right side container */}
+        <div className="flex flex-col items-end mt-8 mx-4">
+          {" "}
+          {/* Added mx-4 for some spacing */}
+          <p className="text-lg">Total Amount</p>
+          {totalAmount !== undefined && (
+            <div className="flex flex-col items-end mt-4">
+              <p className="text-xl mb-2">{totalAmount} EGP</p>
+            </div>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

@@ -9,6 +9,10 @@ import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import PayButton from "./PayButton";
 import Footer from "../Patient/Footer";
+import FilterModal from "../PatientHome/FilterModal";
+import MyWalletP from "../Patient/MyWalletP";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -63,6 +67,7 @@ export default function Packages() {
   const [isEdit, setEdit] = useState(false);
   const [price, setPrice] = useState(null);
   const [pname, setname] = useState(null);
+  const [WalletModal, setWalletModal] = useState(false);
 
   function discount() {
     const [discount, setDiscount] = useState();
@@ -96,26 +101,29 @@ export default function Packages() {
   }
   let totalAmount = wallet();
 
-  const paywallet = (price, name)=>{
+  const paywallet = (price, name) => {
     setPrice(price);
     setname(name);
-  }
-  const handlewalletPayment = async() =>{
-    const res = await axios.post("http://localhost:3001/createHealthPackage",{
+  };
+  const handlewalletPayment = async () => {
+    const res = await axios.post("http://localhost:3001/createHealthPackage", {
       patientUsername: sessionStorage.getItem("Username"),
-      packagename: pname
-    })
-    if(res.data == "you are subscribed to one already"){
+      packagename: pname,
+    });
+    if (res.data == "you are subscribed to one already") {
       console.log("you are subscribed to one already");
-    }else{
-      const res2 = await axios.put("http://localhost:3001/PaymentPackageWallet",{
-      username: sessionStorage.getItem("Username"),
-      price: price,
-      discount: discount3
-    })
-    console.log(res2)
+    } else {
+      const res2 = await axios.put(
+        "http://localhost:3001/PaymentPackageWallet",
+        {
+          username: sessionStorage.getItem("Username"),
+          price: price,
+          discount: discount3,
+        }
+      );
+      console.log(res2);
     }
-  }
+  };
   const handleCheckout = async (name) => {
     let Username = sessionStorage.getItem("Username");
     let PaymentType = "Package";
@@ -199,96 +207,116 @@ export default function Packages() {
   if (packages.data != null) {
     return (
       <div className="tailwind Bootstrap PatientHome backgroundPicture">
+        {WalletModal ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setWalletModal(false);
+              }}
+            />
+            <MyWalletP />
+          </FilterModal>
+        ) : null}
         <div className="header">
-        <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
-          <div className="container">
-            <a href="/PatientHome">
-              <Logo />
-            </a>
+          <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+            <div className="container">
+              <a href="/PatientHome">
+                <Logo />
+              </a>
 
-            <button
-              className="navbar-toggler ps-0"
-              type="button"
-              data-mdb-toggle="collapse"
-              data-mdb-target="#navbarExample01"
-              aria-controls="navbarExample01"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon d-flex justify-content-start align-items-center">
-                <i className="fas fa-bars"></i>
-              </span>
-            </button>
-            <div className="navbar-collapse" id="navbarExample01">
-              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#pets">
-                    Video Call
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#adoptions">
-                    Chat
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    href="/myAppointments"
-                  >
-                    My Appointments
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    href="/viewPackage"
-                  >
-                    My Subscriptions
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    href="/Prescriptions"
-                  >
-                    Prescriptions
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/myWalletP">
-                    My Wallet
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    href="/changePassword"
-                  >
-                    Change password
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    onClick={() => {
-                      sessionStorage.removeItem("Username");
-                      sessionStorage.removeItem("type");
-                      sessionStorage.removeItem("token");
-                      window.location.replace("/");
-                    }}
-                  >
-                    Log Out
-                  </a>
-                </li>
-              </ul>
+              <button
+                className="navbar-toggler ps-0"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#navbarExample01"
+                aria-controls="navbarExample01"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon d-flex justify-content-start align-items-center">
+                  <i className="fas fa-bars"></i>
+                </span>
+              </button>
+              <div className="navbar-collapse" id="navbarExample01">
+                <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li className="nav-item">
+                    <a className="nav-link" aria-current="page" href="#pets">
+                      Video Call
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="#adoptions"
+                    >
+                      Chat
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/myAppointments"
+                    >
+                      My Appointments
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/viewPackage"
+                    >
+                      My Subscriptions
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/Prescriptions"
+                    >
+                      Prescriptions
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      onClick={() => setWalletModal(true)}
+                    >
+                      My Wallet
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/changePassword"
+                    >
+                      Change password
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      onClick={() => {
+                        sessionStorage.removeItem("Username");
+                        sessionStorage.removeItem("type");
+                        sessionStorage.removeItem("token");
+                        window.location.replace("/");
+                      }}
+                    >
+                      Log Out
+                    </a>
+                  </li>
+                </ul>
 
-              {/* <ul className="navbar-nav flex-row">
+                {/* <ul className="navbar-nav flex-row">
                 <li className="nav-item">
                   <a className="nav-link px-2" href="#!">
                     <i className="fab fa-facebook-square"></i>
@@ -305,9 +333,9 @@ export default function Packages() {
                   </a>
                 </li>
               </ul> */}
+              </div>
             </div>
-          </div>
-        </nav>
+          </nav>
         </div>
         <br />
         <br />
@@ -321,13 +349,18 @@ export default function Packages() {
           <p className="mt-6 text-lg leading-8 text-gray-600"></p>
         </div>
         <Carousel className="rounded-x1 ">
-          
           {packages.data.map((p, index) => {
             return (
               <div key={p.Name} className=" py-2 ">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                   <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
-                    <div  style={{ background: "rgb(250,250,250)", borderRadius: "20px 0px 0px 20px" }} className="p-8 sm:p-10 lg:flex-auto">
+                    <div
+                      style={{
+                        background: "rgb(250,250,250)",
+                        borderRadius: "20px 0px 0px 20px",
+                      }}
+                      className="p-8 sm:p-10 lg:flex-auto"
+                    >
                       <h3 className="text-2xl font-bold tracking-tight text-gray-900">
                         {p.Name} Membership
                       </h3>
@@ -367,7 +400,13 @@ export default function Packages() {
                         </li>
                       </ul>
                     </div>
-                    <div  style={{ background: "rgb(250,250,250)", borderRadius:"0px 20px 20px 0px" }}className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+                    <div
+                      style={{
+                        background: "rgb(250,250,250)",
+                        borderRadius: "0px 20px 20px 0px",
+                      }}
+                      className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0"
+                    >
                       <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
                         <div className="mx-auto max-w-xs px-8">
                           <p className="text-base font-semibold text-gray-600"></p>
@@ -381,55 +420,60 @@ export default function Packages() {
                           </p>
                           <button
                             href="#"
-                            style={{ color:"white" }}
+                            style={{ color: "white" }}
                             className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             onClick={() => handleCheckout(p.Name)}
                           >
                             Get access
                           </button>
-                          {isEdit && (<div style={modalOverlayStyle}>
-                            <div style={modalStyle}>
-                              <span
-                                style={closeButtonStyle}
-                                onClick={() => setEdit(false)}
-                              >
-                                &times;
-                              </span>
-                              <h2>Checkout:</h2>
-                              <p>
-                                Your wallet:{" "}
-                                {totalAmount != undefined && totalAmount} EGP
-                              </p>
-                              <p>Package price: {price} EGP</p>
-                              <p>discount: {discount3}%</p>
-                              <p>
-                                total ={" "}
-                                {discount3 > 0 &&
-                                  price * ((100 - discount3) / 100)}
-                                  {discount3 == 0 && price }EGP
-                              </p>
-                              <button
-                                onClick={(e) => {
-                                  handlewalletPayment()
-                                  setEdit(false);
-                                }}
-                              >
-                                Pay
-                              </button>
-                              <button
-                                onClick={(e) => {
-                                  setEdit(false);
-                                }}
-                              >
-                                cancel
-                              </button>
+                          {isEdit && (
+                            <div style={modalOverlayStyle}>
+                              <div style={modalStyle}>
+                                <span
+                                  style={closeButtonStyle}
+                                  onClick={() => setEdit(false)}
+                                >
+                                  &times;
+                                </span>
+                                <h2>Checkout:</h2>
+                                <p>
+                                  Your wallet:{" "}
+                                  {totalAmount != undefined && totalAmount} EGP
+                                </p>
+                                <p>Package price: {price} EGP</p>
+                                <p>discount: {discount3}%</p>
+                                <p>
+                                  total ={" "}
+                                  {discount3 > 0 &&
+                                    price * ((100 - discount3) / 100)}
+                                  {discount3 == 0 && price}EGP
+                                </p>
+                                <button
+                                  onClick={(e) => {
+                                    handlewalletPayment();
+                                    setEdit(false);
+                                  }}
+                                >
+                                  Pay
+                                </button>
+                                <button
+                                  onClick={(e) => {
+                                    setEdit(false);
+                                  }}
+                                >
+                                  cancel
+                                </button>
+                              </div>
                             </div>
-                          </div>)}
+                          )}
                           <button
                             href="#"
-                            style={{ color:"white" }}
+                            style={{ color: "white" }}
                             className="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold  shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={() => {paywallet(p.Price,p.Name);setEdit(true);}}
+                            onClick={() => {
+                              paywallet(p.Price, p.Name);
+                              setEdit(true);
+                            }}
                           >
                             Pay with wallet
                           </button>

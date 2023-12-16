@@ -90,7 +90,7 @@ function EditMyProf(props) {
 
   return (
     <div className="Bootstrap DoctorHome">
-      <div className="header">
+      <div className="tailwind">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
             <a href="/DoctorHome">

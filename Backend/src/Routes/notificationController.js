@@ -56,7 +56,7 @@ const createNotification = async (req, res) =>  {
 
 const getNotifications = async (req, res) => {
   try {
-    const { patientUsername, doctorUsername } = req.body;
+    const { patientUsername, doctorUsername } = req.query;
     let notifications;
 
     if (patientUsername) {

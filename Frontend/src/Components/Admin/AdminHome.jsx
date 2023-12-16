@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../UI/UX/Logo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,14 +12,23 @@ import {
   faHandHoldingMedical,
   faPrescriptionBottleMedical,
 } from "@fortawesome/free-solid-svg-icons";
+import Footer from "../Patient/Footer";
 
 export default function AdminHome() {
+  const navigate = useNavigate();
+
+  const handleClick = (path) => {
+    navigate(path);
+  };
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
             <Logo />
+            <span className = "clinicText" >
+              El-7a2ny Clinic
+            </span>
             <button
               className="navbar-toggler ps-0"
               type="button"
@@ -35,50 +45,40 @@ export default function AdminHome() {
             <div className="navbar-collapse" id="navbarExample01">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#pets">
-                    Video Call
+                  <a className="nav-link" aria-current="page" href="/setAdmin">
+                    Add Admin
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#adoptions">
-                    Chat
+                  <a className="nav-link" aria-current="page" href="/removePar">
+                    Remove User
+                  </a>
+                </li>
+
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/updatePackages"
+                  >
+                    Update Packages
                   </a>
                 </li>
                 <li className="nav-item">
                   <a
                     className="nav-link"
                     aria-current="page"
-                    href="#foundation"
+                    href="/createPackage"
                   >
-                    My Appointments
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#help">
-                    Health Record
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#education">
-                    Prescriptions
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#education">
-                    Follow Up Requests
+                    Add Packages
                   </a>
                 </li>
                 <li className="nav-item">
                   <a
                     className="nav-link"
                     aria-current="page"
-                    href="/EditMyProf"
+                    href="/changePassword"
                   >
-                    My Account
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/changePassword">
                     Change password
                   </a>
                 </li>
@@ -172,63 +172,64 @@ export default function AdminHome() {
           <h3>What You Need..</h3>
         </div>
         <div className="footer-in row">
-          <div className="col-4">
+          <div className="col-4" onClick={() => handleClick("/setAdmin")}>
             <FontAwesomeIcon
               icon={faFileCirclePlus}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/SetAdmin">
+
+            <a>
               <h3>Add Admin</h3>
             </a>
             <p>Add a new admin to the system</p>
           </div>
 
-          <div className="col-4">
+          <div className="col-4" onClick={() => handleClick("/RemovePar")}>
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/RemovePar">
+            <a>
               <h3>Remove User</h3>
             </a>
             <p>Remove patient, doctor, or admin from the system</p>
           </div>
-          <div className="col-4">
+          <div className="col-4" onClick={() => handleClick("/DoctorRequests")}>
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/DoctorRequests">
+            <a>
               <h3>View Doctor Requests</h3>
             </a>
             <p>View doctors trying to join the system</p>
           </div>
-          <div className="col-4">
+          <div className="col-4" onClick={() => handleClick("/CreatePackage")}>
             <FontAwesomeIcon
               icon={faStethoscope}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/CreatePackage">
+            <a>
               <h3>Create Packages</h3>
             </a>
             <p>Create a new health package</p>
           </div>
-          <div className="col-4">
+          <div className="col-4" onClick={() => handleClick("/UpdatePackage")}>
             <FontAwesomeIcon
               icon={faHandHoldingMedical}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/UpdatePackage">
+            <a>
               <h3>Update Package</h3>
             </a>
             <p>Edit a health package</p>
           </div>
-          <div className="col-4">
+          <div className="col-4" onClick={() => handleClick("/UpdatePackage")}>
             <FontAwesomeIcon
               icon={faPrescriptionBottleMedical}
               size="4x"
@@ -239,6 +240,7 @@ export default function AdminHome() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 }

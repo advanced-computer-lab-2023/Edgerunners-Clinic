@@ -256,7 +256,7 @@ export default function PatientHome() {
             <p>view a list of all doctors along with their speciality</p>
           </div>
 
-          <div className="col-4" onClick={() => handleClick("/Requests")}>
+          <div className="col-4" onClick={() => handleClick("/Packages")}>
             <FontAwesomeIcon
               icon={faHandHoldingMedical}
               size="4x"

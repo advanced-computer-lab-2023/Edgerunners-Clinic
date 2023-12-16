@@ -4,7 +4,7 @@ import "@stripe/stripe-js";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import PatientHome from "./Components/PatientHome/PatientHome";
-import Prescriptions from "./Components/PatientHome/Prescriptions";
+//import Prescriptions from "./Components/PatientHome/Prescriptions";
 import Doctors from "./Components/PatientHome/Doctors";
 import Packages from "./Components/Packages/Packages";
 import UpdatePackage from "./Components/Packages/UpdatePackage";
@@ -45,7 +45,7 @@ import StartCall from "./Components/Patient/StartCall";
 import Notification from "./Components/DoctorHome/Notification";
 import StartACall from "./Components/DoctorHome/StartACall";
 import Notificationp from "./Components/Patient/Notificationp";
-
+import FilterModal from "./Components/PatientHome/FilterModal";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -60,7 +60,7 @@ if (
       <BrowserRouter>
         <Routes>
 
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<Notification/>} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>
@@ -78,7 +78,7 @@ if (
           />
           <Route path="/Doctors" element={<Doctors />} />
           <Route path="/PatientHome" element={<PatientHome />} />
-          <Route path="/Prescriptions" element={<Prescriptions />} />
+        //  <Route path="/Prescriptions" element={<Prescriptions />} />
           <Route path="/ViewFamilyMem" element={<ViewFamilyMem />} />
           <Route path="/NewFamilyMem" element={<NewFamilyMem />} />
           <Route path="/MyWalletP" element={<MyWalletP />} />

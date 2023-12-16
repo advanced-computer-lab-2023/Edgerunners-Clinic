@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import FilterModal from "../PatientHome/FilterModal";
 import MyWalletP from "./MyWalletP";
+import { Link } from "react-router-dom";
 
 export default function ViewFamilyMem() {
   const [WalletModal, setWalletModal] = useState(false);
@@ -28,9 +29,10 @@ export default function ViewFamilyMem() {
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
+              <Link to="/patientHome" className="logo-link">
                 <Logo />
-              </a>
+                <span className="clinicText">El-7a2ny Clinic</span>
+              </Link>
 
               <button
                 className="navbar-toggler ps-0"
@@ -143,7 +145,6 @@ export default function ViewFamilyMem() {
             </div>
           </nav>
         </div>
-        <br />
         <br />
         <br />
         <br />

@@ -33,9 +33,8 @@ export default function PatientHome() {
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-            <a href="/PatientHome">
-              <Logo />
-            </a>
+            <Logo />
+            <span className="clinicText">El-7a2ny Clinic</span>
 
             <button
               className="navbar-toggler ps-0"

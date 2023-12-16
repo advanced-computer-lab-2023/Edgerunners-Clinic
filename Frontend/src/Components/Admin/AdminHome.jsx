@@ -23,7 +23,8 @@ import Footer from "../Patient/Footer";
 export default function AdminHome() {
   const [isModalSetAdminOpen, setIsModalSetAdminOpen] = useState(false);
   const [isModalRemoveUserOpen, setIsModalRemoveUserOpen] = useState(false);
-  const [isModalCreatePackageOpen, setIsModalCreatePackageOpen] = useState(false);
+  const [isModalCreatePackageOpen, setIsModalCreatePackageOpen] =
+    useState(false);
   //const [isUwU, setIsUwU] = useState(false);
   const navigate = useNavigate();
   const handleClick = (path) => {
@@ -35,9 +36,7 @@ export default function AdminHome() {
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
             <Logo />
-            <span className = "clinicText" >
-              El-7a2ny Clinic
-            </span>
+            <span className="clinicText">El-7a2ny Clinic</span>
             <button
               className="navbar-toggler ps-0"
               type="button"
@@ -54,12 +53,24 @@ export default function AdminHome() {
             <div className="navbar-collapse" id="navbarExample01">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" onClick={() => { setIsModalSetAdminOpen(true); }}>
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      setIsModalSetAdminOpen(true);
+                    }}
+                  >
                     Add Admin
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" onClick={() => { setIsModalRemoveUserOpen(true); }}>
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      setIsModalRemoveUserOpen(true);
+                    }}
+                  >
                     Remove User
                   </a>
                 </li>
@@ -74,7 +85,13 @@ export default function AdminHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" onClick={() => { setIsModalCreatePackageOpen(true); }} >
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      setIsModalCreatePackageOpen(true);
+                    }}
+                  >
                     Add Packages
                   </a>
                 </li>
@@ -177,11 +194,12 @@ export default function AdminHome() {
           <h3>What You Need..</h3>
         </div>
         <div className="footer-in row">
-
-
-
-
-          <div className="col-4" onClick={() => { setIsModalSetAdminOpen(true); }}>
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsModalSetAdminOpen(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
@@ -194,9 +212,12 @@ export default function AdminHome() {
             <p>Add a new admin to the system</p>
           </div>
 
-
-
-          <div className="col-4" onClick={() => { setIsModalRemoveUserOpen(true); }}>
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsModalRemoveUserOpen(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
@@ -207,7 +228,6 @@ export default function AdminHome() {
             </a>
             <p>Remove patient, doctor, or admin from the system</p>
           </div>
-
 
           <div className="col-4" onClick={() => handleClick("/DoctorRequests")}>
             <FontAwesomeIcon
@@ -220,7 +240,12 @@ export default function AdminHome() {
             </a>
             <p>View doctors trying to join the system</p>
           </div>
-          <div className="col-4" onClick={() => { setIsModalCreatePackageOpen(true); }}>
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsModalCreatePackageOpen(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faStethoscope}
               size="4x"
@@ -254,45 +279,45 @@ export default function AdminHome() {
         </div>
       </div>
       {isModalSetAdminOpen ? (
-          <FilterModal>
+        <FilterModal>
           <FontAwesomeIcon
-              className="circleXmark"
-              icon={faCircleXmark}
-              onClick={() => {
-                setIsModalSetAdminOpen(false);
-              }}
-            />
-          <SetAdmin/>
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalSetAdminOpen(false);
+            }}
+          />
+          <SetAdmin />
           {/*<div>Test component</div>*/}
-          </FilterModal>
-        ) : null}
+        </FilterModal>
+      ) : null}
       {isModalRemoveUserOpen ? (
-          <FilterModal>
+        <FilterModal>
           <FontAwesomeIcon
-              className="circleXmark"
-              icon={faCircleXmark}
-              onClick={() => {
-                setIsModalRemoveUserOpen(false);
-              }}
-            />
-          <RemoveUser/>
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalRemoveUserOpen(false);
+            }}
+          />
+          <RemoveUser />
           {/*<div>Test component</div>*/}
-          </FilterModal>
-        ) : null}
+        </FilterModal>
+      ) : null}
       {isModalCreatePackageOpen ? (
-          <FilterModal>
+        <FilterModal>
           <FontAwesomeIcon
-              className="circleXmark"
-              icon={faCircleXmark}
-              onClick={() => {
-                setIsModalCreatePackageOpen(false);
-              }}
-            />
-          <CreatePackage/>
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalCreatePackageOpen(false);
+            }}
+          />
+          <CreatePackage />
           {/*<div>Test component</div>*/}
-          </FilterModal>
-        ) : null}
-        <Footer></Footer>
+        </FilterModal>
+      ) : null}
+      <Footer></Footer>
     </div>
   );
 }

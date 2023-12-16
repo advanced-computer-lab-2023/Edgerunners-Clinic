@@ -201,7 +201,7 @@ const DoctorRequests = () => {
                 <a
                   className="nav-link"
                   aria-current="page"
-                  href="/updatePackages"
+                  href="/updatePackage"
                 >
                   Update Packages
                 </a>

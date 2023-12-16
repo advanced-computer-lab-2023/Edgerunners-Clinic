@@ -65,6 +65,8 @@ const viewFilesDoctor = async (req, res) => {
 };
 const doctorUploadFile = async (req, res) => {
   const filename = req.body.Username + "-" + ".pdf";
+  console.log(req.body);
+  console.log(req.files);
   const file = req.files.file;
   var filePath = "./uploadDoctor/" + filename;
   file.mv(filePath);
@@ -74,8 +76,10 @@ const doctorUploadFile = async (req, res) => {
   if (!doctorUsername) {
     doctorUsername = await Admin.findOne({ Username: req.body.Username });
   }
+  console.log("I am in create");
   if (!doctorUsername && !doctorMail && !adminMail) {
     //console.log(await hashPassword(req.body.Password));
+    console.log("I am in create");
     await Doctor.create({
       Username: req.body.Username,
       Password: await hashPassword(req.body.Password),

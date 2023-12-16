@@ -480,9 +480,12 @@ class LoginPage extends Component {
                     Sign In
                   </button>
                   {this.state.errorPassword && (
-                    <p style={{ color: "red" }}>
+                    <div
+                      className="bg-red-500 text-white p-2 rounded-md mb-4"
+                      style={{ marginTop: "10px" }}
+                    >
                       Please Write a Valid Password
-                    </p>
+                    </div>
                   )}
                 </div>
                 <div className="overlay-panel overlay-right">
@@ -490,6 +493,7 @@ class LoginPage extends Component {
                   <p>Enter your personal details to open an account with us</p>
                   <button
                     className="ghost"
+                    style={{ marginBottom: "10px" }}
                     id="signUp"
                     onClick={() => {
                       this.setState({ role: true });

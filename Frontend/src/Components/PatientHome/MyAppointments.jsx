@@ -304,9 +304,11 @@ export default function PatientAppointments() {
           </div>
         </div>
         {filterModalCancel ? (
-          <FilterModal>
-            <div className="speciality-filter">
-              <p>Are sure you want to cancel the appointment?</p>
+          <FilterModal style={{ textAlign: "center" }}>
+            <div>
+              <p style={{ fontSize: "1.5rem", marginBottom: "20px" }}>
+                Are you sure you want to cancel the appointment?
+              </p>
             </div>
             <button
               onClick={() => {
@@ -314,6 +316,7 @@ export default function PatientAppointments() {
                 setSelectedAppointment(null);
                 handleCancel();
               }}
+              style={{ marginRight: "10px" }}
             >
               Confirm
             </button>
@@ -452,6 +455,23 @@ export default function PatientAppointments() {
                             <>
                               <button
                                 class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#00ff00"; // Green background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#00ff00"; // Green border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
                                 onClick={() => {
                                   setfilterModalFollowUp(true);
                                   setnationalid(appstatus.NationalID);
@@ -464,6 +484,23 @@ export default function PatientAppointments() {
                             <>
                               <button
                                 class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#ff8c00"; // Dark orange background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#ff8c00"; // Dark orange border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
                                 onClick={() => {
                                   setFilterModal(true);
                                   setRescheduleDate(appstatus.Date);
@@ -476,6 +513,23 @@ export default function PatientAppointments() {
                               </button>
                               <button
                                 class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#ff0000"; // Red background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#ff0000"; // Red border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
                                 onClick={() => {
                                   setRescheduleDate(appstatus.Date);
                                   setFilterModalCancel(true);
@@ -516,6 +570,23 @@ export default function PatientAppointments() {
                             <>
                               <button
                                 class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#12aa12"; // Green background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#00ff00"; // Green border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
                                 onClick={() => {
                                   setfilterModalFollowUp(true);
                                   setnationalid(appstatus.NationalID);
@@ -528,6 +599,23 @@ export default function PatientAppointments() {
                             <>
                               <button
                                 class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#ff8c00"; // Dark orange background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#ff8c00"; // Dark orange border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
                                 onClick={() => {
                                   setSelectedAppointment(app);
                                   setFilterModal(true);
@@ -541,6 +629,24 @@ export default function PatientAppointments() {
                               </button>
                               <button
                                 class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  marginLeft: "8px",
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#ff0000"; // Red background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#ff0000"; // Red border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
                                 onClick={() => {
                                   setRescheduleDate(app.Date);
                                   setFilterModalCancel(true);

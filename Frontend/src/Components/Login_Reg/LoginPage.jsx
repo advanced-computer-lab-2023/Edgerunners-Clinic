@@ -11,6 +11,7 @@ class LoginPage extends Component {
     signUp_email: null,
     signUp_password: null,
     signUp_number: null,
+    signUp_username: null,
     signIn_username: null,
     signIn_password: null,
     signUp_gender: null,
@@ -25,12 +26,14 @@ class LoginPage extends Component {
   };
 
   handleFileChange = (e) => {
+    console.log("in handle file change ");
     if (e.target.files) {
       this.setState({ file: e.target.files[0] });
     }
   };
 
   handleUpload = async () => {
+    console.log("in handle upload ");
     if (this.state.file) {
       const formData = new FormData();
       formData.append("Username", this.state.signUp_username);
@@ -50,9 +53,9 @@ class LoginPage extends Component {
           body: formData,
         });
 
-        const data = await result.json();
+        //const data = await result.json();
 
-        console.log(data);
+        //console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -70,16 +73,18 @@ class LoginPage extends Component {
     }
   };
   passwordValidationD = (e) => {
+    console.log("in pass validation doc ");
     e.preventDefault();
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
     if (passwordRegex.test(this.state.signUp_password)) {
-      this.signUpDoctor(e); // Call the signup function here or perform other actions
+      this.handleUpload();
+       // Call the signup function here or perform other actions
     } else {
       // Show error in the register page
       this.setState({ errorPassword: true, success: false });
     }
   };
-  signUpPatient = (event) => {
+  signUpPatient = async (event) => {
     event.preventDefault();
     const newUser = {
       Username: this.state.signUp_username,
@@ -96,7 +101,7 @@ class LoginPage extends Component {
     };
     console.log(newUser);
 
-    axios
+    await axios
       .post("http://localhost:3001/addPatient", newUser)
       .then((res) => {
         console.log(res);
@@ -108,6 +113,7 @@ class LoginPage extends Component {
     this.setState({ errorPassword: false });
   };
   signUpDoctor = (event) => {
+    console.log("in sign up doctor ");
     event.preventDefault();
     const newUser = {
       Username: this.state.signUp_username,
@@ -400,9 +406,8 @@ class LoginPage extends Component {
                   </div>
                   {this.state.file && (
                     <button
-                      onClick={() => {
-                        this.handleUpload();
-                        this.passwordValidationD();
+                      onClick={(e) => {
+                        this.passwordValidationD(e);
                       }}
                       className="submit"
                     >

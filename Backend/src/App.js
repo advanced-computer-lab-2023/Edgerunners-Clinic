@@ -18,6 +18,14 @@ const {
   ResetPass,
   GetWallet,
   deleteFile,
+  removeFromCart,
+  incrementQuantity,
+  decrementQuantity,
+  getWalletPharmacy,
+  addOrder,
+  getCart,
+  getAddress,
+  PaymentPrescriptionWallet,
 } = require("./Routes/patientController");
 
 const {
@@ -262,6 +270,17 @@ app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 app.put("/deleteFile", deleteFile);
+app.get("/getAddress", getAddress);
+app.put("/incrementQuantity", incrementQuantity);
+app.put("/removeFromCart", removeFromCart);
+app.get("/getcart", getCart);
+app.put('/decrementQuantity', decrementQuantity);
+app.get('/getAddress', getAddress);
+app.put("/addOrder", addOrder);
+app.get("/getWalletPharmacy", getWalletPharmacy);
+app.put("/PaymentPrescriptionWallet", PaymentPrescriptionWallet);
+
+
 
 app.put("/ResetPass", ResetPass);
 

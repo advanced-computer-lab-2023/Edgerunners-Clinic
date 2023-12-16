@@ -24,5 +24,5 @@ const adminSchema = new Schema(
   { timestamps: true },
 );
 
-const Admin = mongoose.model("admin", adminSchema);
+const Admin = mongoose.model("adminClinic", adminSchema);
 module.exports = Admin;

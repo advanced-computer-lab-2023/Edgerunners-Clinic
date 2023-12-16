@@ -24,13 +24,8 @@ function MyWalletP(props) {
   return (
     <div className="tailwind">
       <div className="flex">
-        {/* Logo covering the whole left side */}
         <Logo height="10rem" className="flex-shrink-0" />
-
-        {/* Right side container */}
         <div className="flex flex-col items-end mt-8 mx-4">
-          {" "}
-          {/* Added mx-4 for some spacing */}
           <p className="text-lg">Total Amount</p>
           {totalAmount !== undefined && (
             <div className="flex flex-col items-end mt-4">

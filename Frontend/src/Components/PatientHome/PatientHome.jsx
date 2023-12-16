@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../UI/UX/Logo";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,6 +22,10 @@ import Footer from "../Patient/Footer";
 export default function PatientHome() {
   const [isLinkPatientModalOpen, setIsLinkPatientModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const handleClick = (path) => {
+    navigate(path);
+  };
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
@@ -182,27 +187,31 @@ export default function PatientHome() {
           <h3>What You Need..</h3>
         </div>
         <div className="footer-in row">
-          <div className="col-4">
+
+
+
+
+
+          <div className="col-4" onClick={() => { setIsModalOpen(true); }}>
             <FontAwesomeIcon
               icon={faFileCirclePlus}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a  onClick={() => {
-                setIsModalOpen(true);
-              }}>
+            <a>
               <h3>Upload/Remove Documents</h3>
             </a>
             <p>upload/remove documents for my medical history</p>
           </div>
 
-          <div className="col-4">
+
+          <div className="col-4" onClick={() => handleClick("/ViewFamilyMem")}>
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/ViewFamilyMem">
+            <a>
               <h3>Family</h3>
             </a>
             <p>
@@ -211,55 +220,63 @@ export default function PatientHome() {
               member
             </p>
           </div>
-          <div className="col-4">
+
+
+          <div className="col-4" onClick={() => { setIsLinkPatientModalOpen(true); }} >
             <FontAwesomeIcon
               icon={faCalendarCheck}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a
-              onClick={() => {
-                setIsLinkPatientModalOpen(true);
-              }}
-            >
+            <a>
               <h3>Link Account</h3>
             </a>
 
             <p>Link the Account of a Family Member to Yours</p>
           </div>
-          <div className="col-4">
+
+
+          <div className="col-4" onClick={() => handleClick("/Doctors")}>
             <FontAwesomeIcon
-              icon={faStethoscope}
+              icon={faFileCirclePlus}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Doctors">
+            <a>
               <h3>Our Doctors</h3>
             </a>
             <p>view a list of all doctors along with their speciality</p>
           </div>
-          <div className="col-4">
+
+
+          <div className="col-4" onClick={() => handleClick("/Requests")}>
             <FontAwesomeIcon
               icon={faHandHoldingMedical}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Packages">
+            <a>
               <h3>Health Packages</h3>
             </a>
             <p>view all details of selected doctor including specilaty</p>
           </div>
-          <div className="col-4">
+
+
+          <div className="col-4" onClick={() => handleClick("/Prescriptions")}>
             <FontAwesomeIcon
               icon={faPrescriptionBottleMedical}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Prescriptions">
+            <a>
               <h3>Pharmacy</h3>
             </a>
             <p>view the available quantity, and sales of each medicine</p>
           </div>
+
+
+
+
         </div>
       </div>
       {isLinkPatientModalOpen ? (

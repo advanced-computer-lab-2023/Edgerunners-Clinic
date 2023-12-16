@@ -53,6 +53,7 @@ export default function Doctors() {
   const [Modal, setModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const [WalletModal, setWalletModal] = useState(false);
+  const [NotEnough, setNotEnough] = useState(false);
 
   function discount() {
     const [discount, setDiscount] = useState();
@@ -520,7 +521,17 @@ export default function Doctors() {
                   <FontAwesomeIcon
                     className="wallet-icon"
                     icon={faWallet}
-                    onClick={() => setModal(true)}
+                    onClick={() => {
+                      if (
+                        totalAmount <
+                        a.Doctor.Hourlyrate * 1.1 * ((100 - discount3) / 100)
+                      ) {
+                        setNotEnough(true);
+                      } else {
+                        setNotEnough(false);
+                      }
+                      setModal(true);
+                    }}
                   />
                   {Modal && (
                     <div style={modalOverlayStyle}>
@@ -540,15 +551,20 @@ export default function Doctors() {
                           Session price: {parseInt(a.Doctor.Hourlyrate * 1.1)}{" "}
                           EGP
                         </p>
-                        <p>discount: {discount3}%</p>
+                        <p>Discount: {discount3}%</p>
                         <p>
-                          total ={" "}
+                          Total ={" "}
                           {parseInt(
                             a.Doctor.Hourlyrate *
                               1.1 *
                               ((100 - discount3) / 100)
                           )}
                         </p>
+                        {NotEnough && (
+                          <div className="bg-red-500 text-white p-2 rounded-md mb-4">
+                            Insufficient Amount
+                          </div>
+                        )}
                         <button
                           onClick={(e) => {
                             handlePaymentWallet(
@@ -560,6 +576,16 @@ export default function Doctors() {
                             );
                             setModal(false);
                           }}
+                          style={{
+                            backgroundColor: "green",
+                            color: "white",
+                            marginRight: "10px",
+                            padding: "8px 12px",
+                            borderRadius: "4px",
+                            width: "100px", // Fixed width
+                            height: "40px", // Fixed height
+                          }}
+                          disabled={NotEnough}
                         >
                           Pay
                         </button>
@@ -567,8 +593,16 @@ export default function Doctors() {
                           onClick={(e) => {
                             setModal(false);
                           }}
+                          style={{
+                            backgroundColor: "red",
+                            color: "white",
+                            padding: "8px 12px",
+                            borderRadius: "4px",
+                            width: "100px", // Fixed width
+                            height: "40px", // Fixed height
+                          }}
                         >
-                          cancel
+                          Cancel
                         </button>
                       </div>
                     </div>

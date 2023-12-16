@@ -251,7 +251,7 @@ export default function DoctorHome() {
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/MyWalletD">
+            <a href="/EditMyProf">
               <h3>My Wallet</h3>
             </a>
             <p>View the Amount Available in My Wallet</p>

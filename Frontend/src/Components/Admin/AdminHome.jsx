@@ -16,11 +16,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import FilterModal from "../PatientHome/FilterModal";
 import SetAdmin from "./SetAdmin";
-//import SetAdmin from "../PatientHome/UploadDocuments";
+import RemoveUser from "./RemovePar";
 import Footer from "../Patient/Footer";
 
 export default function AdminHome() {
   const [isModalSetAdminOpen, setIsModalSetAdminOpen] = useState(false);
+  const [isModalRemoveUserOpen, setIsModalRemoveUserOpen] = useState(false);
   //const [isUwU, setIsUwU] = useState(false);
   const navigate = useNavigate();
   const handleClick = (path) => {
@@ -51,12 +52,12 @@ export default function AdminHome() {
             <div className="navbar-collapse" id="navbarExample01">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/setAdmin">
+                  <a className="nav-link" aria-current="page" onClick={() => { setIsModalSetAdminOpen(true); }}>
                     Add Admin
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/removePar">
+                  <a className="nav-link" aria-current="page" onClick={() => { setIsModalRemoveUserOpen(true); }}>
                     Remove User
                   </a>
                 </li>
@@ -184,7 +185,7 @@ export default function AdminHome() {
 
           <div className="col-4" onClick={() => { setIsModalSetAdminOpen(true); }}>
             <FontAwesomeIcon
-              icon={faFileCirclePlus}
+              icon={faPeopleGroup}
               size="4x"
               style={{ color: "#82d76a" }}
             />
@@ -197,7 +198,7 @@ export default function AdminHome() {
 
 
 
-          <div className="col-4" onClick={() => handleClick("/RemovePar")}>
+          <div className="col-4" onClick={() => { setIsModalRemoveUserOpen(true); }}>
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
@@ -208,6 +209,8 @@ export default function AdminHome() {
             </a>
             <p>Remove patient, doctor, or admin from the system</p>
           </div>
+
+
           <div className="col-4" onClick={() => handleClick("/DoctorRequests")}>
             <FontAwesomeIcon
               icon={faPeopleGroup}
@@ -262,6 +265,19 @@ export default function AdminHome() {
               }}
             />
           <SetAdmin/>
+          {/*<div>Test component</div>*/}
+          </FilterModal>
+        ) : null}
+      {isModalRemoveUserOpen ? (
+          <FilterModal>
+          <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalRemoveUserOpen(false);
+              }}
+            />
+          <RemoveUser/>
           {/*<div>Test component</div>*/}
           </FilterModal>
         ) : null}

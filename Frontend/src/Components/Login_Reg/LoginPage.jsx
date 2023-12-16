@@ -78,7 +78,7 @@ class LoginPage extends Component {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
     if (passwordRegex.test(this.state.signUp_password)) {
       this.handleUpload();
-       // Call the signup function here or perform other actions
+      // Call the signup function here or perform other actions
     } else {
       // Show error in the register page
       this.setState({ errorPassword: true, success: false });
@@ -373,22 +373,18 @@ class LoginPage extends Component {
                     type="text"
                     placeholder="Education"
                   />
-                  
+
                   <select
                     onChange={(event) => {
                       this.setState({
-                      signUp_speciality: event.currentTarget.value
-                    });
+                        signUp_speciality: event.currentTarget.value,
+                      });
                     }}
                   >
                     <option value="">Select Speciality</option>
                     {this.state.Specialities.map((speciality, index) => {
                       return (
-                        <option
-                          key={index}
-                          value={speciality}
-                        
-                        >
+                        <option key={index} value={speciality}>
                           {speciality}
                         </option>
                       );
@@ -455,10 +451,14 @@ class LoginPage extends Component {
                 />
                 <a href="/ResetPass">Forgot your password?</a>
                 {this.state.success && (
-                  <a style={{ color: "green" }}>login successfull</a>
+                  <div className="bg-green-500 text-white p-2 rounded-md mb-4">
+                    Login successful
+                  </div>
                 )}
                 {this.state.error && (
-                  <a style={{ color: "red" }}>invalid username or password</a>
+                  <div className="bg-red-500 text-white p-2 rounded-md mb-4">
+                    Invalid username or password
+                  </div>
                 )}
                 <button onClick={this.signIn}>Sign In</button>
                 <ContractPage enable={this.state.enable} />

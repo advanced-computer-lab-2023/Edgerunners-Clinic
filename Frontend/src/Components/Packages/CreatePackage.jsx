@@ -28,88 +28,93 @@ export default function CreatePackage() {
   };
 
   return (
-    <div className="tailwind">
+    <div >
         <div>
-          <a href="/AdminHome">
+      {/*<a href="/AdminHome">
             <Logo />
-          </a>
-          <div className=" justify-center flex mt-20">
-            <Card width="w-4/12" height=" h-[34rem]" >
-              <div className=" flex justify-center  mt-6 mb-0 ">
+          </a>*/}
+          <div >
+      {/*<Card width="w-4/12" height=" h-[34rem]" >*/}
+              <div >
                 <Logo height="4rem" />
 
-                <h1 className=" text-2xl font-bold  text-center  text-sky-600  ml-0   mt-6 ">
+                <h1 >
                   {" "}
                   Create Package{" "}
                 </h1>
               </div>
-              <div className=" flex justify-center mt-7">
+              <div >
                   <form onSubmit={handleSubmit}>
-                    <div className=" mt-3">
-                      <div className=" mb-4">
-                        <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500 ml-2" htmlFor="name">Name:</label>
+                    <div >
+                      <div >
+                        <label  htmlFor="name">Name:</label>
+                  <br />
                         <input
                           type="text"
                           value={name}
                           onChange={(e) => {
                             setName(e.target.value);
                           }}
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                        
                         />
                       </div>
-                      <div className=" mb-4">
-                        <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500 ml-2" htmlFor="discountDoctor">Discount for doctor sessions:</label>
+                      <div >
+                        <label  htmlFor="discountDoctor">Discount for doctor sessions:</label>
+                  <br />
                         <input
                           type="number"
                           value={discountDoctor}
                           onChange={(e) => {
                             setdiscountDoctor(e.target.value);
                           }}
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                        
                         />
                       </div>
-                      <div className=" mb-4">
-                        <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500  ml-2" htmlFor="discountMedicin">Discount for medicine orders:</label>
+                      <div >
+                        <label  htmlFor="discountMedicin">Discount for medicine orders:</label>
+                  <br />
                         <input
                           type="number"
                           value={discountMedicin}
                           onChange={(e) => {
                             setdiscountMedicin(e.target.value);
                           }}
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                        
                         />
                       </div>
-                      <div className=" mb-4">
-                        <label className=" text-xl font-bold    font-SourceSansPro   text-gray-500 ml-2" htmlFor="discountFamily">Discount for family members subscriptions:</label>
+                      <div >
+                        <label  htmlFor="discountFamily">Discount for family members subscriptions:</label>
+                  <br />
                         <input
                           type="number"
                           value={discountFamily}
                           onChange={(e) => {
                             setdiscountFamily(e.target.value);
                           }}
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                        
                         />
                       </div>
-                      <div className=" mb-4">
-                        <label className=" text-xl font-bold    font-SourceSansPro   text-gray-500 ml-2" htmlFor="discountFamily" htmlFor="price">Price:</label>
+                      <div >
+                        <label  htmlFor="discountFamily" htmlFor="price">Price:</label>
+                  <br />
                         <input
                           type="number"
                           value={price}
                           onChange={(e) => {
                             setPrice(e.target.value);
                           }}
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                        
                         />
                       </div>
-                        <div className=" flex justify-center  mt-6">
+                        <div >
                           <br />
                           <br />
-                          <button className="  text-sky-600    w-40  h-9  rounded-md   mt-5 shadow block" type="submit">Submit</button>
+                          <button  type="submit">Submit</button>
                         </div>
                     </div>
                   </form>
                 </div>
-             </Card>
+      {/*</Card>*/}
             </div>
         </div>
     </div>

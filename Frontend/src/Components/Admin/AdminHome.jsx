@@ -17,11 +17,13 @@ import {
 import FilterModal from "../PatientHome/FilterModal";
 import SetAdmin from "./SetAdmin";
 import RemoveUser from "./RemovePar";
+import CreatePackage from "../Packages/CreatePackage";
 import Footer from "../Patient/Footer";
 
 export default function AdminHome() {
   const [isModalSetAdminOpen, setIsModalSetAdminOpen] = useState(false);
   const [isModalRemoveUserOpen, setIsModalRemoveUserOpen] = useState(false);
+  const [isModalCreatePackageOpen, setIsModalCreatePackageOpen] = useState(false);
   //const [isUwU, setIsUwU] = useState(false);
   const navigate = useNavigate();
   const handleClick = (path) => {
@@ -72,11 +74,7 @@ export default function AdminHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    href="/createPackage"
-                  >
+                  <a className="nav-link" aria-current="page" onClick={() => { setIsModalCreatePackageOpen(true); }} >
                     Add Packages
                   </a>
                 </li>
@@ -222,7 +220,7 @@ export default function AdminHome() {
             </a>
             <p>View doctors trying to join the system</p>
           </div>
-          <div className="col-4" onClick={() => handleClick("/CreatePackage")}>
+          <div className="col-4" onClick={() => { setIsModalCreatePackageOpen(true); }}>
             <FontAwesomeIcon
               icon={faStethoscope}
               size="4x"
@@ -278,6 +276,19 @@ export default function AdminHome() {
               }}
             />
           <RemoveUser/>
+          {/*<div>Test component</div>*/}
+          </FilterModal>
+        ) : null}
+      {isModalCreatePackageOpen ? (
+          <FilterModal>
+          <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalCreatePackageOpen(false);
+              }}
+            />
+          <CreatePackage/>
           {/*<div>Test component</div>*/}
           </FilterModal>
         ) : null}

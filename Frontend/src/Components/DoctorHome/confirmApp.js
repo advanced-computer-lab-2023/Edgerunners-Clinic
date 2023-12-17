@@ -1,8 +1,6 @@
 import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 
-import emailjs from '@emailjs/browser';
-
 
 const sendEmail = ({ DocrorUserName, message, doctorEmail }) => {
   
@@ -13,6 +11,7 @@ const sendEmail = ({ DocrorUserName, message, doctorEmail }) => {
   }, '8xcmoOBw3G1Xkvd5d')
     .then((result) => {
         console.log(result.text);
+        console.log(doctorEmail);
         
     })
     .catch((error) => {

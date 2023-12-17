@@ -136,7 +136,7 @@ const GetWalletD = async (req, res) => {
 
 const getDoctors = async (req, res) => {
   try {
-    const { Name, Speciality, Status } = req.query;
+    const { Name, Speciality, Status,Username } = req.query;
     const filter = {};
     if (Name) {
       filter.Name = Name;
@@ -146,6 +146,9 @@ const getDoctors = async (req, res) => {
     }
     if (Status) {
       filter.Status = Status;
+    }
+    if(Username){
+      filter.Username= Username;
     }
     const Doctors = await Doctor.find(filter);
     res.status(200).send(Doctors);

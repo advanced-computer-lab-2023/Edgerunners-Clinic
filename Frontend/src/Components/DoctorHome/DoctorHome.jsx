@@ -32,9 +32,7 @@ export default function DoctorHome() {
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-            <a href="/DoctorHome">
-              <Logo />
-            </a>
+            <Logo />
             <button
               className="navbar-toggler ps-0"
               type="button"
@@ -209,48 +207,60 @@ export default function DoctorHome() {
             <p>upload/remove documents for my medical history</p>
           </div>
 
-          <div className="col-4" onClick={() => {
-                setIsModalOpenFollowUp(true);
-              }}>
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsModalOpenFollowUp(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-              <h3>Schedule a Follow-Up</h3>
+            <h3>Schedule a Follow-Up</h3>
             <p>schedule a follow-up for a patient</p>
           </div>
-          <div className="col-4" onClick={() => {
-                setIsModalOpen(true);
-              }}>
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faCalendarCheck}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-              <h3>Add Appointment</h3>
+            <h3>Add Appointment</h3>
             <p>Add an Appointment</p>
           </div>
-          <div className="col-4" onClick={() => {
-                handleClick("/ViewMyPatients");
-              }}>
+          <div
+            className="col-4"
+            onClick={() => {
+              handleClick("/ViewMyPatients");
+            }}
+          >
             <FontAwesomeIcon
               icon={faStethoscope}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-              <h3>My Patients</h3>
+            <h3>My Patients</h3>
             <p>view a list of all patients</p>
           </div>
-          <div className="col-4" onClick={() => {
-                handleClick("/EditMyProf");
-              }}>
+          <div
+            className="col-4"
+            onClick={() => {
+              handleClick("/EditMyProf");
+            }}
+          >
             <FontAwesomeIcon
               icon={faHandHoldingMedical}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-              <h3>My Wallet</h3>
+            <h3>My Wallet</h3>
             <p>View the Amount Available in My Wallet</p>
           </div>
           <div className="col-4">

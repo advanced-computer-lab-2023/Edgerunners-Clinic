@@ -257,29 +257,17 @@ export default function DefaultTable() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    href="/updatePackage"
-                  >
+                  <a className="nav-link" aria-current="page" href="/updatePackage" >
                     Update Packages
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    href="/createPackage"
-                  >
+                  <a className="nav-link" aria-current="page" href="/createPackage" >
                     Add Packages
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    aria-current="page"
-                    href="/changePassword"
-                  >
+                  <a className="nav-link" aria-current="page" href="/changePassword" >
                     Change password
                   </a>
                 </li>

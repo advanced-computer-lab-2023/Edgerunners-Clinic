@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Logo from "../../UI/UX/Logo";
+import { Link } from "react-router-dom";
 import GetPrescriptions from "./getPrescriptions";
 import html2pdf from "html2pdf.js";
 import Footer from "../Patient/Footer";
@@ -7,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import MyWalletP from "../Patient/MyWalletP";
 import FilterModal from "./FilterModal";
+import axios from "axios";
 
 export default function Prescriptions() {
   const [date, setDate] = useState();
@@ -22,6 +24,30 @@ export default function Prescriptions() {
     Doctor: doctor,
     Status: status,
   });
+  console.log(Prescriptions);
+
+  const handlePayment = async (index) => {
+    let pay = Prescriptions[index].RequiredMedicines;
+    let arr = [];
+    for (let i = 0; i < pay.length; ++i) {
+      const res = await axios.get(`http://localhost:3001/getmedicine`, {
+        params: { Name: pay[i].name },
+      });
+      console.log(res.data[0].Name);
+      arr.push({
+        medicinename: res.data[0].Name,
+        count: 1,
+        price: res.data[0].Price,
+        totalprice: res.data[0].Price,
+      });
+    }
+    console.log(arr);
+    axios.put("http://localhost:3001/updateCart", {
+      arr,
+      username: sessionStorage.getItem("Username"),
+    });
+     window.location.href = "http://localhost:5173/Cart";
+  };
 
   const downloadPrescriptionAsPDF = (prescription) => {
     // Create a div element with the prescription details
@@ -73,12 +99,13 @@ export default function Prescriptions() {
     console.log(Prescriptions);
     return (
       <div className="Bootstrap PatientHome">
-        <div className="header">
-          <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+        <div style={{ position: 'sticky', top: 0 }} className="header">
+          <nav style={{ position: 'relative' }} className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
-                <Logo />
-              </a>
+             <Link to="/PatientHome" className="logo-link">
+               <Logo />
+               <span className="clinicText">El-7a2ny Clinic</span>
+             </Link>
 
               <button
                 className="navbar-toggler ps-0"
@@ -192,7 +219,7 @@ export default function Prescriptions() {
           </nav>
         </div>
 
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "static" }}>
           <img
             style={{ width: "100%", height: "auto" }}
             src="./resources/pills.jpg"
@@ -305,7 +332,16 @@ export default function Prescriptions() {
                             </li>
                           ))}
                         </ul>
-                        <button onClick={() => downloadPrescriptionAsPDF(p)}>
+                        <button
+                          class="btn btn-outline-secondary"
+                          onClick={() => handlePayment(index)}
+                        >
+                          Pay
+                        </button>
+                        <button
+                          class="btn btn-outline-secondary"
+                          onClick={() => downloadPrescriptionAsPDF(p)}
+                        >
                           Download
                         </button>
                       </a>

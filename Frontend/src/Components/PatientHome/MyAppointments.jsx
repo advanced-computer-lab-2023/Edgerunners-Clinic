@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../../UI/UX/Logo";
 import {
   FilterAppointmentsDate,
@@ -137,12 +138,13 @@ export default function PatientAppointments() {
   if (appointmentDate || appointmentStatus) {
     return (
       <div className="Bootstrap PatientHome">
-        <div className="header">
-          <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+        <div style={{ position: 'sticky', top: 0 }} className="header">
+          <nav style={{ position: 'relative' }} className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
-                <Logo />
-              </a>
+            <Link to="/PatientHome" className="logo-link">
+              <Logo />
+              <span className="clinicText">El-7a2ny Clinic</span>
+            </Link>
 
               <button
                 className="navbar-toggler ps-0"
@@ -255,7 +257,7 @@ export default function PatientAppointments() {
             </div>
           </nav>
         </div>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "static" }}>
           <img
             style={{ width: "100%", height: "auto" }}
             src="./resources/consultant .jpg"
@@ -315,6 +317,7 @@ export default function PatientAppointments() {
                 setFilterModalCancel(false);
                 setSelectedAppointment(null);
                 handleCancel();
+                window.location.reload();
               }}
               style={{ marginRight: "10px" }}
             >
@@ -360,6 +363,7 @@ export default function PatientAppointments() {
                 setSelectedAppointment(null);
                 handleReschedule();
                 handleReschedule2();
+                window.location.reload();
               }}
             >
               Confirm

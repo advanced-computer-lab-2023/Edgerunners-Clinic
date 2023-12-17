@@ -4,6 +4,7 @@ const Doctor = require("../Models/Doctor.js");
 const Relation = require("../Models/Relation.js");
 const Admin = require("../Models/Admin.js");
 const Appointment = require("../Models/Appointment.js");
+const Pharmacist = require("../Models/Pharmacist.js");
 var bcrypt = require("bcrypt");
 const { default: mongoose } = require("mongoose");
 const hashPassword = async (password) => {
@@ -52,6 +53,35 @@ const createPatient = async (req, res) => {
   }
 };
 
+const getPharmacists = async (req, res) => {
+  try {
+    const Pharmacists = await Pharmacist.find();
+    res.status(200).send(Pharmacists);
+  } catch (e) {
+    res.status(400).send("Error could not get Pharmacists !!");
+  }
+};
+
+const notifyOutOfStock = async (req, res) => {
+  try {
+    const users = await Pharmacist.find({ ReqStatus: "Accepted" });
+
+    // Use Promise.all to wait for all promises to resolve
+    await Promise.all(users.map(async (user) => {
+      let notification = user.Notifications || [];
+      notification.push(req.body.notifications);
+      await Pharmacist.updateOne(
+        { Username: user.Username },
+        { $set: { Notifications: notification } },
+      );
+    }));
+
+    res.status(200).send("Updated successfully");
+  } catch (error) {
+    res.status(400).send("Error: Could not update Pharmacist!!");
+  }
+};
+
 const patientUploadFile = async (req, res) => {
   const username = req.body.Username;
   //console.log(username);
@@ -71,37 +101,37 @@ const patientUploadFile = async (req, res) => {
   res.status(200);
 };
 
-const deleteFile = async (req, res) =>{
+const deleteFile = async (req, res) => {
   const username = req.body.Username;
   const filter = {};
   filter.Username = username;
-  const patient = await Patient.findOne({Username: username});
+  const patient = await Patient.findOne({ Username: username });
   const filename = req.body.Filename;
   let files = patient.FileNames;
-  let size  = files.length;
+  let size = files.length;
   var filePath = "./uploadPatient/" + filename;
-  
-  let result  = [];
-  for (let i = 0 ; i < size ; ++i) {
+
+  let result = [];
+  for (let i = 0; i < size; ++i) {
     const tmp = files.pop();
     console.log(tmp + " " + filename);
-    if(tmp != filename){
+    if (tmp != filename) {
       result.unshift(tmp);
     }
-}  
+  }
   await Patient.updateOne(
-    {Username: username},
-    {$set: {FileNames: result}});
+    { Username: username },
+    { $set: { FileNames: result } },
+  );
 
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
-    console.log('File deleted:', filename);
+    console.log("File deleted:", filename);
   } else {
-    console.log('File not found:', filename);
+    console.log("File not found:", filename);
   }
   res.status(200).send("all good");
-
-}
+};
 
 const patientUploadHealthRecord = async (req, res) => {
   const username = req.body.Username;
@@ -183,57 +213,68 @@ const getEmailp = async(req,res)=>{
 
 const filterPatients = async (req, res) => {
   // try {
-    const { Name, Username, up } = req.query;
-    const filter = {};
-    const filter2 = {};
-    //console.log({ Name, Username, up });
-    if (Name) {
-      filter2.PatientUsername = Name;
-    }
-    if (Username) {
-      filter.Username = Username;
-      filter2.DoctorUsername = Username;
-    }
+  const { Name, Username, up } = req.query;
+  const filter = {};
+  const filter2 = {};
+  //console.log({ Name, Username, up });
+  if (Name) {
+    filter2.PatientUsername = Name;
+  }
+  if (Username) {
+    filter.Username = Username;
+    filter2.DoctorUsername = Username;
+  }
 
-    const doctor = await Doctor.findOne(filter);
-    const patients = doctor.Patients;
-    const r = [];
-    const puser = [];
-    for (let i = 0; i < patients.length; ++i) {
-      if (!Name) {
-        r.push(patients[i].patient);
-        puser.push(patients[i].patient.Username);
-      } else if (patients[i].patient.Name == Name) {
-        r.push(patients[i].patient);
-        puser.push(patients[i].patient.Username);
-      }
+  const doctor = await Doctor.findOne(filter);
+  const patients = doctor.Patients;
+  const r = [];
+  const puser = [];
+  for (let i = 0; i < patients.length; ++i) {
+    if (!Name) {
+      r.push(patients[i].patient);
+      puser.push(patients[i].patient.Username);
+    } else if (patients[i].patient.Name == Name) {
+      r.push(patients[i].patient);
+      puser.push(patients[i].patient.Username);
     }
+  }
+  const rr = [];
+  let flag = false;
+  for (let i = 0; i < puser.length; ++i) {
+    filter2.PatientUsername = puser[i];
+    const ap = await Appointment.find(filter2);
+    //console.log(ap);
+    //console.log(ap.length);
 
-    const rr = [];
-    let flag = false;
-    for (let i = 0; i < puser.length; ++i) {
-      filter2.PatientUsername = puser[i];
-      const ap = await Appointment.find(filter2);
-      //console.log(ap);
-      //console.log(ap.length);
-      
-      for( let j = 0; j < ap.length; ++j){
-      if(!flag){
-      if (ap[j] && ap[j].Date >= Date.now()) {
-        const patientName = await Patient.findOne({Username: ap[j].PatientUsername});
-        rr.push(patientName);
-        flag = true;
+    for (let j = 0; j < ap.length; ++j) {
+      if (!flag) {
+        if (ap[j] && ap[j].Date >= Date.now()) {
+          let flag2 = false;
+          const patientName = await Patient.findOne({
+            Username: ap[j].PatientUsername,
+          });
+          console.log(patientName);
+          for (let k = 0; k < rr.length; ++k) {
+            if (rr[k].Username === patientName.Username) {
+              flag2 = true;
+              break;
+            }
+            //flag = true;
+          }
+          if(!flag2){
+            rr.push(patientName);
+
+          }
+        }
       }
     }
   }
-    }
-    //console.log(rr);
 
-    if (up == "abdo") {
-      res.status(200).send(rr);
-    } else {
-      res.status(200).send(r);
-    }
+  if (up == "abdo") {
+    res.status(200).send(rr);
+  } else {
+    res.status(200).send(r);
+  }
   // } catch (e) {
   //   res.status(400).send("Error could not get Patients !!");
   // }
@@ -248,6 +289,40 @@ const updatePatient = async (req, res) => {
   ).catch("an error happened");
   res.status(200).send("all good");
 };
+
+const updateCart = async (req, res) => {
+  const username = req.body.username;
+  const arr = req.body.arr;
+  console.log(arr);
+  await Patient.updateOne(
+    { Username: username },
+    {
+      $set: { 
+        Cart: [],
+        
+      },
+    },
+  )
+  for(let i = 0 ; i < arr.length ; ++i){
+    
+  await Patient.updateOne(
+    { Username: username },
+    {
+      $push: { 
+        Cart: {
+          medicineName: arr[i].medicinename,
+          count: arr[i].count,
+          price: arr[i].price,
+          totalprice: arr[i].price,
+        },
+      },
+    },
+  ).catch("an error happened");
+  }
+  res.status(200).send("all good");
+};
+
+
 
 const ResetPass = async (req, res) => {
   const newPassword = req.body.Password;
@@ -265,7 +340,7 @@ const ResetPass = async (req, res) => {
     if (user) {
       await Patient.updateOne(
         { Email: email },
-        { $set: { Password: await hashPassword(newPassword) } }
+        { $set: { Password: await hashPassword(newPassword) } },
       ).catch("An error happened");
     } else {
       user = await Admin.findOne({ Email: email });
@@ -273,7 +348,7 @@ const ResetPass = async (req, res) => {
       if (user) {
         await Admin.updateOne(
           { Email: email },
-          { $set: { Password: await hashPassword(newPassword) } }
+          { $set: { Password: await hashPassword(newPassword) } },
         ).catch("An error happened");
       } else {
         res.status(404).send("Email not found");
@@ -338,7 +413,7 @@ const incrementQuantity = async (req, res) => {
     }
     let cart = user.Cart || [];
     const existingMedicineIndex = cart.findIndex(
-      (item) => item.medicineName === orderName
+      (item) => item.medicineName === orderName,
     );
 
     if (existingMedicineIndex !== -1) {
@@ -369,7 +444,7 @@ const decrementQuantity = async (req, res) => {
 
     let cart = user.Cart || [];
     const existingMedicineIndex = cart.findIndex(
-      (item) => item.medicineName === orderName
+      (item) => item.medicineName === orderName,
     );
 
     if (existingMedicineIndex !== -1) {
@@ -406,7 +481,7 @@ const removeFromCart = async (req, res) => {
     }
     let cart = user.Cart || [];
     const existingMedicineIndex = cart.findIndex(
-      (item) => item.medicineName === orderName
+      (item) => item.medicineName === orderName,
     );
 
     if (existingMedicineIndex !== -1) {
@@ -459,7 +534,7 @@ const addOrder = async (req, res) => {
     }
     const totalpricepaid = user.Cart.reduce(
       (acc, item) => acc + item.totalprice,
-      0
+      0,
     );
     if (wallet >= totalpricepaid) {
       wallet -= totalpricepaid;
@@ -467,7 +542,7 @@ const addOrder = async (req, res) => {
     user.Cart = [];
     await Patient.updateOne(
       { Username: username },
-      { $set: { Orders: order, Sales: sales, Cart: [], Wallet: wallet } }
+      { $set: { Orders: order, Sales: sales, Cart: [], Wallet: wallet } },
     );
     res.status(200).send("Added order successfully!");
   } catch (e) {
@@ -495,17 +570,20 @@ const getAddress = async (req, res) => {
   res.status(200).send(address);
 };
 
-const PaymentPrescriptionWallet = async (req, res)=>{
-  const patient = await Patient.findOne({Username:req.body.username});
+const PaymentPrescriptionWallet = async (req, res) => {
+  const patient = await Patient.findOne({ Username: req.body.username });
   let wallet = patient.Wallet;
   const price = req.body.price;
   const discount = req.body.discount;
-  total = price* ((100-discount)/100);
-  if(wallet >= total){
-    await Patient.updateOne({Username : req.body.username}, {$set:{Wallet: wallet - total}})
-    res.status(200).send('Payment Successful');
-  }else{
-    res.status(403).send('Insufficient Balance')
+  total = price * ((100 - discount) / 100);
+  if (wallet >= total) {
+    await Patient.updateOne(
+      { Username: req.body.username },
+      { $set: { Wallet: wallet - total } },
+    );
+    res.status(200).send("Payment Successful");
+  } else {
+    res.status(403).send("Insufficient Balance");
   }
 };
 
@@ -528,7 +606,11 @@ module.exports = {
   incrementQuantity,
   decrementQuantity,
   getCart,
+  updateCart,
   getAddress,
   PaymentPrescriptionWallet,
   getEmailp,
+  getPharmacists,
+  notifyOutOfStock,
+
 };

@@ -1,6 +1,7 @@
 import axios from "axios";
 import Logo from "../../UI/UX/Logo";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Card from "../../UI/UX/Card";
 import Footer from "./Footer";
 import MyWalletP from "./MyWalletP";
@@ -75,12 +76,13 @@ function ViewAndUNSubToAHealthPackage() {
   console.log(MyFamily.length);
   return (
     <div className="Bootstrap PatientHome">
-      <div className="header">
-        <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+      <div style={{ position: 'sticky', top: 0 }} className="header">
+        <nav style={{ position: 'relative' }} className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-            <a href="/PatientHome">
+            <Link to="/PatientHome" className="logo-link">
               <Logo />
-            </a>
+              <span className="clinicText">El-7a2ny Clinic</span>
+            </Link>
 
             <button
               className="navbar-toggler ps-0"

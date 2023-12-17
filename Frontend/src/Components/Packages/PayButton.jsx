@@ -3,7 +3,7 @@ import axios from "axios";
 
 const PayButton = (name) => {
     const handleCheckout = async() => {
-         await axios.post("http://localhost:3001/create-checkout-session",{
+         await axios.post("http://localhost:3005/create-checkout-session",{
             name
         })
         .then((res)=>{

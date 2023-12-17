@@ -19,7 +19,7 @@ function ViewAndUNSubToAHealthPackage() {
   useEffect(() => {
     console.log(p);
     axios
-      .get("http://localhost:3001/viewStatusforMyself", {
+      .get("http://localhost:3005/viewStatusforMyself", {
         params: { patientUsername: username },
       })
       .then((response) => {
@@ -35,7 +35,7 @@ function ViewAndUNSubToAHealthPackage() {
       });
 
     axios
-      .get("http://localhost:3001/viewStatusForMyFamilyMember", {
+      .get("http://localhost:3005/viewStatusForMyFamilyMember", {
         params: { patientUsername: username },
       })
       .then((response) => {
@@ -66,10 +66,10 @@ function ViewAndUNSubToAHealthPackage() {
   }
 
   const handleUnsubscribe = () => {
-    axios.put("http://localhost:3001/Cancelsubscription", p);
+    axios.put("http://localhost:3005/Cancelsubscription", p);
   };
   const handleUnsubscribeF = (Username) => {
-    axios.put("http://localhost:3001/Cancelsubscription", {
+    axios.put("http://localhost:3005/Cancelsubscription", {
       patientUsername: Username,
     });
   };

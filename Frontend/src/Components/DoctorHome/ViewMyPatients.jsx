@@ -25,7 +25,7 @@ function ViewMyPatients(props) {
     useEffect(() => {
       getMyMedicine();
       async function getMyMedicine() {
-        const res = await axios.get(`http://localhost:3001/getmedicine`);
+        const res = await axios.get(`http://localhost:3005/getmedicine`);
         setmedicinedatabase(res.data);
       }
     }, []);
@@ -92,7 +92,7 @@ function ViewMyPatients(props) {
       // Make axios PUT request
       const currentDate = new Date();
       const response = await axios.post(
-        "http://localhost:3001/createPrescriptions",
+        "http://localhost:3005/createPrescriptions",
         {
           Patient: sessionStorage.getItem("PatientUsername"),
           Status: "Unfilled",

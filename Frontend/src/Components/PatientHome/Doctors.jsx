@@ -75,7 +75,7 @@ export default function Doctors() {
       getMyDiscount();
       async function getMyDiscount() {
         const res = await axios.get(
-          `http://localhost:3001/getDiscountSession`,
+          `http://localhost:3005/getDiscountSession`,
           { params: { username: sessionStorage.getItem("Username") } }
         );
         setDiscount(res.data);
@@ -91,7 +91,7 @@ export default function Doctors() {
       getMyWallet();
       async function getMyWallet() {
         const res = await axios.get(
-          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+          `http://localhost:3005/getWallet/${sessionStorage.getItem(
             "Username"
           )}`
         );
@@ -135,7 +135,7 @@ export default function Doctors() {
   //   if (chosen !== sessionStorage.getItem("Username")) {
   //     NationalID = chosen;
   //   }
-  //   await axios.put(`http://localhost:3001/updateAppointment`, {
+  //   await axios.put(`http://localhost:3005/updateAppointment`, {
   //     DoctorUsername: doctor,
   //     Date: Date,
   //     TimeH: TimeH,
@@ -170,7 +170,7 @@ export default function Doctors() {
     if (chosen !== sessionStorage.getItem("Username")) {
       NationalID = chosen;
     }
-    await axios.put(`http://localhost:3001/updateAppointmentWallet`, {
+    await axios.put(`http://localhost:3005/updateAppointmentWallet`, {
       DoctorUsername: doctor,
       Date: Date,
       TimeH: TimeH,
@@ -188,7 +188,7 @@ export default function Doctors() {
     let PaymentType = "Appointment";
     let discount = null;
     await axios
-      .get("http://localhost:3001/getDiscountSession", {
+      .get("http://localhost:3005/getDiscountSession", {
         params: { username: sessionStorage.getItem("Username") },
       })
       .then((res) => {
@@ -197,14 +197,14 @@ export default function Doctors() {
     if (discount !== null) {
       let coupon = null;
       await axios
-        .get("http://localhost:3001/create-coupon", {
+        .get("http://localhost:3005/create-coupon", {
           params: { coupon: discount },
         })
         .then((res) => {
           coupon = res.data;
         });
       await axios
-        .post("http://localhost:3001/create-checkout-session", {
+        .post("http://localhost:3005/create-checkout-session", {
           name,
           Username,
           PaymentType,

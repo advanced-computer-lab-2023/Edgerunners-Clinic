@@ -12,7 +12,7 @@ function ViewPres() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/getPrescriptions",
+          "http://localhost:3005/getPrescriptions",
           {
             params: {
               Username: x,

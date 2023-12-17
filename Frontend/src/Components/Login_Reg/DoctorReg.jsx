@@ -38,7 +38,7 @@ class DoctorReg extends Component{
 	  formData.append("file", this.state.file);
     console.log(sessionStorage.getItem("Username"));
       try {
-        const result = await fetch("http://localhost:3001/doctorUploadFile", {
+        const result = await fetch("http://localhost:3005/doctorUploadFile", {
           method: "POST",
           body: formData,
         });
@@ -65,7 +65,7 @@ class DoctorReg extends Component{
 		}
 			console.log(newUser);
 
-			axios.post('http://localhost:3001/doctorUploadFile', newUser)
+			axios.post('http://localhost:3005/doctorUploadFile', newUser)
 			.then(res => {
 			  console.log(res)
 			}).catch(err =>{
@@ -79,7 +79,7 @@ class DoctorReg extends Component{
 			Username : this.state.signIn_username,
 			Password : this.state.signIn_password,
 		}
-		axios.post('http://localhost:3001/signin', {Username : newUser.Username , Password: newUser.Password})
+		axios.post('http://localhost:3005/signin', {Username : newUser.Username , Password: newUser.Password})
 			.then(res => {
 				sessionStorage.setItem('Username', res.data.Username);
 				sessionStorage.setItem('token',  res.data.token);

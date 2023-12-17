@@ -21,7 +21,7 @@ const [reload,setreload]=useState(false);
   const getPatientNames = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3001/PatientsName/${sessionStorage.getItem(
+        `http://localhost:3005/PatientsName/${sessionStorage.getItem(
           "Username"
         )}`
       );
@@ -32,7 +32,7 @@ const [reload,setreload]=useState(false);
   };
   const getPatientEmail = async () => {
     try {
-      const response =await axios.get("http://localhost:3001/getEmailp",{params:{Username: patient}});
+      const response =await axios.get("http://localhost:3005/getEmailp",{params:{Username: patient}});
       setpatientEmail(response.data.Email);
     } catch (error) {
       console.error("Error fetching patient names:", error);
@@ -42,7 +42,7 @@ const [reload,setreload]=useState(false);
   // Function to get the doctor's email
   const getDoctorEmail = async () => {
     try {
-      const response =await axios.get("http://localhost:3001/getEmail",{params:{Username: sessionStorage.getItem("Username")}});
+      const response =await axios.get("http://localhost:3005/getEmail",{params:{Username: sessionStorage.getItem("Username")}});
       setDoctorEmail(response.data);
       console.log(doctorEmail);
     } catch (error) {
@@ -62,7 +62,7 @@ const [reload,setreload]=useState(false);
         TimeH: timeH,
         TimeM: timeM,
       };
-      await axios.post("http://localhost:3001/createFollowUp", appointmentData);
+      await axios.post("http://localhost:3005/createFollowUp", appointmentData);
 
       // Create a notification for the doctor
       const doctorNotification = {
@@ -70,7 +70,7 @@ const [reload,setreload]=useState(false);
         message: `Hello Dr ${sessionStorage.getItem("Username")}, we want to remind you of rescheduling an appointment with ${patient} at ${date}`,
       };
       await axios.post(
-        "http://localhost:3001/createNotification",
+        "http://localhost:3005/createNotification",
         doctorNotification
       );
 
@@ -80,7 +80,7 @@ const [reload,setreload]=useState(false);
         message: `Hello ${patient}, Dr ${sessionStorage.getItem("Username")} rescheduled the appointment with you at ${date}`,
       };
       await axios.post(
-        "http://localhost:3001/createNotification",
+        "http://localhost:3005/createNotification",
         patientNotification
       );
       sendEmail({

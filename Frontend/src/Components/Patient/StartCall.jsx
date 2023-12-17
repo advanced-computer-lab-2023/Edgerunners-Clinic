@@ -31,7 +31,7 @@ function StartCall() {
     const notificationMessage = `Hello Dr ${d},  ${patientUsername} wants to start a video call with you at ${new Date().toLocaleString()}`;
     console.log(notificationMessage);
       try {
-      await axios.post("http://localhost:3001/createNotification",{doctorUsername:d,message: notificationMessage}
+      await axios.post("http://localhost:3005/createNotification",{doctorUsername:d,message: notificationMessage}
         );
       } catch (error) {
         console.error("Error removing notification:", error);

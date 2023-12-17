@@ -85,7 +85,7 @@ export default function DoctorAppointments() {
   };
 
   const handleReschedule = async (e) => {
-    await axios.put("http://localhost:3001/rescheduleAppointment", {
+    await axios.put("http://localhost:3005/rescheduleAppointment", {
       DoctorUsername: DoctorUsername,
       PatientUsername: patientUsername,
       Date: rescheduleDate,
@@ -96,7 +96,7 @@ export default function DoctorAppointments() {
 
   const handleCancel = async (e) => {
     console.log(patientUsername);
-    await axios.put("http://localhost:3001/cancelAppointment", {
+    await axios.put("http://localhost:3005/cancelAppointment", {
       DoctorUsername: DoctorUsername,
       PatientUsername: patientUsername,
       Date: rescheduleDate,
@@ -107,7 +107,7 @@ export default function DoctorAppointments() {
 
   useEffect(() => {}, [newdocUser, newdate, newtimeH, newtimeM, nationalid]);
   const handleReschedule2 = async (e) => {
-    await axios.put("http://localhost:3001/updateAppointment", {
+    await axios.put("http://localhost:3005/updateAppointment", {
       DoctorUsername: sessionStorage.getItem("Username"),
       Date: newdate,
       TimeH: newtimeH,

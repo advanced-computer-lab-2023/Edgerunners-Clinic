@@ -74,7 +74,7 @@ export default function Packages() {
     useEffect(() => {
       getMyDiscount();
       async function getMyDiscount() {
-        const res = await axios.get(`http://localhost:3001/getDiscount`, {
+        const res = await axios.get(`http://localhost:3005/getDiscount`, {
           params: { username: sessionStorage.getItem("Username") },
         });
         setDiscount(res.data);
@@ -90,7 +90,7 @@ export default function Packages() {
       getMyWallet();
       async function getMyWallet() {
         const res = await axios.get(
-          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+          `http://localhost:3005/getWallet/${sessionStorage.getItem(
             "Username"
           )}`
         );
@@ -106,7 +106,7 @@ export default function Packages() {
     setname(name);
   };
   const handlewalletPayment = async () => {
-    const res = await axios.post("http://localhost:3001/createHealthPackage", {
+    const res = await axios.post("http://localhost:3005/createHealthPackage", {
       patientUsername: sessionStorage.getItem("Username"),
       packagename: pname,
     });
@@ -114,7 +114,7 @@ export default function Packages() {
       console.log("you are subscribed to one already");
     } else {
       const res2 = await axios.put(
-        "http://localhost:3001/PaymentPackageWallet",
+        "http://localhost:3005/PaymentPackageWallet",
         {
           username: sessionStorage.getItem("Username"),
           price: price,
@@ -129,7 +129,7 @@ export default function Packages() {
     let PaymentType = "Package";
     let discount = null;
     await axios
-      .get("http://localhost:3001/getDiscount", {
+      .get("http://localhost:3005/getDiscount", {
         params: { username: sessionStorage.getItem("Username") },
       })
       .then((res) => {
@@ -138,14 +138,14 @@ export default function Packages() {
     console.log("I am hereeee" + discount);
     let coupon = null;
     await axios
-      .get("http://localhost:3001/create-coupon", {
+      .get("http://localhost:3005/create-coupon", {
         params: { coupon: discount },
       })
       .then((res) => {
         coupon = res.data;
       });
     await axios
-      .post("http://localhost:3001/create-checkout-session", {
+      .post("http://localhost:3005/create-checkout-session", {
         name,
         Username,
         PaymentType,

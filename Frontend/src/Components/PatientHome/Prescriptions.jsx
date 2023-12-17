@@ -30,7 +30,7 @@ export default function Prescriptions() {
     let pay = Prescriptions[index].RequiredMedicines;
     let arr = [];
     for (let i = 0; i < pay.length; ++i) {
-      const res = await axios.get(`http://localhost:3001/getmedicine`, {
+      const res = await axios.get(`http://localhost:3005/getmedicine`, {
         params: { Name: pay[i].name },
       });
       console.log(res.data[0].Name);
@@ -42,7 +42,7 @@ export default function Prescriptions() {
       });
     }
     console.log(arr);
-    axios.put("http://localhost:3001/updateCart", {
+    axios.put("http://localhost:3005/updateCart", {
       arr,
       username: sessionStorage.getItem("Username"),
     });

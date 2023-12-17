@@ -17,7 +17,7 @@ function ChangePassword() {
             confirmPassword: passwordConValue,
         };
         axios
-            .put("http://localhost:3001/changePassword", change, {})
+            .put("http://localhost:3005/changePassword", change, {})
             .then((res) => {
                 console.log(res);
                 console.log("Password changed");

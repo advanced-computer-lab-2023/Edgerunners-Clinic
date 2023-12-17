@@ -10,7 +10,7 @@ export default function AddAppointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     async function AddAppointment(p) {
-      await axios.post("http://localhost:3001/createAppointment", p);
+      await axios.post("http://localhost:3005/createAppointment", p);
     }
 
     const p = {

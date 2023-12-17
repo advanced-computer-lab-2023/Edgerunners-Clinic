@@ -26,7 +26,7 @@ function RemovePar(props) {
       if (roleValue === "Admin") {
         console.log(username);
         axios
-          .delete("http://localhost:3001/deleteAdmin",{data:username})
+          .delete("http://localhost:3005/deleteAdmin",{data:username})
           .then((res) => {
             usernameRef.current.value = "";
           })
@@ -36,7 +36,7 @@ function RemovePar(props) {
           });
       } else if (roleValue === "Doctor") {
         axios
-          .delete("http://localhost:3001/deleteDoctor", {data:username})
+          .delete("http://localhost:3005/deleteDoctor", {data:username})
           .then((res) => {
             usernameRef.current.value = "";
             roleValue = "";
@@ -47,7 +47,7 @@ function RemovePar(props) {
           });
       } else {
         axios
-          .delete("http://localhost:3001/deletePatient", {data:username})
+          .delete("http://localhost:3005/deletePatient", {data:username})
           .then((res) => {
             usernameRef.current.value = "";
             roleValue = "";

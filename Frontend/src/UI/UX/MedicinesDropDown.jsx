@@ -18,7 +18,7 @@ const MedicinesDropDown = forwardRef( (props,ref) => {
     const fetchData = async () => {
       try {
         const responseMedicines = await axios.get(
-          "http://localhost:3001/getMedicine"
+          "http://localhost:3005/getMedicine"
         );
         setMedicine(responseMedicines.data);
       } catch (error) {

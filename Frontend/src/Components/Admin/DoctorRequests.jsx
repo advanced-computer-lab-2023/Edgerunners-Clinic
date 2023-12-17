@@ -10,7 +10,7 @@ import Footer from "../Patient/Footer";
 const makeRequestTable = async () => {
   const data = [];
   try {
-    const response = await axios.get("http://localhost:3001/getDoctor");
+    const response = await axios.get("http://localhost:3005/getDoctor");
     const doctors = response.data.filter(
       (doctor) => doctor.Status === "Pending"
     );
@@ -115,7 +115,7 @@ const DoctorRequests = () => {
 
   const handleAccept = async (username) => {
     try {
-      await axios.put("http://localhost:3001/updateDoctor", {
+      await axios.put("http://localhost:3005/updateDoctor", {
         Username: username,
         Status: "Waiting",
       });
@@ -133,7 +133,7 @@ const DoctorRequests = () => {
 
   const handleReject = async (username) => {
     try {
-      await axios.put("http://localhost:3001/updateDoctor", {
+      await axios.put("http://localhost:3005/updateDoctor", {
         Username: username,
         Status: "Rejected",
       });
@@ -156,7 +156,7 @@ const DoctorRequests = () => {
   };
   const handleViewFiles = async (filename) => {
     await axios
-      .get(`http://localhost:3001/viewFilesDoctor/${filename}`, {
+      .get(`http://localhost:3005/viewFilesDoctor/${filename}`, {
         responseType: "blob",
       })
       .then((res) => {

@@ -50,7 +50,7 @@ function EditMyProf(props) {
       };
 
       axios
-        .put("http://localhost:3001/updateDoctor", sentData, {})
+        .put("http://localhost:3005/updateDoctor", sentData, {})
         .then((res) => {
           setHourTB(false);
         })
@@ -66,7 +66,7 @@ function EditMyProf(props) {
       };
 
       axios
-        .put("http://localhost:3001/updateDoctor", sentData, {})
+        .put("http://localhost:3005/updateDoctor", sentData, {})
         .then((res) => {
           setAffTB(false);
         })
@@ -80,7 +80,7 @@ function EditMyProf(props) {
       console.log(emailRef.current.value);
       const sentData = { Username: Username, Email: emailRef.current.value };
       axios
-        .put("http://localhost:3001/updateDoctor", sentData, {})
+        .put("http://localhost:3005/updateDoctor", sentData, {})
         .then((res) => {
           setEmailTB(false);
         })

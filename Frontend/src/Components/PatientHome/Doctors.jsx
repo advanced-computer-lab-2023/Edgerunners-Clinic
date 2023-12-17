@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Logo from "../../UI/UX/Logo";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFilter,
@@ -204,9 +205,10 @@ export default function Doctors() {
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
+              <Link to="/PatientHome" className="logo-link">
                 <Logo />
-              </a>
+                <span className="clinicText">El-7a2ny Clinic</span>
+              </Link>
 
               <button
                 className="navbar-toggler ps-0"

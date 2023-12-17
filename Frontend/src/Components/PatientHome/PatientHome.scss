@@ -256,8 +256,8 @@
 
 .appointment-details-items-title {
   color: blue;
-  font-weight: bolder;
-  
+  font-weight: bold;
+
 }
 
 .wallet-icon {
@@ -279,7 +279,7 @@
   justify-content: left;
   gap: 3rem;
   flex-wrap: wrap;
-  position: relative;
+  position: static;
   top: -10rem;
   left: 5rem;
   background-color: #fff;

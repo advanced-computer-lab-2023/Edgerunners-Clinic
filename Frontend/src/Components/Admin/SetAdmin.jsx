@@ -75,14 +75,14 @@ function SetAdmin(props) {
       </a>*/}
       <div >
       {/*<Card width="w-4/12" height=" h-[34rem]" >*/}
-      {/*<div >
+      <div >
             <Logo height="4rem" />
 
             <h1 >
               {" "}
               New Admin{" "}
             </h1>
-          </div>*/}
+          </div>
           <div >
             <form onSubmit={submitHandeler}>
               <div >

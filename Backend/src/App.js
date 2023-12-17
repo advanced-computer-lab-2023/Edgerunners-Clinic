@@ -117,7 +117,7 @@ const MongoURI =
 
 //App variables
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3005;
 const Patient = require("./Models/Patient.js");
 // #Importing the patientController
 

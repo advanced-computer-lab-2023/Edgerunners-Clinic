@@ -9,7 +9,7 @@ export function fetchDoctors() {
     async function fetchDoctors() {
       try {
         const response = await axios.get(
-          "http://localhost:3005/getDoctorsChat"
+          "http://localhost:3005/getDDoctorsChat"
         );
         if (response.data.success) {
           setdoctors(response.data.data);

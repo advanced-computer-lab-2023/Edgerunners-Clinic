@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
-import Logo from "../UI/UX/Logo"
+import Logo from "../UI/UX/Logo";
 
 const Cancel = () => {
   const hasRunRef = useRef(false);
@@ -29,12 +29,24 @@ const Cancel = () => {
   }, []);
 
   return (
-    <div>
-      <a href="/PatientHome">
-        <Logo />
-      </a>
-      <h1>Cancel</h1>
-      <h2>Your payment was canceled.</h2>
+    <div className="bg-gray-100 h-screen flex items-center justify-center">
+      <div className="bg-red-500 p-6 md:mx-auto flex flex-col items-center rounded-md">
+        <div className="text-center">
+          <h3 className="md:text-2xl text-base text-white font-semibold text-center">
+            Payment Error!
+          </h3>
+          <p className="text-white my-2">What did you do?!!</p>
+          <p className="text-white"> Try again </p>
+          <div className="py-10 text-center">
+            <a
+              href="/PatientHome"
+              className="px-12 bg-red-700 hover:bg-red-600 text-white font-semibold py-3 rounded-md"
+            >
+              GO BACK
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

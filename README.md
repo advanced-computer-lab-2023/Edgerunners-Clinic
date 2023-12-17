@@ -31,7 +31,7 @@ Our goal is straightforward: to break down the complexities of traditional healt
 - **Braces:** K&R style is used for brace placement.
 - **Comments:** Use meaningful comments sparingly to explain complex logic or important details.
 
-## installion
+## installation
 
 - clone:
 

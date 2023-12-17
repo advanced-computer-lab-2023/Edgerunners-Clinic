@@ -107,6 +107,11 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="/Notification">
+                    Notification
+                  </a>
+                </li>
+                <li className="nav-item">
                   <a
                     className="nav-link"
                     aria-current="page"

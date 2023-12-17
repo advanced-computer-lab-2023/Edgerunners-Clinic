@@ -123,6 +123,7 @@ if (
           <Route path="/DoctorAppointments" element={<DoctorAppointments />} />
           <Route path="/AddAppointment" element={<AddAppointment />} />
           <Route path="/ViewMyPatients" element={<ViewMyPatients />} />
+          <Route path="/Notification" element={<Notification />} />
           <Route path="/contract" element={<ContractPage />} />
           <Route
             path="/ScheduleAppointment"

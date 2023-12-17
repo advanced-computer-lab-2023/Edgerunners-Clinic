@@ -261,9 +261,14 @@ function ViewPresc() {
                       <div>
                       {medicine.name} - {medicine.dose}
                       </div>
-                      
+                      <div>
                       <button className="editButton px-4 py-2 bg-blue-500 text-white rounded" onClick={() =>{handleUpdate(p._id,medicine.name);console.log(medicine.name)}}>Update</button>
-                      <button className="deleteButton  px-4 py-2 bg-red-500 text-white rounded" onClick={() =>{ handleDelete(p._id, medicine.name)}}>Delete</button>
+                        </div>
+                        <div>
+                        <button className="deleteButton  px-4 py-2 bg-red-500 text-white rounded" onClick={()=>{ handleDelete(p._id, medicine.name);}}>Delete</button>
+                          </div>
+                        
+
                     </li>
                   ))}
                 </ul>

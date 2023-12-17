@@ -10,7 +10,7 @@ function MyWalletP(props) {
       getMyWallet();
       async function getMyWallet() {
         const res = await axios.get(
-          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+          `http://localhost:3005/getWallet/${sessionStorage.getItem(
             "Username"
           )}`
         );
@@ -23,28 +23,16 @@ function MyWalletP(props) {
 
   return (
     <div className="tailwind">
-      <div className="flex justify-center mt-24">
-        <Card width="w-4/12" height=" h-[32rem]">
-          <div className=" flex">
-            <div>
-              <a href="/PatientHome">
-                <Logo height="4rem" />
-              </a>
+      <div className="flex">
+        <Logo height="10rem" className="flex-shrink-0" />
+        <div className="flex flex-col items-end mt-8 mx-4">
+          <p className="text-lg">Total Amount</p>
+          {totalAmount !== undefined && (
+            <div className="flex flex-col items-end mt-4">
+              <p className="text-xl mb-2">{totalAmount} EGP</p>
             </div>
-            <div>
-              <h1> Welcome {patientUsername}</h1>
-            </div>
-          </div>
-
-          <br />
-          <br />
-          {totalAmount != undefined && (
-            <h2 className="  text-xl ">
-              Total Available Amount is : {totalAmount}
-              <button className="">add money</button>
-            </h2>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

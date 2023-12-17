@@ -11,6 +11,7 @@ class LoginPage extends Component {
     signUp_email: null,
     signUp_password: null,
     signUp_number: null,
+    signUp_username: null,
     signIn_username: null,
     signIn_password: null,
     signUp_gender: null,
@@ -25,12 +26,14 @@ class LoginPage extends Component {
   };
 
   handleFileChange = (e) => {
+    console.log("in handle file change ");
     if (e.target.files) {
       this.setState({ file: e.target.files[0] });
     }
   };
 
   handleUpload = async () => {
+    console.log("in handle upload ");
     if (this.state.file) {
       const formData = new FormData();
       formData.append("Username", this.state.signUp_username);
@@ -45,14 +48,14 @@ class LoginPage extends Component {
       formData.append("file", this.state.file);
       console.log(sessionStorage.getItem("Username"));
       try {
-        const result = await fetch("http://localhost:3001/doctorUploadFile", {
+        const result = await fetch("http://localhost:3005/doctorUploadFile", {
           method: "POST",
           body: formData,
         });
 
-        const data = await result.json();
+        //const data = await result.json();
 
-        console.log(data);
+        //console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -70,16 +73,18 @@ class LoginPage extends Component {
     }
   };
   passwordValidationD = (e) => {
+    console.log("in pass validation doc ");
     e.preventDefault();
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{3,}$/;
     if (passwordRegex.test(this.state.signUp_password)) {
-      this.signUpDoctor(e); // Call the signup function here or perform other actions
+      this.handleUpload();
+      // Call the signup function here or perform other actions
     } else {
       // Show error in the register page
       this.setState({ errorPassword: true, success: false });
     }
   };
-  signUpPatient = (event) => {
+  signUpPatient = async (event) => {
     event.preventDefault();
     const newUser = {
       Username: this.state.signUp_username,
@@ -96,8 +101,8 @@ class LoginPage extends Component {
     };
     console.log(newUser);
 
-    axios
-      .post("http://localhost:3001/addPatient", newUser)
+    await axios
+      .post("http://localhost:3005/addPatient", newUser)
       .then((res) => {
         console.log(res);
       })
@@ -108,6 +113,7 @@ class LoginPage extends Component {
     this.setState({ errorPassword: false });
   };
   signUpDoctor = (event) => {
+    console.log("in sign up doctor ");
     event.preventDefault();
     const newUser = {
       Username: this.state.signUp_username,
@@ -123,7 +129,7 @@ class LoginPage extends Component {
     console.log(newUser);
 
     axios
-      .post("http://localhost:3001/doctorUploadFile", newUser)
+      .post("http://localhost:3005/doctorUploadFile", newUser)
       .then((res) => {
         console.log(res);
       })
@@ -140,7 +146,7 @@ class LoginPage extends Component {
       Password: this.state.signIn_password,
     };
     axios
-      .post("http://localhost:3001/signin", {
+      .post("http://localhost:3005/signin", {
         Username: newUser.Username,
         Password: newUser.Password,
       })
@@ -367,22 +373,18 @@ class LoginPage extends Component {
                     type="text"
                     placeholder="Education"
                   />
-                  
+
                   <select
                     onChange={(event) => {
                       this.setState({
-                      signUp_speciality: event.currentTarget.value
-                    });
+                        signUp_speciality: event.currentTarget.value,
+                      });
                     }}
                   >
                     <option value="">Select Speciality</option>
                     {this.state.Specialities.map((speciality, index) => {
                       return (
-                        <option
-                          key={index}
-                          value={speciality}
-                        
-                        >
+                        <option key={index} value={speciality}>
                           {speciality}
                         </option>
                       );
@@ -400,9 +402,8 @@ class LoginPage extends Component {
                   </div>
                   {this.state.file && (
                     <button
-                      onClick={() => {
-                        this.handleUpload();
-                        this.passwordValidationD();
+                      onClick={(e) => {
+                        this.passwordValidationD(e);
                       }}
                       className="submit"
                     >
@@ -450,10 +451,14 @@ class LoginPage extends Component {
                 />
                 <a href="/ResetPass">Forgot your password?</a>
                 {this.state.success && (
-                  <a style={{ color: "green" }}>login successfull</a>
+                  <div className="bg-green-500 text-white p-2 rounded-md mb-4">
+                    Login successful
+                  </div>
                 )}
                 {this.state.error && (
-                  <a style={{ color: "red" }}>invalid username or password</a>
+                  <div className="bg-red-500 text-white p-2 rounded-md mb-4">
+                    Invalid username or password
+                  </div>
                 )}
                 <button onClick={this.signIn}>Sign In</button>
                 <ContractPage enable={this.state.enable} />
@@ -475,9 +480,12 @@ class LoginPage extends Component {
                     Sign In
                   </button>
                   {this.state.errorPassword && (
-                    <p style={{ color: "red" }}>
+                    <div
+                      className="bg-red-500 text-white p-2 rounded-md mb-4"
+                      style={{ marginTop: "10px" }}
+                    >
                       Please Write a Valid Password
-                    </p>
+                    </div>
                   )}
                 </div>
                 <div className="overlay-panel overlay-right">
@@ -485,6 +493,7 @@ class LoginPage extends Component {
                   <p>Enter your personal details to open an account with us</p>
                   <button
                     className="ghost"
+                    style={{ marginBottom: "10px" }}
                     id="signUp"
                     onClick={() => {
                       this.setState({ role: true });

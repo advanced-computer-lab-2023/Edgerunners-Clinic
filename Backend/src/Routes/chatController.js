@@ -1,11 +1,26 @@
 const Chat = require("../Models/Chat.js");
-const Doctor = require("../Models/Doctor.js");
+
+const Doctor = require("../Models/Pharmacist.js");
 const Patient = require("../Models/Patient.js");
+const DDoctor = require("../Models/Doctor.js");
+
 const { default: mongoose } = require("mongoose");
 
 const getDoctorsChat = async (req, res) => {
   try {
-    const doctors = await Doctor.find().select("Username");
+
+    const doctors = await Doctor.find({ReqStatus:"Accepted"}).select("Username");
+    console.log(doctors);
+    res.status(200).send({ success: true, data: doctors });
+  } catch (e) {
+    res.status(400).send({ success: false });
+  }
+};
+
+const getDDoctorsChat = async (req, res) => {
+  try {
+    const doctors = await DDoctor.find({Status:"Accepted"}).select("Username");
+    console.log(doctors);
     res.status(200).send({ success: true, data: doctors });
   } catch (e) {
     res.status(400).send({ success: false });
@@ -141,4 +156,6 @@ module.exports = {
   sendChatDoctor,
   getDoctorsChat,
   getAllChat,
+  getDDoctorsChat
 };
+

@@ -7,7 +7,7 @@ export default function getPatient() {
     getPatient();
     async function getPatient() {
       const x = sessionStorage.getItem("Username");
-      const res = await axios.get("http://localhost:3001/findDoctor", {
+      const res = await axios.get("http://localhost:3005/findDoctor", {
         params: {
           Username: x,
         },

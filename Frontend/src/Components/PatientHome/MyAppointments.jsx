@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../../UI/UX/Logo";
 import {
   FilterAppointmentsDate,
@@ -6,9 +7,13 @@ import {
   GetAppointmentsFilter,
 } from "./getAppoinments";
 import FilterModal from "./FilterModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import GetAppointments from "./getAppoinments";
 import GetRelation from "./getRelation";
 import axios from "axios";
+import Footer from "../Patient/Footer";
+import MyWalletP from "../Patient/MyWalletP";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -41,6 +46,7 @@ export default function PatientAppointments() {
   const [filterModalCancel, setFilterModalCancel] = useState(false);
   const [filterModalFollowUp, setfilterModalFollowUp] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [WalletModal, setWalletModal] = useState(false);
 
   const [date, setDate] = useState();
   const [timeH, setTimeH] = useState();
@@ -84,7 +90,7 @@ export default function PatientAppointments() {
   };
 
   const handleReschedule = async (e) => {
-    await axios.put("http://localhost:3001/rescheduleAppointment", {
+    await axios.put("http://localhost:3005/rescheduleAppointment", {
       DoctorUsername: docUser,
       PatientUsername: PatientUsername,
       Date: rescheduleDate,
@@ -94,7 +100,7 @@ export default function PatientAppointments() {
   };
 
   const handleFollowUp = async (e) => {
-    await axios.post("http://localhost:3001/createFURP", {
+    await axios.post("http://localhost:3005/createFURP", {
       DoctorUsername: newdocUser,
       PatientUsername: PatientUsername,
       Date: newdate,
@@ -106,7 +112,7 @@ export default function PatientAppointments() {
 
   const handleCancel = async (e) => {
     console.log(docUser);
-    await axios.put("http://localhost:3001/cancelAppointment", {
+    await axios.put("http://localhost:3005/cancelAppointment", {
       DoctorUsername: docUser,
       PatientUsername: PatientUsername,
       Date: rescheduleDate,
@@ -117,7 +123,7 @@ export default function PatientAppointments() {
 
   useEffect(() => {}, [newdocUser, newdate, newtimeH, newtimeM, nationalid]);
   const handleReschedule2 = async (e) => {
-    await axios.put("http://localhost:3001/updateAppointment", {
+    await axios.put("http://localhost:3005/updateAppointment", {
       DoctorUsername: newdocUser,
       Date: newdate,
       TimeH: newtimeH,
@@ -132,12 +138,14 @@ export default function PatientAppointments() {
   if (appointmentDate || appointmentStatus) {
     return (
       <div className="Bootstrap PatientHome">
-        <div className="header">
-          <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+        <div style={{ position: 'sticky', top: 0 }} className="header">
+          <nav style={{ position: 'relative' }} className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
-                <Logo />
-              </a>
+            <Link to="/PatientHome" className="logo-link">
+              <Logo />
+              <span className="clinicText">El-7a2ny Clinic</span>
+            </Link>
+
               <button
                 className="navbar-toggler ps-0"
                 type="button"
@@ -171,32 +179,58 @@ export default function PatientAppointments() {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#foundation"
+                      href="/myAppointments"
                     >
                       My Appointments
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#help">
-                      Health Record
                     </a>
                   </li>
                   <li className="nav-item">
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#education"
+                      href="/viewPackage"
                     >
-                      Doctors
+                      My Subscriptions
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#about">
-                      My Account
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/Prescriptions"
+                    >
+                      Prescriptions
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#contact">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      onClick={() => setWalletModal(true)}
+                    >
+                      My Wallet
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/changePassword"
+                    >
+                      Change password
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      onClick={() => {
+                        sessionStorage.removeItem("Username");
+                        sessionStorage.removeItem("type");
+                        sessionStorage.removeItem("token");
+                        window.location.replace("/");
+                      }}
+                    >
                       Log Out
                     </a>
                   </li>
@@ -223,42 +257,69 @@ export default function PatientAppointments() {
             </div>
           </nav>
         </div>
-        <div className="form-prescription">
-          <label htmlFor="">Status</label>
-          <select
-            onChange={(e) => {
-              setState(e.target.value);
-              setWhich(true);
-            }}
-          >
-            <option value="">Status</option>
-            <option value="Upcoming">Upcoming</option>
-            <option value="Cancelled">Cancelled</option>
-            <option value="Rescheduled">Rescheduled</option>
-            <option value="Completed">Completed</option>
-          </select>
-          <label htmlFor="">Date</label>
-          <input
-            type="date"
-            name=""
-            id=""
-            onChange={(e) => {
-              setDate(e.target.value);
-              setWhich(false);
-            }}
+        <div style={{ position: "static" }}>
+          <img
+            style={{ width: "100%", height: "auto" }}
+            src="./resources/consultant .jpg"
+            alt=""
           />
+          <div style={{ marginTop: "-20rem" }} className="form-prescription">
+            <div
+              style={{
+                backgroundColor: "rgb(168, 191, 225)",
+                marginLeft: "100px",
+              }}
+              className="form-view-patients-by-doctor"
+            >
+              <div className="form-view-doctors-by-patient-div">
+                <label htmlFor="">Status</label>
+                <select
+                  style={{ borderRadius: "20px" }}
+                  onChange={(e) => {
+                    setState(e.target.value);
+                    setWhich(true);
+                  }}
+                >
+                  <option value="">Status</option>
+                  <option value="Upcoming">Upcoming</option>
+                  <option value="Cancelled">Cancelled</option>
+                  <option value="Rescheduled">Rescheduled</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ marginRight: "10px" }} htmlFor="">
+                  Date
+                </label>
+                <input
+                  style={{ borderRadius: "20px" }}
+                  type="date"
+                  name=""
+                  id=""
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                    setWhich(false);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
         {filterModalCancel ? (
-          <FilterModal>
-            <div className="speciality-filter">
-              <p>Are sure you want to cancel the appointment?</p>
+          <FilterModal style={{ textAlign: "center" }}>
+            <div>
+              <p style={{ fontSize: "1.5rem", marginBottom: "20px" }}>
+                Are you sure you want to cancel the appointment?
+              </p>
             </div>
             <button
               onClick={() => {
                 setFilterModalCancel(false);
                 setSelectedAppointment(null);
                 handleCancel();
+                window.location.reload();
               }}
+              style={{ marginRight: "10px" }}
             >
               Confirm
             </button>
@@ -302,6 +363,7 @@ export default function PatientAppointments() {
                 setSelectedAppointment(null);
                 handleReschedule();
                 handleReschedule2();
+                window.location.reload();
               }}
             >
               Confirm
@@ -347,7 +409,7 @@ export default function PatientAppointments() {
                 handleFollowUp();
               }}
             >
-              send request
+              Send request
             </button>
             <button
               onClick={() => {
@@ -359,116 +421,249 @@ export default function PatientAppointments() {
             </button>
           </FilterModal>
         ) : null}
+        {WalletModal ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setWalletModal(false);
+              }}
+            />
+            <MyWalletP />
+          </FilterModal>
+        ) : null}
 
-        <div>
+        <div style={{ marginTop: "1.5rem" }} class="row">
           {which
             ? appointmentStatus.map((appstatus, index) => {
                 return (
-                  <div key={index}>
-                    <p>Name: {appstatus.DoctorUsername}</p>
-                    <p>Availability: {appstatus.Availability}</p>
-                    <p>Status: {appstatus.Status}</p>
-                    <p>
-                      Appointment Date:{" "}
-                      {appstatus.Date.toString().split("T")[0]}
-                    </p>
-                    <p>
-                      Time: {appstatus.TimeH}:{appstatus.TimeM}
-                    </p>
-                    {appstatus.NationalID !== "" && (
-                      <p>Family Member: {appstatus.NationalID}</p>
-                    )}
-                    {appstatus.Status == "Completed" ? (
-                      <>
-                        <button
-                          onClick={() => {
-                            setfilterModalFollowUp(true);
-                            setnationalid(appstatus.NationalID);
-                          }}
-                        >
-                          Follow up
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => {
-                            setFilterModal(true);
-                            setRescheduleDate(appstatus.Date);
-                            setTimeH(appstatus.TimeH);
-                            setTimeM(appstatus.TimeM);
-                            setDocUser(appstatus.DoctorUsername);
-                          }}
-                        >
-                          Reschedule
-                        </button>
-                        <button
-                          onClick={() => {
-                            setRescheduleDate(appstatus.Date);
-                            setFilterModalCancel(true);
-                            setTimeH(appstatus.TimeH);
-                            setTimeM(appstatus.TimeM);
-                            setDocUser(appstatus.DoctorUsername);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    )}
+                  <div class="col-sm-3 py-2">
+                    <div class="card h-100 border-primary bg-gr">
+                      <div class="card-body">
+                        <div key={index}>
+                          <p>Name: {appstatus.DoctorUsername}</p>
+                          <p>Availability: {appstatus.Availability}</p>
+                          <p>Status: {appstatus.Status}</p>
+                          <p>
+                            Appointment Date:{" "}
+                            {appstatus.Date.toString().split("T")[0]}
+                          </p>
+                          <p>
+                            Time: {appstatus.TimeH}:{appstatus.TimeM}
+                          </p>
+                          {appstatus.NationalID !== "" && (
+                            <p>Family Member: {appstatus.NationalID}</p>
+                          )}
+                          {appstatus.Status == "Completed" ? (
+                            <>
+                              <button
+                                class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#00ff00"; // Green background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#00ff00"; // Green border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
+                                onClick={() => {
+                                  setfilterModalFollowUp(true);
+                                  setnationalid(appstatus.NationalID);
+                                }}
+                              >
+                                Follow up
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#ff8c00"; // Dark orange background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#ff8c00"; // Dark orange border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
+                                onClick={() => {
+                                  setFilterModal(true);
+                                  setRescheduleDate(appstatus.Date);
+                                  setTimeH(appstatus.TimeH);
+                                  setTimeM(appstatus.TimeM);
+                                  setDocUser(appstatus.DoctorUsername);
+                                }}
+                              >
+                                Reschedule
+                              </button>
+                              <button
+                                class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#ff0000"; // Red background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#ff0000"; // Red border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
+                                onClick={() => {
+                                  setRescheduleDate(appstatus.Date);
+                                  setFilterModalCancel(true);
+                                  setTimeH(appstatus.TimeH);
+                                  setTimeM(appstatus.TimeM);
+                                  setDocUser(appstatus.DoctorUsername);
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 );
               })
             : appointmentDate.map((app, index) => {
                 return (
-                  <div key={index}>
-                    <p>Doctor name: {app.DoctorUsername}</p>
-                    <p>Status: {app.Status}</p>
-                    <p>Appointment Date: {app.Date.toString().split("T")[0]}</p>
-                    <p>
-                      Time: {app.TimeH}:{app.TimeM}
-                    </p>
-                    {app.NationalID !== "" && (
-                      <p>Family Member: {app.NationalID}</p>
-                    )}
-                    {app.Status == "Completed" ? (
-                      <>
-                        <button
-                          onClick={() => {
-                            setfilterModalFollowUp(true);
-                            setnationalid(appstatus.NationalID);
-                          }}
-                        >
-                          Follow up
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => {
-                            setSelectedAppointment(app);
-                            setFilterModal(true);
-                            setRescheduleDate(app.Date);
-                            setTimeH(app.TimeH);
-                            setTimeM(app.TimeM);
-                            setDocUser(app.DoctorUsername);
-                          }}
-                        >
-                          Reschedule
-                        </button>
-                        <button
-                          onClick={() => {
-                            setRescheduleDate(app.Date);
-                            setFilterModalCancel(true);
-                            setTimeH(app.TimeH);
-                            setTimeM(app.TimeM);
-                            setDocUser(app.DoctorUsername);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    )}
-                    {/* {filterModalCancel ? (
+                  <div class="col-sm-3 py-2">
+                    <div class="card h-100 border-primary bg-gr">
+                      <div class="card-body">
+                        <div key={index}>
+                          <p>Doctor name: {app.DoctorUsername}</p>
+                          <p>Status: {app.Status}</p>
+                          <p>
+                            Appointment Date:{" "}
+                            {app.Date.toString().split("T")[0]}
+                          </p>
+                          <p>
+                            Time: {app.TimeH}:{app.TimeM}
+                          </p>
+                          {app.NationalID !== "" && (
+                            <p>Family Member: {app.NationalID}</p>
+                          )}
+                          {app.Status == "Completed" ? (
+                            <>
+                              <button
+                                class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#12aa12"; // Green background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#00ff00"; // Green border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
+                                onClick={() => {
+                                  setfilterModalFollowUp(true);
+                                  setnationalid(appstatus.NationalID);
+                                }}
+                              >
+                                Follow up
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#ff8c00"; // Dark orange background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#ff8c00"; // Dark orange border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
+                                onClick={() => {
+                                  setSelectedAppointment(app);
+                                  setFilterModal(true);
+                                  setRescheduleDate(app.Date);
+                                  setTimeH(app.TimeH);
+                                  setTimeM(app.TimeM);
+                                  setDocUser(app.DoctorUsername);
+                                }}
+                              >
+                                Reschedule
+                              </button>
+                              <button
+                                class="btn btn-outline-secondary"
+                                style={{
+                                  border: "1px solid #ccc", // Adjust the border style as needed
+                                  padding: "8px 12px", // Adjust padding as needed
+                                  marginLeft: "8px",
+                                  transition:
+                                    "background-color 0.3s, color 0.3s, border-color 0.3s",
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    "#ff0000"; // Red background color on hover
+                                  e.currentTarget.style.color = "#ffffff"; // White text color on hover
+                                  e.currentTarget.style.borderColor = "#ff0000"; // Red border color on hover (if applicable)
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor = ""; // Reset background color on mouse out
+                                  e.currentTarget.style.color = ""; // Reset text color on mouse out
+                                  e.currentTarget.style.borderColor = ""; // Reset border color on mouse out (if applicable)
+                                }}
+                                onClick={() => {
+                                  setRescheduleDate(app.Date);
+                                  setFilterModalCancel(true);
+                                  setTimeH(app.TimeH);
+                                  setTimeM(app.TimeM);
+                                  setDocUser(app.DoctorUsername);
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            </>
+                          )}
+                          {/* {filterModalCancel ? (
                       <FilterModal>
                         <div className="speciality-filter">
                           <p>Are sure you want to cancel the appointment?</p>
@@ -536,10 +731,14 @@ export default function PatientAppointments() {
                         </button>
                       </FilterModal>
                     ) : null} */}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
         </div>
+        <Footer></Footer>
       </div>
     );
   }

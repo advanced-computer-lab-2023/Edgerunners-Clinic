@@ -6,7 +6,7 @@ function GetAdmin() {
   useEffect(() => {
     getAdmin();
     async function getAdmin() {
-      const res = await axios.get("http://localhost:3001/getAdmin");
+      const res = await axios.get("http://localhost:3005/getAdmin");
       setAdmin(res.data);
     }
   }, []);

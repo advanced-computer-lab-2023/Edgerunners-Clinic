@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../UI/UX/Logo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,14 +23,16 @@ export default function DoctorHome() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenFollowUp, setIsModalOpenFollowUp] = useState(false);
   const [modalFollowupRequests, setmodalFollowupRequests] = useState(false);
+  const navigate = useNavigate();
+  const handleClick = (path) => {
+    navigate(path);
+  };
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-            <a href="/DoctorHome">
-              <Logo />
-            </a>
+            <Logo />
             <button
               className="navbar-toggler ps-0"
               type="button"
@@ -204,56 +207,60 @@ export default function DoctorHome() {
             <p>upload/remove documents for my medical history</p>
           </div>
 
-          <div className="col-4">
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsModalOpenFollowUp(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a
-              onClick={() => {
-                setIsModalOpenFollowUp(true);
-              }}
-            >
-              <h3>Schedule a Follow-Up</h3>
-            </a>
+            <h3>Schedule a Follow-Up</h3>
             <p>schedule a follow-up for a patient</p>
           </div>
-          <div className="col-4">
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faCalendarCheck}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
-            >
-              <h3>Add Appointment</h3>
-            </a>
+            <h3>Add Appointment</h3>
             <p>Add an Appointment</p>
           </div>
-          <div className="col-4">
+          <div
+            className="col-4"
+            onClick={() => {
+              handleClick("/ViewMyPatients");
+            }}
+          >
             <FontAwesomeIcon
               icon={faStethoscope}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/ViewMyPatients">
-              <h3>My Patients</h3>
-            </a>
+            <h3>My Patients</h3>
             <p>view a list of all patients</p>
           </div>
-          <div className="col-4">
+          <div
+            className="col-4"
+            onClick={() => {
+              handleClick("/EditMyProf");
+            }}
+          >
             <FontAwesomeIcon
               icon={faHandHoldingMedical}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/MyWalletD">
-              <h3>My Wallet</h3>
-            </a>
+            <h3>My Wallet</h3>
             <p>View the Amount Available in My Wallet</p>
           </div>
           <div className="col-4">

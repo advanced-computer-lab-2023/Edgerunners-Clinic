@@ -25,7 +25,7 @@ function ViewPresc() {
     const fetchData = async () => {
       try {
         const responsePrescriptions = await axios.get(
-          "http://localhost:3001/getPrescriptions",
+          "http://localhost:3005/getPrescriptions",
           {
             params: {
               Doctor: sessionStorage.getItem("Username"),
@@ -53,7 +53,7 @@ function ViewPresc() {
   const handleUpdateSubmit = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:3001/updatePrescriptions",
+        "http://localhost:3005/updatePrescriptions",
         {
           ...updateData,
         }
@@ -69,7 +69,7 @@ function ViewPresc() {
   const handleDelete = async (prescriptionId, medicineName) => {
     try {
       const response = await axios.put(
-        "http://localhost:3001/removemedicine",
+        "http://localhost:3005/removemedicine",
         {
           prescriptionId: prescriptionId,
           medicineNameToRemove: medicineName,
@@ -102,7 +102,7 @@ function ViewPresc() {
     try {
       // Make axios PUT request
       const response = await axios.put(
-        "http://localhost:3001/updatePrescriptions",
+        "http://localhost:3005/updatePrescriptions",
         {
           prescriptionId: prescriptionId,
           newMedicineName: newMedicineName,
@@ -126,10 +126,101 @@ function ViewPresc() {
 
   if (prescriptions != null) {
     return (
+    <div className="Bootstrap DoctorHome">
       <div className="tailwind">
-        <a href="/DoctorHome">
-          <Logo />
-        </a>
+        <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+          <div className="container">
+            <a href="/DoctorHome">
+              <Logo />
+            </a>
+            <button
+              className="navbar-toggler ps-0"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#navbarExample01"
+              aria-controls="navbarExample01"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon d-flex justify-content-start align-items-center">
+                <i className="fas fa-bars"></i>
+              </span>
+            </button>
+            <div className="navbar-collapse" id="navbarExample01">
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#pets">
+                    Video Call
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#adoptions">
+                    Chat
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/DoctorAppointments"
+                  >
+                    My Appointments
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#help">
+                    Health Record
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#education">
+                    Prescriptions
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#education">
+                    Follow Up Requests
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/EditMyProf"
+                  >
+                    My Account
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/changePassword"
+                  >
+                    Change password
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      sessionStorage.removeItem("Username");
+                      sessionStorage.removeItem("type");
+                      sessionStorage.removeItem("token");
+                      sessionStorage.removeItem("wallet");
+                      sessionStorage.removeItem("Status");
+                      window.location.replace("/");
+                    }}
+                  >
+                    Log Out
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      <div className="parent-profile">
         <div className="bg-white py-30 sm:py-4"></div>
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -171,8 +262,8 @@ function ViewPresc() {
                       {medicine.name} - {medicine.dose}
                       </div>
                       
-                      <button onClick={() =>{handleUpdate(p._id,medicine.name);console.log(medicine.name)}}>Update</button>
-                      <button onClick={() =>{ handleDelete(p._id, medicine.name)}}>Delete</button>
+                      <button className="editButton px-4 py-2 bg-blue-500 text-white rounded" onClick={() =>{handleUpdate(p._id,medicine.name);console.log(medicine.name)}}>Update</button>
+                      <button className="deleteButton  px-4 py-2 bg-red-500 text-white rounded" onClick={() =>{ handleDelete(p._id, medicine.name)}}>Delete</button>
                     </li>
                   ))}
                 </ul>
@@ -189,7 +280,7 @@ function ViewPresc() {
                       <button onClick={()=>handleUpdateSubmit()}>Submit Update</button>
                     </div>
                   )}
-                <button onClick={() => handleAddNewMedicine(p._id)}>Add New Medicine</button>
+                <button className="editButton px-4 py-2 bg-blue-500 text-white rounded" onClick={() => handleAddNewMedicine(p._id)}>Add New Medicine</button>
                 {add && delData.prescriptionId === p._id && (
           <div>
             <div>
@@ -234,6 +325,8 @@ function ViewPresc() {
         </div>
         <div className="bg-white py-44 sm:py-55"></div>
       </div>
+     </div>
+    </div>
     );
   }
 }

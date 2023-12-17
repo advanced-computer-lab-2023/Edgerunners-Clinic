@@ -8,7 +8,7 @@ export function FilterAppointmentsDate({ Date, DoctorUsername }) {
     getMyAppointments();
     async function getMyAppointments() {
       const res = await axios.get(
-        `http://localhost:3001/filterDateAppointments`,
+        `http://localhost:3005/filterDateAppointments`,
         {
           params: {
             Date,
@@ -30,7 +30,7 @@ export function FilterAppointmentsStatus({ Status, DoctorUsername }) {
     getMyAppointmentsD();
     async function getMyAppointmentsD() {
       const res = await axios.get(
-        `http://localhost:3001/filterStatusAppointments`,
+        `http://localhost:3005/filterStatusAppointments`,
         {
           params: {
             Status,
@@ -50,7 +50,7 @@ export function AddAppointment(p) {
     AddAppointment();
     async function AddAppointment() {
       const res = await axios.post(
-        `http://localhost:3001/createAppointment`,
+        `http://localhost:3005/createAppointment`,
         p
       );
     }

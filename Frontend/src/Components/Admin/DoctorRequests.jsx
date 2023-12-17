@@ -3,12 +3,22 @@ import axios from "axios";
 import Logo from "../../UI/UX/Logo";
 import fileDownload from "js-file-download";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faCircleXmark,
+  faFileArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import Footer from "../Patient/Footer";
+import FilterModal from "../PatientHome/FilterModal";
+import SetAdmin from "./SetAdmin";
+import CreatePackage from "../Packages/CreatePackage";
+import RemoveUser from "./RemovePar";
 
 const makeRequestTable = async () => {
   const data = [];
   try {
-    const response = await axios.get("http://localhost:3001/getDoctor");
+    const response = await axios.get("http://localhost:3005/getDoctor");
     const doctors = response.data.filter(
       (doctor) => doctor.Status === "Pending"
     );
@@ -25,7 +35,7 @@ const makeRequestTable = async () => {
       const educationalBackground = p.Education;
       const speciality = p.Speciality;
       const status = p.Status;
-      const files  = p.FileNames;
+      const files = p.FileNames;
       data.push({
         id,
         username,
@@ -48,6 +58,14 @@ const makeRequestTable = async () => {
 };
 
 const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+  },
+  mainContent: {
+    flex: 1,
+  },
   tableContainer: {
     margin: "20px",
   },
@@ -89,6 +107,10 @@ const styles = {
 const DoctorRequests = () => {
   const [requests, setRequests] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
+  const [isModalSetAdminOpen, setIsModalSetAdminOpen] = useState(false);
+  const [isModalRemoveUserOpen, setIsModalRemoveUserOpen] = useState(false);
+  const [isModalCreatePackageOpen, setIsModalCreatePackageOpen] =
+    useState(false);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -105,7 +127,7 @@ const DoctorRequests = () => {
 
   const handleAccept = async (username) => {
     try {
-      await axios.put("http://localhost:3001/updateDoctor", {
+      await axios.put("http://localhost:3005/updateDoctor", {
         Username: username,
         Status: "Waiting",
       });
@@ -123,7 +145,7 @@ const DoctorRequests = () => {
 
   const handleReject = async (username) => {
     try {
-      await axios.put("http://localhost:3001/updateDoctor", {
+      await axios.put("http://localhost:3005/updateDoctor", {
         Username: username,
         Status: "Rejected",
       });
@@ -146,7 +168,7 @@ const DoctorRequests = () => {
   };
   const handleViewFiles = async (filename) => {
     await axios
-      .get(`http://localhost:3001/viewFilesDoctor/${filename}`, {
+      .get(`http://localhost:3005/viewFilesDoctor/${filename}`, {
         responseType: "blob",
       })
       .then((res) => {
@@ -154,13 +176,121 @@ const DoctorRequests = () => {
       });
   };
   return (
-    <div>
-      <div>
-        <a href="/AdminHome">
-          <Logo />
-        </a>
-      </div>
-      <div style={styles.tableContainer}>
+    <div className="Bootstrap PatientHome" style={styles.container}>
+      <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
+        <div className="container">
+          <Link to="/adminHome" className="logo-link">
+            <Logo />
+            <span className="clinicText">El-7a2ny Clinic</span>
+          </Link>
+
+          <button
+            className="navbar-toggler ps-0"
+            type="button"
+            data-mdb-toggle="collapse"
+            data-mdb-target="#navbarExample01"
+            aria-controls="navbarExample01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon d-flex justify-content-start align-items-center">
+              <i className="fas fa-bars"></i>
+            </span>
+          </button>
+          <div className="navbar-collapse" id="navbarExample01">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  onClick={() => {
+                    setIsModalSetAdminOpen(true);
+                  }}
+                >
+                  Add Admin
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  onClick={() => {
+                    setIsModalRemoveUserOpen(true);
+                  }}
+                >
+                  Remove User
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  href="/updatePackage"
+                >
+                  Update Packages
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  onClick={() => {
+                    setIsModalCreatePackageOpen(true);
+                  }}
+                >
+                  Add Packages
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  href="/changePassword"
+                >
+                  Change password
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  onClick={() => {
+                    sessionStorage.removeItem("Username");
+                    sessionStorage.removeItem("type");
+                    sessionStorage.removeItem("token");
+                    window.location.replace("/");
+                  }}
+                >
+                  Log Out
+                </a>
+              </li>
+            </ul>
+
+            <ul className="navbar-nav flex-row">
+              <li className="nav-item">
+                <a className="nav-link px-2" href="#!">
+                  <i className="fab fa-facebook-square"></i>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link px-2" href="#!">
+                  <i className="fab fa-instagram"></i>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link ps-2" href="#!">
+                  <i className="fab fa-youtube"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <br />
+      <br />
+      <br />
+      <br />
+      <div style={{ ...styles.mainContent, ...styles.tableContainer }}>
         <table style={styles.requestTable}>
           <thead>
             <tr style={styles.tableHeader}>
@@ -184,7 +314,9 @@ const DoctorRequests = () => {
                   <td style={styles.tableCell}>{request.username}</td>
                   <td style={styles.tableCell}>{request.fullName}</td>
                   <td style={styles.tableCell}>{request.email}</td>
-                  <td style={styles.tableCell}>{request.dateOfBirth.toString().split("T")[0]}</td>
+                  <td style={styles.tableCell}>
+                    {request.dateOfBirth.toString().split("T")[0]}
+                  </td>
                   <td style={styles.tableCell}>{request.hourlyRate}</td>
                   <td style={styles.tableCell}>{request.affiliation}</td>
                   <td style={styles.tableCell}>
@@ -204,6 +336,8 @@ const DoctorRequests = () => {
                     >
                       Reject
                     </button>
+                  </td>
+                  <td style={styles.tableCell}>
                     <span
                       style={{ cursor: "pointer" }}
                       onClick={() => handleToggleExpand(index)}
@@ -215,21 +349,39 @@ const DoctorRequests = () => {
                 {expandedRow === index && (
                   <tr>
                     <td colSpan="10">
-                    {request.files.map((fileName, index) => (
-                        <div key={index} style={{
-                          fontSize: "20px", 
-                          marginTop: "5px", 
-                          marginBottom: "5px", 
-                          padding: "5px", 
-                        }} className="hr-file-upload-item">
-                          <span>{request.fullName + " Documents"}</span>
-                          <FontAwesomeIcon
-                            icon={faDownload}
-                            className="faDownload"
-                            onClick={() => handleViewFiles(fileName)}
-                          />
-                        </div>
-                      ))}
+                      <div
+                        style={{
+                          backgroundColor: "#f2f2f2",
+                          padding: "2px",
+                          border: "1px solid #ddd",
+                          width: "100%",
+                        }}
+                      >
+                        {request.files.map((fileName, index) => (
+                          <div
+                            key={index}
+                            style={{
+                              fontSize: "20px",
+                              marginTop: "5px",
+                              marginBottom: "5px",
+                              padding: "5px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                            className="hr-file-upload-item"
+                          >
+                            <span style={{ marginRight: "10px" }}>
+                              {fileName}
+                            </span>
+                            <FontAwesomeIcon
+                              icon={faDownload}
+                              className="faDownload"
+                              onClick={() => handleViewFiles(fileName)}
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </td>
                   </tr>
                 )}
@@ -238,6 +390,46 @@ const DoctorRequests = () => {
           </tbody>
         </table>
       </div>
+      {isModalSetAdminOpen ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalSetAdminOpen(false);
+            }}
+          />
+          <SetAdmin />
+          {/*<div>Test component</div>*/}
+        </FilterModal>
+      ) : null}
+      {isModalRemoveUserOpen ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalRemoveUserOpen(false);
+            }}
+          />
+          <RemoveUser />
+          {/*<div>Test component</div>*/}
+        </FilterModal>
+      ) : null}
+      {isModalCreatePackageOpen ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalCreatePackageOpen(false);
+            }}
+          />
+          <CreatePackage />
+          {/*<div>Test component</div>*/}
+        </FilterModal>
+      ) : null}
+      <Footer></Footer>
     </div>
   );
 };

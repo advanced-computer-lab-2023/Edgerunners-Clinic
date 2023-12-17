@@ -1,6 +1,6 @@
 {
   "name": "edgerunners-clinic",
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3005",
   "version": "1.0.0",
   "description": "",
   "main": "index.jsx",

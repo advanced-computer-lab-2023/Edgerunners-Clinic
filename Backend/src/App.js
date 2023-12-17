@@ -19,6 +19,18 @@ const {
   ResetPass,
   GetWallet,
   deleteFile,
+  removeFromCart,
+  incrementQuantity,
+  decrementQuantity,
+  getWalletPharmacy,
+  addOrder,
+  updateCart,
+  getCart,
+  getAddress,
+  PaymentPrescriptionWallet,
+  getEmailp,
+  getPharmacists,
+  notifyOutOfStock,
 } = require("./Routes/patientController");
 
 const {
@@ -47,6 +59,7 @@ const {
   updateStatus,
   GetWalletD,
   viewFilesDoctor,
+  getEmail,
 } = require("./Routes/doctorController");
 
 const {
@@ -62,6 +75,7 @@ const {
   updatePrescriptions,
   deletePrescriptions,
   removemedicine,
+  updatePrescriptionsCheckout,
 } = require("./Routes/prescriptionController");
 
 const {
@@ -99,13 +113,24 @@ const {
   deleteNotification,
 } = require("./Routes/notificationController");
 
+const {
+  createChat,
+  getChat,
+  getAllChat,
+  sendChatPatient,
+  sendChatDoctor,
+  getDoctorsChat,
+  getPatientsChat,
+  getDDoctorsChat,
+} = require("./Routes/chatController");
+const Chat = require("./Models/Chat");
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
 
 //App variables
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3005;
 const Patient = require("./Models/Patient.js");
 // #Importing the patientController
 
@@ -259,10 +284,22 @@ app.get("/getWalletD/:username", GetWalletD);
 app.get("/patientUploadHealthRecord", patientUploadHealthRecord);
 app.get("/gethealthrecords/:Username", gethealthrecords);
 app.get("/getPatient", getPatients);
+app.get("/getEmailp",getEmailp)
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
 app.put("/deleteFile", deleteFile);
+app.get("/getAddress", getAddress);
+app.put("/incrementQuantity", incrementQuantity);
+app.put("/removeFromCart", removeFromCart);
+app.get("/getcart", getCart);
+app.put('/decrementQuantity', decrementQuantity);
+app.get('/getAddress', getAddress);
+app.put("/addOrder", addOrder);
+app.get("/getWalletPharmacy", getWalletPharmacy);
+app.put("/PaymentPrescriptionWallet", PaymentPrescriptionWallet);
+
+
 
 app.put("/ResetPass", ResetPass);
 
@@ -275,6 +312,11 @@ app.get("/findDoctor", findDoctor);
 app.post("/doctorUploadFile", doctorUploadFile);
 app.get("/PatientsName/:Username", getPatientNames);
 app.put("/updateStatus", updateStatus);
+app.get("/getEmail", getEmail);
+
+app.put("/updateCart", updateCart);
+app.get("/getPharmacist", getPharmacists);
+app.put("/notifyOutOfStock", notifyOutOfStock);
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);
@@ -296,6 +338,7 @@ app.get("/getPrescriptions", getPrescriptions);
 app.put("/updatePrescriptions", updatePrescriptions);
 app.delete("/deletePrescriptions", deletePrescriptions);
 app.put("/removemedicine", removemedicine);
+app.put("/updatePrescriptionsCheckout", updatePrescriptionsCheckout);
 
 app.post("/createAppointment", createAppointment);
 app.post("/createFollowUp", createFollowUp);
@@ -308,6 +351,7 @@ app.put("/updateAppointmentWallet", updateAppointmentWallet);
 app.put("/rescheduleAppointment", rescheduleAppointment);
 app.put("/cancelAppointment", cancelAppointment);
 app.delete("/deleteAppointment", deleteAppointment);
+
 
 app.post("/createLinkedAccount", createLinkedAccount);
 app.get("/getLinkedAccounts", getLinkedAccounts);
@@ -340,171 +384,15 @@ app.get("/getMyRequests", GetMyRequests);
 app.delete("/deleteRequest", handleReject);
 app.put("/acceptRequest", handleAccept);
 
-// const http = require("http");
-// const { Server } = require("socket.io");
 
-// const server = http.createServer((request, response) => {
-//   console.log("socketio server on");
-// });
 
-// const io = new Server(server, {});
-
-// const { createChat, getChat, sendChat } = require("./Routes/chatController");
-
-// io.on("connection", (socket) => {
-//   console.log(`connected: ${socket.id}`);
-
-//   socket.emit("msg:get", { msg: getMsgs() });
-
-//   socket.on("msg:post", (data) => {
-//     msg.push({
-//       user: data.user,
-//       text: data.text,
-//       time: Date.now(),
-//     });
-//     io.emit("msg:get", { msg: getMsgs() });
-//   });
-
-//   socket.on("disconnect", () => {
-//     console.log(`disconnect: ${socket.id}`);
-//   });
-// });
-
-// server.listen("8080", () =>
-//   console.log(`Server running at http://localhost:${8080}`),
-// );
-
-/////////////////////////
-
-// let bodyparser = require("body-parser");
-// const path = require("path");
-// const app1 = require("express")();
-// const server = require("http").createServer(app1);
-// const io = require("socket.io")(server);
-
-// app1.use(express.static("app1"));
-// app1.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
-// app1.use(bodyparser.json());
-
-// let clientSocketIds = [];
-// let connectedUsers = [];
-
-// // app1.post("/login", (req, res) => {
-// //   connection.query(
-// //     `SELECT user_name, user_id, user_full_name, user_image from chat_users where user_name="${req.body.username}" AND user_password="${req.body.password}"`,
-// //     function (error, results, fields) {
-// //       if (error) throw error;
-
-// //       if (results.length == 1) {
-// //         res.send({ status: true, data: results[0] });
-// //       } else {
-// //         res.send({ status: false });
-// //       }
-// //     },
-// //   );
-// // });
-
-// const getSocketByUserId = (userId) => {
-//   let socket = "";
-//   for (let i = 0; i < clientSocketIds.length; i++) {
-//     if (clientSocketIds[i].userId == userId) {
-//       socket = clientSocketIds[i].socket;
-//       break;
-//     }
-//   }
-//   return socket;
-// };
-
-// /* socket function starts */
-// io.on("connection", (socket) => {
-//   console.log("conected");
-//   socket.on("disconnect", () => {
-//     console.log("disconnected");
-//     connectedUsers = connectedUsers.filter(
-//       (item) => item.socketId != socket.id,
-//     );
-//     io.emit("updateUserList", connectedUsers);
-//   });
-
-//   socket.on("loggedin", function (user) {
-//     clientSocketIds.push({ socket: socket, userId: user.user_id });
-//     connectedUsers = connectedUsers.filter(
-//       (item) => item.user_id != user.user_id,
-//     );
-//     connectedUsers.push({ ...user, socketId: socket.id });
-//     io.emit("updateUserList", connectedUsers);
-//   });
-
-//   socket.on("create", function (data) {
-//     console.log("create room");
-//     socket.join(data.room);
-//     let withSocket = getSocketByUserId(data.withUserId);
-//     socket.broadcast.to(withSocket.id).emit("invite", { room: data });
-//   });
-//   socket.on("joinRoom", function (data) {
-//     socket.join(data.room.room);
-//   });
-
-//   socket.on("message", function (data) {
-//     socket.broadcast.to(data.room).emit("message", data);
-//   });
-// });
-// /* socket function ends */
-
-// server.listen(8080, function () {
-//   console.log("server started");
-// });
-const {
-  createChat,
-  getChat,
-  getAllChat,
-  sendChatPatient,
-  sendChatDoctor,
-  getDoctorsChat,
-  getPatientsChat,
-} = require("./Routes/chatController");
-const Chat = require("./Models/Chat");
-// app.post("/sendChatMessage", async (req, res) => {
-//   const { sender, receiver, message } = req.body;
-
-//   try {
-//     const newChatMessage = new Chat({ sender, receiver, message });
-//     await newChatMessage.save();
-//     res
-//       .status(200)
-//       .json({ success: true, message: "Chat message sent successfully" });
-//   } catch (error) {
-//     console.error(error);
-//     res
-//       .status(500)
-//       .json({ success: false, message: "Error sending chat message" });
-//   }
-// });
-
-// // Route to get chat messages between two users
-// app.get("/getChatMessages", async (req, res) => {
-//   const { sender, receiver } = req.query;
-
-//   try {
-//     const chatMessages = await Chat.find({
-//       $or: [
-//         { sender, receiver },
-//         { sender: receiver, receiver: sender },
-//       ],
-//     }).sort({ timestamp: 1 });
-//     res.status(200).json({ success: true, chatMessages });
-//   } catch (error) {
-//     console.error(error);
-//     res
-//       .status(500)
-//       .json({ success: false, message: "Error fetching chat messages" });
-//   }
-// });
-
-//app.post("/createChat", createChat)
 app.put("/sendChatPatient", sendChatPatient);
 app.put("/sendChatDoctor", sendChatDoctor);
 app.get("/getChat", getChat);
 app.get("/getAllChat", getAllChat);
 app.get("/getDoctorsChat", getDoctorsChat);
 app.get("/getPatientsChat", getPatientsChat);
+
+app.get("/getDDoctorsChat", getDDoctorsChat);
+app.get("/getDoctor", getDoctors);
+

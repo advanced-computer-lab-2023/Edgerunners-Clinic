@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../UI/UX/Logo";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,18 +18,23 @@ import FilterModal from "./FilterModal";
 import LinkAnotherPat from "../Patient/LinkAnotherPat";
 import UploadDocuments from "./UploadDocuments";
 import Footer from "../Patient/Footer";
+import MyWalletP from "../Patient/MyWalletP";
 
 export default function PatientHome() {
   const [isLinkPatientModalOpen, setIsLinkPatientModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [WalletModal, setWalletModal] = useState(false);
+  const navigate = useNavigate();
+  const handleClick = (path) => {
+    navigate(path);
+  };
   return (
     <div className="Bootstrap PatientHome">
       <div className="header">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
           <div className="container">
-            <a href="/PatientHome">
-              <Logo />
-            </a>
+            <Logo />
+            <span className="clinicText">El-7a2ny Clinic</span>
 
             <button
               className="navbar-toggler ps-0"
@@ -83,7 +89,11 @@ export default function PatientHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/myWalletP">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => setWalletModal(true)}
+                  >
                     My Wallet
                   </a>
                 </li>
@@ -182,27 +192,30 @@ export default function PatientHome() {
           <h3>What You Need..</h3>
         </div>
         <div className="footer-in row">
-          <div className="col-4">
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faFileCirclePlus}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a  onClick={() => {
-                setIsModalOpen(true);
-              }}>
+            <a>
               <h3>Upload/Remove Documents</h3>
             </a>
             <p>upload/remove documents for my medical history</p>
           </div>
 
-          <div className="col-4">
+          <div className="col-4" onClick={() => handleClick("/ViewFamilyMem")}>
             <FontAwesomeIcon
               icon={faPeopleGroup}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/ViewFamilyMem">
+            <a>
               <h3>Family</h3>
             </a>
             <p>
@@ -211,51 +224,56 @@ export default function PatientHome() {
               member
             </p>
           </div>
-          <div className="col-4">
+
+          <div
+            className="col-4"
+            onClick={() => {
+              setIsLinkPatientModalOpen(true);
+            }}
+          >
             <FontAwesomeIcon
               icon={faCalendarCheck}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a
-              onClick={() => {
-                setIsLinkPatientModalOpen(true);
-              }}
-            >
+            <a>
               <h3>Link Account</h3>
             </a>
 
             <p>Link the Account of a Family Member to Yours</p>
           </div>
-          <div className="col-4">
+
+          <div className="col-4" onClick={() => handleClick("/Doctors")}>
             <FontAwesomeIcon
-              icon={faStethoscope}
+              icon={faFileCirclePlus}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Doctors">
+            <a>
               <h3>Our Doctors</h3>
             </a>
             <p>view a list of all doctors along with their speciality</p>
           </div>
-          <div className="col-4">
+
+          <div className="col-4" onClick={() => handleClick("/Packages")}>
             <FontAwesomeIcon
               icon={faHandHoldingMedical}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Packages">
+            <a>
               <h3>Health Packages</h3>
             </a>
             <p>view all details of selected doctor including specilaty</p>
           </div>
-          <div className="col-4">
+
+          <div className="col-4" onClick={() => handleClick("/Prescriptions")}>
             <FontAwesomeIcon
               icon={faPrescriptionBottleMedical}
               size="4x"
               style={{ color: "#82d76a" }}
             />
-            <a href="/Prescriptions">
+            <a>
               <h3>Pharmacy</h3>
             </a>
             <p>view the available quantity, and sales of each medicine</p>
@@ -274,19 +292,31 @@ export default function PatientHome() {
           <LinkAnotherPat />
         </FilterModal>
       ) : null}
-        {isModalOpen ? (
-          <FilterModal>
-            <FontAwesomeIcon
-              className="circleXmark"
-              icon={faCircleXmark}
-              onClick={() => {
-                setIsModalOpen(false);
-              }}
-            />
-            <UploadDocuments/>
-          </FilterModal>
-        ) : null}
-        <Footer></Footer>
+      {isModalOpen ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalOpen(false);
+            }}
+          />
+          <UploadDocuments />
+        </FilterModal>
+      ) : null}
+      {WalletModal ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setWalletModal(false);
+            }}
+          />
+          <MyWalletP />
+        </FilterModal>
+      ) : null}
+      <Footer></Footer>
     </div>
   );
 }

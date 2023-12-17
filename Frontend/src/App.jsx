@@ -15,7 +15,7 @@ import PatientReg from "./Components/Login_Reg/LoginPage";
 function App() {
   const getPatients = () => {
     axios
-      .get("http://localhost:3001/getPatient")
+      .get("http://localhost:3005/getPatient")
       .then((res) => {
         console.log(res);
       })

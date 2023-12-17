@@ -62,7 +62,7 @@ export default function ResetPass() {
   };
 
   const ResetPass = async () => {
-    const res = await axios.put("http://localhost:3001/ResetPass", {
+    const res = await axios.put("http://localhost:3005/ResetPass", {
       Email: Email,
       Password: NewPass,
     });

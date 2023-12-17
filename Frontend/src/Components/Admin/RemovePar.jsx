@@ -26,7 +26,7 @@ function RemovePar(props) {
       if (roleValue === "Admin") {
         console.log(username);
         axios
-          .delete("http://localhost:3001/deleteAdmin",{data:username})
+          .delete("http://localhost:3005/deleteAdmin",{data:username})
           .then((res) => {
             usernameRef.current.value = "";
           })
@@ -36,7 +36,7 @@ function RemovePar(props) {
           });
       } else if (roleValue === "Doctor") {
         axios
-          .delete("http://localhost:3001/deleteDoctor", {data:username})
+          .delete("http://localhost:3005/deleteDoctor", {data:username})
           .then((res) => {
             usernameRef.current.value = "";
             roleValue = "";
@@ -47,7 +47,7 @@ function RemovePar(props) {
           });
       } else {
         axios
-          .delete("http://localhost:3001/deletePatient", {data:username})
+          .delete("http://localhost:3005/deletePatient", {data:username})
           .then((res) => {
             usernameRef.current.value = "";
             roleValue = "";
@@ -64,25 +64,25 @@ function RemovePar(props) {
   }
 
   return (
-    <div className="tailwind">
-      <a href="/AdminHome">
+    <div >
+      {/*<a href="/AdminHome">
         <Logo />
-      </a>
-      <div className=" justify-center flex mt-20">
-        <Card width="w-4/12" height=" h-[32rem]">
-          <div className=" flex justify-center  mt-6 mb-0 ">
+      </a>*/}
+      <div >
+      {/*<Card width="w-4/12" height=" h-[32rem]">*/}
+          <div >
             <Logo height="4rem" />
 
-            <h1 className=" text-2xl font-bold  text-center  text-sky-600  ml-0   mt-6 ">
+            <h1 >
               {" "}
               Remove Participant{" "}
             </h1>
           </div>
-          <div className=" flex justify-center mt-7">
+          <div >
             <form onSubmit={submitHandeler}>
-              <div className=" mt-3">
-                <div className=" mb-4">
-                  <label className=" text-xl font-bold   font-SourceSansPro  text-gray-500 ml-2">
+              <div >
+                <div >
+                  <label >
                     {" "}
                     Username :{" "}
                   </label>
@@ -92,18 +92,16 @@ function RemovePar(props) {
                     id="username"
                     name="username"
                     ref={usernameRef}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                   />
                 </div>
-                <div className=" mb-4">
+                <div >
                   <Roles ref={role} />
                 </div>
 
-                <div className=" flex justify-center  mt-6">
+                <div >
                   <br />
                   <br />
                   <button
-                    className="  text-sky-600  outline  w-40  h-9  rounded-md   mt-5 shadow block"
                     type="submit"
                     onClick={confirmHandeler}
                   >
@@ -114,7 +112,7 @@ function RemovePar(props) {
               </div>
             </form>
           </div>
-        </Card>
+      {/*</Card>*/}
         {ok && (
           <WarningCard width="w-4/12" height=" h-[5rem]" onClick={okHandeler}>
             {warning}

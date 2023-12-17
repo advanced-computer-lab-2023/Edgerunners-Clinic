@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Logo from "../../UI/UX/Logo";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFilter,
   faCreditCard,
+  faCircleXmark,
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import FilterModal from "./FilterModal";
@@ -13,6 +15,7 @@ import axios from "axios";
 import GetRelation from "./getRelation";
 import "./PatientHome.scss";
 import Footer from "../Patient/Footer";
+import MyWalletP from "../Patient/MyWalletP";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -50,6 +53,21 @@ export default function Doctors() {
   const [chosen, setChosen] = useState();
   const [Modal, setModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
+  const [WalletModal, setWalletModal] = useState(false);
+  const [NotEnough, setNotEnough] = useState(false);
+
+  const [walletUsername, setWalletUsername] = useState(null);
+  const [walletDate, setWalletDate] = useState(null);
+  const [walletTimeH, setWalletTimeH] = useState(null);
+  const [walletTimeM, setWalletTimeM] = useState(null);
+  const [walletHourlyRate, setWalletHourlyRate] = useState(null);
+
+  const [forceEffect, setForceEffect] = useState(false);
+
+  useEffect(() => {
+    setForceEffect(false);
+    
+  }, [forceEffect]);
 
   function discount() {
     const [discount, setDiscount] = useState();
@@ -57,7 +75,7 @@ export default function Doctors() {
       getMyDiscount();
       async function getMyDiscount() {
         const res = await axios.get(
-          `http://localhost:3001/getDiscountSession`,
+          `http://localhost:3005/getDiscountSession`,
           { params: { username: sessionStorage.getItem("Username") } }
         );
         setDiscount(res.data);
@@ -73,7 +91,7 @@ export default function Doctors() {
       getMyWallet();
       async function getMyWallet() {
         const res = await axios.get(
-          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+          `http://localhost:3005/getWallet/${sessionStorage.getItem(
             "Username"
           )}`
         );
@@ -117,7 +135,7 @@ export default function Doctors() {
   //   if (chosen !== sessionStorage.getItem("Username")) {
   //     NationalID = chosen;
   //   }
-  //   await axios.put(`http://localhost:3001/updateAppointment`, {
+  //   await axios.put(`http://localhost:3005/updateAppointment`, {
   //     DoctorUsername: doctor,
   //     Date: Date,
   //     TimeH: TimeH,
@@ -143,10 +161,16 @@ export default function Doctors() {
   const handlePaymentWallet = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
     let NationalID = "";
+    console.log(doctor);
+    console.log(Date);
+    console.log(TimeH);
+    console.log(TimeM);
+
+
     if (chosen !== sessionStorage.getItem("Username")) {
       NationalID = chosen;
     }
-    await axios.put(`http://localhost:3001/updateAppointmentWallet`, {
+    await axios.put(`http://localhost:3005/updateAppointmentWallet`, {
       DoctorUsername: doctor,
       Date: Date,
       TimeH: TimeH,
@@ -155,7 +179,7 @@ export default function Doctors() {
       Availability: "Reserved",
       PatientUsername: sessionStorage.getItem("Username"),
       NationalID: NationalID,
-      Status:"Upcoming",
+      Status: "Upcoming",
     });
   };
 
@@ -164,7 +188,7 @@ export default function Doctors() {
     let PaymentType = "Appointment";
     let discount = null;
     await axios
-      .get("http://localhost:3001/getDiscountSession", {
+      .get("http://localhost:3005/getDiscountSession", {
         params: { username: sessionStorage.getItem("Username") },
       })
       .then((res) => {
@@ -173,14 +197,14 @@ export default function Doctors() {
     if (discount !== null) {
       let coupon = null;
       await axios
-        .get("http://localhost:3001/create-coupon", {
+        .get("http://localhost:3005/create-coupon", {
           params: { coupon: discount },
         })
         .then((res) => {
           coupon = res.data;
         });
       await axios
-        .post("http://localhost:3001/create-checkout-session", {
+        .post("http://localhost:3005/create-checkout-session", {
           name,
           Username,
           PaymentType,
@@ -200,9 +224,11 @@ export default function Doctors() {
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/PatientHome">
+              <Link to="/PatientHome" className="logo-link">
                 <Logo />
-              </a>
+                <span className="clinicText">El-7a2ny Clinic</span>
+              </Link>
+
               <button
                 className="navbar-toggler ps-0"
                 type="button"
@@ -236,32 +262,58 @@ export default function Doctors() {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#foundation"
+                      href="/myAppointments"
                     >
                       My Appointments
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#help">
-                      Health Record
                     </a>
                   </li>
                   <li className="nav-item">
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#education"
+                      href="/viewPackage"
                     >
-                      Doctors
+                      My Subscribtions
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#about">
-                      My Account
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/Prescriptions"
+                    >
+                      Prescriptions
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#contact">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      onClick={() => setWalletModal(true)}
+                    >
+                      My Wallet
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/changePassword"
+                    >
+                      Change password
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      onClick={() => {
+                        sessionStorage.removeItem("Username");
+                        sessionStorage.removeItem("type");
+                        sessionStorage.removeItem("token");
+                        window.location.replace("/");
+                      }}
+                    >
                       Log Out
                     </a>
                   </li>
@@ -333,6 +385,18 @@ export default function Doctors() {
                   setFilterModal(true);
                 }}
               />
+              {WalletModal ? (
+                <FilterModal>
+                  <FontAwesomeIcon
+                    className="circleXmark"
+                    icon={faCircleXmark}
+                    onClick={() => {
+                      setWalletModal(false);
+                    }}
+                  />
+                  <MyWalletP />
+                </FilterModal>
+              ) : null}
               {filterModal ? (
                 <FilterModal>
                   <div className="speciality-filter">
@@ -478,62 +542,105 @@ export default function Doctors() {
                   <FontAwesomeIcon
                     className="wallet-icon"
                     icon={faWallet}
-                    onClick={() => setModal(true)}
+                    onClick={() => {
+                      if (
+                        totalAmount <
+                        a.Doctor.Hourlyrate * 1.1 * ((100 - discount3) / 100)
+                      ) {
+                        setNotEnough(true);
+                      } else {
+                        setNotEnough(false);
+                      }
+                      setWalletUsername(a.Doctor.Username);
+                      console.log(a.Date)
+                      setWalletDate(a.Date);
+                      setWalletTimeH(a.TimeH);
+                      setWalletTimeM(a.TimeM);
+                      setWalletHourlyRate(a.Doctor.Hourlyrate);
+                      console.log(a.Doctor);
+                      setModal(true);
+                    }}
                   />
-                  {Modal && (
-                    <div style={modalOverlayStyle}>
-                      <div style={modalStyle}>
-                        <span
-                          style={closeButtonStyle}
-                          onClick={() => setModal(false)}
-                        >
-                          &times;
-                        </span>
-                        <h2>Checkout:</h2>
-                        <p>
-                          Your wallet: {totalAmount != undefined && totalAmount}{" "}
-                          EGP
-                        </p>
-                        <p>
-                          Session price: {parseInt(a.Doctor.Hourlyrate * 1.1)}{" "}
-                          EGP
-                        </p>
-                        <p>discount: {discount3}%</p>
-                        <p>
-                          total ={" "}
-                          {parseInt(
-                            a.Doctor.Hourlyrate *
-                              1.1 *
-                              ((100 - discount3) / 100)
-                          )}
-                        </p>
-                        <button
-                          onClick={(e) => {
-                            handlePaymentWallet(
-                              e,
-                              a.Doctor.Username,
-                              a.Date,
-                              a.TimeH,
-                              a.TimeM
-                            );
-                            setModal(false);
-                          }}
-                        >
-                          Pay
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            setModal(false);
-                          }}
-                        >
-                          cancel
-                        </button>
-                      </div>
-                    </div>
-                  )}
                 </div>
               );
             })}
+            {Modal && (
+              <div style={modalOverlayStyle}>
+                <div style={modalStyle}>
+                  <span
+                    style={closeButtonStyle}
+                    onClick={() => setModal(false)}
+                  >
+                    &times;
+                  </span>
+                  <h2>Checkout:</h2>
+                  <p>
+                    Your wallet: {totalAmount != undefined && totalAmount}{" "}
+                    EGP
+                  </p>
+                  <p>
+                    Session price: {parseInt(walletHourlyRate * 1.1)}{" "}
+                    EGP
+                  </p>
+                  <p>Discount: {discount3}%</p>
+                  <p>
+                    Total ={" "}
+                    {parseInt(
+                      walletHourlyRate *
+                        1.1 *
+                        ((100 - discount3) / 100)
+                    )}
+                  </p>
+                  {NotEnough && (
+                    <div className="bg-red-500 text-white p-2 rounded-md mb-4">
+                      Insufficient Amount
+                    </div>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      handlePaymentWallet(
+                        e,
+                        walletUsername,
+                        walletDate,
+                        walletTimeH,
+                        walletTimeM
+                      );
+                      setModal(false);
+                      setForceEffect(true);
+                      window.location.reload();
+
+                    }}
+                    style={{
+                      backgroundColor: "green",
+                      color: "white",
+                      marginRight: "10px",
+                      padding: "8px 12px",
+                      borderRadius: "4px",
+                      width: "100px", // Fixed width
+                      height: "40px", // Fixed height
+                    }}
+                    disabled={NotEnough}
+                  >
+                    Pay
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      setModal(false);
+                    }}
+                    style={{
+                      backgroundColor: "red",
+                      color: "white",
+                      padding: "8px 12px",
+                      borderRadius: "4px",
+                      width: "100px", // Fixed width
+                      height: "40px", // Fixed height
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <Footer></Footer>

@@ -39,6 +39,7 @@ import ScheduleAppointment from "./Components/DoctorHome/ScheduleAppointment";
 import ChangePassword from "./Components/Login_Reg/ChangePassword";
 import ViewPres from "./Components/Patient/ViewPres";
 import ViewPresc from "./Components/DoctorHome/ViewPresc";
+import Cart from "./Components/Patient/Cart";
 
 import VideoCall from "./Components/VideoCall";
 import StartCall from "./Components/Patient/StartCall";
@@ -47,7 +48,9 @@ import StartACall from "./Components/DoctorHome/StartACall";
 import Notificationp from "./Components/Patient/Notificationp";
 import ChatApp from "./Components/PatientHome/ChatApp";
 import ChatAppD from "./Components/DoctorHome/ChatAppD";
+import FilterModal from "./Components/PatientHome/FilterModal";
 
+import ChatApp from "./Components/DoctorHome/ChatAppDtoP";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -61,7 +64,7 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<LoginPage/>} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
       </BrowserRouter>
@@ -90,6 +93,10 @@ if (
           <Route path="/Cancel" element={<Cancel />} />
           <Route path="/Link" element={<LinkAnotherPat />} />
           <Route path="/Notification" element={<Notificationp />} />
+          <Route path="/Cart" element={<Cart />} />
+          
+          
+          
           <Route
             path="/ViewPackage"
             element={<ViewAndUNSubToAHealthPackage />}
@@ -129,6 +136,7 @@ if (
             element={<UploadHRforPatients />}
           />
           <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/Chat" element={<ChatApp />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

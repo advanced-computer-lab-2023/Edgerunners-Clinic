@@ -6,7 +6,7 @@ function GetPatient(){
     useEffect(() => {
       getPatient();
       async function getPatient() {
-        const res = await axios.get("http://localhost:3001/getPatient");
+        const res = await axios.get("http://localhost:3005/getPatient");
         setPatient(res.data);
       }
     }, []);

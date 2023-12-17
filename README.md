@@ -31,7 +31,7 @@ Our goal is straightforward: to break down the complexities of traditional healt
 - **Braces:** K&R style is used for brace placement.
 - **Comments:** Use meaningful comments sparingly to explain complex logic or important details.
 
-## installion
+## installation
 
 - clone:
 
@@ -53,6 +53,16 @@ To setup everything
 ```bash
   cd frontend
   npm install
+```
+
+- sample env file:
+
+```bash
+  MONGO_URI = 'mongo database'
+  PORT = 3001
+  JWT_SECRETA = 'Admin secret'
+  JWT_SECRETD = 'Doctor secret'
+  JWT_SECRETP = 'Patient secret'
 ```
 
 ## Screenshots of website

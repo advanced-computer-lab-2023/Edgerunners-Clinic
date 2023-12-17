@@ -49,7 +49,7 @@ export default function DoctorHome() {
             <div className="navbar-collapse" id="navbarExample01">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#pets">
+                  <a className="nav-link" aria-current="page" href="/videocall">
                     Video Call
                   </a>
                 </li>

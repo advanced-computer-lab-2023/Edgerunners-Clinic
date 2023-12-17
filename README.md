@@ -22,6 +22,11 @@ Our goal is straightforward: to break down the complexities of traditional healt
 
 ## Build Status
 
+- Chat UI is not done yet but it is functional.
+- Video Chat UI is not done yet but it is functional.
+- Facebook/Twitter/Youtube icons doesn't go anywhere.
+- Notification UI is not done but functional.
+
 ![GIF Waiting](https://media.giphy.com/media/jc2PkKKr3clTBekMzn/giphy.gif)
 
 ## Code Style

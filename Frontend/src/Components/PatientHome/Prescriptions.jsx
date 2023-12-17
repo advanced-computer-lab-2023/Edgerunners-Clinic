@@ -131,7 +131,7 @@ export default function Prescriptions() {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#adoptions"
+                      href="/Chat"
                     >
                       Chat
                     </a>

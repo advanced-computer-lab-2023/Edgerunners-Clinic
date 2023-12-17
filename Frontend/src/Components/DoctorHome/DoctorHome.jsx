@@ -54,7 +54,12 @@ export default function DoctorHome() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#adoptions">
+                  <a className="nav-link" aria-current="page" href="/ChatAppDtoP">
+                    Chat Pharma
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="/ChatD">
                     Chat
                   </a>
                 </li>

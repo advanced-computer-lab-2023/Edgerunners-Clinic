@@ -47,9 +47,7 @@ const ChatBox = (props) => {
   console.log(chatMessages);
 
   return (
-    <div>
-      <div className="chat-header"></div>
-
+    <div className="Bootstrap PatientHome">
       <div className="chat-content">
         {
           <>
@@ -71,11 +69,19 @@ const ChatBox = (props) => {
             </div>
             <div>
               <input
+                style={{
+                  borderRadius: "10px",
+                }}
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
               <button
+                style={{
+                  borderRadius: "10px",
+                  backgroundColor: "green",
+                  marginLeft: "1rem",
+                }}
                 onClick={() => {
                   sendMessage(props.sender, props.receiver);
                 }}
@@ -86,9 +92,6 @@ const ChatBox = (props) => {
           </>
         }
       </div>
-
-      {/* Close chat button */}
-      {<button className="close-button">Close</button>}
     </div>
   );
 };

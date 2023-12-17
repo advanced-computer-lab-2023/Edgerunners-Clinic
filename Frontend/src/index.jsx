@@ -120,6 +120,7 @@ if (
         <Routes>
           <Route path="/DoctorHome" element={<DoctorHome />} />
           <Route path="/ChatD" element={<ChatAppD />} />
+          <Route path="/ChatAppDtoP" element={<ChatAppDtoP />} />
           <Route path="/VideoCall" element={<StartACall />} />
           <Route path="/EditMyProf" element={<EditMyProf />} />
           <Route path="/ViewPresc" element={<ViewPresc />} />

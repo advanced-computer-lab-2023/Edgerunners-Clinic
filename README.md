@@ -59,7 +59,7 @@ To setup everything
 
 ```bash
   MONGO_URI = 'mongo database'
-  PORT = 3001
+  PORT = 3005
   JWT_SECRETA = 'Admin secret'
   JWT_SECRETD = 'Doctor secret'
   JWT_SECRETP = 'Patient secret'

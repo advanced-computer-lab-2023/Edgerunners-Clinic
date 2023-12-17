@@ -170,7 +170,7 @@ export default function PatientAppointments() {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#adoptions"
+                      href="/Chat"
                     >
                       Chat
                     </a>

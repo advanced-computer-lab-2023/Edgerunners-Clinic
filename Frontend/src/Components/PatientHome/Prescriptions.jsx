@@ -16,6 +16,7 @@ export default function Prescriptions() {
   const [status, setStatus] = useState();
   const [selectedPrescriptions, setSelectedPrescriptions] = useState([]);
   const [WalletModal, setWalletModal] = useState(false);
+  const [id, setid] = useState(false);
 
   console.log("date is: " + date);
   let Prescriptions = GetPrescriptions({
@@ -46,7 +47,7 @@ export default function Prescriptions() {
       arr,
       username: sessionStorage.getItem("Username"),
     });
-     window.location.href = "http://localhost:5173/Cart";
+     window.location.href = "http://localhost:5173/Cart?id="+Prescriptions[index]._id;
   };
 
   const downloadPrescriptionAsPDF = (prescription) => {
@@ -131,7 +132,7 @@ export default function Prescriptions() {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#adoptions"
+                      href="/Chat"
                     >
                       Chat
                     </a>

@@ -167,6 +167,19 @@ const getPatients = async (req, res) => {
     res.status(400).send("Error could not get Patients !!");
   }
 };
+const getEmailp = async(req,res)=>{
+  const {Username}=req.query;
+  try{
+    const p = await Patient.findOne({Username:Username});
+    console.log(p.Email);
+    console.log(p)
+    res.status(200).send(p.Email);
+   
+  }
+  catch (e) {
+    res.status(400).send("Error could not get Doctors !!");
+  }
+};
 
 const filterPatients = async (req, res) => {
   // try {
@@ -517,4 +530,5 @@ module.exports = {
   getCart,
   getAddress,
   PaymentPrescriptionWallet,
+  getEmailp,
 };

@@ -147,12 +147,24 @@ const getDoctors = async (req, res) => {
     if (Status) {
       filter.Status = Status;
     }
-    if(Username){
-      filter.Username= Username;
-    }
-    const Doctors = await Doctor.find(filter);
+   
+    const Doctors = await Doctor.find({filter});
     res.status(200).send(Doctors);
+  
   } catch (e) {
+    res.status(400).send("Error could not get Doctors !!");
+  }
+};
+const getEmail = async(req,res)=>{
+  const {Username}=req.query;
+  try{
+    const Doctors = await Doctor.findOne({Username:Username});
+    console.log(Doctors.Email);
+    console.log(Doctors)
+    res.status(200).send(Doctors.Email);
+   
+  }
+  catch (e) {
     res.status(400).send("Error could not get Doctors !!");
   }
 };
@@ -260,4 +272,5 @@ module.exports = {
   updateStatus,
   GetWalletD,
   viewFilesDoctor,
+  getEmail,
 };

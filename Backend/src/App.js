@@ -26,6 +26,7 @@ const {
   getCart,
   getAddress,
   PaymentPrescriptionWallet,
+  getEmailp,
 } = require("./Routes/patientController");
 
 const {
@@ -54,6 +55,7 @@ const {
   updateStatus,
   GetWalletD,
   viewFilesDoctor,
+  getEmail,
 } = require("./Routes/doctorController");
 
 const {
@@ -266,6 +268,7 @@ app.get("/getWalletD/:username", GetWalletD);
 app.get("/patientUploadHealthRecord", patientUploadHealthRecord);
 app.get("/gethealthrecords/:Username", gethealthrecords);
 app.get("/getPatient", getPatients);
+app.get("/getEmailp",getEmailp)
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
@@ -293,6 +296,7 @@ app.get("/findDoctor", findDoctor);
 app.post("/doctorUploadFile", doctorUploadFile);
 app.get("/PatientsName/:Username", getPatientNames);
 app.put("/updateStatus", updateStatus);
+app.get("/getEmail", getEmail);
 
 app.post("/addAdmin", createAdmin);
 app.get("/getAdmin", getAdmins);

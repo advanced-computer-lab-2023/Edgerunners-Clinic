@@ -32,7 +32,7 @@ const [reload,setreload]=useState(false);
   };
   const getPatientEmail = async () => {
     try {
-      const response =await axios.post("http://localhost:3001/getPatients",{params:{Username: patient}});
+      const response =await axios.get("http://localhost:3001/getEmailp",{params:{Username: patient}});
       setpatientEmail(response.data.Email);
     } catch (error) {
       console.error("Error fetching patient names:", error);
@@ -42,8 +42,9 @@ const [reload,setreload]=useState(false);
   // Function to get the doctor's email
   const getDoctorEmail = async () => {
     try {
-      const response =await axios.post("http://localhost:3001/getDoctors",{params:{Username: sessionStorage.getItem("Username")}});
-      setDoctorEmail(response.data.Email);
+      const response =await axios.get("http://localhost:3001/getEmail",{params:{Username: sessionStorage.getItem("Username")}});
+      setDoctorEmail(response.data);
+      console.log(doctorEmail);
     } catch (error) {
       console.error("Error fetching doctor email:", error);
     }
@@ -92,11 +93,11 @@ const [reload,setreload]=useState(false);
         message: `Your appointment with Dr ${sessionStorage.getItem("Username")} is rescheduled on ${date}`,
         patientEmail: patientEmail,
       });
-      // Reload the page or handle redirection as needed
      
-     setreload(true);
+     
+      setreload(true);
      if(reload){
-  window.location.reload(false);
+window.location.reload(false);
      }
     } catch (error) {
       console.error("Error submitting appointment:", error);

@@ -3,9 +3,17 @@ import axios from "axios";
 import Logo from "../../UI/UX/Logo";
 import fileDownload from "js-file-download";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faCircleXmark,
+  faFileArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Footer from "../Patient/Footer";
+import FilterModal from "../PatientHome/FilterModal";
+import SetAdmin from "./SetAdmin";
+import CreatePackage from "../Packages/CreatePackage";
+import RemoveUser from "./RemovePar";
 
 const makeRequestTable = async () => {
   const data = [];
@@ -99,6 +107,10 @@ const styles = {
 const DoctorRequests = () => {
   const [requests, setRequests] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
+  const [isModalSetAdminOpen, setIsModalSetAdminOpen] = useState(false);
+  const [isModalRemoveUserOpen, setIsModalRemoveUserOpen] = useState(false);
+  const [isModalCreatePackageOpen, setIsModalCreatePackageOpen] =
+    useState(false);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -188,12 +200,24 @@ const DoctorRequests = () => {
           <div className="navbar-collapse" id="navbarExample01">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="/setAdmin">
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  onClick={() => {
+                    setIsModalSetAdminOpen(true);
+                  }}
+                >
                   Add Admin
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="/removePar">
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  onClick={() => {
+                    setIsModalRemoveUserOpen(true);
+                  }}
+                >
                   Remove User
                 </a>
               </li>
@@ -210,7 +234,9 @@ const DoctorRequests = () => {
                 <a
                   className="nav-link"
                   aria-current="page"
-                  href="/createPackage"
+                  onClick={() => {
+                    setIsModalCreatePackageOpen(true);
+                  }}
                 >
                   Add Packages
                 </a>
@@ -364,6 +390,45 @@ const DoctorRequests = () => {
           </tbody>
         </table>
       </div>
+      {isModalSetAdminOpen ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalSetAdminOpen(false);
+            }}
+          />
+          <SetAdmin />
+          {/*<div>Test component</div>*/}
+        </FilterModal>
+      ) : null}
+      {isModalRemoveUserOpen ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalRemoveUserOpen(false);
+            }}
+          />
+          <RemoveUser />
+          {/*<div>Test component</div>*/}
+        </FilterModal>
+      ) : null}
+      {isModalCreatePackageOpen ? (
+        <FilterModal>
+          <FontAwesomeIcon
+            className="circleXmark"
+            icon={faCircleXmark}
+            onClick={() => {
+              setIsModalCreatePackageOpen(false);
+            }}
+          />
+          <CreatePackage />
+          {/*<div>Test component</div>*/}
+        </FilterModal>
+      ) : null}
       <Footer></Footer>
     </div>
   );

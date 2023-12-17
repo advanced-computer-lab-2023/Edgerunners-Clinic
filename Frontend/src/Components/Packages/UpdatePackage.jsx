@@ -1,10 +1,20 @@
 import { Card, Typography } from "@material-tailwind/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDownload,
+  faFileArrowUp,
+  faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import GetPackages, { DeletePackages } from "./getPackages";
 import axios from "axios";
 import React, { useState, useEffect, useCallback } from "react";
 import Logo from "../../UI/UX/Logo";
 import { Link } from "react-router-dom";
 import Footer from "../Patient/Footer";
+import FilterModal from "../PatientHome/FilterModal";
+import SetAdmin from "../Admin/SetAdmin";
+import CreatePackage from "./CreatePackage";
+import RemoveUser from "../Admin/RemovePar";
 
 const handleSubmit = async (e) => e.preventDefault();
 async function DeletePackage(p) {
@@ -100,6 +110,10 @@ export default function DefaultTable() {
   const [itemToDelete, setItemToDelete] = useState(false);
   const [hoveredConfirmButton, setHoveredConfirmButton] = useState(false);
   const [hoveredCancelButton, setHoveredCancelButton] = useState(false);
+  const [isModalSetAdminOpen, setIsModalSetAdminOpen] = useState(false);
+  const [isModalRemoveUserOpen, setIsModalRemoveUserOpen] = useState(false);
+  const [isModalCreatePackageOpen, setIsModalCreatePackageOpen] =
+    useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -176,7 +190,7 @@ export default function DefaultTable() {
   const handleCancelDelete = () => {
     setShowConfirmation(false);
     setHoveredCancelButton(false);
-    setHoveredConfirmButton(false)
+    setHoveredConfirmButton(false);
   };
   const handleToggleEdit = (name) => {
     setEditMode((prevEditMode) => ({
@@ -221,7 +235,7 @@ export default function DefaultTable() {
 
   if (packages === null) {
     return <div>Loading...</div>;
-  }  else {
+  } else {
     return (
       <div className="Bootstrap PatientHome tailwind">
         <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
@@ -247,27 +261,53 @@ export default function DefaultTable() {
             <div className="navbar-collapse" id="navbarExample01">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/setAdmin">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      setIsModalSetAdminOpen(true);
+                    }}
+                  >
                     Add Admin
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/removePar">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      setIsModalRemoveUserOpen(true);
+                    }}
+                  >
                     Remove User
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/updatePackage" >
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/updatePackage"
+                  >
                     Update Packages
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/createPackage" >
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    onClick={() => {
+                      setIsModalCreatePackageOpen(true);
+                    }}
+                  >
                     Add Packages
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/changePassword" >
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    href="/changePassword"
+                  >
                     Change password
                   </a>
                 </li>
@@ -491,9 +531,47 @@ export default function DefaultTable() {
             onCancel={handleCancelDelete}
           />
         )}
-        <br/>
-      <Footer></Footer>
-
+        {isModalSetAdminOpen ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalSetAdminOpen(false);
+              }}
+            />
+            <SetAdmin />
+            {/*<div>Test component</div>*/}
+          </FilterModal>
+        ) : null}
+        {isModalRemoveUserOpen ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalRemoveUserOpen(false);
+              }}
+            />
+            <RemoveUser />
+            {/*<div>Test component</div>*/}
+          </FilterModal>
+        ) : null}
+        {isModalCreatePackageOpen ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalCreatePackageOpen(false);
+              }}
+            />
+            <CreatePackage />
+            {/*<div>Test component</div>*/}
+          </FilterModal>
+        ) : null}
+        <br />
+        <Footer></Footer>
       </div>
     );
   }

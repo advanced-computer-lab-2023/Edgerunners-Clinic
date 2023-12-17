@@ -9,7 +9,7 @@ function ChangePassword() {
   const [checker, setChecker] = useState(false);
   const [same, setSame] = useState(false);
   const [success, setSuccess] = useState(false);
-  function submitHandeler(event) {
+  async function submitHandeler(event) {
     event.preventDefault();
     const usernameValue = sessionStorage.getItem("Username");
     const passwordValue = passwordRef.current.value;
@@ -32,8 +32,8 @@ function ChangePassword() {
         Password: passwordValue,
         confirmPassword: passwordConValue,
       };
-      axios
-        .put("http://localhost:3001/changePassword", change, {})
+      await axios
+        .put("http://localhost:3005/changePassword", change, {})
         .then((res) => {
           console.log(res);
           console.log("Password changed");

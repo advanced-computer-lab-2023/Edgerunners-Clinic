@@ -55,6 +55,16 @@ To setup everything
   npm install
 ```
 
+- sample env file:
+
+```bash
+  MONGO_URI = 'mongo database'
+  PORT = 3001
+  JWT_SECRETA = 'Admin secret'
+  JWT_SECRETD = 'Doctor secret'
+  JWT_SECRETP = 'Patient secret'
+```
+
 ## Screenshots of website
 
 ![Login](Screenshots/login.png)

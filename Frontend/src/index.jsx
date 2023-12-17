@@ -47,6 +47,8 @@ import Notification from "./Components/DoctorHome/Notification";
 import StartACall from "./Components/DoctorHome/StartACall";
 import Notificationp from "./Components/Patient/Notificationp";
 import FilterModal from "./Components/PatientHome/FilterModal";
+
+import ChatApp from "./Components/DoctorHome/ChatAppDtoP";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -91,6 +93,8 @@ if (
           <Route path="/Notification" element={<Notificationp />} />
           <Route path="/Cart" element={<Cart />} />
           
+          
+          
           <Route
             path="/ViewPackage"
             element={<ViewAndUNSubToAHealthPackage />}
@@ -129,6 +133,7 @@ if (
             element={<UploadHRforPatients />}
           />
           <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/Chat" element={<ChatApp />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

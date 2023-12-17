@@ -20,7 +20,7 @@ export default function GetDoctors({ Speciality, Name}) {
     useEffect(() => {
       getDoctors();
       async function getDoctors() {
-        const res = await axios.get(`http://localhost:3001/getDoctor`, {
+        const res = await axios.get(`http://localhost:3005/getDoctor`, {
           params: {
             Speciality,
             Name,
@@ -40,7 +40,7 @@ export default function GetDoctors({ Speciality, Name}) {
     useEffect(() => {
       getPatients();
       async function getPatients() {
-        const res = await axios.get(`http://localhost:3001/filterPatient`, {
+        const res = await axios.get(`http://localhost:3005/filterPatient`, {
           params: {
             Username,
             Name,

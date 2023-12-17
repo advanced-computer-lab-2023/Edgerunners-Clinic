@@ -25,7 +25,7 @@ function ViewPresc() {
     const fetchData = async () => {
       try {
         const responsePrescriptions = await axios.get(
-          "http://localhost:3001/getPrescriptions",
+          "http://localhost:3005/getPrescriptions",
           {
             params: {
               Doctor: sessionStorage.getItem("Username"),
@@ -53,7 +53,7 @@ function ViewPresc() {
   const handleUpdateSubmit = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:3001/updatePrescriptions",
+        "http://localhost:3005/updatePrescriptions",
         {
           ...updateData,
         }
@@ -69,7 +69,7 @@ function ViewPresc() {
   const handleDelete = async (prescriptionId, medicineName) => {
     try {
       const response = await axios.put(
-        "http://localhost:3001/removemedicine",
+        "http://localhost:3005/removemedicine",
         {
           prescriptionId: prescriptionId,
           medicineNameToRemove: medicineName,
@@ -102,7 +102,7 @@ function ViewPresc() {
     try {
       // Make axios PUT request
       const response = await axios.put(
-        "http://localhost:3001/updatePrescriptions",
+        "http://localhost:3005/updatePrescriptions",
         {
           prescriptionId: prescriptionId,
           newMedicineName: newMedicineName,

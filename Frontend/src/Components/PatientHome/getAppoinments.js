@@ -7,7 +7,7 @@ export default function GetAppointments({ Date, Name, Speciality}) {
   useEffect(() => {
     getAppointments();
     async function getAppointments() {
-      const res = await axios.get(`http://localhost:3001/getAppointment`, {
+      const res = await axios.get(`http://localhost:3005/getAppointment`, {
         params: {
           Date,
           Name,
@@ -26,7 +26,7 @@ export function GetAppointmentsFilter({DoctorUsername}){
   useEffect(() =>{
     getAppointmentsFilter();
     async function getAppointmentsFilter(){
-      const res = await axios.get(`http://localhost:3001/getAppointmentFilter`, {
+      const res = await axios.get(`http://localhost:3005/getAppointmentFilter`, {
         params:{
           DoctorUsername
         }
@@ -47,7 +47,7 @@ export function UpdateAppointments({
   useEffect(() => {
     getAppointments();
     async function getAppointments() {
-      const res = await axios.put(`http://localhost:3001/updateAppointment`, {
+      const res = await axios.put(`http://localhost:3005/updateAppointment`, {
         params: {
           PatientUsername,
           DoctorUsername,
@@ -69,7 +69,7 @@ export function FilterAppointmentsDate({ Date, PatientUsername }) {
     getMyAppointments();
     async function getMyAppointments() {
       const res = await axios.get(
-        `http://localhost:3001/filterDateAppointments`,
+        `http://localhost:3005/filterDateAppointments`,
         {
           params: {
             Date,
@@ -92,7 +92,7 @@ export function FilterAppointmentsStatus({ Status, PatientUsername }) {
     async function getMyAppointmentsD() {
       //console.log(PatientUsername)
       const res = await axios.get(
-        `http://localhost:3001/filterStatusAppointments`,
+        `http://localhost:3005/filterStatusAppointments`,
         {
           params: {
             Status,

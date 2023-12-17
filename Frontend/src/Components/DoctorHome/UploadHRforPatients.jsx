@@ -25,7 +25,7 @@ const UploadHRforPatient = () => {
       formData.append("Username", sessionStorage.getItem("PatientUsername"));
       console.log(sessionStorage.getItem("PatientUsername"));
       try {
-        const result = await fetch("http://localhost:3001/patientUploadFile", {
+        const result = await fetch("http://localhost:3005/patientUploadFile", {
           method: "POST",
           body: formData,
         });
@@ -49,7 +49,7 @@ const UploadHRforPatient = () => {
       async function getFiles() {
         try {
           const result = await axios.get(
-            `http://localhost:3001/gethealthrecords/${sessionStorage.getItem(
+            `http://localhost:3005/gethealthrecords/${sessionStorage.getItem(
               "PatientUsername"
             )}`
           );
@@ -64,7 +64,7 @@ const UploadHRforPatient = () => {
 
   const handleViewFiles = async (filename) => {
     await axios
-      .get(`http://localhost:3001/viewFiles/${filename}`, {
+      .get(`http://localhost:3005/viewFiles/${filename}`, {
         responseType: "blob",
       })
       .then((res) => {

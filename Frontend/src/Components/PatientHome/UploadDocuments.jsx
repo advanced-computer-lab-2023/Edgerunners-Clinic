@@ -18,7 +18,7 @@ const UploadDocuments = () => {
 
 
   const handleDeleteFile = async (filename) =>{
-    const res = await axios.put("http://localhost:3001/deleteFile",{Username: sessionStorage.getItem("Username"), Filename: filename});
+    const res = await axios.put("http://localhost:3005/deleteFile",{Username: sessionStorage.getItem("Username"), Filename: filename});
     setFiles((prevFiles) => prevFiles.filter((file) => file !== filename));
     console.log(res);
   }
@@ -33,7 +33,7 @@ const UploadDocuments = () => {
       formData.append("Username", sessionStorage.getItem("Username"));
       console.log(sessionStorage.getItem("Username"));
       try {
-        const result = await fetch("http://localhost:3001/patientUploadFile", {
+        const result = await fetch("http://localhost:3005/patientUploadFile", {
           method: "POST",
           body: formData,
         });
@@ -54,7 +54,7 @@ const UploadDocuments = () => {
     // Fetch initial data and set the 'files' state
     async function fetchData() {
       try {
-        const result = await axios.get(`http://localhost:3001/gethealthrecords/${sessionStorage.getItem("Username")}`);
+        const result = await axios.get(`http://localhost:3005/gethealthrecords/${sessionStorage.getItem("Username")}`);
         setFiles(result.data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -73,7 +73,7 @@ const UploadDocuments = () => {
       formData.append("Username", sessionStorage.getItem("Username"));
       console.log(sessionStorage.getItem("Username"));
       try {
-        const result = await fetch("http://localhost:3001/patientUploadHealthRecord", {
+        const result = await fetch("http://localhost:3005/patientUploadHealthRecord", {
           method: "POST",
           body: formData,
         });
@@ -90,7 +90,7 @@ const UploadDocuments = () => {
     }
   };
   const handleViewFiles = async (filename) => {
-    await axios.get(`http://localhost:3001/viewFiles/${filename}`, {
+    await axios.get(`http://localhost:3005/viewFiles/${filename}`, {
       responseType: 'blob',
     })
     .then((res) => {

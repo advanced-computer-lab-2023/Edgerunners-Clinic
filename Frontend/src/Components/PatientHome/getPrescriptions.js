@@ -7,7 +7,7 @@ export default function GetPrescriptions({Patient, Date, Doctor, Status }) {
     useEffect(() => {
       getPrescriptions();
       async function getPrescriptions() {
-        const res = await axios.get(`http://localhost:3001/getPrescriptions`, {
+        const res = await axios.get(`http://localhost:3005/getPrescriptions`, {
           params: {
             Patient,
             Date,

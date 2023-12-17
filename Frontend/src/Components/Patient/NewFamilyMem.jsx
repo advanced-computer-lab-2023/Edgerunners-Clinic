@@ -60,7 +60,7 @@ function NewFamilyMem() {
       setWarning("");
       setOk(false);
       newMember.Patient = sessionStorage.getItem("Username");
-      await axios.post("http://localhost:3001/createRelation", newMember);
+      await axios.post("http://localhost:3005/createRelation", newMember);
     }
   }
   function okHandeler() {

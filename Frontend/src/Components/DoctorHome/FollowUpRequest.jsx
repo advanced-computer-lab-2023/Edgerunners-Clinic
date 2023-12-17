@@ -9,7 +9,7 @@ export default function FollowUpRequests() {
     useEffect(() => {
       getMyRequests();
       async function getMyRequests() {
-        const res = await axios.get(`http://localhost:3001/getMyRequests`, {
+        const res = await axios.get(`http://localhost:3005/getMyRequests`, {
           params: { Username: sessionStorage.getItem("Username") },
         });
         setPatientnames(res.data);
@@ -20,7 +20,7 @@ export default function FollowUpRequests() {
 
   let patientnames = requests();
 
-  //   let patientName = axios.get(`http://localhost:3001/PatientsName/${sessionStorage.getItem("Username")}`)
+  //   let patientName = axios.get(`http://localhost:3005/PatientsName/${sessionStorage.getItem("Username")}`)
 
   //   if(patientName){
   //     console.log(patientName)
@@ -28,7 +28,7 @@ export default function FollowUpRequests() {
 
   const handleAccept = async (date, patient, timeH, timeM, NationalID) => {
     console.log(patient);
-    const response = await axios.put("http://localhost:3001/acceptRequest", {
+    const response = await axios.put("http://localhost:3005/acceptRequest", {
       DoctorUsername: sessionStorage.getItem("Username"),
       PatientUsername: patient,
       NationalID: NationalID,
@@ -41,7 +41,7 @@ export default function FollowUpRequests() {
 
   const handleReject = async (date, patient, timeH, timeM, NationalID) => {
     console.log(patient);
-    const response = await axios.delete("http://localhost:3001/deleteRequest", {
+    const response = await axios.delete("http://localhost:3005/deleteRequest", {
       params: {
         DoctorUsername: sessionStorage.getItem("Username"),
         PatientUsername: patient,

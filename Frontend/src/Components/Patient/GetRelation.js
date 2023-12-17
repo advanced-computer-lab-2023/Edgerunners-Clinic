@@ -7,7 +7,7 @@ export default function getRelation() {
     getRelation();
     async function getRelation() {
       const x =  sessionStorage.getItem("Username");
-      const res = await axios.get("http://localhost:3001/getRelation", {
+      const res = await axios.get("http://localhost:3005/getRelation", {
         params: {
           Username : x
         }
@@ -24,7 +24,7 @@ export function createRelation(p) {
     createRelation();
     async function createRelation() {
       p.Patient = sessionStorage.getItem("Username");
-      await axios.post("http://localhost:3001/createRelation", p);
+      await axios.post("http://localhost:3005/createRelation", p);
     }
   }, []);
 }

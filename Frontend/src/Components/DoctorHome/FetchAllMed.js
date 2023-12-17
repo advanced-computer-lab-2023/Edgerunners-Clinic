@@ -8,7 +8,7 @@ export default function getMedicines() {
     getMedicines();
     async function getMedicines() {
    
-      const response = await axios.get("http://localhost:3001/getMedicines");
+      const response = await axios.get("http://localhost:3005/getMedicines");
       setMedicine(response.data); 
     }
   }, []);

@@ -71,7 +71,7 @@ const ContractPage = (props) => {
             onClick={async () => {
               setOpenModal(false);
               await axios
-                .put("http://localhost:3001/updateStatus", {
+                .put("http://localhost:3005/updateStatus", {
                   Username: sessionStorage.getItem("Username"),
                   Status:"Accepted",
                 });

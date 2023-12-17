@@ -50,7 +50,7 @@ function SetAdmin(props) {
       setOk(true);
     } else {
       axios
-        .post("http://localhost:3001/addAdmin", newAdmin, {})
+        .post("http://localhost:3005/addAdmin", newAdmin, {})
         .then((res) => {
           usernameRef.current.value = "";
           passwordRef.current.value = "";

@@ -8,7 +8,7 @@ function GetAddress({ state, city, street, apartment }) {
     async function fetchData() {
       try {
         let username = sessionStorage.getItem("Username");
-        const res = await axios.get("http://localhost:3001/getAddress", {
+        const res = await axios.get("http://localhost:3005/getAddress", {
           params: { username },
         });
         if (Array.isArray(res.data)) {

@@ -15,7 +15,7 @@ const Success = () => {
         if (PaymentType === "Package") {
           try {
             await axios
-              .post(`http://localhost:3001/createHealthPackage`, {
+              .post(`http://localhost:3005/createHealthPackage`, {
                 patientUsername: sessionStorage.getItem("Username"),
                 packagename: packagename,
               })
@@ -27,7 +27,7 @@ const Success = () => {
           }
         } else if (PaymentType === "Appointment") {
           try {
-            await axios.put(`http://localhost:3001/updateAppointment`, {
+            await axios.put(`http://localhost:3005/updateAppointment`, {
               DoctorUsername: sessionStorage.getItem("DoctorUsername"),
               Date: sessionStorage.getItem("Date"),
               TimeH: sessionStorage.getItem("TimeH"),

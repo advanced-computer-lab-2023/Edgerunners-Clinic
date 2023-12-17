@@ -200,16 +200,18 @@ export default function DoctorHome() {
           <h3>What You Need..</h3>
         </div>
         <div className="footer-in row">
-          <div className="col-4">
+          <div className="col-4" onClick={() => {
+            handleClick("/viewpresc");
+          }}>
             <FontAwesomeIcon
               icon={faFileCirclePlus}
               size="4x"
               style={{ color: "#82d76a" }}
             />
 
-            <h3>Add Prescription</h3>
+            <h3>View Prescription</h3>
 
-            <p>upload/remove documents for my medical history</p>
+            <p>View and edit prescriptions</p>
           </div>
 
           <div

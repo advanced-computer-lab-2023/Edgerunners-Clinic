@@ -62,7 +62,7 @@ const [reload,setreload]=useState(false);
         TimeH: timeH,
         TimeM: timeM,
       };
-      await axios.post("http://localhost:3005/createFollowUp", appointmentData);
+       axios.post("http://localhost:3005/createFollowUp", appointmentData);
 
       // Create a notification for the doctor
       const doctorNotification = {
@@ -88,6 +88,7 @@ const [reload,setreload]=useState(false);
         message: `Appointment rescheduled with ${patient} on ${date}`,
         doctorEmail: doctorEmail,
       });
+      consol.log(patientEmail);
       sendEmailp({
         PatientUserName: `${patient}'s Name`,
         message: `Your appointment with Dr ${sessionStorage.getItem("Username")} is rescheduled on ${date}`,

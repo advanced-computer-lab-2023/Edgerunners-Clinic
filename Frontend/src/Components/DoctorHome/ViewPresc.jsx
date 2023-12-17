@@ -138,6 +138,7 @@ function ViewPresc() {
                 aria-expanded="false"
                 aria-label="Toggle navigation"
               >
+
                 <span className="navbar-toggler-icon d-flex justify-content-start align-items-center">
                   <i className="fas fa-bars"></i>
                 </span>
@@ -274,23 +275,12 @@ function ViewPresc() {
                                           {medicine.name} - {medicine.dose}
                                         </div>
 
-                                        <button
-                                          className="editButton px-4 py-2 bg-blue-500 text-white rounded"
-                                          onClick={() => {
-                                            handleUpdate(p._id, medicine.name);
-                                            console.log(medicine.name);
-                                          }}
-                                        >
-                                          Update
-                                        </button>
-                                        <button
-                                          className="deleteButton  px-4 py-2 bg-red-500 text-white rounded"
-                                          onClick={() => {
-                                            handleDelete(p._id, medicine.name);
-                                          }}
-                                        >
-                                          Delete
-                                        </button>
+                                        <div>
+                      <button className="editButton px-4 py-2 bg-blue-500 text-white rounded" onClick={() =>{handleUpdate(p._id,medicine.name);console.log(medicine.name)}}>Update</button>
+                        </div>
+                        <div>
+                        <button className="deleteButton  px-4 py-2 bg-red-500 text-white rounded" onClick={()=>{ handleDelete(p._id, medicine.name);}}>Delete</button>
+                          </div>
                                       </li>
                                     )
                                   )}

@@ -460,7 +460,14 @@ class LoginPage extends Component {
                     Invalid username or password
                   </div>
                 )}
+                <button
+                    id="signIn"
+                    onClick={() => window.open("http://localhost:3000/Login")}
+                  >
+                    Go To Pharmacy
+                  </button>
                 <button onClick={this.signIn}>Sign In</button>
+                
                 <ContractPage enable={this.state.enable} />
               </form>
             </div>
@@ -479,6 +486,7 @@ class LoginPage extends Component {
                   >
                     Sign In
                   </button>
+                  
                   {this.state.errorPassword && (
                     <div
                       className="bg-red-500 text-white p-2 rounded-md mb-4"

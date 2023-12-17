@@ -5,7 +5,7 @@ import GenderSelect from "../../UI/UX/GenderSelect";
 import RelationInputSelect from "../../UI/UX/RelatioInputSelect";
 import WarningCard from "../../UI/WarningCard";
 import axios from "axios";
-import createRelation  from "./GetRelation";
+import createRelation from "./GetRelation";
 
 function NewFamilyMem() {
   const name = useRef();
@@ -61,84 +61,74 @@ function NewFamilyMem() {
       setOk(false);
       newMember.Patient = sessionStorage.getItem("Username");
       await axios.post("http://localhost:3005/createRelation", newMember);
+      window.location.reload();
+
     }
   }
   function okHandeler() {
     setOk(false);
   }
-  
-  return (
-    <div className="tailwind">
-      <div className="flex justify-center mt-10">
-        <Card width="w-4/12" height=" h-[32rem]">
-          <div className="flex justify-center mt-10 mb-0">
-          <a href="/PatientHome"><Logo height="3rem" className="mr-9" /></a>
-            
-            <h1 className="text-xl font-bold text-center text-sky-600 mr-8 mt-3">
-              Add Family Member
-            </h1>
-          </div>
-          <div className="flex justify-center mt-4 mb-0">
-            <form onSubmit={submitHandler}>
-              <div className="mt-3 ">
-                <div className=" mb-1">
-                  <label className="text-lg font-bold font-SourceSansPro text-gray-500 ml-2">
-                    Name:
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    ref={name}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className=" mb-1">
-                  <label className="text-lg font-bold font-SourceSansPro text-gray-500 ml-2">
-                    NationalID:
-                  </label>
-                  <input
-                    type="number"
-                    id="nationalId"
-                    name="nationalId"
-                    ref={nationalid}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className=" mb-1">
-                  <label className="text-lg font-bold font-SourceSansPro text-gray-500 ml-2">
-                    Age:
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    name="age"
-                    ref={age}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                  />
-                </div>
 
+  return (
+    <div>
+      <div>
+        <div>
+          <div>
+            <h1> Add Family Member </h1>
+          </div>
+          <div>
+            <form onSubmit={submitHandler}>
+              <div>
+                <div>
+                  <label htmlFor="name">Name:</label>
+                  <br />
+                  <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  ref={name}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="discountDoctor">
+                  NationalID:
+                  </label>
+                  <br />
+                  <input
+                  type="number"
+                  id="nationalId"
+                  name="nationalId"
+                  ref={nationalid}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="discountMedicin">
+                  Age:
+                  </label>
+                  <br />
+                  <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  ref={age}
+                  />
+                </div>
                 <div className="mt-1">
                   <GenderSelect ref={gender} />
                 </div>
                 <div className="mt-1">
                   <RelationInputSelect ref={relation} />
                 </div>
-                
-                <button
-                  className="text-sky-600 outline w-40 h-9 rounded-md mt-5 shadow ml-9"
-                  type="submit"
-                >
-                  Confirm
-    
-                </button>
-                
-                
+                <div>
+                  <br />
+                  <br />
+                  <button type="submit">Confirm</button>
+                </div>
               </div>
             </form>
             {ok && (
               <WarningCard
-                width="w-4/12"
+                width="w-10/12"
                 height=" h-[5rem]"
                 onClick={okHandeler}
               >
@@ -146,7 +136,8 @@ function NewFamilyMem() {
               </WarningCard>
             )}
           </div>
-        </Card>
+          {/*</Card>*/}
+        </div>
       </div>
     </div>
   );

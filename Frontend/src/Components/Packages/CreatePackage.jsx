@@ -25,98 +25,93 @@ export default function CreatePackage() {
       Price: price,
     };
     await AddPackages(p);
+    window.location.reload();
   };
 
   return (
-    <div >
+    <div>
+      <div>
         <div>
-      {/*<a href="/AdminHome">
-            <Logo />
-          </a>*/}
-          <div >
-      {/*<Card width="w-4/12" height=" h-[34rem]" >*/}
-              <div >
-                <Logo height="4rem" />
-
-                <h1 >
-                  {" "}
-                  Create Package{" "}
-                </h1>
-              </div>
-              <div >
-                  <form onSubmit={handleSubmit}>
-                    <div >
-                      <div >
-                        <label  htmlFor="name">Name:</label>
+          <div>
+            <h1> Create Package </h1>
+          </div>
+          <div>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <div>
+                  <label htmlFor="name">Name:</label>
                   <br />
-                        <input
-                          type="text"
-                          value={name}
-                          onChange={(e) => {
-                            setName(e.target.value);
-                          }}
-                        
-                        />
-                      </div>
-                      <div >
-                        <label  htmlFor="discountDoctor">Discount for doctor sessions:</label>
-                  <br />
-                        <input
-                          type="number"
-                          value={discountDoctor}
-                          onChange={(e) => {
-                            setdiscountDoctor(e.target.value);
-                          }}
-                        
-                        />
-                      </div>
-                      <div >
-                        <label  htmlFor="discountMedicin">Discount for medicine orders:</label>
-                  <br />
-                        <input
-                          type="number"
-                          value={discountMedicin}
-                          onChange={(e) => {
-                            setdiscountMedicin(e.target.value);
-                          }}
-                        
-                        />
-                      </div>
-                      <div >
-                        <label  htmlFor="discountFamily">Discount for family members subscriptions:</label>
-                  <br />
-                        <input
-                          type="number"
-                          value={discountFamily}
-                          onChange={(e) => {
-                            setdiscountFamily(e.target.value);
-                          }}
-                        
-                        />
-                      </div>
-                      <div >
-                        <label  htmlFor="discountFamily" htmlFor="price">Price:</label>
-                  <br />
-                        <input
-                          type="number"
-                          value={price}
-                          onChange={(e) => {
-                            setPrice(e.target.value);
-                          }}
-                        
-                        />
-                      </div>
-                        <div >
-                          <br />
-                          <br />
-                          <button  type="submit">Submit</button>
-                        </div>
-                    </div>
-                  </form>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
                 </div>
-      {/*</Card>*/}
-            </div>
+                <div>
+                  <label htmlFor="discountDoctor">
+                    Discount for doctor sessions:
+                  </label>
+                  <br />
+                  <input
+                    type="number"
+                    value={discountDoctor}
+                    onChange={(e) => {
+                      setdiscountDoctor(e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="discountMedicin">
+                    Discount for medicine orders:
+                  </label>
+                  <br />
+                  <input
+                    type="number"
+                    value={discountMedicin}
+                    onChange={(e) => {
+                      setdiscountMedicin(e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="discountFamily">
+                    Discount for family members subscriptions:
+                  </label>
+                  <br />
+                  <input
+                    type="number"
+                    value={discountFamily}
+                    onChange={(e) => {
+                      setdiscountFamily(e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="discountFamily" htmlFor="price">
+                    Price:
+                  </label>
+                  <br />
+                  <input
+                    type="number"
+                    value={price}
+                    onChange={(e) => {
+                      setPrice(e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <br />
+                  <br />
+                  <button type="submit">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          {/*</Card>*/}
         </div>
+      </div>
     </div>
   );
 }

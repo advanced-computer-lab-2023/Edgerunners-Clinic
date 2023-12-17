@@ -8,7 +8,7 @@ const ChatBox = (props) => {
   const fetchChatMessages = async () => {
     try {
       console.log(props.sender + " " + props.receiver);
-      const response = await axios.get("http://localhost:3001/getChat", {
+      const response = await axios.get("http://localhost:3005/getChat", {
         params: {
           DoctorUsername: props.sender,
           PatientUsername: props.receiver,
@@ -32,7 +32,7 @@ const ChatBox = (props) => {
     try {
       console.log(sender);
       console.log(receiver);
-      await axios.put("http://localhost:3001/sendChatDoctor", {
+      await axios.put("http://localhost:3005/sendChatDoctor", {
         DoctorUsername: props.sender,
         PatientUsername: props.receiver,
         message: message,

@@ -253,7 +253,7 @@ export default function Doctors() {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#adoptions"
+                      href="/Chat"
                     >
                       Chat
                     </a>

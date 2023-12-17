@@ -46,9 +46,11 @@ import StartCall from "./Components/Patient/StartCall";
 import Notification from "./Components/DoctorHome/Notification";
 import StartACall from "./Components/DoctorHome/StartACall";
 import Notificationp from "./Components/Patient/Notificationp";
+import ChatApp from "./Components/PatientHome/ChatApp";
+import ChatAppD from "./Components/DoctorHome/ChatAppD";
 import FilterModal from "./Components/PatientHome/FilterModal";
 
-import ChatApp from "./Components/DoctorHome/ChatAppDtoP";
+import ChatAppDtoP from "./Components/DoctorHome/ChatAppDtoP";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (
@@ -62,7 +64,6 @@ if (
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-
           <Route path="/" element={<LoginPage/>} />
           <Route path="/ResetPass" element={<ResetPass />} />
         </Routes>
@@ -79,6 +80,7 @@ if (
             path="/PatientAppointments"
             element={<PatientAppointments />}
           />
+          <Route path="/Chat" element={<ChatApp />} />
           <Route path="/Doctors" element={<Doctors />} />
           <Route path="/PatientHome" element={<PatientHome />} />
           <Route path="/Prescriptions" element={<Prescriptions />} />
@@ -117,6 +119,8 @@ if (
       <BrowserRouter>
         <Routes>
           <Route path="/DoctorHome" element={<DoctorHome />} />
+          <Route path="/ChatD" element={<ChatAppD />} />
+          <Route path="/ChatAppDtoP" element={<ChatAppDtoP />} />
           <Route path="/VideoCall" element={<StartACall />} />
           <Route path="/EditMyProf" element={<EditMyProf />} />
           <Route path="/ViewPresc" element={<ViewPresc />} />

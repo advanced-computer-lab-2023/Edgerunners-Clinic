@@ -7,9 +7,11 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import FilterModal from "../PatientHome/FilterModal";
 import MyWalletP from "./MyWalletP";
 import { Link } from "react-router-dom";
+import NewFamilyMem from "./NewFamilyMem";
 
 export default function ViewFamilyMem() {
   const [WalletModal, setWalletModal] = useState(false);
+  const [isModalRelationOpen, setIsModalRelationOpen] = useState(false);
   const relations = getRelation();
   if (relations.data != null) {
     return (
@@ -58,7 +60,7 @@ export default function ViewFamilyMem() {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="#adoptions"
+                      href="/Chat"
                     >
                       Chat
                     </a>
@@ -263,15 +265,34 @@ export default function ViewFamilyMem() {
                     </div>
                   </div>
                 </div>
-                <div className="primary-btn text-center">
-                  <a href="/NewFamilyMem" className="btn btn-primary">
+                <div
+                  className="primary-btn text-center"
+                  onClick={() => {
+                    setIsModalRelationOpen(true);
+                  }}
+                >
+                  <a className="btn btn-primary">
                     Add Family Member
                   </a>
                 </div>
+                <br/>
               </div>
             </div>
           </div>
         </div>
+        {isModalRelationOpen ? (
+          <FilterModal>
+            <FontAwesomeIcon
+              className="circleXmark"
+              icon={faCircleXmark}
+              onClick={() => {
+                setIsModalRelationOpen(false);
+              }}
+            />
+            <NewFamilyMem />
+            {/*<div>Test component</div>*/}
+          </FilterModal>
+        ) : null}
         <div className="customfooter">
           <Footer></Footer>
         </div>

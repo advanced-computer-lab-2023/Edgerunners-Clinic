@@ -1,10 +1,10 @@
 // ChatComponent.js
 import React, { useState, useEffect } from "react";
-import { fetchPatients } from "./fetchChatDtoP";
+import { fetchPatients } from "./fetchChat";
 import Logo from "../../UI/UX/Logo";
-import ChatBox from "./ChatBoxDtoP";
+import ChatBox from "./ChatBox";
 
-const ChatAppDtoP = () => {
+const ChatAppD = () => {
   const [sender, setSender] = useState(sessionStorage.getItem("Username")); // Set the sender's username
   const [receiver, setReceiver] = useState(); // Set the receiver's username
 
@@ -48,16 +48,16 @@ const ChatAppDtoP = () => {
                     </a>
                   </li>
                   <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="/ChatAppDtoP">
+                    Chat Pharma
+                  </a>
+                </li>
+                  <li className="nav-item">
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="/ChatAppDtoP"
+                      href="/ChatD"
                     >
-                      Chat Pharma
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="/ChatD">
                       Chat
                     </a>
                   </li>
@@ -211,4 +211,4 @@ const ChatAppDtoP = () => {
   }
 };
 
-export default ChatAppDtoP;
+export default ChatAppD;

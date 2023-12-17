@@ -67,14 +67,16 @@ const notifyOutOfStock = async (req, res) => {
     const users = await Pharmacist.find({ ReqStatus: "Accepted" });
 
     // Use Promise.all to wait for all promises to resolve
-    await Promise.all(users.map(async (user) => {
-      let notification = user.Notifications || [];
-      notification.push(req.body.notifications);
-      await Pharmacist.updateOne(
-        { Username: user.Username },
-        { $set: { Notifications: notification } },
-      );
-    }));
+    await Promise.all(
+      users.map(async (user) => {
+        let notification = user.Notifications || [];
+        notification.push(req.body.notifications);
+        await Pharmacist.updateOne(
+          { Username: user.Username },
+          { $set: { Notifications: notification } },
+        );
+      }),
+    );
 
     res.status(200).send("Updated successfully");
   } catch (error) {
@@ -188,23 +190,21 @@ const getPatients = async (req, res) => {
     if (Name) {
       filter.Name = Name;
     }
-    
+
     const Patients = await Patient.find(filter);
     res.status(200).send(Patients);
   } catch (e) {
     res.status(400).send("Error could not get Patients !!");
   }
 };
-const getEmailp = async(req,res)=>{
-  const {Username}=req.query;
-  try{
-    const p = await Patient.findOne({Username:Username});
+const getEmailp = async (req, res) => {
+  const { Username } = req.query;
+  try {
+    const p = await Patient.findOne({ Username: Username });
     console.log(p.Email);
-    console.log(p)
+    console.log(p);
     res.status(200).send(p.Email);
-   
-  }
-  catch (e) {
+  } catch (e) {
     res.status(400).send("Error could not get Doctors !!");
   }
 };
@@ -259,9 +259,8 @@ const filterPatients = async (req, res) => {
             }
             //flag = true;
           }
-          if(!flag2){
+          if (!flag2) {
             rr.push(patientName);
-
           }
         }
       }
@@ -295,32 +294,28 @@ const updateCart = async (req, res) => {
   await Patient.updateOne(
     { Username: username },
     {
-      $set: { 
+      $set: {
         Cart: [],
-        
       },
     },
-  )
-  for(let i = 0 ; i < arr.length ; ++i){
-    
-  await Patient.updateOne(
-    { Username: username },
-    {
-      $push: { 
-        Cart: {
-          medicineName: arr[i].medicinename,
-          count: arr[i].count,
-          price: arr[i].price,
-          totalprice: arr[i].price,
+  );
+  for (let i = 0; i < arr.length; ++i) {
+    await Patient.updateOne(
+      { Username: username },
+      {
+        $push: {
+          Cart: {
+            medicineName: arr[i].medicinename,
+            count: arr[i].count,
+            price: arr[i].price,
+            totalprice: arr[i].price,
+          },
         },
       },
-    },
-  ).catch("an error happened");
+    ).catch("an error happened");
   }
   res.status(200).send("all good");
 };
-
-
 
 const ResetPass = async (req, res) => {
   const newPassword = req.body.Password;
@@ -333,6 +328,7 @@ const ResetPass = async (req, res) => {
       { $set: { Password: await hashPassword(newPassword) } },
     ).catch("an error happened");
     res.status(200).send("all good");
+    return;
   } else {
     let user = await Patient.findOne({ Email: email });
     if (user) {
@@ -340,20 +336,23 @@ const ResetPass = async (req, res) => {
         { Email: email },
         { $set: { Password: await hashPassword(newPassword) } },
       ).catch("An error happened");
+      res.status(200).send("all good");
+      return;
     } else {
       user = await Admin.findOne({ Email: email });
-      //console.log(user);
       if (user) {
         await Admin.updateOne(
           { Email: email },
           { $set: { Password: await hashPassword(newPassword) } },
         ).catch("An error happened");
+        res.status(200).send("all good");
+        return;
       } else {
-        res.status(404).send("Email not found");
+        res.status(200).send("Email not found");
+        return;
       }
     }
   }
-  res.status(200).send("all good");
 };
 
 const deletePatient = async (req, res) => {
@@ -610,5 +609,4 @@ module.exports = {
   getEmailp,
   getPharmacists,
   notifyOutOfStock,
-
 };

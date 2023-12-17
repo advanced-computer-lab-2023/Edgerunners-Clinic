@@ -1,10 +1,10 @@
 // ChatComponent.js
 import React, { useState, useEffect } from "react";
-import { fetchPatients } from "./fetchChatDtoP";
+import { fetchDoctors } from "./fetchChat";
+import ChatBox from "./ChatBox";
 import Logo from "../../UI/UX/Logo";
-import ChatBox from "./ChatBoxDtoP";
 
-const ChatAppDtoP = () => {
+const ChatApp = () => {
   const [sender, setSender] = useState(sessionStorage.getItem("Username")); // Set the sender's username
   const [receiver, setReceiver] = useState(); // Set the receiver's username
 
@@ -15,16 +15,16 @@ const ChatAppDtoP = () => {
   const openChat = () => setChatOpen(true);
   const closeChat = () => setChatOpen(false);
 
-  const d = fetchPatients();
+  const d = fetchDoctors();
   console.log(d);
 
   if (d) {
     return (
-      <div className="Bootstrap DoctorHome">
+      <div className="Bootstrap PatientHome">
         <div className="header">
           <nav className="navbar navbar-expand-lg fixed-top navbar-scroll nav-color-bg">
             <div className="container">
-              <a href="/DoctorHome">
+              <a href="/PatientHome">
                 <Logo />
               </a>
               <button
@@ -51,13 +51,8 @@ const ChatAppDtoP = () => {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="/ChatAppDtoP"
+                      href="/Chat"
                     >
-                      Chat Pharma
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="/ChatD">
                       Chat
                     </a>
                   </li>
@@ -65,21 +60,25 @@ const ChatAppDtoP = () => {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="/DoctorAppointments"
+                      href="/myAppointments"
                     >
                       My Appointments
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#help">
-                      Health Record
                     </a>
                   </li>
                   <li className="nav-item">
                     <a
                       className="nav-link"
                       aria-current="page"
-                      href="/ViewPresc"
+                      href="/viewPackage"
+                    >
+                      My Subscriptions
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/Prescriptions"
                     >
                       Prescriptions
                     </a>
@@ -88,18 +87,9 @@ const ChatAppDtoP = () => {
                     <a
                       className="nav-link"
                       aria-current="page"
-                      onClick={() => setmodalFollowupRequests(true)}
+                      href="/myWalletP"
                     >
-                      Follow Up Requests
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      aria-current="page"
-                      href="/EditMyProf"
-                    >
-                      My Account
+                      My Wallet
                     </a>
                   </li>
                   <li className="nav-item">
@@ -119,7 +109,6 @@ const ChatAppDtoP = () => {
                         sessionStorage.removeItem("Username");
                         sessionStorage.removeItem("type");
                         sessionStorage.removeItem("token");
-                        sessionStorage.removeItem("Status");
                         window.location.replace("/");
                       }}
                     >
@@ -127,7 +116,6 @@ const ChatAppDtoP = () => {
                     </a>
                   </li>
                 </ul>
-
                 <ul className="navbar-nav flex-row">
                   <li className="nav-item">
                     <a className="nav-link px-2" href="#!">
@@ -161,15 +149,9 @@ const ChatAppDtoP = () => {
               setReceiver(e.target.value);
             }}
           >
-            {d.map((patient, index) => (
-              <option
-                key={index}
-                value={patient.Username}
-                onClick={() => {
-                  setReceiver(patient.Username);
-                }}
-              >
-                {patient.Username}
+            {d.map((doctor, index) => (
+              <option key={index} value={doctor.Username}>
+                {doctor.Username}
               </option>
             ))}
           </select>
@@ -211,4 +193,4 @@ const ChatAppDtoP = () => {
   }
 };
 
-export default ChatAppDtoP;
+export default ChatApp;

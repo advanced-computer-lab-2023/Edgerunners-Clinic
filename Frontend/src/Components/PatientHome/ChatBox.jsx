@@ -7,11 +7,10 @@ const ChatBox = (props) => {
 
   const fetchChatMessages = async () => {
     try {
-      console.log(props.sender + " " + props.receiver);
       const response = await axios.get("http://localhost:3005/getChat", {
         params: {
-          DoctorUsername: props.sender,
-          PatientUsername: props.receiver,
+          PatientUsername: props.sender,
+          DoctorUsername: props.receiver,
         },
       });
 
@@ -32,9 +31,9 @@ const ChatBox = (props) => {
     try {
       console.log(sender);
       console.log(receiver);
-      await axios.put("http://localhost:3005/sendChatDoctor", {
-        DoctorUsername: props.sender,
-        PatientUsername: props.receiver,
+      await axios.put("http://localhost:3005/sendChatPatient", {
+        PatientUsername: props.sender,
+        DoctorUsername: props.receiver,
         message: message,
       });
       setMessage(""); // Clear the message input after sending
@@ -44,10 +43,10 @@ const ChatBox = (props) => {
     }
   };
 
-  console.log(chatMessages);
-
   return (
-    <div className="Bootstrap PatientHome">
+    <div>
+      <div className="chat-header"></div>
+
       <div className="chat-content">
         {
           <>
@@ -69,9 +68,6 @@ const ChatBox = (props) => {
             </div>
             <div>
               <input
-                style={{
-                  borderRadius: "10px",
-                }}
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}

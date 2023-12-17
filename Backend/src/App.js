@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 var fileUpload = require("express-fileupload");
 mongoose.set("strictQuery", false);
 require("dotenv").config();
+
 const {
   createPatient,
   getPatients,
@@ -383,13 +384,15 @@ app.get("/getMyRequests", GetMyRequests);
 app.delete("/deleteRequest", handleReject);
 app.put("/acceptRequest", handleAccept);
 
+
+
 app.put("/sendChatPatient", sendChatPatient);
 app.put("/sendChatDoctor", sendChatDoctor);
 app.get("/getChat", getChat);
 app.get("/getAllChat", getAllChat);
 app.get("/getDoctorsChat", getDoctorsChat);
 app.get("/getPatientsChat", getPatientsChat);
+
 app.get("/getDDoctorsChat", getDDoctorsChat);
 app.get("/getDoctor", getDoctors);
-
 

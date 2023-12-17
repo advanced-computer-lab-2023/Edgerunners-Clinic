@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { fetchPatients } from "./fetchChatDtoP";
 import ChatBox from "./ChatBoxDtoP";
 
-const ChatApp = () => {
+const ChatAppDtoP = () => {
   const [sender, setSender] = useState(sessionStorage.getItem("Username")); // Set the sender's username
   const [receiver, setReceiver] = useState(); // Set the receiver's username
 
@@ -50,4 +50,4 @@ const ChatApp = () => {
   }
 };
 
-export default ChatApp;
+export default ChatAppDtoP;

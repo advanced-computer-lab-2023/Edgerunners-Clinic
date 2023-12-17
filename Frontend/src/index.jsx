@@ -50,7 +50,7 @@ import ChatApp from "./Components/PatientHome/ChatApp";
 import ChatAppD from "./Components/DoctorHome/ChatAppD";
 import FilterModal from "./Components/PatientHome/FilterModal";
 
-import ChatApp from "./Components/DoctorHome/ChatAppDtoP";
+import ChatAppD from "./Components/DoctorHome/ChatAppDtoP";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (

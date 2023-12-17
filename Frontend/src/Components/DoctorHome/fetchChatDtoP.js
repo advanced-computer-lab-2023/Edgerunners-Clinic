@@ -9,7 +9,7 @@ export function fetchPatients() {
     async function fetchPatients() {
       try {
         const response = await axios.get(
-          "http://localhost:3001/getDoctorsChat"
+          "http://localhost:3005/getDoctorsChat"
         );
         if (response.data.success) {
           setpatient(response.data.data);

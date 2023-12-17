@@ -4,7 +4,7 @@ import { fetchPatients } from "./fetchChat";
 import Logo from "../../UI/UX/Logo";
 import ChatBox from "./ChatBox";
 
-const ChatApp = () => {
+const ChatAppD = () => {
   const [sender, setSender] = useState(sessionStorage.getItem("Username")); // Set the sender's username
   const [receiver, setReceiver] = useState(); // Set the receiver's username
 
@@ -206,4 +206,4 @@ const ChatApp = () => {
   }
 };
 
-export default ChatApp;
+export default ChatAppD;

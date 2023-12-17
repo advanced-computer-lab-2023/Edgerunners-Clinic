@@ -65,6 +65,8 @@
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
     "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
+    "socketio": "^1.0.0",
     "styled-components": "^6.0.8",
     "web-vitals": "^2.1.4"
   },

@@ -11,7 +11,7 @@ const createPrescriptions = async (req, res) => {
     const d = await Doctor.findOne({ Username: req.body.Doctor });
 
     if (p && d) {
-     console.log(p);
+      console.log(p);
       await prescriptions.create({
         Patient: req.body.Patient,
         Status: req.body.Status,
@@ -21,7 +21,7 @@ const createPrescriptions = async (req, res) => {
         RequiredMedicines: req.body.RequiredMedicines,
       });
 
-      res.status(200).json({ message: "Prescription created successfully"});
+      res.status(200).json({ message: "Prescription created successfully" });
     } else {
       res.status(404).json({ message: "Patient or Doctor not found" });
     }
@@ -57,36 +57,73 @@ const getPrescriptions = async (req, res) => {
 
 const updatePrescriptions = async (req, res) => {
   try {
-    const { prescriptionId, medicineName, newDose, newMedicineName, newMedicineDose } = req.body;
+    const {
+      prescriptionId,
+      medicineName,
+      newDose,
+      newMedicineName,
+      newMedicineDose,
+    } = req.body;
     const prescription = await prescriptions.findOne({
       _id: prescriptionId,
       Submitted: false,
     });
 
     if (!prescription) {
-      return res.status(404).json({ message: "Prescription not found or already submitted" });
+      return res
+        .status(404)
+        .json({ message: "Prescription not found or already submitted" });
     }
-    if(medicineName &&newDose){
+    if (medicineName && newDose) {
       console.log(prescription);
-    const medicineToUpdate = prescription.RequiredMedicines.find((med) => med.name === medicineName);
-    const medicineIndexToRemove = prescription.RequiredMedicines.findIndex((med) => med.name === medicineName);
-    if (medicineIndexToRemove !== -1) {
-      // Remove the medicine from the RequiredMedicines array
-      prescription.RequiredMedicines.splice(medicineIndexToRemove, 1);
-      prescription.RequiredMedicines.push({ name: medicineName, dose: newDose });
-      // Save the updated prescription
+      const medicineToUpdate = prescription.RequiredMedicines.find(
+        (med) => med.name === medicineName,
+      );
+      const medicineIndexToRemove = prescription.RequiredMedicines.findIndex(
+        (med) => med.name === medicineName,
+      );
+      if (medicineIndexToRemove !== -1) {
+        // Remove the medicine from the RequiredMedicines array
+        prescription.RequiredMedicines.splice(medicineIndexToRemove, 1);
+        prescription.RequiredMedicines.push({
+          name: medicineName,
+          dose: newDose,
+        });
+        // Save the updated prescription
+        await prescription.save();
+        res
+          .status(200)
+          .json({ message: "Prescription updated successfully", prescription });
+      }
+    } else {
+      prescription.RequiredMedicines.push({
+        name: newMedicineName,
+        dose: newMedicineDose,
+      });
       await prescription.save();
-      res.status(200).json({ message: "Prescription updated successfully", prescription });
-   
-   }}
-    else{
-    prescription.RequiredMedicines.push({ name: newMedicineName, dose: newMedicineDose });
-    await prescription.save();
-    res.status(200).json({ message: "Prescription updated successfully", prescription });}
+      res
+        .status(200)
+        .json({ message: "Prescription updated successfully", prescription });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
+};
+
+const updatePrescriptionsCheckout = async (req, res) => {
+  const { prescriptionId } = req.body;
+  const prescription = await prescriptions.updateOne({
+    _id: prescriptionId,
+},
+{
+  $set: {
+    Submitted: true,
+    Status: Filled
+  },
+}
+);
+
 };
 
 const removemedicine = async (req, res) => {
@@ -99,10 +136,14 @@ const removemedicine = async (req, res) => {
     });
 
     if (!prescription) {
-      return res.status(404).json({ message: "Prescription not found or already submitted" });
+      return res
+        .status(404)
+        .json({ message: "Prescription not found or already submitted" });
     }
 
-    const medicineIndexToRemove = prescription.RequiredMedicines.findIndex((med) => med.name === medicineNameToRemove);
+    const medicineIndexToRemove = prescription.RequiredMedicines.findIndex(
+      (med) => med.name === medicineNameToRemove,
+    );
 
     if (medicineIndexToRemove !== -1) {
       // Remove the medicine from the RequiredMedicines array
@@ -111,9 +152,13 @@ const removemedicine = async (req, res) => {
       // Save the updated prescription
       await prescription.save();
 
-      return res.status(200).json({ message: "Medicine removed successfully", prescription });
+      return res
+        .status(200)
+        .json({ message: "Medicine removed successfully", prescription });
     } else {
-      return res.status(404).json({ message: "Medicine not found in the prescription" });
+      return res
+        .status(404)
+        .json({ message: "Medicine not found in the prescription" });
     }
   } catch (error) {
     console.error(error);
@@ -140,7 +185,9 @@ const deletePrescriptions = async (req, res) => {
 module.exports = {
   createPrescriptions,
   getPrescriptions,
+  updatePrescriptionsCheckout,
   updatePrescriptions,
   deletePrescriptions,
+  updatePrescriptionsCheckout,
   removemedicine,
 };

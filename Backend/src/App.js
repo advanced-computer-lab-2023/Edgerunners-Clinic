@@ -74,6 +74,7 @@ const {
   updatePrescriptions,
   deletePrescriptions,
   removemedicine,
+  updatePrescriptionsCheckout,
 } = require("./Routes/prescriptionController");
 
 const {
@@ -111,6 +112,17 @@ const {
   deleteNotification,
 } = require("./Routes/notificationController");
 
+const {
+  createChat,
+  getChat,
+  getAllChat,
+  sendChatPatient,
+  sendChatDoctor,
+  getDoctorsChat,
+  getPatientsChat,
+  getDDoctorsChat,
+} = require("./Routes/chatController");
+const Chat = require("./Models/Chat");
 const MongoURI =
   process.env.MONGO_URI ||
   "mongodb+srv://Test1:Test1@cluster0.xo5a1to.mongodb.net/?retryWrites=true&w=majority";
@@ -325,6 +337,7 @@ app.get("/getPrescriptions", getPrescriptions);
 app.put("/updatePrescriptions", updatePrescriptions);
 app.delete("/deletePrescriptions", deletePrescriptions);
 app.put("/removemedicine", removemedicine);
+app.put("/updatePrescriptionsCheckout", updatePrescriptionsCheckout);
 
 app.post("/createAppointment", createAppointment);
 app.post("/createFollowUp", createFollowUp);
@@ -369,3 +382,14 @@ app.get("/getAllRequests", GetAllRequest);
 app.get("/getMyRequests", GetMyRequests);
 app.delete("/deleteRequest", handleReject);
 app.put("/acceptRequest", handleAccept);
+
+app.put("/sendChatPatient", sendChatPatient);
+app.put("/sendChatDoctor", sendChatDoctor);
+app.get("/getChat", getChat);
+app.get("/getAllChat", getAllChat);
+app.get("/getDoctorsChat", getDoctorsChat);
+app.get("/getPatientsChat", getPatientsChat);
+app.get("/getDDoctorsChat", getDDoctorsChat);
+app.get("/getDoctor", getDoctors);
+
+

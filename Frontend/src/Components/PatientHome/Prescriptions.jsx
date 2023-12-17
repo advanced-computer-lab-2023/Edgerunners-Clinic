@@ -309,6 +309,7 @@ export default function Prescriptions() {
         </div>
         <div style={{ marginTop: " -2rem" }} class="row">
           {Prescriptions.map((p, index) => {
+          
             return (
               <div class="col-sm-3 py-2">
                 <div class="card h-100 border-primary bg-gr">
@@ -332,12 +333,13 @@ export default function Prescriptions() {
                             </li>
                           ))}
                         </ul>
-                        <button
+                        {(p.Status == "Unfilled")? (<button
                           class="btn btn-outline-secondary"
                           onClick={() => handlePayment(index)}
                         >
                           Pay
-                        </button>
+                        </button>) : <div></div>}
+                        
                         <button
                           class="btn btn-outline-secondary"
                           onClick={() => downloadPrescriptionAsPDF(p)}
@@ -356,6 +358,7 @@ export default function Prescriptions() {
                 </div>
               </div>
             );
+                          
           })}
         </div>
         {WalletModal ? (

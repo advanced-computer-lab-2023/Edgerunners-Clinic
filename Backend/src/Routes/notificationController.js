@@ -42,7 +42,7 @@ const createNotification = async (req, res) =>  {
         };
         console.log(rel);
         await Notification.create(rel);
-      
+      console.log(rel);
         return res.status(201).json({ message: "Notification created successfully." });
       }
     }

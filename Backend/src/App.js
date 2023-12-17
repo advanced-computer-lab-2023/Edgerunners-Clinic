@@ -27,6 +27,7 @@ const {
   getCart,
   getAddress,
   PaymentPrescriptionWallet,
+  getEmailp,
   getPharmacists,
   notifyOutOfStock,
 } = require("./Routes/patientController");
@@ -57,6 +58,7 @@ const {
   updateStatus,
   GetWalletD,
   viewFilesDoctor,
+  getEmail,
 } = require("./Routes/doctorController");
 
 const {
@@ -115,7 +117,7 @@ const MongoURI =
 
 //App variables
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3005;
 const Patient = require("./Models/Patient.js");
 // #Importing the patientController
 
@@ -269,6 +271,7 @@ app.get("/getWalletD/:username", GetWalletD);
 app.get("/patientUploadHealthRecord", patientUploadHealthRecord);
 app.get("/gethealthrecords/:Username", gethealthrecords);
 app.get("/getPatient", getPatients);
+app.get("/getEmailp",getEmailp)
 app.get("/filterPatient", filterPatients);
 app.put("/updatePatient", updatePatient);
 app.delete("/deletePatient", deletePatient);
@@ -296,6 +299,8 @@ app.get("/findDoctor", findDoctor);
 app.post("/doctorUploadFile", doctorUploadFile);
 app.get("/PatientsName/:Username", getPatientNames);
 app.put("/updateStatus", updateStatus);
+app.get("/getEmail", getEmail);
+
 app.put("/updateCart", updateCart);
 app.get("/getPharmacist", getPharmacists);
 app.put("/notifyOutOfStock", notifyOutOfStock);

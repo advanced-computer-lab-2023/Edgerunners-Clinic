@@ -90,7 +90,7 @@ export default function PatientAppointments() {
   };
 
   const handleReschedule = async (e) => {
-    await axios.put("http://localhost:3001/rescheduleAppointment", {
+    await axios.put("http://localhost:3005/rescheduleAppointment", {
       DoctorUsername: docUser,
       PatientUsername: PatientUsername,
       Date: rescheduleDate,
@@ -100,7 +100,7 @@ export default function PatientAppointments() {
   };
 
   const handleFollowUp = async (e) => {
-    await axios.post("http://localhost:3001/createFURP", {
+    await axios.post("http://localhost:3005/createFURP", {
       DoctorUsername: newdocUser,
       PatientUsername: PatientUsername,
       Date: newdate,
@@ -112,7 +112,7 @@ export default function PatientAppointments() {
 
   const handleCancel = async (e) => {
     console.log(docUser);
-    await axios.put("http://localhost:3001/cancelAppointment", {
+    await axios.put("http://localhost:3005/cancelAppointment", {
       DoctorUsername: docUser,
       PatientUsername: PatientUsername,
       Date: rescheduleDate,
@@ -123,7 +123,7 @@ export default function PatientAppointments() {
 
   useEffect(() => {}, [newdocUser, newdate, newtimeH, newtimeM, nationalid]);
   const handleReschedule2 = async (e) => {
-    await axios.put("http://localhost:3001/updateAppointment", {
+    await axios.put("http://localhost:3005/updateAppointment", {
       DoctorUsername: newdocUser,
       Date: newdate,
       TimeH: newtimeH,
@@ -317,6 +317,7 @@ export default function PatientAppointments() {
                 setFilterModalCancel(false);
                 setSelectedAppointment(null);
                 handleCancel();
+                window.location.reload();
               }}
               style={{ marginRight: "10px" }}
             >
@@ -362,6 +363,7 @@ export default function PatientAppointments() {
                 setSelectedAppointment(null);
                 handleReschedule();
                 handleReschedule2();
+                window.location.reload();
               }}
             >
               Confirm

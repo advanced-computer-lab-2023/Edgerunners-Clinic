@@ -13,7 +13,7 @@ function Notification(){
         const fetchData = async () => {
           try {
             const u= sessionStorage.getItem("Username");
-            const response =await axios.get("http://localhost:3001/getNotification", {params:{doctorUsername: u}
+            const response =await axios.get("http://localhost:3005/getNotification", {params:{doctorUsername: u}
             
           });
             
@@ -28,7 +28,7 @@ function Notification(){
       const handleRemove = async () => {
         try {
          
-          await axios.delete("http://localhost:3001/deleteNotification", {params:{message: message}
+          await axios.delete("http://localhost:3005/deleteNotification", {params:{message: message}
             
           });
           console.log(message);

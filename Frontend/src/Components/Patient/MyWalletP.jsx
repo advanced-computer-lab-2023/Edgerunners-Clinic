@@ -10,7 +10,7 @@ function MyWalletP(props) {
       getMyWallet();
       async function getMyWallet() {
         const res = await axios.get(
-          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+          `http://localhost:3005/getWallet/${sessionStorage.getItem(
             "Username"
           )}`
         );

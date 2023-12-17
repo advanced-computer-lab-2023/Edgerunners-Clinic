@@ -56,13 +56,26 @@ export default function Doctors() {
   const [WalletModal, setWalletModal] = useState(false);
   const [NotEnough, setNotEnough] = useState(false);
 
+  const [walletUsername, setWalletUsername] = useState(null);
+  const [walletDate, setWalletDate] = useState(null);
+  const [walletTimeH, setWalletTimeH] = useState(null);
+  const [walletTimeM, setWalletTimeM] = useState(null);
+  const [walletHourlyRate, setWalletHourlyRate] = useState(null);
+
+  const [forceEffect, setForceEffect] = useState(false);
+
+  useEffect(() => {
+    setForceEffect(false);
+    
+  }, [forceEffect]);
+
   function discount() {
     const [discount, setDiscount] = useState();
     useEffect(() => {
       getMyDiscount();
       async function getMyDiscount() {
         const res = await axios.get(
-          `http://localhost:3001/getDiscountSession`,
+          `http://localhost:3005/getDiscountSession`,
           { params: { username: sessionStorage.getItem("Username") } }
         );
         setDiscount(res.data);
@@ -78,7 +91,7 @@ export default function Doctors() {
       getMyWallet();
       async function getMyWallet() {
         const res = await axios.get(
-          `http://localhost:3001/getWallet/${sessionStorage.getItem(
+          `http://localhost:3005/getWallet/${sessionStorage.getItem(
             "Username"
           )}`
         );
@@ -122,7 +135,7 @@ export default function Doctors() {
   //   if (chosen !== sessionStorage.getItem("Username")) {
   //     NationalID = chosen;
   //   }
-  //   await axios.put(`http://localhost:3001/updateAppointment`, {
+  //   await axios.put(`http://localhost:3005/updateAppointment`, {
   //     DoctorUsername: doctor,
   //     Date: Date,
   //     TimeH: TimeH,
@@ -148,10 +161,16 @@ export default function Doctors() {
   const handlePaymentWallet = async (e, doctor, Date, TimeH, TimeM) => {
     e.preventDefault();
     let NationalID = "";
+    console.log(doctor);
+    console.log(Date);
+    console.log(TimeH);
+    console.log(TimeM);
+
+
     if (chosen !== sessionStorage.getItem("Username")) {
       NationalID = chosen;
     }
-    await axios.put(`http://localhost:3001/updateAppointmentWallet`, {
+    await axios.put(`http://localhost:3005/updateAppointmentWallet`, {
       DoctorUsername: doctor,
       Date: Date,
       TimeH: TimeH,
@@ -169,7 +188,7 @@ export default function Doctors() {
     let PaymentType = "Appointment";
     let discount = null;
     await axios
-      .get("http://localhost:3001/getDiscountSession", {
+      .get("http://localhost:3005/getDiscountSession", {
         params: { username: sessionStorage.getItem("Username") },
       })
       .then((res) => {
@@ -178,14 +197,14 @@ export default function Doctors() {
     if (discount !== null) {
       let coupon = null;
       await axios
-        .get("http://localhost:3001/create-coupon", {
+        .get("http://localhost:3005/create-coupon", {
           params: { coupon: discount },
         })
         .then((res) => {
           coupon = res.data;
         });
       await axios
-        .post("http://localhost:3001/create-checkout-session", {
+        .post("http://localhost:3005/create-checkout-session", {
           name,
           Username,
           PaymentType,
@@ -532,86 +551,96 @@ export default function Doctors() {
                       } else {
                         setNotEnough(false);
                       }
+                      setWalletUsername(a.Doctor.Username);
+                      console.log(a.Date)
+                      setWalletDate(a.Date);
+                      setWalletTimeH(a.TimeH);
+                      setWalletTimeM(a.TimeM);
+                      setWalletHourlyRate(a.Doctor.Hourlyrate);
+                      console.log(a.Doctor);
                       setModal(true);
                     }}
                   />
-                  {Modal && (
-                    <div style={modalOverlayStyle}>
-                      <div style={modalStyle}>
-                        <span
-                          style={closeButtonStyle}
-                          onClick={() => setModal(false)}
-                        >
-                          &times;
-                        </span>
-                        <h2>Checkout:</h2>
-                        <p>
-                          Your wallet: {totalAmount != undefined && totalAmount}{" "}
-                          EGP
-                        </p>
-                        <p>
-                          Session price: {parseInt(a.Doctor.Hourlyrate * 1.1)}{" "}
-                          EGP
-                        </p>
-                        <p>Discount: {discount3}%</p>
-                        <p>
-                          Total ={" "}
-                          {parseInt(
-                            a.Doctor.Hourlyrate *
-                              1.1 *
-                              ((100 - discount3) / 100)
-                          )}
-                        </p>
-                        {NotEnough && (
-                          <div className="bg-red-500 text-white p-2 rounded-md mb-4">
-                            Insufficient Amount
-                          </div>
-                        )}
-                        <button
-                          onClick={(e) => {
-                            handlePaymentWallet(
-                              e,
-                              a.Doctor.Username,
-                              a.Date,
-                              a.TimeH,
-                              a.TimeM
-                            );
-                            setModal(false);
-                          }}
-                          style={{
-                            backgroundColor: "green",
-                            color: "white",
-                            marginRight: "10px",
-                            padding: "8px 12px",
-                            borderRadius: "4px",
-                            width: "100px", // Fixed width
-                            height: "40px", // Fixed height
-                          }}
-                          disabled={NotEnough}
-                        >
-                          Pay
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            setModal(false);
-                          }}
-                          style={{
-                            backgroundColor: "red",
-                            color: "white",
-                            padding: "8px 12px",
-                            borderRadius: "4px",
-                            width: "100px", // Fixed width
-                            height: "40px", // Fixed height
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  )}
                 </div>
               );
             })}
+            {Modal && (
+              <div style={modalOverlayStyle}>
+                <div style={modalStyle}>
+                  <span
+                    style={closeButtonStyle}
+                    onClick={() => setModal(false)}
+                  >
+                    &times;
+                  </span>
+                  <h2>Checkout:</h2>
+                  <p>
+                    Your wallet: {totalAmount != undefined && totalAmount}{" "}
+                    EGP
+                  </p>
+                  <p>
+                    Session price: {parseInt(walletHourlyRate * 1.1)}{" "}
+                    EGP
+                  </p>
+                  <p>Discount: {discount3}%</p>
+                  <p>
+                    Total ={" "}
+                    {parseInt(
+                      walletHourlyRate *
+                        1.1 *
+                        ((100 - discount3) / 100)
+                    )}
+                  </p>
+                  {NotEnough && (
+                    <div className="bg-red-500 text-white p-2 rounded-md mb-4">
+                      Insufficient Amount
+                    </div>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      handlePaymentWallet(
+                        e,
+                        walletUsername,
+                        walletDate,
+                        walletTimeH,
+                        walletTimeM
+                      );
+                      setModal(false);
+                      setForceEffect(true);
+                      window.location.reload();
+
+                    }}
+                    style={{
+                      backgroundColor: "green",
+                      color: "white",
+                      marginRight: "10px",
+                      padding: "8px 12px",
+                      borderRadius: "4px",
+                      width: "100px", // Fixed width
+                      height: "40px", // Fixed height
+                    }}
+                    disabled={NotEnough}
+                  >
+                    Pay
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      setModal(false);
+                    }}
+                    style={{
+                      backgroundColor: "red",
+                      color: "white",
+                      padding: "8px 12px",
+                      borderRadius: "4px",
+                      width: "100px", // Fixed width
+                      height: "40px", // Fixed height
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <Footer></Footer>

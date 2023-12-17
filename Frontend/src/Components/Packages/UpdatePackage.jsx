@@ -18,7 +18,7 @@ import RemoveUser from "../Admin/RemovePar";
 
 const handleSubmit = async (e) => e.preventDefault();
 async function DeletePackage(p) {
-  await axios.delete("http://localhost:3001/deletePackage", p);
+  await axios.delete("http://localhost:3005/deletePackage", p);
 }
 
 const TABLE_HEAD = [
@@ -118,7 +118,7 @@ export default function DefaultTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/getPackage");
+        const response = await axios.get("http://localhost:3005/getPackage");
         setPackages(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -175,7 +175,7 @@ export default function DefaultTable() {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete("http://localhost:3001/deletePackage", {
+      await axios.delete("http://localhost:3005/deletePackage", {
         data: { Name: itemToDelete },
       });
       console.log("Request sent successfully");
@@ -202,7 +202,7 @@ export default function DefaultTable() {
   const handleUpdate = async (p) => {
     try {
       console.log(p.NewdiscountDoctor);
-      await axios.put("http://localhost:3001/updatePackage", {
+      await axios.put("http://localhost:3005/updatePackage", {
         Name: p.Name,
         NewName: p.NewName,
         Price: p.Price,

@@ -9,7 +9,7 @@ function GetCart({ medicineName, count, price }) {
             try {
                 let username = sessionStorage.getItem("Username");
 
-                const res = await axios.get("http://localhost:3001/getcart", {
+                const res = await axios.get("http://localhost:3005/getcart", {
                     params: { username }
                 }).then(res => {
                     console.log(res);

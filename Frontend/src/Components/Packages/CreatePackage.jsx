@@ -14,7 +14,7 @@ export default function CreatePackage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     async function AddPackages(p) {
-      await axios.post("http://localhost:3001/createPackage", p);
+      await axios.post("http://localhost:3005/createPackage", p);
     }
 
     const p = {

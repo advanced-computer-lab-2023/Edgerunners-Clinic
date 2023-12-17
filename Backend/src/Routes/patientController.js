@@ -183,15 +183,31 @@ const GetWallet = async (req, res) => {
 
 const getPatients = async (req, res) => {
   try {
-    const { Name } = req.query;
+    const { Name ,Username} = req.query;
     const filter = {};
     if (Name) {
       filter.Name = Name;
+    }
+    if(Username){
+      filter.Username= Username;
     }
     const Patients = await Patient.find(filter);
     res.status(200).send(Patients);
   } catch (e) {
     res.status(400).send("Error could not get Patients !!");
+  }
+};
+const getEmailp = async(req,res)=>{
+  const {Username}=req.query;
+  try{
+    const p = await Patient.findOne({Username:Username});
+    console.log(p.Email);
+    console.log(p)
+    res.status(200).send(p.Email);
+   
+  }
+  catch (e) {
+    res.status(400).send("Error could not get Doctors !!");
   }
 };
 
@@ -593,6 +609,8 @@ module.exports = {
   updateCart,
   getAddress,
   PaymentPrescriptionWallet,
+  getEmailp,
   getPharmacists,
   notifyOutOfStock,
+
 };

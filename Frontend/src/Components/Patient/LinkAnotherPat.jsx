@@ -33,7 +33,7 @@ function LinkAnotherPat() {
       phonenum: phoneNumV,
       relation: relationV,
     };
-    await axios.post("http://localhost:3001/createLinkedAccount", linkedAcc);
+    await axios.post("http://localhost:3005/createLinkedAccount", linkedAcc);
   }
 
   return (

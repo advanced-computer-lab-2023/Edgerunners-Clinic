@@ -29,7 +29,7 @@ function StartACall() {
     const doctorUsername = sessionStorage.getItem("Username");
     const notificationMessage = `Hello ${p}, Dr ${doctorUsername} wants to start a video call with you at ${new Date().toLocaleString()}`;
       try {
-      await axios.post("http://localhost:3001/createNotification", {patientUsername:p,message: notificationMessage}
+      await axios.post("http://localhost:3005/createNotification", {patientUsername:p,message: notificationMessage}
         
         
         );

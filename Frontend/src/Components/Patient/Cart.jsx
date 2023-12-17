@@ -63,7 +63,7 @@ function Cart() {
   const getWalletValue = async () => {
     try {
       let username = sessionStorage.getItem("Username");
-      const res = await axios.get("http://localhost:3001/getWalletPharmacy", {
+      const res = await axios.get("http://localhost:3005/getWalletPharmacy", {
         params: { username }
       });
       console.log("Wallet data from the server:", res.data);
@@ -77,7 +77,7 @@ function Cart() {
 
   const handleincrement = async (name, price) => {
     try {
-      await axios.put("http://localhost:3001/incrementQuantity", {
+      await axios.put("http://localhost:3005/incrementQuantity", {
         medicinename: name,
         price: price,
         username: sessionStorage.getItem("Username"),
@@ -92,7 +92,7 @@ function Cart() {
 
   const handledecrement = async (name, price) => {
     try {
-      await axios.put("http://localhost:3001/decrementQuantity", {
+      await axios.put("http://localhost:3005/decrementQuantity", {
         medicinename: name,
         price: price,
         username: sessionStorage.getItem("Username"),
@@ -107,7 +107,7 @@ function Cart() {
 
   const handleremove = async (name) => {
     try {
-      await axios.put("http://localhost:3001/removeFromCart", {
+      await axios.put("http://localhost:3005/removeFromCart", {
         medicinename: name,
         username: sessionStorage.getItem("Username"),
       });
@@ -119,11 +119,11 @@ function Cart() {
   };
   const handlePayment = async () => {
     try {
-      const pharmacistData = await axios.get("http://localhost:3001/getPharmacist", {});
+      const pharmacistData = await axios.get("http://localhost:3005/getPharmacist", {});
 
       await Promise.all(CartData.map(async (medicine) => {
         const { medicineName, count } = medicine;
-        const response = await axios.put("http://localhost:3001/updateQuantity", {
+        const response = await axios.put("http://localhost:3005/updateQuantity", {
           Name: medicineName,
           taken: count,
         });
@@ -139,7 +139,7 @@ function Cart() {
 
       if (paymentMethod === "payWithVisa") {
         let user = sessionStorage.getItem("Username")
-        await axios.post("http://localhost:3001/create-checkout-session", { Username: user }).then((res) => {
+        await axios.post("http://localhost:3005/create-checkout-session", { Username: user }).then((res) => {
           window.location = res.data.url
           handleOrder();
         }).catch((err) => console.log(err.message));
@@ -175,7 +175,7 @@ function Cart() {
       let newMonth = newDate.getMonth() + 1;
       let newYear = newDate.getFullYear();
       let newFullDate = newDay + "/" + newMonth + "/" + newYear;
-      await axios.put("http://localhost:3001/addOrder", {
+      await axios.put("http://localhost:3005/addOrder", {
         orderaddress: selectedOption,
         paymentmethod: pay,
         username: sessionStorage.getItem("Username"),
@@ -214,7 +214,7 @@ function Cart() {
         "JQ3H-s3Z8rus70cVv"
       );
 
-      await axios.put("http://localhost:3001/notifyOutOfStock", {
+      await axios.put("http://localhost:3005/notifyOutOfStock", {
         notifications: notificationData
       });
       

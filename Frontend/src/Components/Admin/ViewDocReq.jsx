@@ -7,7 +7,7 @@ function ViewDocReq(props) {
   const [penDoc, setPenDoc] = useState([]);
   axios
     .get(
-      "http://localhost:3001/getDoctor",
+      "http://localhost:3005/getDoctor",
       { params: { Status: "Pending" } },
       {}
     )

@@ -113,17 +113,24 @@ const updatePrescriptions = async (req, res) => {
 
 const updatePrescriptionsCheckout = async (req, res) => {
   const { prescriptionId } = req.body;
-  const prescription = await prescriptions.updateOne({
-    _id: prescriptionId,
-},
-{
-  $set: {
-    Submitted: true,
-    Status: Filled
-  },
-}
-);
-
+  console.log( "A7AAAAAAAAAAAAAAAAAA" + prescriptionId);
+  try {
+    
+    await prescriptions.updateOne(
+      {
+        _id: prescriptionId,
+      },
+      {
+        $set: {
+          Submitted: true,
+          Status: "Filled",
+        },
+      },
+    );
+    res.status(200).send("Gamed");
+  } catch (e) {
+    res.status(200).send("Trash");
+  }
 };
 
 const removemedicine = async (req, res) => {

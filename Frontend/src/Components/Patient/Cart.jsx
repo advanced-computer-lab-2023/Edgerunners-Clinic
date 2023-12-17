@@ -122,28 +122,29 @@ function Cart() {
         {}
       );
 
-      await Promise.all(
-        CartData.map(async (medicine) => {
-          const { medicineName, count } = medicine;
-          const response = await axios.put(
-            "http://localhost:3005/updateQuantity",
-            {
-              Name: medicineName,
-              taken: count,
-            }
-          );
-          console.log(response);
-          if (response.data === "Quantity is now zero") {
-            await Promise.all(
-              pharmacistData.data.map(async (pharmacist) => {
-                const { Name, Email, ReqStatus } = pharmacist;
-                if (ReqStatus === "Accepted")
-                  await notification(medicineName, Name, Email);
-              })
-            );
-          }
-        })
-      );
+
+      await Promise.all(CartData.map(async (medicine) => {
+        const { medicineName, count } = medicine;
+        const response = await axios.put("http://localhost:3005/updateQuantity", {
+          Name: medicineName,
+          taken: count,
+        });
+        console.log(response);
+        if (response.data === "Quantity is now zero") {
+          await Promise.all(pharmacistData.data.map(async (pharmacist) => {
+            const { Name, Email, ReqStatus } = pharmacist;
+            if(ReqStatus === "Accepted")
+              await notification(medicineName, Name, Email);
+          }));
+        }
+      }));
+      const queryParams = new URLSearchParams(window.location.search);
+        const id = queryParams.get("id");
+        console.log(id);
+      await axios.put("http://localhost:3005/updatePrescriptionsCheckout", {
+        prescriptionId : id,
+      })
+
 
       if (paymentMethod === "payWithVisa") {
         let user = sessionStorage.getItem("Username");

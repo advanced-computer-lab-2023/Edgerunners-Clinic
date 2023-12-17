@@ -317,6 +317,7 @@ export default function PatientAppointments() {
                 setFilterModalCancel(false);
                 setSelectedAppointment(null);
                 handleCancel();
+                window.location.reload();
               }}
               style={{ marginRight: "10px" }}
             >
@@ -362,6 +363,7 @@ export default function PatientAppointments() {
                 setSelectedAppointment(null);
                 handleReschedule();
                 handleReschedule2();
+                window.location.reload();
               }}
             >
               Confirm
